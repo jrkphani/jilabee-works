@@ -30,7 +30,9 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">{{ Config::get('site.title') }}</a>
+				 
+				<a href="/"><img src="{{ asset('/img/jotter.jpg') }}" class="img-circle" alt="Cinque Terre" width="100" height="50"></a>
+				<!--<a class="navbar-brand" href="#">{{ Config::get('site.title') }}</a> -->
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -61,10 +63,25 @@
 		</div>
 	</nav>
 
-	@yield('content')
+	@yield('guestcontent')
+	@yield('usercontent')
 	<footer class="footer">
       <div class="container">
-        <p class="text-muted">Footer</p>
+      	<div class="row">
+      		<div class="col-md-6">
+		        <p class="text-muted">
+		        	<span class="glyphicon glyphicon-copyright-mark"></span>{{date('Y')}}
+		        	<span class="vertical_border_left">{{Config::get('site.title')}}</span>
+		        	<span class="vertical_border_left">All Rights Reserved</span>
+		        </p>
+		    </div>
+		    <div class="col-md-6">
+		        <p class="text-muted text-right">
+		        	<span class="vertical_border_left">About Us</span>
+		        	<span class="vertical_border_left">Private Policy</span>
+		        </p>
+		    </div>
+    	</div>
       </div>
 	</footer>
 	

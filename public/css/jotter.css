@@ -1,4 +1,8 @@
-.vertical_border
+.vertical_border_left
+{
+	border-left: 1px solid #e7e7e7;
+}
+.vertical_border_right
 {
 	border-right: 1px solid #e7e7e7;
 }

@@ -1,12 +1,12 @@
 @extends('master')
 
-@section('content')
+@section('guestcontent')
 
 <div class="container">
   <div class="row">
-  	<div class="col-sm-6 col-sm-offset-2 vertical_border">
-  		<div class="col-sm-2"><h5>Login</h5></div>
-  			<div class="col-sm-10">
+  	<div class="col-sm-8 vertical_border_right">
+  		<div class="col-sm-6 col-sm-offset-6"><h4>Login</h4></div>
+  			<div class="col-sm-12">
     			@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
