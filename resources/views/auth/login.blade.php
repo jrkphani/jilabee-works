@@ -1,13 +1,13 @@
-@extends('app')
+@extends('master')
 
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
+
+<div class="container">
+  <div class="row">
+  	<div class="col-sm-6 col-sm-offset-2 vertical_border">
+  		<div class="col-sm-2"><h5>Login</h5></div>
+  			<div class="col-sm-10">
+    			@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -23,14 +23,14 @@
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+							<div class="col-md-8">
+								<input type="email" class="form-control" name="email" placeholder="email@domain.com" value="{{ old('email') }}">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
+							<div class="col-md-8">
 								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
@@ -54,8 +54,14 @@
 						</div>
 					</form>
 				</div>
-			</div>
-		</div>
-	</div>
+    </div>
+    <div class="col-sm-4">
+    	 <h4>Don't have a login?</h4>
+    	 <a>Sign Up!</a>
+    	 <h4>Want to learn more?</h4>
+    	 <a>See how Jotter can help you and your organisatoin!</a>
+    </div>
+  </div>
 </div>
+
 @endsection
