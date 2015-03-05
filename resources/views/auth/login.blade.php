@@ -4,7 +4,7 @@
 
 <div class="container">
   <div class="row">
-  	<div class="col-sm-8 vertical_border_right">
+  	<div class="col-sm-8 border_right">
   		<div class="col-sm-6 col-sm-offset-6"><h4>Login</h4></div>
   			<div class="col-sm-12">
     			@if (count($errors) > 0)

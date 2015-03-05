@@ -23,6 +23,7 @@ Route::group(['domain' => 'app.localjotter.com'], function()
 	{
 		//Route::get('home', 'HomeController@index');
 		Route::get('home', 'MeetingController@index');
+		Route::post('mytask', 'MeetingController@mytask');
 	});
 
 });

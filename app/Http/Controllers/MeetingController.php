@@ -32,5 +32,10 @@ class MeetingController extends Controller {
 	{
 		return view('meeting.home');
 	}
-
+	public function mytask()
+	{
+		//sleep(5);
+		echo $sds;
+		return view('meeting.mytask');
+	}
 }

@@ -71,14 +71,14 @@
       		<div class="col-md-6">
 		        <p class="text-muted">
 		        	<span class="glyphicon glyphicon-copyright-mark"></span>{{date('Y')}}
-		        	<span class="vertical_border_left">{{Config::get('site.title')}}</span>
-		        	<span class="vertical_border_left">All Rights Reserved</span>
+		        	<span class="border_left">{{Config::get('site.title')}}</span>
+		        	<span class="border_left">All Rights Reserved</span>
 		        </p>
 		    </div>
 		    <div class="col-md-6">
 		        <p class="text-muted text-right">
-		        	<span class="vertical_border_left">About Us</span>
-		        	<span class="vertical_border_left">Private Policy</span>
+		        	<span>About Us</span>
+		        	<span class="border_left">Private Policy</span>
 		        </p>
 		    </div>
     	</div>
@@ -86,8 +86,11 @@
 	</footer>
 	
 	<!-- Scripts -->
+	@section('javascript')
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="{{ asset('/js/notify-combined.min.js') }}"></script>
+	@show
 </body>
 
 </html>
