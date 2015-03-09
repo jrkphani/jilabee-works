@@ -12,6 +12,7 @@
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	@yield('css')
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -86,11 +87,14 @@
 	</footer>
 	
 	<!-- Scripts -->
-	@section('javascript')
+	<script type="text/javascript">
+	$_token = "{{ csrf_token() }}";
+	</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="{{ asset('/js/notify-combined.min.js') }}"></script>
-	@show
+	<script src="{{ asset('/js/main.js') }}"></script>
+	@yield('javascript')
 </body>
 
 </html>

@@ -8,20 +8,20 @@
 					        </thead> --}}
 					        <tbody>
 					        	<tr>
-						        	<td class="rotate_90_left">Today</td>
+						        	<td class="rotate_90_left border_left border_top">Today</td>
 						        	<td>
-						        		<table class="table">
-						        			<tr>
+						        		<table class="table border_left">
+						        			<tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
@@ -30,20 +30,20 @@
 						        	</td>
 					        	</tr>
 					        	<tr>
-						        	<td class="rotate_90_left">Today</td>
+						        	<td class="rotate_90_left border_left border_top">Today</td>
 						        	<td>
-						        		<table class="table">
-						        			<tr>
+						        		<table class="table border_left">
+						        			<tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
@@ -52,20 +52,20 @@
 						        	</td>
 					        	</tr>
 					        	<tr>
-						        	<td class="rotate_90_left">Today</td>
+						        	<td class="rotate_90_left border_left border_top">Today</td>
 						        	<td>
-						        		<table class="table">
-						        			<tr>
+						        		<table class="table border_left">
+						        			<tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
@@ -74,20 +74,20 @@
 						        	</td>
 					        	</tr>
 					        	<tr>
-						        	<td class="rotate_90_left">Today</td>
+						        	<td class="rotate_90_left border_left border_top">Today</td>
 						        	<td>
-						        		<table class="table">
-						        			<tr>
+						        		<table class="table border_left">
+						        			<tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
@@ -96,20 +96,20 @@
 						        	</td>
 					        	</tr>
 					        	<tr>
-						        	<td class="rotate_90_left">Today</td>
+						        	<td class="rotate_90_left border_left border_top">Today</td>
 						        	<td>
-						        		<table class="table">
-						        			<tr>
+						        		<table class="table border_left">
+						        			<tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
@@ -118,20 +118,20 @@
 						        	</td>
 					        	</tr>
 					        	<tr>
-						        	<td class="rotate_90_left">Today</td>
+						        	<td class="rotate_90_left border_left border_top">Today</td>
 						        	<td>
-						        		<table class="table">
-						        			<tr>
+						        		<table class="table border_left">
+						        			<tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>
 									        </tr>
-									        <tr>
+									        <tr class="border_top">
 									            <td>Sed ac interdum sem. Pellentesque nulla quam, eleifend vel laoreet et, </td>
 									            <td><span class="glyphicon glyphicon-tag" aria-hidden="true"></td>
 									            <td><span class="glyphicon glyphicon-flag" aria-hidden="true"></td>

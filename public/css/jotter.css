@@ -1,10 +1,33 @@
+#user_left_menu_cont .table > thead > tr > th,
+#user_left_menu_cont .table > tbody > tr > th, 
+#user_left_menu_cont .table > tfoot > tr > th, 
+#user_left_menu_cont .table > thead > tr > td, 
+#user_left_menu_cont .table > tbody > tr > td, 
+#user_left_menu_cont .table > tfoot > tr > td,
+#user_left_menu_cont .table
+{
+  padding: 2px;
+  margin:0px;
+
+  border: none;
+  /*border-left: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;*/
+}
 .border_left
 {
-	border-left: 1px solid #e7e7e7;
+	border-left: 1px solid #e7e7e7 !important;
 }
 .border_right
 {
-	border-right: 1px solid #e7e7e7;
+	border-right: 1px solid #e7e7e7 !important;
+}
+.border_top
+{
+  border-top: 1px solid #e7e7e7 !important;
+}
+.border_bottom
+{
+  border-bottom: 1px solid #e7e7e7 !important;
 }
 .rotate_90_right {    
   -webkit-transform: rotate(90deg); 
@@ -39,6 +62,14 @@
 {
 	padding: 100px;
 }
+.active_flag
+{
+  color: green;
+}
+.inactive_flag
+{
+  color : red;
+}
 .glyphicon-refresh-animate {
 -animation: spin .7s infinite linear;
 -ms-animation: spin .7s infinite linear;
@@ -58,4 +89,4 @@ to { -webkit-transform: rotate(360deg);}
 @-moz-keyframes spinm {
 from { -moz-transform: rotate(0deg);}
 to { -moz-transform: rotate(360deg);}
-} 
+}

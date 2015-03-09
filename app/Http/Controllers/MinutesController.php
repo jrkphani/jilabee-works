@@ -1,7 +1,8 @@
 <?php namespace App\Http\Controllers;
-
-class MeetingController extends Controller {
-
+use App\Model\Minutes;
+use Auth;
+use Request;
+class MinutesController extends Controller {
 	/*
 	|--------------------------------------------------------------------------
 	| Home Controller
@@ -30,12 +31,32 @@ class MeetingController extends Controller {
 	 */
 	public function index()
 	{
-		return view('meeting.home');
+		return view('minutes.home');
 	}
 	public function mytask()
 	{
 		//sleep(5);
-		echo $sds;
-		return view('meeting.mytask');
+		//echo $dgdf;
+		return view('minutes.mytask');
+	}
+	public function showAdd()
+	{
+		//print_r(Minutes::all());
+		return view('minutes.add');
+	}
+	public function postAdd()
+	{
+		$message = $error = '';
+		$input = Request::only('title', 'label');
+		$input['created_by'] = $input['updated_by'] = Auth::user()->id;
+		if(Minutes::create($input))
+		{
+			$message = "Minute added successfully";
+		}
+		else
+		{
+			$error = "Error DB500";
+		}
+		return redirect('user/login')->with('message', $message)->with('error', $error);
 	}
 }

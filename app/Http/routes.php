@@ -22,8 +22,16 @@ Route::group(['domain' => 'app.localjotter.com'], function()
     Route::group(['middleware' => 'auth'], function()
 	{
 		//Route::get('home', 'HomeController@index');
-		Route::get('home', 'MeetingController@index');
-		Route::post('mytask', 'MeetingController@mytask');
+		Route::get('home', 'MinutesController@index');
+		Route::post('mytask', 'MinutesController@mytask');
+
+		Route::get('minute', 'MinutesController@index');
+		Route::get('minute/add', 'MinutesController@showAdd');
+		Route::post('minute/add', 'MinutesController@postAdd');
+
+		Route::get('notes', 'NotesController@index');
+		Route::get('notes/add/{id}', 'NotesController@showAdd');
+		Route::post('notes/add/{id}', 'NotesController@postAdd');
 	});
 
 });
