@@ -1,19 +1,19 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
-class Minutes extends Model{
+class Notes extends Model{
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'minutes';
+	protected $table = 'notes';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title', 'label','venue','created_by','updated_by'];
+	protected $fillable = ['title', 'description','assignee','created_by','updated_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\User', 'id', 'created_by');
@@ -24,7 +24,11 @@ class Minutes extends Model{
     }
     public function minute_history()
     {
-        return $this->hasMany('App\Model\Minuteshistory','mid','id');
+        return $this->hasOne('App\Model\Minuteshistory', 'id', 'mhid');
+    }
+    public function notes_history()
+    {
+        return $this->hasMany('App\Model\Noteshistory','nid','id');
     }
 
 }

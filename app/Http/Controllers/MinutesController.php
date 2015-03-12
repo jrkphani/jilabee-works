@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 use App\Model\Minutes;
+use App\Model\Notes;
 use Auth;
 use Request;
 class MinutesController extends Controller {
@@ -33,12 +34,7 @@ class MinutesController extends Controller {
 	{
 		return view('minutes.home');
 	}
-	public function mytask()
-	{
-		//sleep(5);
-		//echo $dgdf;
-		return view('minutes.mytask');
-	}
+	
 	public function showAdd()
 	{
 		//print_r(Minutes::all());
@@ -47,7 +43,7 @@ class MinutesController extends Controller {
 	public function postAdd()
 	{
 		$message = $error = '';
-		$input = Request::only('title', 'label');
+		$input = Request::only('title', 'label','venue');
 		$input['created_by'] = $input['updated_by'] = Auth::user()->id;
 		if(Minutes::create($input))
 		{
@@ -57,6 +53,19 @@ class MinutesController extends Controller {
 		{
 			$error = "Error DB500";
 		}
-		return redirect('user/login')->with('message', $message)->with('error', $error);
+		return redirect('/home')->with('message', $message)->with('error', $error);
+	}
+	public function list_minutes()
+	{
+		$minutes = Minutes::orderBy('updated_at', 'desc')->get();
+		//print_r($minutes); die;
+		return view('minutes.list',array('minutes'=>$minutes));
+	}
+	public function list_history($id)
+	{
+		$notes = Notes::select('notes.*')->join('minutes_history','notes.mhid','=','minutes_history.id')
+				->where('minutes_history.mid','=',$id)->orderBy('notes.mhid')
+				->get();
+		return view('minutes.history',array('notes'=>$notes));
 	}
 }

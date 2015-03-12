@@ -94,6 +94,15 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="{{ asset('/js/notify-combined.min.js') }}"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
+	<script type="text/javascript">
+	$(document).ready(function($) {
+		$.notify("{!! Session::get('message')!!}",
+    			{
+				   className:'success',
+				   globalPosition:'top center'
+				});	
+	});
+	</script>
 	@yield('javascript')
 </body>
 

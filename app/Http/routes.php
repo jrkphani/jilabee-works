@@ -23,15 +23,18 @@ Route::group(['domain' => 'app.localjotter.com'], function()
 	{
 		//Route::get('home', 'HomeController@index');
 		Route::get('home', 'MinutesController@index');
-		Route::post('mytask', 'MinutesController@mytask');
 
-		Route::get('minute', 'MinutesController@index');
+		Route::get('minute', 'MinutesController@list_minutes');
+		Route::get('minute/{id}', 'MinutesController@list_history')->where('id', '[0-9]+');
 		Route::get('minute/add', 'MinutesController@showAdd');
 		Route::post('minute/add', 'MinutesController@postAdd');
 
-		Route::get('notes', 'NotesController@index');
-		Route::get('notes/add/{id}', 'NotesController@showAdd');
-		Route::post('notes/add/{id}', 'NotesController@postAdd');
+		Route::get('notes/{id?}', 'NotesController@index')->where('id', '[0-9]+');
+		Route::get('notes/add/{id}', 'NotesController@showAdd')->where('id', '[0-9]+');
+		Route::post('notes/draft/{id}', 'NotesController@postDraft')->where('id', '[0-9]+');
+		Route::post('notes/add/{id}', 'NotesController@postAdd')->where('id', '[0-9]+');
+
+		Route::post('comments/add/{id}', 'NotesController@postComment')->where('id', '[0-9]+');
 	});
 
 });

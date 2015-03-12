@@ -7,12 +7,14 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="nav nav-tabs">
-					    <li class="active user_left_menu onload" id=""><a href="#">My Task <span class="badge">2</span></a>
+					    <li class="user_left_menu" id="menuMytask"><a href="#">My Task <span class="badge">2</span></a>
 					    </li>
-					    <li class="user_left_menu"><a href="#">Follow Ups <span class="badge">4</span></a>
+					    <li class="user_left_menu" id="menuFolloup" url="{{ app_url('/') }}">
+					    	<a href="#">Follow Ups <span class="badge">4</span></a>
 
 					    </li>
-					    <li class="user_left_menu"><a href="#">Minutes <span class="badge">1</span></a>
+					    <li class="user_left_menu" id="menuMinutes">
+					    	<a href="#">Minutes <span class="badge">1</span></a>
 					    </li>
 				  	</ul>
 				</div>
@@ -56,7 +58,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-8 border_left">
+		<div class="col-md-8 border_left" id="content_right">
 			@yield('content')
 		</div>
 	</div>
@@ -64,4 +66,5 @@
 @endsection
 @section('javascript')
     <script src="{{ asset('/js/user.js') }}"></script>
+    <script src="{{ asset('/js/add_comment.js') }}"></script>
 @stop

@@ -10,27 +10,29 @@
 				<div class="panel-heading">Add Minute</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-2"></div>
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<div class="row">
 								<form class="form-horizontal" role="form" method="POST" action="#">
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
-								<div class="col-md-6">
+									{!! Form::open(array('class'=>'form-horizontal','method'=>'POST','role'=>'form')) !!}
+								<div class="col-md-4">
 									<div class="form-group">
-										<label class="col-md-4 control-label">Title</label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" name="title" placeholder="Title" value="{{ old('title') }}">
+										<div class="col-md-12">
+											{!! Form::text('title',old('title'),array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div class="form-group">
-										<label class="col-md-4 control-label">Label</label>
-										<div class="col-md-6">
-											{{-- <input type="text" class="form-control" id="flag" name="flag" placeholder="Title" value="{{ old('title') }}"> --}}
-											{{-- <span class="colorpicker"></span> --}}
+										<div class="col-md-12">
+											{!! Form::text('venue',old('venue'),array('class'=>"form-control",'placeholder'=>'Venue','autocomplete'=>'off')) !!}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<div class="col-md-10">
 											<div id="colorpicker" data-color-format="rgb" data-color="rgb(255, 146, 180)">
-												<input type="text" autocomplete="off" readonly="readonly" value="" class="form-control" id="label" name="label">
+												{!! Form::text('label',old('label'),array('class'=>"form-control",'id'=>'label','autocomplete'=>'off','readonly'=>'readonly')) !!}
 											</div>
 										</div>
 										<div class="col-md-2 btn">
@@ -38,10 +40,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6 col-md-offset-4">
+								<div class="col-md-6 col-md-offset-6">
 									<button type="submit" class="btn btn-primary">Add</button>
 								</div>
-								</form>
+								{!! Form::close() !!}
 							</div>
 						</div>
 						<div class="col-md-2"></div>

@@ -19,8 +19,9 @@ class CreateNotesTable extends Migration {
 			$table->string('title');
 			$table->mediumText('description');
 			$table->integer('assignee')->unsigned()->nullable();
-			$table->enum('status', array('open', 'close','expired','timeout','failed'))->nullable();
-			$table->enum('priority', array('immediate','high', 'normal','low'))->nullable();
+			$table->enum('status', array('open', 'close','expired','timeout','failed'))->default('open');
+			$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
+			$table->dateTime('due')->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
