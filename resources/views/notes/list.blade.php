@@ -57,7 +57,7 @@
 		        			@foreach($noterow as $notecol)
 		        			<tr class="border_top">
 		        				<td>@if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
-					            <td class="note" nid="{{$notecol->id }}">{{$notecol->title}} </td>
+					            <td class="note btn" nid="{{$notecol->id }}">{{$notecol->title}} </td>
 		        			    <td>
 		        			    	<span class="glyphicon glyphicon-tag pull-right" aria-hidden="true" style="color:{{ $notecol->minute_history->minute->label}}"></span>
 		        			    </td>

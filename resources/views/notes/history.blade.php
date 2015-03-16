@@ -14,8 +14,12 @@
 						<h4>{!! nl2br($notes->description) !!}</h4>
 					</div>
 					@foreach($notes->notes_history()->get() as $history)
-						<div class="col-md-12 border_top">
+						<div class="col-md-8 border_top">
 							{!! nl2br($history->description) !!}
+						</div>
+						<div class="col-md-4 border_top">
+							<a href="" >{!! nl2br($history->createdby->name) !!}
+							<span class="glyphicon glyphicon-user"></span></a>
 						</div>
 					@endforeach
 				</div>
