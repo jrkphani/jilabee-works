@@ -22,14 +22,14 @@
 				        					<td>
 					        					<?php $attendees = array_filter(explode(',',$history->attendees)); ?>
 					        					@if($attendees)
-					        					<ul class="list-group">
+					        					<div class="list-group">
 					        					@foreach($attendees as $userID)
-	  												<li class="list-group-item">
-	  													<a href=""><span class="glyphicon glyphicon-user"></span>
-	  													{{App\User::find($userID)->name}}</a>
-	  												</li>
+	  												<a class="list-group-item" href="">
+	  													<span class="glyphicon glyphicon-user"></span>
+	  													{{App\User::find($userID)->name}}
+	  												</a>
 					        					@endforeach
-					        					</ul>
+					        					</div>
 					        					@endif
 					        				</td>
 					        				<td>{{$history->venue}}</td>
