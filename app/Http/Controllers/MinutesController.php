@@ -68,6 +68,15 @@ class MinutesController extends Controller {
 		// echo "<pre>";
 		// print_r($notes);
 		// die;
-		return view('minutes.history',array('minutes'=>$minutes));
+		if($minutes->minute_history()->where('lock_flag','=',Auth::user()->id)->count())
+		{
+			//redirect to add notes page if same user
+			$mhid = $minutes->minute_history()->where('lock_flag','=',Auth::user()->id)->first()->id;
+			return redirect('notes/add/'.$mhid);
+		}
+		else
+		{
+			return view('minutes.history',array('minutes'=>$minutes));
+		}
 	}
 }

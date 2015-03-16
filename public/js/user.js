@@ -1,7 +1,3 @@
-$(document).ready(function($) {
-    	$('#menuMytask').click();
-    });
-    	
     	$('#menuMytask').click(function(event) {
     		$('.user_left_menu').removeClass('active');
     		$(this).addClass('active');
@@ -82,7 +78,7 @@ $(document).ready(function($) {
         $(document).on('click', '.note', function(event) {
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/notes/'+$(this).attr('id').replace ( /[^\d.]/g, '' ),
+                url: '/notes/'+$(this).attr('nid'),
                 type: 'GET',
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
                 //data: $('#notes_form').serialize(),

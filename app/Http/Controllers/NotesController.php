@@ -39,17 +39,8 @@ class NotesController extends Controller {
 		if($nid)
 		{
 			//get notes histroy for note id
-			$noteshistory = Noteshistory::where('nid','=',$nid)->orderBy('updated_at','desc')->get();
-			if($noteshistory->first())
-			{
-				$notes =NULL;
-			}
-			else
-			{
-				$notes = Notes::find($nid);
-			}
-			//print_r($noteshistory); die;
-			return view('notes.history',array('noteshistory'=>$noteshistory,'notes'=>$notes));
+			$notes = Notes::find($nid);
+			return view('notes.history',array('notes'=>$notes));
 		}
 		else
 		{
@@ -63,15 +54,15 @@ class NotesController extends Controller {
 	}
 	public function getAdd($id)
 	{
-		//if($minuteshistory = Minuteshistory::where('mid','=',$id)->first())
-		// if(0)
-		// {
-		// 	//print_r($minuteshistory->minute->title); die;
-		// 	$users = User::lists('name','id');
-		// 	$notesdraft = Notesdraft::where('mhid','=',$minuteshistory->id)->get();
-		// 	//print_r($notesdraft);
-		// 	return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
-		// }
+		if($minuteshistory = Minuteshistory::where('mid','=',$id)->first())
+		//if(0)
+		{
+			//print_r($minuteshistory->minute->title); die;
+			$users = User::lists('name','id');
+			$notesdraft = Notesdraft::where('mhid','=',$minuteshistory->id)->get();
+			//print_r($notesdraft);
+			return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
+		}
 		// else if($minute = Minutes::find($id))
 		// {
 		// 	$input = new Minuteshistory(array('lock'=>Auth::user()->id,'created_by'=>Auth::user()->id,'updated_by'=>Auth::user()->id));
@@ -81,10 +72,10 @@ class NotesController extends Controller {
 		// 	return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
 			
 		// }
-		// else
-		// {
-		// 	return Response::make('Not Found', 404);
-		// }
+		else
+		{
+			return Response::make('Not Found', 404);
+		}
 		
 	}
 	public function postDraft($id)
@@ -92,7 +83,7 @@ class NotesController extends Controller {
 
 		$message = $error = '';
 		$input = Request::only('title', 'description','assignee','priority');
-		$inserArr=array();
+		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
 			$tempArr['title'] = trim($input['title'][$i]);
@@ -106,6 +97,7 @@ class NotesController extends Controller {
 		if($records)
 		{
 			$minuteshistory = Minuteshistory::find($id);
+			$minuteshistory->notes_draft()->delete();
 			$minuteshistory->notes_draft()->saveMany($records);
 		}
 		else
@@ -133,7 +125,11 @@ class NotesController extends Controller {
 		if($records)
 		{
 			$minuteshistory = Minuteshistory::find($id);
-			$minuteshistory->notes()->saveMany($records);
+			if($minuteshistory->notes()->saveMany($records))
+			{
+				$minuteshistory->update(array('lock_flag'=>'0'));
+				$minuteshistory->notes_draft()->delete();
+			}
 		}
 		else
 		{
@@ -148,8 +144,7 @@ class NotesController extends Controller {
 		$notes = Notes::find($nid);
 		$record = new Noteshistory($input);
 		$notes->notes_history()->save($record);
-		$noteshistory = Noteshistory::where('nid','=',$nid)->orderBy('updated_at','desc')->get();
-		return view('notes.history',array('noteshistory'=>$noteshistory,'notes'=>NULL));
+		return view('notes.history',array('notes'=>$notes));
 	}
 
 }

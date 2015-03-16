@@ -1,7 +1,5 @@
 $(document).ready(function($) {
-	$('#save_changes').click(function(event) {
-		/* Act on the event */
-		//$('#notes_form')
+	$(document).on('click', '#save_changes', function(event) {
 		$.ajax({
 			url: '/notes/draft/'+$('#minuteshistory_id').val(),
 			type: 'POST',
@@ -9,7 +7,13 @@ $(document).ready(function($) {
 			data: $('#notes_form').serialize(),
 		})
 		.done(function() {
-			console.log("success");
+			//console.log("success");
+			$.notify('Draft saved !',
+		    	{
+		        	className:'success',
+		            globalPosition:'top center'
+		          });
+			$('#add_more').click();
 		})
 		.fail(function() {
 			console.log("error");
@@ -19,7 +23,7 @@ $(document).ready(function($) {
 		});
 		
 	});
-	$('#send_minute').click(function(event) {
+	$(document).on('click', '#send_minute', function(event) {
 		$.ajax({
 			url: '/notes/add/'+$('#minuteshistory_id').val(),
 			type: 'POST',
@@ -27,7 +31,11 @@ $(document).ready(function($) {
 			data: $('#notes_form').serialize(),
 		})
 		.done(function() {
-			console.log("success");
+			$.notify('Saved !',
+		    	{
+		        	className:'success',
+		            globalPosition:'top center'
+		          });
 		})
 		.fail(function() {
 			console.log("error");

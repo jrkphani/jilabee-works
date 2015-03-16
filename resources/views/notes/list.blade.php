@@ -1,3 +1,5 @@
+@extends('user')
+@section('leftcontent')
 @if($notes->first())
 @foreach($notes as $note)
 	<?php
@@ -55,7 +57,7 @@
 		        			@foreach($noterow as $notecol)
 		        			<tr class="border_top">
 		        				<td>@if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
-					            <td class="note" id="n{{$notecol->id }}">{{$notecol->title}} </td>
+					            <td class="note" nid="{{$notecol->id }}">{{$notecol->title}} </td>
 		        			    <td>
 		        			    	<span class="glyphicon glyphicon-tag pull-right" aria-hidden="true" style="color:{{ $notecol->minute_history->minute->label}}"></span>
 		        			    </td>
@@ -71,3 +73,14 @@
 @else
 	No data to display!
 @endif
+@endsection
+
+@section('javascript')
+@parent
+    <script>
+	$(document).ready(function($)
+		{
+			$('#menuMytask').addClass('active');
+    	});
+	</script>
+@stop

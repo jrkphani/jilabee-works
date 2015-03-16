@@ -12,32 +12,67 @@
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">       
-				    <table class="table">
+				    <table class="table table-hover table-bordered">
 				        <tbody>
 				        	@if($minutes->minute_history()->first())
 				        		@foreach($minutes->minute_history()->get() as $history)
-				        			<tr class="bg-info">
-				        				<td>
-				        					<?php $attendees = explode(',',$history->attendees); ?>
-				        					<ul class="list-group">
-				        					@foreach($attendees as $userID)
-  												<li class="list-group-item">
-  													<a href=""><span class="glyphicon glyphicon-user"></span>
-  													{{App\User::find($userID)->name}}</a>
-  												</li>
-				        					@endforeach
-				        					</ul>
-				        				</td>
-				        				<td>{{$history->venue}}</td>
-				        				<td>
-				        					<span class="glyphicon glyphicon-pencil"></span>
-				        					<a href="">{{$history->updatedby->name}}
-				        					<span class="glyphicon glyphicon-user"></span></a>
-				        				</td>
-				        			</tr>
 				        			<tr>
-				        				<td>notes here  </td>
+				        				<td><table class="table borderless">
+				        					<tr>
+				        					<td>
+					        					<?php $attendees = array_filter(explode(',',$history->attendees)); ?>
+					        					@if($attendees)
+					        					<ul class="list-group">
+					        					@foreach($attendees as $userID)
+	  												<li class="list-group-item">
+	  													<a href=""><span class="glyphicon glyphicon-user"></span>
+	  													{{App\User::find($userID)->name}}</a>
+	  												</li>
+					        					@endforeach
+					        					</ul>
+					        					@endif
+					        				</td>
+					        				<td>{{$history->venue}}</td>
+					        				<td>
+					        					<span class="glyphicon glyphicon-pencil"></span>
+					        					<a href="">{{$history->updatedby->name}}
+					        					<span class="glyphicon glyphicon-user"></span></a>
+					        				</td>
+					        			</tr>
+				        				</table></td>
 				        			</tr>
+				        			
+				        			@if($history->notes()->first())
+				        			<tr>
+				        				<td>
+				        					<table class="table borderless">
+				        						@foreach($history->notes()->get() as $notes)
+				        						<tr>
+							        				<td>	
+							        					{{$notes->title}}
+							        				</td>
+							        				<td>	
+							        					{{$notes->description}}
+							        				</td>
+							        				<td>
+							        					@if($notes->assignee)
+							        					<a href="">
+															{{$notes->getassignee->name}}
+															<span class="glyphicon glyphicon-user"></span>
+														</a>
+							        					
+							        					@endif
+							        				</td>
+							        				<td>
+							        					<span nid="{{$notes->id}}" class="glyphicon glyphicon-eye-open btn note"></span>
+							        				</td>
+							        			</tr>
+						        				@endforeach
+						        			</table>
+				        				</td>
+				        			</tr>
+				        			@endif
+				        				
 				        		@endforeach
 				        	@else
 				        	No date to display!

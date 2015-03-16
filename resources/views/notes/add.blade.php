@@ -1,9 +1,5 @@
-@extends('master')
-@section('css')
-	<link href="{{ asset('/css/colorpicker.css') }}" rel="stylesheet">
-@end
-@section('usercontent')
-<div class="container">
+@extends('user')
+@section('rightcontent')
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
@@ -142,9 +138,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-
 @endsection
-@section('javascript')
-     <script src="{{ asset('/js/add_notes.js') }}"></script>
-@stop

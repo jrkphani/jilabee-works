@@ -30,5 +30,9 @@ class Notes extends Model{
     {
         return $this->hasMany('App\Model\Noteshistory','nid','id');
     }
+    public function getassignee()
+    {   
+        return $this->hasOne('App\User', 'id', 'assignee');
+    }
 
 }

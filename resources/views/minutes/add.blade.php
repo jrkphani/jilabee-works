@@ -35,7 +35,7 @@
 											</div>
 										</div>
 										<div class="col-md-2 btn">
-											<span id="resetColor" class="glyphicon glyphicon-remove"></span>
+											<span id="resetColor" class="glyphicon glyphicon-refresh"></span>
 										</div>
 									</div>
 								</div>

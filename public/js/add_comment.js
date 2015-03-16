@@ -1,7 +1,7 @@
 $(document).ready(function($) {
 	$(document).on('click', '#add_comment', function(event) {
 		$.ajax({
-			url: '/comments/add/'+$(this).attr('nid').replace ( /[^\d.]/g, '' ),
+			url: '/comments/add/'+$(this).attr('nid'),
 			type: 'POST',
 			dataType: 'html',
 			data: {_token: $_token,'description':$('#description').val() },
