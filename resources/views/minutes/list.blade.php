@@ -1,4 +1,4 @@
-@if($minutes)
+@if($minutes->first())
 @foreach($minutes as $minute)
 	<?php
 		$datenow = date_create(date("Y-m-d H:i:s"));

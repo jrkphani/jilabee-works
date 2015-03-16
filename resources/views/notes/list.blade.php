@@ -1,4 +1,4 @@
-@if($notes)
+@if($notes->first())
 @foreach($notes as $note)
 	<?php
         if(date('Y-m-d',strtotime($note->due)) == date('Y-m-d'))

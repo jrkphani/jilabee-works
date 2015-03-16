@@ -12,7 +12,6 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
-								<form class="form-horizontal" role="form" method="POST" action="#">
 									{!! Form::open(array('class'=>'form-horizontal','method'=>'POST','role'=>'form')) !!}
 								<div class="col-md-4">
 									<div class="form-group">

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 use App\Model\Minutes;
+use App\Model\Minuteshistory;
 use App\Model\Notes;
 use Auth;
 use Request;
@@ -35,7 +36,7 @@ class MinutesController extends Controller {
 		return view('minutes.home');
 	}
 	
-	public function showAdd()
+	public function getAdd()
 	{
 		//print_r(Minutes::all());
 		return view('minutes.add');
@@ -63,9 +64,10 @@ class MinutesController extends Controller {
 	}
 	public function list_history($id)
 	{
-		$notes = Notes::select('notes.*')->join('minutes_history','notes.mhid','=','minutes_history.id')
-				->where('minutes_history.mid','=',$id)->orderBy('notes.mhid')
-				->get();
-		return view('minutes.history',array('notes'=>$notes));
+		$minutes = Minutes::find($id);
+		// echo "<pre>";
+		// print_r($notes);
+		// die;
+		return view('minutes.history',array('minutes'=>$minutes));
 	}
 }

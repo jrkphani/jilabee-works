@@ -61,30 +61,30 @@ class NotesController extends Controller {
 		}
 		
 	}
-	public function showAdd($id)
+	public function getAdd($id)
 	{
 		//if($minuteshistory = Minuteshistory::where('mid','=',$id)->first())
-		if(0)
-		{
-			//print_r($minuteshistory->minute->title); die;
-			$users = User::lists('name','id');
-			$notesdraft = Notesdraft::where('mhid','=',$minuteshistory->id)->get();
-			//print_r($notesdraft);
-			return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
-		}
-		else if($minute = Minutes::find($id))
-		{
-			$input = array('mid'=>$id,'lock'=>Auth::user()->id,'created_by'=>Auth::user()->id,'updated_by'=>Auth::user()->id);
-			$minuteshistory = Minuteshistory::create($input);
-			$users = User::lists('name','id');
-			$notesdraft = NULL;
-			return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
+		// if(0)
+		// {
+		// 	//print_r($minuteshistory->minute->title); die;
+		// 	$users = User::lists('name','id');
+		// 	$notesdraft = Notesdraft::where('mhid','=',$minuteshistory->id)->get();
+		// 	//print_r($notesdraft);
+		// 	return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
+		// }
+		// else if($minute = Minutes::find($id))
+		// {
+		// 	$input = new Minuteshistory(array('lock'=>Auth::user()->id,'created_by'=>Auth::user()->id,'updated_by'=>Auth::user()->id));
+		// 	$minuteshistory = $minute->minute_history()->save($input);
+		// 	$users = User::lists('name','id');
+		// 	$notesdraft = NULL;
+		// 	return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
 			
-		}
-		else
-		{
-			return Response::make('Not Found', 404);
-		}
+		// }
+		// else
+		// {
+		// 	return Response::make('Not Found', 404);
+		// }
 		
 	}
 	public function postDraft($id)

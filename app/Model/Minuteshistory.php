@@ -13,7 +13,7 @@ class Minuteshistory extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['mid','venue','created_by','updated_by'];
+	protected $fillable = ['mid','lock_flag','attendees','venue','created_by','updated_by'];
 	public function minute()
     {	
         return $this->hasOne('App\Model\Minutes', 'id', 'mid');
@@ -33,6 +33,11 @@ class Minuteshistory extends Model{
     public function notes_draft()
     {
         return $this->hasMany('App\Model\Notesdraft','mhid','id');
+    }
+    public function attendees_name()
+    {
+        return "happy";
+        //return $this->hasMany('App\Model\Notesdraft','mhid','id');
     }
 
 }
