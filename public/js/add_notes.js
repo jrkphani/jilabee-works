@@ -46,7 +46,7 @@ $(document).ready(function($) {
 		});
 		
 	});
-	$('#add_more').click(function(event) {
+	$(document).on('click', '#add_more', function(event) {
 		$('#notes_form').append($('#add_more_div').html());
 		//alert($("#notes_form  .notes_form").length);
 	});

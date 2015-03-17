@@ -78,10 +78,17 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<div class="form-group">
 								<div class="col-md-12">
 									<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<div class="col-md-12">
+									<input type="date" autocomplete="off" class="form-control" name="due[]" placeholder="Due Date" value="{{ old('due') }}">
 								</div>
 							</div>
 						</div>
@@ -136,10 +143,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-3">
 			<div class="form-group">
 				<div class="col-md-12">
 					<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<div class="col-md-12">
+					<input type="date" autocomplete="off" class="form-control" name="due[]" placeholder="Due Date" value="{{ old('due') }}">
 				</div>
 			</div>
 		</div>

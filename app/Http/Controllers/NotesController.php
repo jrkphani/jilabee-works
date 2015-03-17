@@ -160,7 +160,7 @@ class NotesController extends Controller {
 		//get all notes assinged by current user
 		$notes = Notes::where('created_by','=',Auth::user()->id)
 				->where('status','!=','close')
-				->orderBy('due')->paginate(1);;
+				->orderBy('due')->paginate(15);;
 		return view('notes.followup',array('notes'=>$notes,'input'=>$input));
 	}
 

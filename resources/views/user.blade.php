@@ -42,5 +42,7 @@
 	    <script src="{{ asset('/js/user.js') }}"></script>
 	    <script src="{{ asset('/js/add_comment.js') }}"></script>
 	    <script src="{{ asset('/js/add_notes.js') }}"></script>
+	    <script src="{{ asset('/js/bootstrap-colorpicker.js') }}"></script>
+    	<script src="{{ asset('/js/add_minute.js') }}"></script>
 	@stop
 @endif
