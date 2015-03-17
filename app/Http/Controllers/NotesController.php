@@ -44,24 +44,30 @@ class NotesController extends Controller {
 		}
 		else
 		{
+			$input = Request::only('sortby','filterby');
 			//get all notes for current user
 			$notes = Notes::where('assignee','=',Auth::user()->id)
 					->where('status','!=','close')
-					->orderBy('due')->get();
-			return view('notes.list',array('notes'=>$notes));
+					->orderBy('due')->paginate(15);
+			return view('notes.list',array('notes'=>$notes,'input'=>$input));
 		}
 		
 	}
-	public function getAdd($id)
+	public function getAdd($mhid)
 	{
-		if($minuteshistory = Minuteshistory::where('mid','=',$id)->first())
-		//if(0)
+		if($minuteshistory = Minuteshistory::find($mhid))
 		{
+			if($minuteshistory->lock_flag == Auth::user()->id)
+			{
+				$users = User::lists('name','id');
+				return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users]);	
+			}
+			else
+			{
+				return redirect('minute/'.$minuteshistory->mid);
+			}
 			//print_r($minuteshistory->minute->title); die;
-			$users = User::lists('name','id');
-			$notesdraft = Notesdraft::where('mhid','=',$minuteshistory->id)->get();
-			//print_r($notesdraft);
-			return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users,'notesdraft'=>$notesdraft]);
+			
 		}
 		// else if($minute = Minutes::find($id))
 		// {
@@ -111,7 +117,7 @@ class NotesController extends Controller {
 	{
 		$message = $error = '';
 		$input = Request::only('title', 'description','assignee','priority');
-		$inserArr=array();
+		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
 			$tempArr['title'] = trim($input['title'][$i]);
@@ -125,10 +131,12 @@ class NotesController extends Controller {
 		if($records)
 		{
 			$minuteshistory = Minuteshistory::find($id);
+			//$minuteshistory = Minuteshistory::where('id','=',$id)->where('lock_flag','=',Auth::user()->id)->first();			
 			if($minuteshistory->notes()->saveMany($records))
 			{
 				$minuteshistory->update(array('lock_flag'=>'0'));
 				$minuteshistory->notes_draft()->delete();
+				return redirect('minute/'.$minuteshistory->mid);
 			}
 		}
 		else
@@ -145,6 +153,15 @@ class NotesController extends Controller {
 		$record = new Noteshistory($input);
 		$notes->notes_history()->save($record);
 		return view('notes.history',array('notes'=>$notes));
+	}
+	public function followup()
+	{
+		$input = Request::only('sortby','filterby');
+		//get all notes assinged by current user
+		$notes = Notes::where('created_by','=',Auth::user()->id)
+				->where('status','!=','close')
+				->orderBy('due')->paginate(1);;
+		return view('notes.followup',array('notes'=>$notes,'input'=>$input));
 	}
 
 }

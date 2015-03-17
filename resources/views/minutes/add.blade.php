@@ -1,9 +1,8 @@
-@extends('master')
+@extends('user')
 @section('css')
 	<link href="{{ asset('/css/colorpicker.css') }}" rel="stylesheet">
-@end
-@section('usercontent')
-<div class="container">
+@stop
+@section('rightcontent')
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
@@ -51,9 +50,9 @@
 			</div>
 		</div>
 	</div>
-</div>
 @endsection
 @section('javascript')
+@parent
     <script src="{{ asset('/js/bootstrap-colorpicker.js') }}"></script>
      <script src="{{ asset('/js/add_minute.js') }}"></script>
 @stop

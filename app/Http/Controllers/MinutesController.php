@@ -66,8 +66,9 @@ class MinutesController extends Controller {
 	{
 		$minutes = Minutes::find($id);
 		// echo "<pre>";
+		//echo "i am here";
 		// print_r($notes);
-		// die;
+		//die;
 		if($minutes->minute_history()->where('lock_flag','=',Auth::user()->id)->count())
 		{
 			//redirect to add notes page if same user

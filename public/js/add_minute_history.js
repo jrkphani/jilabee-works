@@ -6,15 +6,21 @@ $('#continue_minute').click(function(event) {
             buttons: [{
                 label: 'Continue',
                 cssClass: 'btn-primary',
-                action: function(){
+                action: function(dialogItself){
                     $.ajax({
                     	url: '/minutehistory/add/'+mid,
                     	type: 'POST',
                     	dataType: 'html',
                     	data: $('#minute_history_form').serialize(),
                     })
-                    .done(function(output) {
-                    	// console.log("success");
+                    .done(function() {
+                        dialogItself.close();
+                        $.notify('Seesion started !',
+                        {
+                           className:'success',
+                           globalPosition:'top center'
+                        });
+                        $('#m'+mid).click();
                     })
                     .fail(function() {
                     	$.notify('Oops, Something went wrong!',

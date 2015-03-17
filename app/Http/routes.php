@@ -32,6 +32,7 @@ Route::group(['domain' => 'app.localjotter.com'], function()
 		Route::get('notes', 'NotesController@index');
 		Route::get('notes/add/{id}', 'NotesController@getAdd')->where('id', '[0-9]+');
 		
+		Route::get('followup', 'NotesController@followup');
 
 		// Route::get('minute', 'MinutesController@list_minutes');
 		// Route::get('minute/{id}', 'MinutesController@list_history')->where('id', '[0-9]+');

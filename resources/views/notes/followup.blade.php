@@ -82,7 +82,7 @@
     <script>
 	$(document).ready(function($)
 		{
-			$('#menuMytask').addClass('active');
+			$('#menuFolloup').addClass('active');
     	});
 	</script>
 @stop

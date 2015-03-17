@@ -5,15 +5,33 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6">{{$minuteshistory->minute->title}}</div>
-						<div class="col-md-4 col-md-offset-2">{{Auth::user()->name}}</div>
+						<div class="col-md-3">{{$minuteshistory->minute->title}}</div>
+						<div class="col-md-3">{{$minuteshistory->minute->venue}}</div>
+						<div class="col-md-3">{{$minuteshistory->minute->created_at}}</div>
+						<div class="col-md-3">
+							<span class="glyphicon glyphicon-pencil"></span>
+							<a href="">
+	  							{{Auth::user()->name}}
+	  							<span class="glyphicon glyphicon-user"></span>
+	  						</a>
+						</div>
+						<?php $attendees = array_filter(explode(',',$minuteshistory->attendees)); ?>
+					     @if($attendees)
+						<div class="list-group col-md-12 margin_top_20">
+					    	@foreach($attendees as $userID)
+	  							<a {{-- class="list-group-item" --}} href="">
+	  								<span class="glyphicon glyphicon-user"></span>
+	  								{{App\User::find($userID)->name}}
+	  							</a>
+					    	@endforeach
+					    </div>
+					    @endif
 					</div>
 				</div>
 				<div class="panel-body">
 						{!! Form::open(array('class'=>'form-horizontal','id'=>'notes_form', 'method'=>'POST','role'=>'form')) !!}
-							<input type="hidden" id="minuteshistory_id" value="{{$minuteshistory->id}}">
-							@if(($notesdraft) && ($notesdraft->first()))
-								@foreach($notesdraft as $notes)
+							@if($minuteshistory->notes_draft()->first())
+								@foreach($minuteshistory->notes_draft()->get() as $notes)
 									<div class="row notes_form">
 										<div class="col-md-3">
 											<div class="form-group">
@@ -97,10 +115,10 @@
 								<button type="submit" class="btn btn-primary">Cancle</button>
 							</div>
 							<div class="col-md-3">
-								<button id="save_changes" type="submit" class="btn btn-primary">Save Changes</button>
+								<button id="save_changes" mhid={{$minuteshistory->id}} type="submit" class="btn btn-primary">Save Changes</button>
 							</div>
 							<div class="col-md-3">
-								<button id="send_minute" type="submit" class="btn btn-primary">Send minutes</button>
+								<button id="send_minute" mhid={{$minuteshistory->id}} type="submit" class="btn btn-primary">Send minutes</button>
 							</div>
 						</div>
 					</div>

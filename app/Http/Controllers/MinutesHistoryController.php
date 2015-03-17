@@ -70,8 +70,16 @@ class MinutesHistoryController extends Controller {
 		$input = Request::only('venue','attendees');
 		$input['attendees'] = implode(',', $input['attendees']);
 		$input['lock_flag']=$input['created_by']=$input['updated_by']=Auth::user()->id;
-		$record = new Minuteshistory($input);
-		$minutes = Minutes::find($id);
-		$minutes->minute_history()->save($record);	
+		if(Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->count())
+		{
+			Minuteshistory::where('mid','=',$id)->update($input);
+		}
+		else
+		{
+			$record = new Minuteshistory($input);
+			$minutes = Minutes::find($id);
+			$minutes->minute_history()->save($record);	
+		}
+		
 	}
 }

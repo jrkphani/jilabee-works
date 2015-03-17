@@ -1,4 +1,5 @@
 $(document).ready(function($) {
+		$('#menuMinutes').click();
 	    $('#colorpicker').colorpicker().on('changeColor', function(ev)
 	    {
 			$('#label').val(ev.color.toHex());

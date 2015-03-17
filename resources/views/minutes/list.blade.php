@@ -19,7 +19,8 @@
 	        }
 		?>
 	@endforeach
-	<div class="table-responsive">          
+	@include('minutes.filter')
+	<div class="table-responsive scroll_horizontal">          
 	    <table class="table">
 	        <tbody>
 	        	@foreach($minuteArr as $key=>$minuterow)

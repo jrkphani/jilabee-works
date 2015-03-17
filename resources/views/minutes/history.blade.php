@@ -15,7 +15,7 @@
 				    <table class="table table-hover table-bordered">
 				        <tbody>
 				        	@if($minutes->minute_history()->first())
-				        		@foreach($minutes->minute_history()->get() as $history)
+				        		@foreach($minutes->minute_history()->orderby('updated_at','desc')->get() as $history)
 				        			<tr>
 				        				<td><table class="table borderless">
 				        					<tr>
@@ -24,7 +24,7 @@
 					        					@if($attendees)
 					        					<div class="list-group">
 					        					@foreach($attendees as $userID)
-	  												<a class="list-group-item" href="">
+	  												<a {{-- class="list-group-item" --}} href="">
 	  													<span class="glyphicon glyphicon-user"></span>
 	  													{{App\User::find($userID)->name}}
 	  												</a>
@@ -33,6 +33,7 @@
 					        					@endif
 					        				</td>
 					        				<td>{{$history->venue}}</td>
+					        				<td>{{$history->created_at}}</td>
 					        				<td>
 					        					<span class="glyphicon glyphicon-pencil"></span>
 					        					<a href="">{{$history->updatedby->name}}

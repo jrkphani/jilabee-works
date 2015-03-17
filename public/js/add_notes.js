@@ -1,7 +1,7 @@
 $(document).ready(function($) {
 	$(document).on('click', '#save_changes', function(event) {
 		$.ajax({
-			url: '/notes/draft/'+$('#minuteshistory_id').val(),
+			url: '/notes/draft/'+$(this).attr('mhid'),
 			type: 'POST',
 			//dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 			data: $('#notes_form').serialize(),
@@ -25,17 +25,18 @@ $(document).ready(function($) {
 	});
 	$(document).on('click', '#send_minute', function(event) {
 		$.ajax({
-			url: '/notes/add/'+$('#minuteshistory_id').val(),
+			url: '/notes/add/'+$(this).attr('mhid'),
 			type: 'POST',
 			//dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 			data: $('#notes_form').serialize(),
 		})
-		.done(function() {
+		.done(function(output) {
 			$.notify('Saved !',
 		    	{
 		        	className:'success',
 		            globalPosition:'top center'
 		          });
+			$('#content_right').html(output);
 		})
 		.fail(function() {
 			console.log("error");
