@@ -88,7 +88,7 @@ class NotesController extends Controller {
 	{
 
 		$message = $error = '';
-		$input = Request::only('title', 'description','assignee','priority');
+		$input = Request::only('title', 'description','assignee','priority','due');
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
@@ -116,7 +116,7 @@ class NotesController extends Controller {
 	public function postAdd($id)
 	{
 		$message = $error = '';
-		$input = Request::only('title', 'description','assignee','priority');
+		$input = Request::only('title', 'description','assignee','priority','due');
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 

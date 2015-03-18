@@ -40,11 +40,18 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-4">
 											<div class="form-group">
 												<div class="col-md-12">
 													{!! Form::textarea('description[]',$notes->description,array('class'=>"form-control",'placeholder'=>'Description','autocomplete'=>'off','rows'=>1)) !!}
 													
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class="form-group">
+												<div class="col-md-12">
+													{!! Form::text('due[]',$notes->due,array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
 												</div>
 											</div>
 										</div>
@@ -78,17 +85,17 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group">
 								<div class="col-md-12">
 									<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<div class="form-group">
 								<div class="col-md-12">
-									<input type="date" autocomplete="off" class="form-control" name="due[]" placeholder="Due Date" value="{{ old('due') }}">
+									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
 								</div>
 							</div>
 						</div>
@@ -98,12 +105,6 @@
 									<div class="form-group">
 										<div class="col-md-12">
 											{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-											{{-- <select class="form-control" name="assignee[]" autocomplete="off">
-												<option value="">Assingee</option>
-												@foreach($users as $user)
-													<option value="{{$user->id}}">{{$user->name}}</option>
-												@endforeach
-											</select> --}}
 										</div>
 									</div>
 
@@ -136,38 +137,40 @@
 </div>
 <div class="hidden" id="add_more_div">
 	<div class="row notes_form">
-		<div class="col-md-3">
-			<div class="form-group">
-				<div class="col-md-12">
-					<input type="text" autocomplete="off" class="form-control" name="title[]" placeholder="Title" value="{{ old('title') }}">
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-group">
-				<div class="col-md-12">
-					<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-group">
-				<div class="col-md-12">
-					<input type="date" autocomplete="off" class="form-control" name="due[]" placeholder="Due Date" value="{{ old('due') }}">
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="form-group">
-						<div class="col-md-12">
-							{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+						<div class="col-md-3">
+							<div class="form-group">
+								<div class="col-md-12">
+									{!! Form::text('title[]',old('title'),array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="col-md-12">
+									<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<div class="col-md-12">
+									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group">
+										<div class="col-md-12">
+											{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-4 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
-			</div>
-		</div>
-	</div>
+</div>
 @endsection

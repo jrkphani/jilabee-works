@@ -53,8 +53,9 @@ class MinutesController extends Controller {
 		else
 		{
 			$error = "Error DB500";
+			return Response::make('Not Found', 404);
 		}
-		return redirect('/home')->with('message', $message)->with('error', $error);
+		//return redirect('/home')->with('message', $message)->with('error', $error);
 	}
 	public function list_minutes()
 	{

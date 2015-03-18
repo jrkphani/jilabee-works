@@ -1,7 +1,4 @@
 @extends('user')
-@section('css')
-	<link href="{{ asset('/css/colorpicker.css') }}" rel="stylesheet">
-@stop
 @section('rightcontent')
 	<div class="row">
 		<div class="col-md-12">
@@ -11,7 +8,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
-									{!! Form::open(array('class'=>'form-horizontal','method'=>'POST','role'=>'form')) !!}
+									{!! Form::open(array('id'=>'minuteform','class'=>'form-horizontal','role'=>'form')) !!}
 								<div class="col-md-4">
 									<div class="form-group">
 										<div class="col-md-12">
@@ -30,7 +27,7 @@
 									<div class="form-group">
 										<div class="col-md-10">
 											<div id="colorpicker" data-color-format="rgb" data-color="rgb(255, 146, 180)">
-												{!! Form::text('label',old('label'),array('class'=>"form-control",'id'=>'label','autocomplete'=>'off','readonly'=>'readonly')) !!}
+												{!! Form::text('label',old('label'),array('class'=>"form-control",'id'=>'label','autocomplete'=>'off','readonly'=>'readonly','onclick'=>"getcolor()")) !!}
 											</div>
 										</div>
 										<div class="col-md-2 btn">
@@ -39,7 +36,7 @@
 									</div>
 								</div>
 								<div class="col-md-6 col-md-offset-6">
-									<button type="submit" class="btn btn-primary">Add</button>
+									<span id ="saveminute" type="submit" class="btn btn-primary">Save</span>
 								</div>
 								{!! Form::close() !!}
 							</div>
@@ -51,8 +48,3 @@
 		</div>
 	</div>
 @endsection
-@section('javascript')
-@parent
-    <script src="{{ asset('/js/bootstrap-colorpicker.js') }}"></script>
-     <script src="{{ asset('/js/add_minute.js') }}"></script>
-@stop

@@ -3,20 +3,48 @@
 	@if($minutes->first())
 	@foreach($minutes as $minute)
 		<?php
-			$datenow = date_create(date("Y-m-d H:i:s"));
-			$days_diff=date_diff(date_create($minute->updated_at),$datenow); 
-	        if($days_diff->h <= 168)
+
+	        if(date('Y-m-d',strtotime($minute->updated_at)) == date('Y-m-d'))
 	        {
-	        	$minuteArr["Recent"][] = $minute;
+	        	$minuteArr["Today"][] = $minute;
 	        }
-	        else if($days_diff->days <= 14)
+	        else if(date('Y-m-d',strtotime($minute->updated_at)) < date('Y-m-d'))
 	        {
-	        	$minuteArr["Last week"][] = $minute;
+	        	if(date('W',strtotime($minute->updated_at)) == date('W'))
+		        {
+		        	$minuteArr["This week"][] = $minute;
+		        }
+		        else
+		        {
+		        	if(date('W',strtotime($minute->updated_at)) == date('W')-1)
+		        	{
+		        		$minuteArr["Last week"][] = $minute;	
+		        	}
+		        	else
+		        	{
+		        		$minuteArr["Previous"][] = $minute;	
+		        	}
+		        }
+
 	        }
-	        else
+	        /*else if(date('Y-m-d',strtotime($minute->updated_at)) > date('Y-m-d'))
 	        {
-	        	$minuteArr["Previous"][] = $minute;
-	        }
+	        	if(date('W',strtotime($minute->updated_at)) == date('W'))
+		        {
+		        	$minuteArr["This week"][] = $minute;
+		        }
+		        else
+		        {
+		        	if(date('W',strtotime($minute->updated_at)) == date('W')+1)
+		        	{
+		        		$minuteArr["Next week"][] = $minute;
+		        	}
+		        	else
+		        	{
+		        		$minuteArr["Upcoming"][] = $minute;
+		        	}
+		        }
+	        }*/
 		?>
 	@endforeach
 	@include('minutes.filter')

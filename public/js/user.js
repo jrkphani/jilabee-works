@@ -11,6 +11,7 @@
     		})
     		.done(function(output) {
     			$('#user_left_menu_cont').html(output);
+                 $(".note:first").click();
     		})
     		.fail(function() {
     			$.notify('Oops, Something went wrong!',
@@ -38,6 +39,7 @@
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
+                 $(".note:first").click();
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',
@@ -65,6 +67,7 @@
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
+                $(".minute:first").click();
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',

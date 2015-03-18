@@ -12,6 +12,7 @@
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<link href="{{ asset('/css/colorpicker.css') }}" rel="stylesheet">
 	@yield('css')
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
