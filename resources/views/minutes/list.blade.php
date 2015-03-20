@@ -49,17 +49,17 @@
 	@endforeach
 	@include('minutes.filter')
 	<div class="table-responsive scroll_horizontal">          
-	    <table class="table">
+	    <table class="table table-bordered">
 	        <tbody>
 	        	@foreach($minuteArr as $key=>$minuterow)
 	        		<tr>
-			        	<td class="rotate_90_left border_left border_top">{{$key}}</td>
+			        	<td class="rotate_90_left">{{$key}}</td>
 			        	<td>
-			        		<table class="table border_left">
+			        		<table class="table">
 			        			@foreach($minuterow as $minutecol)
-			        			<tr class="border_top">
+			        			<tr>
 			        				<td class="date">{{ date("d M",strtotime($minutecol->updated_at)) }}</td>
-						            <td class="minute" id="m{{$minutecol->id }}">{{$minutecol->title}} </td>
+						            <td class="minute btn btn-link" id="m{{$minutecol->id }}">{{$minutecol->title}} </td>
 			        			    <td><span class="glyphicon glyphicon-tag" style="color:{{$minutecol->label}};" aria-hidden="true"></span></td>
 			        			</tr>
 			        			@endforeach
@@ -82,6 +82,7 @@
 	$(document).ready(function($)
 		{
 			$('#menuMinutes').addClass('active');
+			$(".minute:first").click();
     	});
 	</script>
 @stop

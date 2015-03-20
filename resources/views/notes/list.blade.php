@@ -48,17 +48,17 @@
 @endforeach
 @include('filter')
 <div class="table-responsive scroll_horizontal">          
-    <table class="table">
+    <table class="table table-bordered">
         <tbody>
         	@foreach($noteArr as $key=>$noterow)
         		<tr>
-		        	<td class="rotate_90_left border_left border_top">{{$key}}</td>
+		        	<td class="rotate_90_left">{{$key}}</td>
 		        	<td>
-		        		<table class="table border_left">
+		        		<table class="table">
 		        			@foreach($noterow as $notecol)
-		        			<tr class="border_top">
-		        				<td>@if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
-					            <td class="note btn" nid="{{$notecol->id }}">{{$notecol->title}} </td>
+		        			<tr>
+		        				<td>due date @if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
+					            <td class="note btn btn-link" nid="{{$notecol->id }}">{{$notecol->title}} </td>
 		        			    <td>
 		        			    	<span class="glyphicon glyphicon-tag pull-right" aria-hidden="true" style="color:{{ $notecol->minute_history->minute->label}}"></span>
 		        			    </td>
@@ -83,6 +83,7 @@
 	$(document).ready(function($)
 		{
 			$('#menuMytask').addClass('active');
+			$(".note:first").click();
     	});
 	</script>
 @stop

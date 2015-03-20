@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">
+				<div class="panel-heading" style="background-color:{{$minuteshistory->minute->label}}">
 					<div class="row">
 						<div class="col-md-3">{{$minuteshistory->minute->title}}</div>
 						<div class="col-md-3">{{$minuteshistory->minute->venue}}</div>

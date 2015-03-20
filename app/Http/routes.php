@@ -12,12 +12,13 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-Route::group(['domain' => 'app.localjotter.com'], function()
-{
-	Route::controllers([
+Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 	]);
+Route::group(['domain' => 'app.localjotter.com'], function()
+{
+	
 
     Route::group(['middleware' => 'auth'], function()
 	{
