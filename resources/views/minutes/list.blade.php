@@ -1,5 +1,6 @@
 @extends('user')
 @section('leftcontent')
+@include('minutes.filter')
 	@if($minutes->first())
 	@foreach($minutes as $minute)
 		<?php
@@ -47,7 +48,6 @@
 	        }*/
 		?>
 	@endforeach
-	@include('minutes.filter')
 	<div class="table-responsive scroll_horizontal">          
 	    <table class="table table-bordered">
 	        <tbody>

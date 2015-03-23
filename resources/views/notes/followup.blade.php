@@ -1,5 +1,6 @@
 @extends('user')
 @section('leftcontent')
+@include('filter')
 @if($notes->first())
 @foreach($notes as $note)
 	<?php
@@ -46,7 +47,6 @@
         }
 	?>
 @endforeach
-@include('filter')
 <div class="table-responsive scroll_horizontal">          
     <table class="table table-bordered">
         <tbody>

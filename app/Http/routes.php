@@ -23,6 +23,7 @@ Route::group(['domain' => 'app.localjotter.com'], function()
     Route::group(['middleware' => 'auth'], function()
 	{
 		//Route::get('home', 'HomeController@index');
+		Route::get('profile/{id?}', 'ProfileController@index');
 		Route::get('home', 'NotesController@index');
 		
 		Route::get('minute', 'MinutesController@list_minutes');

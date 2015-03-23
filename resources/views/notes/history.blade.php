@@ -18,7 +18,7 @@
 							{!! nl2br($history->description) !!}
 						</div>
 						<div class="col-md-4 border_top">
-							<a href="" >{!! nl2br($history->createdby->name) !!}
+							<a href="{{ app_url('/profile/') }}" >{!! nl2br($history->createdby->name) !!}
 							<span class="glyphicon glyphicon-user"></span></a>
 						</div>
 					@endforeach
