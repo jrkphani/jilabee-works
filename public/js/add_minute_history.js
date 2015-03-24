@@ -20,7 +20,9 @@ $('#continue_minute').click(function(event) {
                            className:'success',
                            globalPosition:'top center'
                         });
-                        $('#m'+mid).click();
+                        /*$(".minutehistory[mhid='"++"']").click();
+                        $('#m'+mid).click();*/
+                        $('#menuMinutes').click();
                     })
                     .fail(function() {
                     	$.notify('Oops, Something went wrong!',

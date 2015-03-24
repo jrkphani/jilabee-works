@@ -2,65 +2,25 @@
 @section('leftcontent')
 @include('minutes.filter')
 	@if($minutes->first())
-	@foreach($minutes as $minute)
-		<?php
-
-	        if(date('Y-m-d',strtotime($minute->updated_at)) == date('Y-m-d'))
-	        {
-	        	$minuteArr["Today"][] = $minute;
-	        }
-	        else if(date('Y-m-d',strtotime($minute->updated_at)) < date('Y-m-d'))
-	        {
-	        	if(date('W',strtotime($minute->updated_at)) == date('W'))
-		        {
-		        	$minuteArr["This week"][] = $minute;
-		        }
-		        else
-		        {
-		        	if(date('W',strtotime($minute->updated_at)) == date('W')-1)
-		        	{
-		        		$minuteArr["Last week"][] = $minute;	
-		        	}
-		        	else
-		        	{
-		        		$minuteArr["Previous"][] = $minute;	
-		        	}
-		        }
-
-	        }
-	        /*else if(date('Y-m-d',strtotime($minute->updated_at)) > date('Y-m-d'))
-	        {
-	        	if(date('W',strtotime($minute->updated_at)) == date('W'))
-		        {
-		        	$minuteArr["This week"][] = $minute;
-		        }
-		        else
-		        {
-		        	if(date('W',strtotime($minute->updated_at)) == date('W')+1)
-		        	{
-		        		$minuteArr["Next week"][] = $minute;
-		        	}
-		        	else
-		        	{
-		        		$minuteArr["Upcoming"][] = $minute;
-		        	}
-		        }
-	        }*/
-		?>
-	@endforeach
 	<div class="table-responsive scroll_horizontal">          
 	    <table class="table table-bordered">
 	        <tbody>
-	        	@foreach($minuteArr as $key=>$minuterow)
+	        	@foreach($minutes as $minute)
 	        		<tr>
-			        	<td class="rotate_90_left">{{$key}}</td>
+			        	<td style="background-color:{{$minute->label}}">{{$minute->title}}</td>
+			        </tr>
+			        <tr>
 			        	<td>
 			        		<table class="table">
-			        			@foreach($minuterow as $minutecol)
-			        			<tr>
-			        				<td class="date">{{ date("d M",strtotime($minutecol->updated_at)) }}</td>
-						            <td class="minute btn btn-link" id="m{{$minutecol->id }}">{{$minutecol->title}} </td>
-			        			    <td><span class="glyphicon glyphicon-tag" style="color:{{$minutecol->label}};" aria-hidden="true"></span></td>
+			        			@foreach($minute->minute_history()->orderBy('updated_at', 'desc')->get() as $minute_history)
+			        			<tr class="minutehistory" mhid="{{$minute_history->id}}">
+			        				<td class="date">{{ date("d M",strtotime($minute_history->updated_at)) }}</td>
+			        				<td>
+			        					{{ $minute_history->venue }}
+			        					@if($minute_history->lock_flag != 0)
+			        					<span class="glyphicon glyphicon-pencil glyphicon-pencil-animate pull-right"></span>
+			        				@endif
+			        				</td>
 			        			</tr>
 			        			@endforeach
 			        		</table>
@@ -82,7 +42,7 @@
 	$(document).ready(function($)
 		{
 			$('#menuMinutes').addClass('active');
-			$(".minute:first").click();
+			$(".minutehistory:first").click();
     	});
 	</script>
 @stop

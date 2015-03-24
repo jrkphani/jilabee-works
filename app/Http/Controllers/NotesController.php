@@ -136,7 +136,7 @@ class NotesController extends Controller {
 			{
 				$minuteshistory->update(array('lock_flag'=>'0'));
 				$minuteshistory->notes_draft()->delete();
-				return redirect('minute/'.$minuteshistory->mid);
+				return redirect('minutehistory/'.$id);
 			}
 		}
 		else

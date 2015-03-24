@@ -67,7 +67,7 @@
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
-                $(".minute:first").click();
+                $(".minutehistory:first").click();
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',
@@ -82,10 +82,10 @@
             });
             
         });
-        $(document).on('click', '.minute', function(event) {
+        $(document).on('click', '.minutehistory', function(event) {
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/minute/'+$(this).attr('id').replace ( /[^\d.]/g, '' ),
+                url: '/minutehistory/'+$(this).attr('mhid'),
                 type: 'GET',
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
                 //data: $('#notes_form').serialize(),

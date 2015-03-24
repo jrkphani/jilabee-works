@@ -47,7 +47,7 @@
 .scroll_horizontal
 {
 	overflow-y: scroll;
-	max-height: 450px;
+	max-height: 300px;
 	min-height: 200px;
 }
 .margin_top_20

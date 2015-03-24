@@ -82,4 +82,23 @@ class MinutesHistoryController extends Controller {
 		}
 		
 	}
+	public function list_history($mhid)
+	{
+		$minute_history = Minuteshistory::find($mhid);
+		if($minute_history)
+		{
+			if($minute_history->lock_flag == Auth::user()->id)
+			{
+				return redirect('notes/add/'.$mhid);
+			}
+			else
+			{
+				return view('minutes.history',array('minute_history'=>$minute_history));
+			}
+		}
+		else
+		{
+			return abort(403, 'Unauthorized action.');
+		}
+	}
 }

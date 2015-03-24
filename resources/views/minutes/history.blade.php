@@ -1,53 +1,24 @@
 <link href="{{ asset('/css/bootstrap-dialog.min.css') }}" rel="stylesheet">
 <?php $checkMid = NULL; ?>
-@if($minutes)
+@if($minute_history)
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:{{$minutes->label}}">
-				{{$minutes->title}}
-				@if(!$minutes->minute_history()->where('lock_flag','!=','0')->count())
-					<span id="continue_minute" mid="{{$minutes->id}}" class="pull-right btn btn-primary" style="padding:0px">Continue Session</span>
+			<div class="panel-heading" style="background-color:{{$minute_history->minute->label}}">
+				{{$minute_history->minute->title}}
+				@if($minute_history->lock_flag == 0)
+					<span id="continue_minute" mid="{{$minute_history->minute->id}}" class="pull-right btn btn-primary" style="padding:0px">Continue Session</span>
 				@endif
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">       
 				    <table class="table table-hover table-bordered">
 				        <tbody>
-				        	@if($minutes->minute_history()->first())
-				        		@foreach($minutes->minute_history()->orderby('updated_at','desc')->get() as $history)
-				        			<tr>
-				        				<td><table class="table borderless">
-				        					<tr>
-				        					<td>
-					        					<?php $attendees = array_filter(explode(',',$history->attendees)); ?>
-					        					@if($attendees)
-					        					<div class="list-group">
-					        					@foreach($attendees as $userID)
-	  												<a {{-- class="list-group-item" --}} href="">
-	  													<span class="glyphicon glyphicon-user"></span>
-	  													{{App\User::find($userID)->name}}
-	  												</a>
-					        					@endforeach
-					        					</div>
-					        					@endif
-					        				</td>
-					        				<td>{{$history->venue}}</td>
-					        				<td>{{$history->created_at}}</td>
-					        				<td>
-					        					<span class="glyphicon glyphicon-pencil"></span>
-					        					<a href="">{{$history->updatedby->name}}
-					        					<span class="glyphicon glyphicon-user"></span></a>
-					        				</td>
-					        			</tr>
-				        				</table></td>
-				        			</tr>
-				        			
-				        			@if($history->notes()->first())
+				        	@if($minute_history->notes()->first())
 				        			<tr>
 				        				<td>
 				        					<table class="table borderless">
-				        						@foreach($history->notes()->get() as $notes)
+				        						@foreach($minute_history->notes()->orderBy('updated_at', 'desc')->get() as $notes)
 				        						<tr>
 							        				<td>	
 							        					{{$notes->title}}
@@ -57,7 +28,7 @@
 							        				</td>
 							        				<td>
 							        					@if($notes->assignee)
-							        					<a href="">
+							        					<a href="{{ app_url('/profile/').$notes->assignee}}">
 															{{$notes->getassignee->name}}
 															<span class="glyphicon glyphicon-user"></span>
 														</a>
@@ -72,9 +43,6 @@
 						        			</table>
 				        				</td>
 				        			</tr>
-				        			@endif
-				        				
-				        		@endforeach
 				        	@else
 				        	No date to display!
 				        	@endif
