@@ -1,6 +1,6 @@
-<div class="row">
+{{-- <div class="row">
 	<div class="col-md-3 col-md-offset-9"><span class="btn btn-primary" id="addminute">Add</span></div>
-</div>
+</div> --}}
 <div class="row">
 	<div class="col-lg-12">
 	    <div class="input-group">

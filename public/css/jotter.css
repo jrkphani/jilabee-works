@@ -96,3 +96,20 @@ to { -moz-transform: rotate(360deg);}
 .borderless, .borderless td, .borderless th {
     border: none !important;
 }
+#stickynotes_open
+{
+  background-color: #8b8b8b;
+  z-index: 998;
+  position: absolute;
+  right: 14px;
+}
+#stickynotes
+{
+  background-color: #8b8b8b;
+  height: 80%;
+  position: absolute;
+  right: 15px;
+  width: 40%;
+  display: none;
+  z-index: 999;
+}

@@ -1,7 +1,8 @@
-@extends('user')
-@section('rightcontent')
+@extends('master')
+@section('usercontent')
+<div class="container">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading">Add Minute</div>
 				<div class="panel-body">
@@ -36,7 +37,7 @@
 									</div>
 								</div>
 								<div class="col-md-6 col-md-offset-6">
-									<span id ="saveminute" type="submit" class="btn btn-primary">Save</span>
+									<button id ="saveminute" type="submit" class="btn btn-primary">Save</button>
 								</div>
 								{!! Form::close() !!}
 							</div>
@@ -47,4 +48,9 @@
 			</div>
 		</div>
 	</div>
+</div>
 @endsection
+@section('javascript')		
+    <script src="{{ asset('/js/bootstrap-colorpicker.js') }}"></script>
+   	<script src="{{ asset('/js/add_minute.js') }}"></script>
+@stop

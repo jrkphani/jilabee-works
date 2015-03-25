@@ -7,7 +7,9 @@
 	        <tbody>
 	        	@foreach($minutes as $minute)
 	        		<tr>
-			        	<td style="background-color:{{$minute->label}}">{{$minute->title}}</td>
+			        	<td style="background-color:{{$minute->label}}">{{$minute->title}}
+			        		<span mid="{{$minute->id}}" class="add_first_minute pull-right btn btn-primary glyphicon glyphicon-forward"></span>
+			        	</td>
 			        </tr>
 			        <tr>
 			        	<td>
@@ -33,6 +35,7 @@
 	@else
 		No data to display!
 	@endif
+
 @endsection
 
 

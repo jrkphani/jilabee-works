@@ -1,6 +1,8 @@
 <?php namespace App\Services;
 
 use App\User;
+use App\Model\Profile;
+use Auth;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
@@ -18,6 +20,10 @@ class Registrar implements RegistrarContract {
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:6',
+			'role'	=>'required|integer',
+			'phone'	=>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'dob' =>'required|date|date_format:Y-m-d',
+			'gender' =>'required|in:M,F,O',
 		]);
 	}
 
@@ -29,11 +35,22 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
+		$user = User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
 		]);
+		if($user)
+		{
+			$input  = array('dob'=>$data['dob'],
+							'gender'=>$data['gender'],
+							'phone'=>$data['phone'],
+							'created_by'=>Auth::user()->id,
+              				'updated_by'=>Auth::user()->id);
+
+			$profile = new Profile($input);
+			$user->profile()->save($profile);
+		}
 	}
 
 }

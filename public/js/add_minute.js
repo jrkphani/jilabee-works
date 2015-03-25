@@ -10,7 +10,7 @@
 			$('#label').css({'background-color':""});
 		});
 	}
-	$(document).on('click', '#saveminute', function(event) {
+	/*$(document).on('click', '#saveminute', function(event) {
 		event.preventDefault();
 		$.ajax({
 			url: 'minute/add',
@@ -37,4 +37,4 @@
 			console.log("complete");
 		});
 		
-	});
+	});*/

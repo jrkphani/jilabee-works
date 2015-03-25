@@ -128,7 +128,7 @@
                 console.log("complete");
             });
         });
-        $(document).on('click', '#addminute', function(event) {
+        /*$(document).on('click', '#addminute', function(event) {
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
                 url: '/minute/add',
@@ -149,5 +149,10 @@
             })
             .always(function() {
                 console.log("complete");
+            });
+        });*/
+        $(document).on('click', '.add_first_minute', function(event){
+            $.get('/minutehistory/add/'+$(this).attr('mid'), function(data) {
+                $('#content_right').html(data);
             });
         });

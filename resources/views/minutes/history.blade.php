@@ -54,5 +54,3 @@
 	</div>
 </div>
 @endif
-<script src="{{ asset('/js/bootstrap-dialog.min.js') }}"></script>
-<script src="{{ asset('/js/add_minute_history.js') }}"></script>

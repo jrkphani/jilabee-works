@@ -1,4 +1,4 @@
-$('#continue_minute').click(function(event) {
+/*$('#continue_minute, #add_first_minute').click(function(event) {
 	var mid =$(this).attr('mid');
 	 BootstrapDialog.show({
 	 		title: 'Continue Minute',
@@ -20,8 +20,6 @@ $('#continue_minute').click(function(event) {
                            className:'success',
                            globalPosition:'top center'
                         });
-                        /*$(".minutehistory[mhid='"++"']").click();
-                        $('#m'+mid).click();*/
                         $('#menuMinutes').click();
                     })
                     .fail(function() {
@@ -44,4 +42,4 @@ $('#continue_minute').click(function(event) {
                 }
             }]
         });
-});
+});*/

@@ -48,7 +48,31 @@
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
-
+						<div class="form-group">
+							<label class="col-md-4 control-label">Phone</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">DOB</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="dob" value="{{ old('dob') }}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Gender</label>
+							<div class="col-md-6">
+								{!!Form::radio('gender', 'M') !!} Male 
+								{!!Form::radio('gender', 'F') !!} Female
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Role</label>
+							<div class="col-md-6">
+								{!!Form::select('role',array('1'=>'user','2'=>'minute taker','999'=>'admin')) !!}
+							</div>
+						</div>
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">

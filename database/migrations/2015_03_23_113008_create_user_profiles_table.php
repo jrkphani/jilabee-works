@@ -19,6 +19,8 @@ class CreateUserProfilesTable extends Migration {
             $table->integer('uid')->unsigned();
             $table->string('phone',16);
             $table->date('dob');
+            $table->enum('gender', array('M','F','O'));
+            $table->integer('role')->default('1');
             $table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
             $table->timestamps();

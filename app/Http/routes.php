@@ -27,7 +27,9 @@ Route::group(['domain' => 'app.localjotter.com'], function()
 		Route::get('home', 'NotesController@index');
 		
 		Route::get('minute', 'MinutesController@list_minutes');
-		
+		Route::get('minute/add', 'MinutesController@getAdd');
+		Route::post('minute/add', 'MinutesController@postAdd');
+
 		Route::get('notes', 'NotesController@index');
 		
 		
@@ -40,9 +42,6 @@ Route::group(['domain' => 'app.localjotter.com'], function()
 		
 		Route::group(['middleware' => 'onlyajax'], function()
 		{
-
-			Route::get('minute/add', 'MinutesController@getAdd');
-			Route::post('minute/add', 'MinutesController@postAdd');
 			Route::get('minutehistory/{id}', 'MinutesHistoryController@list_history')->where('id', '[0-9]+');;
 			Route::get('minutehistory/add/{id}', 'MinutesHistoryController@getAdd')->where('id', '[0-9]+');;
 			Route::post('minutehistory/add/{id}', 'MinutesHistoryController@postAdd')->where('id', '[0-9]+');;

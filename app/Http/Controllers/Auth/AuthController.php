@@ -4,7 +4,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-
+use Illuminate\Http\Request;
+use Auth;
 class AuthController extends Controller {
 
 	/*
@@ -31,8 +32,40 @@ class AuthController extends Controller {
 	{
 		$this->auth = $auth;
 		$this->registrar = $registrar;
+		$this->middleware('guest', ['except' => ['getRegister','postRegister','getLogout']]);
+	}
+	public function getRegister()
+	{
+		if (Auth::check())
+		{
+			if(Auth::user()->profile->role == '999')
+			{
+				return view('auth.register');		
+			}
+			else
+			{
+				return abort(403, 'Unauthorized action.');
+			}
+			
+		}
+		else
+		{
+			return redirect('/auth/login');
+		}
+		
+	}
+	public function postRegister(Request $request)
+	{
+		$validator = $this->registrar->validator($request->all());
 
-		$this->middleware('guest', ['except' => 'getLogout']);
+		if ($validator->fails())
+		{
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
+		$this->registrar->create($request->all());
+		return redirect('/auth/register')->with('message', 'Registration successfully!');
 	}
 
 }

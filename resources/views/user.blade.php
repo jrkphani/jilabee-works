@@ -6,6 +6,19 @@
 	@extends('master')
 	@section('usercontent')
 	<div class="container">
+		<div class="row" id="stickynotes_open">
+			<div class="col-md-1 btn pull-left">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</div>
+		</div>
+		<div class="row" id="stickynotes">
+			<div class="col-md-1 btn pull-left" id="stickynotes_close">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+			</div>
+			<div id="stickynotes_content" class="col-md-12">
+				@include('stickynotes')
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-4">
 				<div class="row">
@@ -25,7 +38,7 @@
 				</div>
 				
 				<div class="row">
-					<div class="col-md-12  margin_top_20" id="user_left_menu_cont">
+					<div class="col-md-12  margin_top_20 border_right" id="user_left_menu_cont">
 						<!-- Ajax content -->
 						@yield('leftcontent')
 					</div>
@@ -42,7 +55,5 @@
 	    <script src="{{ asset('/js/user.js') }}"></script>
 	    <script src="{{ asset('/js/add_comment.js') }}"></script>
 	    <script src="{{ asset('/js/add_notes.js') }}"></script>
-	    <script src="{{ asset('/js/bootstrap-colorpicker.js') }}"></script>
-    	<script src="{{ asset('/js/add_minute.js') }}"></script>
 	@stop
 @endif
