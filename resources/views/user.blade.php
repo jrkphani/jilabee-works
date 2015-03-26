@@ -55,5 +55,6 @@
 	    <script src="{{ asset('/js/user.js') }}"></script>
 	    <script src="{{ asset('/js/add_comment.js') }}"></script>
 	    <script src="{{ asset('/js/add_notes.js') }}"></script>
+	    <script src="{{ asset('/js/add_minute_history.js') }}"></script>
 	@stop
 @endif

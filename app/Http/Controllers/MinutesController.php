@@ -2,6 +2,7 @@
 use App\Model\Minutes;
 use App\Model\Minuteshistory;
 use App\Model\Notes;
+use App\User;
 use Auth;
 use Request;
 class MinutesController extends Controller {
@@ -39,23 +40,30 @@ class MinutesController extends Controller {
 	public function getAdd()
 	{
 		//print_r(Minutes::all());
-		return view('minutes.add');
+		$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
+		return view('minutes.add',array('users'=>$users));
 	}
 	public function postAdd()
 	{
-		$message = $error = '';
-		$input = Request::only('title', 'label','venue');
+		$input = Request::only('title', 'label','venue','attendees');
+		$validatoin = Minutes::validatoin($input);
+
+		if ($validatoin->fails())
+		{
+			return redirect('minute/add/')->withInput($input)->withErrors($validatoin);
+		}
 		$input['created_by'] = $input['updated_by'] = Auth::user()->id;
+		$input['attendees'] = implode(',', $input['attendees']);
 		if(Minutes::create($input))
 		{
-			$message = "Minute added successfully";
+			return redirect('minute/add/')->with('message', 'Minute added successfully');
 		}
 		else
 		{
-			$error = "Error DB500";
-			return Response::make('Not Found', 404);
+			return redirect('minute/add/')->with('error', 'Oops something went wrong!')
+			->withInput($input)->withErrors($validatoin);
 		}
-		return redirect('/home')->with('message', $message)->with('error', $error);
+		
 	}
 	public function list_minutes()
 	{

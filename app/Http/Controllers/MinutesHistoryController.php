@@ -60,26 +60,33 @@ class MinutesHistoryController extends Controller {
 	}
 	public function getAdd($id)
 	{
-		$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
+		//$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
 		$minutes = Minutes::find($id);
-		return view('minutes.add_history',array('minutes'=>$minutes,'users'=>$users));
+		return view('minutes.add_history',array('minutes'=>$minutes));
 		
 	}
 	public function postAdd($id)
 	{
 		$input = Request::only('venue','attendees');
+		$validatoin = Minuteshistory::validatoin($input);
+
+		if ($validatoin->fails())
+		{
+			return redirect('minutehistory/add/'.$id)->withInput($input)->withErrors($validatoin);
+		}
 		$input['attendees'] = implode(',', $input['attendees']);
 		$input['lock_flag']=$input['created_by']=$input['updated_by']=Auth::user()->id;
 		if(Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->count())
 		{
-			Minuteshistory::where('mid','=',$id)->update($input);
+			$result = Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->update($input);
 		}
 		else
 		{
 			$record = new Minuteshistory($input);
 			$minutes = Minutes::find($id);
-			$minutes->minute_history()->save($record);	
+			$result = $minutes->minute_history()->save($record);
 		}
+		return redirect('notes/add/'.$result->id);
 		
 	}
 	public function list_history($mhid)

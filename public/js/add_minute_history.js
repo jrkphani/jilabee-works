@@ -43,3 +43,26 @@
             }]
         });
 });*/
+
+$(document).on('click', '#continue_minute', function(event) {
+    event.preventDefault();
+    $.ajax({
+        url: '/minutehistory/add/'+$(this).attr('mid'),
+        type: 'POST',
+        dataType: 'html',
+        data: $('#minute_history_form').serialize(),
+    })
+    .done(function(output) {
+        $('#content_right').html(output);
+    })
+    .fail(function() {
+        $.notify('Oops, Something went wrong!',
+        {
+           className:'error',
+           globalPosition:'top center'
+        });
+    })
+    .always(function() {
+        // console.log("complete");
+    });
+});

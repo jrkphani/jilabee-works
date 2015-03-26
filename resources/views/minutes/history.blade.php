@@ -7,7 +7,7 @@
 			<div class="panel-heading" style="background-color:{{$minute_history->minute->label}}">
 				{{$minute_history->minute->title}}
 				@if($minute_history->lock_flag == 0)
-					<span id="continue_minute" mid="{{$minute_history->minute->id}}" class="pull-right btn btn-primary" style="padding:0px">Continue Session</span>
+					<span mid="{{$minute_history->minute->id}}" class="pull-right btn btn-primary add_next_minute" style="padding:0px">Continue Session</span>
 				@endif
 			</div>
 			<div class="panel-body">

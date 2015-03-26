@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 class Minuteshistory extends Model{
 	/**
 	 * The database table used by the model.
@@ -34,10 +35,9 @@ class Minuteshistory extends Model{
     {
         return $this->hasMany('App\Model\Notesdraft','mhid','id');
     }
-    public function attendees_name()
+    public static function validatoin($data)
     {
-        return "happy";
-        //return $this->hasMany('App\Model\Notesdraft','mhid','id');
+        $rule = array('attendees'=>'required','venue'=>'max:64');
+        return Validator::make($data,$rule);
     }
-
 }

@@ -151,7 +151,7 @@
                 console.log("complete");
             });
         });*/
-        $(document).on('click', '.add_first_minute', function(event){
+        $(document).on('click', '.add_next_minute', function(event){
             $.get('/minutehistory/add/'+$(this).attr('mid'), function(data) {
                 $('#content_right').html(data);
             });

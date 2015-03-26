@@ -8,7 +8,9 @@
 	        	@foreach($minutes as $minute)
 	        		<tr>
 			        	<td style="background-color:{{$minute->label}}">{{$minute->title}}
-			        		<span mid="{{$minute->id}}" class="add_first_minute pull-right btn btn-primary glyphicon glyphicon-forward"></span>
+			        		@if(!$minute->minute_history()->where('lock_flag','!=','0')->count())
+			        		<span mid="{{$minute->id}}" class="add_next_minute pull-right btn btn-primary glyphicon glyphicon-forward"></span>
+			        		@endif
 			        	</td>
 			        </tr>
 			        <tr>

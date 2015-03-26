@@ -6,8 +6,8 @@
 				<div class="panel-heading" style="background-color:{{$minuteshistory->minute->label}}">
 					<div class="row">
 						<div class="col-md-3">{{$minuteshistory->minute->title}}</div>
-						<div class="col-md-3">{{$minuteshistory->minute->venue}}</div>
-						<div class="col-md-3">{{$minuteshistory->minute->created_at}}</div>
+						<div class="col-md-3">{{$minuteshistory->venue}}</div>
+						<div class="col-md-3">{{$minuteshistory->created_at}}</div>
 						<div class="col-md-3">
 							<span class="glyphicon glyphicon-pencil"></span>
 							<a href="">
@@ -15,13 +15,29 @@
 	  							<span class="glyphicon glyphicon-user"></span>
 	  						</a>
 						</div>
-						<?php $attendees = array_filter(explode(',',$minuteshistory->attendees)); ?>
+						<?php
+						$attendees = App\User::whereIn('id',explode(',', $minuteshistory->attendees))
+							->lists('name','id');
+						$absentes = App\User::whereIn('id',array_diff(explode(',', $minuteshistory->minute->attendees),
+							explode(',', $minuteshistory->attendees)))
+							->lists('name','id');
+						?>
 					     @if($attendees)
-						<div class="list-group col-md-12 margin_top_20">
-					    	@foreach($attendees as $userID)
+						<div class="list-group alert alert-success col-md-12 margin_top_20">
+					    	@foreach($attendees as $key=>$value)
 	  							<a {{-- class="list-group-item" --}} href="">
 	  								<span class="glyphicon glyphicon-user"></span>
-	  								{{App\User::find($userID)->name}}
+	  								{{$value}}
+	  							</a>
+					    	@endforeach
+					    </div>
+					    @endif
+					    @if($absentes)
+						<div class="list-group alert alert-danger col-md-12 ">
+					    	@foreach($absentes as $key=>$value)
+	  							<a {{-- class="list-group-item" --}} href="">
+	  								<span class="glyphicon glyphicon-user"></span>
+	  								{{$value}}
 	  							</a>
 					    	@endforeach
 					    </div>
