@@ -100,7 +100,7 @@ class MinutesHistoryController extends Controller {
 			}
 			else
 			{
-				return view('minutes.history',array('minute_history'=>$minute_history));
+				return view('minutes.history',array('minuteshistory'=>$minute_history));
 			}
 		}
 		else
