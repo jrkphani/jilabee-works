@@ -138,17 +138,50 @@
         $.ajax({
             url: '/stickynotes',
             type: 'POST',
-            dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+            //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
             data: $('#sticknotes_form').serialize(),
-        })
-        .done(function() {
-            console.log("success");
-        })
-        .fail(function() {
-            console.log("error");
-        })
-        .always(function() {
-            console.log("complete");
-        });
+            })
+            .done(function(data) {
+                $('#stickynotes_content').html(data);
+                $.notify('Minute saved!',
+                {
+                    className:'success',
+                    globalPosition:'top center'
+                });
+            })
+            .fail(function() {
+                $.notify('Oops, Something went wrong!',
+                {
+                   className:'error',
+                   globalPosition:'top center'
+                });
+            })
+            .always(function() {
+            });
+        
+    });
+    $('#stickynotes_content').on('click', '.removeSticky', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/stickynotes/remove/'+$(this).attr('sid'),
+            type: 'GET',
+            })
+            .done(function(data) {
+                $('#stickynotes_content').html(data);
+                $.notify('Removed successfully !',
+                {
+                    className:'success',
+                    globalPosition:'top center'
+                });
+            })
+            .fail(function() {
+                $.notify('Oops, Something went wrong!',
+                {
+                   className:'error',
+                   globalPosition:'top center'
+                });
+            })
+            .always(function() {
+            });
         
     });

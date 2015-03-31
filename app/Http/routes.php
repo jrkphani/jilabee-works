@@ -54,6 +54,10 @@ Route::controllers([
 			Route::get('notes/add/{id}', 'NotesController@getAdd')->where('id', '[0-9]+');
 
 			Route::get('user/search', 'ProfileController@findUser');
+
+			Route::get('stickynotes', 'SticknotesController@index');
+			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove');
+			Route::post('stickynotes', 'SticknotesController@postData');		
 		});
 	});
 

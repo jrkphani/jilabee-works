@@ -32,13 +32,38 @@ class SticknotesController extends Controller {
 	 */
 	public function index($uid=NULL)
 	{
-		$result = Stickynotes::where('created_by',Auth::id())->get();
+		$result = Stickynotes::where('created_by',Auth::id())->orderBy('updated_at','DESC')->get();
 		return view('stickynotes',['stickynotes'=>$result]);
 	}
-	public function postData()
+	public function postData($id=NULL)
 	{	 
-		$input = Request::only('stick_text');
+		$input = Request::only('description');
+		$input['description'] = nl2br($input['description']);
+		$input['updated_by'] = Auth::id();
+		if($id)
+		{
+			//update
+		}
+		else
+		{
+			//add new
+			$input['created_by'] = Auth::id();
+			if(Stickynotes::create($input))
+			{
+				return redirect('stickynotes');	
+			}
+			else
+			{
+				return redirect('stickynotes')->withInput();	
+			}
+			
+		}
 		
+	}
+	public function remove($id)
+	{
+		Stickynotes::where('id', '=', $id)->where('created_by','=',Auth::id())->delete();
+		return redirect('stickynotes');
 	}
 
 }
