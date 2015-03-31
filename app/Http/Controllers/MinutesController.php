@@ -69,7 +69,9 @@ class MinutesController extends Controller {
 	}
 	public function list_minutes()
 	{
-		$minutes = Minutes::orderBy('updated_at', 'desc')->get();
+		$uid = Auth::id();
+		$minutes = Minutes::whereRaw('FIND_IN_SET('.$uid.',attendees)')->orWhereRaw('FIND_IN_SET('.$uid.',minuters)')->get();
+		//$minutes = Minutes::orderBy('updated_at', 'desc')->get();
 		//print_r($minutes); die;
 		return view('minutes.list',array('minutes'=>$minutes));
 	}

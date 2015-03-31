@@ -44,7 +44,7 @@
 					    </div>
 					    @endif
 					</div>
-				@if($minuteshistory->lock_flag == 0)
+				@if($minuteshistory->minute->hasPermissoin())
 				<div class="col-md-12">
 					<span mid="{{$minuteshistory->minute->id}}" class="pull-right btn btn-primary add_next_minute" style="padding:0px">Continue Session</span>
 				</div>

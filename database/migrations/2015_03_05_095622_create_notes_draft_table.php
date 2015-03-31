@@ -17,7 +17,7 @@ class CreateNotesDraftTable extends Migration {
 			$table->integer('mhid')->unsigned();
 			$table->string('title');
 			$table->mediumText('description');
-			$table->string('assignee','64');
+			$table->string('assignee','64')->nullable();
 			$table->string('assigner','64')->nullable();
 			//$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
 			$table->dateTime('due')->nullable();
@@ -27,7 +27,6 @@ class CreateNotesDraftTable extends Migration {
 		Schema::table('notes_draft', function(Blueprint $table)
 		{
 			$table->foreign('mhid')->references('id')->on('minutes_history')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('assignee')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}

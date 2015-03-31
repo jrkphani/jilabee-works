@@ -13,7 +13,7 @@ class Notes extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title', 'description','assignee','status','priority','due','created_by','updated_by'];
+	protected $fillable = ['title', 'description','assignee','status','assigner','due','created_by','updated_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\User', 'id', 'created_by');

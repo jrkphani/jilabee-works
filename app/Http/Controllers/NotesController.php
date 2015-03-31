@@ -59,7 +59,8 @@ class NotesController extends Controller {
 		{
 			if($minuteshistory->lock_flag == Auth::user()->id)
 			{
-				$users = User::lists('name','id');
+				//$users = User::lists('name','id');
+				$users = User::whereIn('id',explode(',', $minuteshistory->attendees))->lists('name','id');
 				return view('notes.add',['minuteshistory'=>$minuteshistory,'users'=>$users]);	
 			}
 			else
@@ -88,13 +89,15 @@ class NotesController extends Controller {
 	{
 
 		$message = $error = '';
-		$input = Request::only('title', 'description','assignee','priority','due');
+		$input = Request::only('title', 'description','assignee','assigner','due');
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
 			$tempArr['title'] = trim($input['title'][$i]);
 			$tempArr['description'] = trim($input['description'][$i]);
 			$tempArr['assignee'] = $input['assignee'][$i];
+			$tempArr['assigner'] = $input['assigner'][$i];
+			$tempArr['due'] = $input['due'][$i];
 			$tempArr['created_by'] = Auth::user()->id;
 			if(($tempArr['title']) && ($tempArr['description']))
 			$records[] = new Notesdraft(array_filter($tempArr));
@@ -116,13 +119,15 @@ class NotesController extends Controller {
 	public function postAdd($id)
 	{
 		$message = $error = '';
-		$input = Request::only('title', 'description','assignee','priority','due');
+		$input = Request::only('title', 'description','assignee','assigner','due');
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
 			$tempArr['title'] = trim($input['title'][$i]);
 			$tempArr['description'] = trim($input['description'][$i]);
 			$tempArr['assignee'] = $input['assignee'][$i];
+			$tempArr['assigner'] = $input['assigner'][$i];
+			$tempArr['due'] = $input['due'][$i];
 			$tempArr['created_by'] = $tempArr['updated_by'] = Auth::user()->id;
 			if(($tempArr['title']) && ($tempArr['description']))
 			$records[] = new Notes(array_filter($tempArr));
@@ -130,8 +135,7 @@ class NotesController extends Controller {
 		//print_r($records); die;
 		if($records)
 		{
-			$minuteshistory = Minuteshistory::find($id);
-			//$minuteshistory = Minuteshistory::where('id','=',$id)->where('lock_flag','=',Auth::user()->id)->first();			
+			$minuteshistory = Minuteshistory::find($id);		
 			if($minuteshistory->notes()->saveMany($records))
 			{
 				$minuteshistory->update(array('lock_flag'=>'0'));
@@ -165,7 +169,7 @@ class NotesController extends Controller {
 		}
 		else
 		{
-			$notes = Notes::where('created_by','=',Auth::user()->id)
+			$notes = Notes::where('assigner','=',Auth::user()->id)
 				->where('status','!=','close')
 				->orderBy('due')->paginate(15);;
 		}

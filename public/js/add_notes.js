@@ -13,10 +13,14 @@ $(document).ready(function($) {
 		        	className:'success',
 		            globalPosition:'top center'
 		          });
-			$('#add_more').click();
+			//$('#add_more').click();
 		})
 		.fail(function() {
-			console.log("error");
+			$.notify('Oops, Something went wrong!',
+	        {
+	           className:'error',
+	           globalPosition:'top center'
+	        });
 		})
 		.always(function() {
 			console.log("complete");
@@ -31,15 +35,19 @@ $(document).ready(function($) {
 			data: $('#notes_form').serialize(),
 		})
 		.done(function(output) {
-			$.notify('Saved !',
+			/*$.notify('Saved !',
 		    	{
 		        	className:'success',
 		            globalPosition:'top center'
-		          });
+		          });*/
 			$('#content_right').html(output);
 		})
 		.fail(function() {
-			console.log("error");
+			$.notify('Oops, Something went wrong!',
+	        {
+	           className:'error',
+	           globalPosition:'top center'
+	        });
 		})
 		.always(function() {
 			console.log("complete");

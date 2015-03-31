@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading" style="background-color:{{$minuteshistory->minute->label}}">
+				<div class="panel-heading" {{-- style="background-color:{{$minuteshistory->minute->label}}" --}}>
 					<div class="row">
 						<div class="col-md-3">{{$minuteshistory->minute->title}}</div>
 						<div class="col-md-3">{{$minuteshistory->venue}}</div>
@@ -18,8 +18,7 @@
 						<?php
 						$attendees = App\User::whereIn('id',explode(',', $minuteshistory->attendees))
 							->lists('name','id');
-						$absentes = App\User::whereIn('id',array_diff(explode(',', $minuteshistory->minute->attendees),
-							explode(',', $minuteshistory->attendees)))
+						$absentees = App\User::whereIn('id',explode(',', $minuteshistory->absentees))
 							->lists('name','id');
 						?>
 					     @if($attendees)
@@ -32,9 +31,9 @@
 					    	@endforeach
 					    </div>
 					    @endif
-					    @if($absentes)
+					    @if($absentees)
 						<div class="list-group alert alert-danger col-md-12 ">
-					    	@foreach($absentes as $key=>$value)
+					    	@foreach($absentees as $key=>$value)
 	  							<a {{-- class="list-group-item" --}} href="">
 	  								<span class="glyphicon glyphicon-user"></span>
 	  								{{$value}}
@@ -73,21 +72,18 @@
 										</div>
 										<div class="col-md-3">
 											<div class="row">
-												<div class="col-md-8">
+												<div class="col-md-10">
 													<div class="form-group">
 														<div class="col-md-12">
-															{!! Form::select('assignee[]',array('Assingee')+$users, $notes->assignee,array('class'=>"form-control",'autocomplete'=>'off')) !!}
-															{{-- <select class="form-control" name="assignee[]" autocomplete="off">
-																<option value="">Assingee</option>
-																@foreach($users as $user)
-																	<option value="{{$user->id}}">{{$user->name}}</option>
-																@endforeach
-															</select> --}}
+															{!! Form::select('assignee[]',array('Assingee')+$users, explode(',',$notes->assignee),array('class'=>"form-control",'autocomplete'=>'off')) !!}
+														</div>
+														<div class="col-md-12">
+															{!! Form::select('assigner[]',array('Assinger')+$users, explode(',',$notes->assigner),array('class'=>"form-control",'autocomplete'=>'off')) !!}
 														</div>
 													</div>
 
 												</div>
-												<div class="col-md-4 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
+												<div class="col-md-2 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
 											</div>
 										</div>
 									</div>
@@ -117,15 +113,18 @@
 						</div>
 						<div class="col-md-3">
 							<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-10">
 									<div class="form-group">
 										<div class="col-md-12">
 											{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 										</div>
+										<div class="col-md-12">
+											{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+										</div>
 									</div>
 
 								</div>
-								<div class="col-md-4 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
+								<div class="col-md-2 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
 							</div>
 						</div>
 					</div>
@@ -176,15 +175,18 @@
 						</div>
 						<div class="col-md-3">
 							<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-10">
 									<div class="form-group">
 										<div class="col-md-12">
 											{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 										</div>
+										<div class="col-md-12">
+											{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+										</div>
 									</div>
 
 								</div>
-								<div class="col-md-4 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
+								<div class="col-md-2 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
 							</div>
 						</div>
 					</div>

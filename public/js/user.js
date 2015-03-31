@@ -11,7 +11,7 @@
     		})
     		.done(function(output) {
     			$('#user_left_menu_cont').html(output);
-                 $(".note:first").click();
+                 $("#user_left_menu_cont .note:first").click();
     		})
     		.fail(function() {
     			$.notify('Oops, Something went wrong!',
