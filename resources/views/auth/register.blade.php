@@ -70,7 +70,7 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">Role</label>
 							<div class="col-md-6">
-								{!!Form::select('role',array('1'=>'user','2'=>'minute taker','999'=>'admin')) !!}
+								{!!Form::select('role',array('1'=>'user','999'=>'admin')) !!}
 							</div>
 						</div>
 						<div class="form-group">

@@ -14,7 +14,7 @@ class Minuteshistory extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['mid','lock_flag','attendees','venue','created_by','updated_by'];
+	protected $fillable = ['mid','lock_flag','attendees','absentees','venue','created_by','updated_by'];
 	public function minute()
     {	
         return $this->hasOne('App\Model\Minutes', 'id', 'mid');

@@ -62,31 +62,55 @@ class MinutesHistoryController extends Controller {
 	{
 		//$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
 		$minutes = Minutes::find($id);
-		return view('minutes.add_history',array('minutes'=>$minutes));
+		if($minutes->hasPermissoin())
+		{
+			if($minute_history = $minutes->minute_history()->where('lock_flag','!=','0')->count())
+			{
+				return redirect('notes/add/'.$minutes->minute_history()->where('lock_flag','!=','0')->first()->id);
+			}
+			return view('minutes.add_history',array('minutes'=>$minutes));
+		}
+		else
+		{
+			return abort(403, 'Unauthorized action.');
+		}
+		
 		
 	}
 	public function postAdd($id)
 	{
-		$input = Request::only('venue','attendees');
-		$validatoin = Minuteshistory::validatoin($input);
+		$minutes = Minutes::find($id);
+		if($minutes->hasPermissoin())
+		{
+			$input = Request::only('venue','attendees');
+			$validatoin = Minuteshistory::validatoin($input);
 
-		if ($validatoin->fails())
-		{
-			return redirect('minutehistory/add/'.$id)->withInput($input)->withErrors($validatoin);
-		}
-		$input['attendees'] = implode(',', $input['attendees']);
-		$input['lock_flag']=$input['created_by']=$input['updated_by']=Auth::user()->id;
-		if(Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->count())
-		{
-			$result = Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->update($input);
+			if ($validatoin->fails())
+			{
+				return redirect('minutehistory/add/'.$id)->withInput($input)->withErrors($validatoin);
+			}
+			$attendeesList =  array_merge(explode(',', $minutes->attendees),explode(',', $minutes->minuters));
+			$input['attendees'][] = Auth::user()->id;
+			$absentees = array_diff($attendeesList, $input['attendees']);
+			$input['attendees'] = implode(',', $input['attendees']);
+			$input['absentees'] = implode(',', $absentees);
+			$input['lock_flag']=$input['created_by']=$input['updated_by']=Auth::user()->id;
+			if(Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->count())
+			{
+				$result = Minuteshistory::where('mid','=',$id)->where('lock_flag','=',Auth::user()->id)->update($input);
+			}
+			else
+			{
+				$record = new Minuteshistory($input);
+				$result = $minutes->minute_history()->save($record);
+			}
+			return redirect('notes/add/'.$result->id);
 		}
 		else
 		{
-			$record = new Minuteshistory($input);
-			$minutes = Minutes::find($id);
-			$result = $minutes->minute_history()->save($record);
+			return abort(403, 'Unauthorized action.');
 		}
-		return redirect('notes/add/'.$result->id);
+		
 		
 	}
 	public function list_history($mhid)

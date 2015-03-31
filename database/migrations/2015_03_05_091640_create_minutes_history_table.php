@@ -17,7 +17,8 @@ class CreateMinutesHistoryTable extends Migration {
 			$table->increments('id');
 			$table->integer('mid')->unsigned();
 			$table->string('venue','64')->nullable();
-			$table->string('attendees');
+			$table->string('attendees','64');
+			$table->string('absentees','64')->nullable();
 			$table->integer('lock_flag')->nullable()->unsigned()->default(0);
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();

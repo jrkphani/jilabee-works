@@ -42,9 +42,34 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
-									{!! Form::select('attendees[]',$users,'',array('class'=>"form-control",'autocomplete'=>'off','multiple'=>'multiple')) !!}
+								<div class="col-md-6" >
+									
+									{!! Form::text('','',array('class'=>"form-control",'placeholder'=>'Select Minuter','autocomplete'=>'off','id'=>'searchMinuter')) !!}
+									{!! $errors->first('minuters', '<span class="error">:message</span>') !!}
+									<div id="selected_minuter" class="col-md-12" >
+										<h5>Minuters</h5>
+										@if(Session::has('minuters'))
+											@foreach(Session::get('minuters') as $key => $value)
+												<div class="col-md-6 attendees" id="u{{$value}}">
+													<input type="hidden" name="minuters[]" value="{{$value}}">{{App\User::find($value)->name}}<span class="removeParent btn glyphicon glyphicon-trash"></span>
+												</div>
+											@endforeach
+										@endif
+									</div>
+
+									
+									{!! Form::text('','',array('class'=>"form-control",'placeholder'=>'Select Attendees','autocomplete'=>'off','id'=>'searchUser')) !!}
 									{!! $errors->first('attendees', '<span class="error">:message</span>') !!}
+									<div id="selected_attendees" class="col-md-12" >
+										<h5>Attendees</h5>
+										@if(Session::has('attendees'))
+											@foreach(Session::get('attendees') as $key => $value)
+												<div class="col-md-6 attendees" id="u{{$value}}">
+													<input type="hidden" name="attendees[]" value="{{$value}}">{{App\User::find($value)->name}}<span class="removeParent btn glyphicon glyphicon-trash"></span>
+												</div>
+											@endforeach
+										@endif
+									</div>
 								</div>
 								
 								<div class="col-md-6 col-md-offset-6">
@@ -63,5 +88,9 @@
 @endsection
 @section('javascript')		
     <script src="{{ asset('/js/bootstrap-colorpicker.js') }}"></script>
+   	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
    	<script src="{{ asset('/js/add_minute.js') }}"></script>
+@stop
+@section('css')		
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 @stop

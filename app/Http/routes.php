@@ -16,8 +16,9 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 	]);
-Route::group(['domain' => 'app.localjotter.com'], function()
-{
+//uncomment  domain group routing after fixing multi domain seesoin works 
+//Route::group(['domain' => 'app.localjotter.com'], function()
+//{
 	
 
     Route::group(['middleware' => 'auth'], function()
@@ -51,7 +52,9 @@ Route::group(['domain' => 'app.localjotter.com'], function()
 			Route::post('notes/draft/{id}', 'NotesController@postDraft')->where('id', '[0-9]+');
 			Route::post('notes/add/{id}', 'NotesController@postAdd')->where('id', '[0-9]+');
 			Route::get('notes/add/{id}', 'NotesController@getAdd')->where('id', '[0-9]+');
+
+			Route::get('user/search', 'ProfileController@findUser');
 		});
 	});
 
-});
+//});

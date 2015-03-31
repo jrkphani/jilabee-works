@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 use Auth;
 use App\User;
+use Request;
 class ProfileController extends Controller {
 
 	/*
@@ -40,6 +41,12 @@ class ProfileController extends Controller {
 			$user = Auth::user();
 		}
 		return view('auth.profile',array('user'=>$user));
+	}
+	public function findUser()
+	{	 
+		$input = Request::only('term');
+		$list = User::select('id','name as value')->where('name','LIKE','%'.$input['term'].'%')->get();
+		return response()->json($list);
 	}
 
 }

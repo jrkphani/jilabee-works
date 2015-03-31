@@ -17,7 +17,8 @@ class CreateMinutesTable extends Migration {
 			$table->increments('id');
 			$table->string('title');
 			$table->string('venue','64')->nullable();
-			$table->string('attendees');
+			$table->string('attendees','64');
+			$table->string('minuters','64');
 			$table->string('label',8)->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();

@@ -10,6 +10,35 @@
 			$('#label').css({'background-color':""});
 		});
 	}
+	$(document).ready(function(){
+		$( "#searchUser" ).autocomplete({
+			source: "/user/search",
+			minLength: 2,
+			select: function( event, ui ) {
+
+				insert = '<div class="col-md-6 attendees" id=u"'+ui.item.id+'"><input type="hidden" name="attendees[]" value="'+ui.item.id+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+				$('#selected_attendees').append(insert);
+				$(this).val("");
+    			return false;
+			}
+			});
+		$( "#searchMinuter" ).autocomplete({
+			source: "/user/search",
+			minLength: 2,
+			select: function( event, ui ) {
+
+				insert = '<div class="col-md-6 attendees" id=u"'+ui.item.id+'"><input type="hidden" name="minuters[]" value="'+ui.item.id+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+				$('#selected_minuter').append(insert);
+				$(this).val("");
+    			return false;
+			}
+			});
+		$('#selected_minuter, #selected_attendees').on('click', '.removeParent', function(event) {
+			$(this).parent( ".attendees" ).remove();
+		});
+	});
+
+
 	/*$(document).on('click', '#saveminute', function(event) {
 		event.preventDefault();
 		$.ajax({

@@ -18,9 +18,10 @@ class CreateNotesTable extends Migration {
 			$table->integer('mhid')->unsigned();
 			$table->string('title');
 			$table->mediumText('description');
-			$table->integer('assignee')->unsigned()->nullable();
-			$table->enum('status', array('open', 'close','expired','timeout','failed'))->default('open');
-			$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
+			$table->string('assignee','64');
+			$table->string('assigner','64')->nullable();
+			$table->enum('status', array('waiting','rejected','open', 'close','expired','timeout','failed'))->default('waiting');
+			//$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
 			$table->dateTime('due')->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
@@ -29,8 +30,7 @@ class CreateNotesTable extends Migration {
 		});
 		Schema::table('notes', function(Blueprint $table)
 		{
-			$table->foreign('mhid')->references('id')->on('minutes_history')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('assignee')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('mhid')->references('id')->on('minutes_history')->onDelete('restrict')->onUpdate('cascade');			
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});

@@ -158,9 +158,18 @@ class NotesController extends Controller {
 	{
 		$input = Request::only('sortby','filterby');
 		//get all notes assinged by current user
-		$notes = Notes::where('created_by','=',Auth::user()->id)
+		if(Auth::user()->profile->role == '999')
+		{
+			$notes = Notes::where('status','!=','close')
+				->orderBy('due')->paginate(15);;
+		}
+		else
+		{
+			$notes = Notes::where('created_by','=',Auth::user()->id)
 				->where('status','!=','close')
 				->orderBy('due')->paginate(15);;
+		}
+		
 		return view('notes.followup',array('notes'=>$notes,'input'=>$input));
 	}
 

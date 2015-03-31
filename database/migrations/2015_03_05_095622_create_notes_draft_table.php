@@ -17,8 +17,9 @@ class CreateNotesDraftTable extends Migration {
 			$table->integer('mhid')->unsigned();
 			$table->string('title');
 			$table->mediumText('description');
-			$table->integer('assignee')->unsigned()->nullable();
-			$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
+			$table->string('assignee','64');
+			$table->string('assigner','64')->nullable();
+			//$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
 			$table->dateTime('due')->nullable();
 			$table->integer('created_by')->unsigned();
         	$table->timestamps();

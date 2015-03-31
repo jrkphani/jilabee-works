@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="panel panel-default">
-		<div class="panel-heading"  style="background-color:{{$minutes->label}}">Continue {{$minutes->title}}</div>
+		<div class="panel-heading"  {{-- style="background-color:{{$minutes->label}}" --}}>Continue {{$minutes->title}}</div>
 		<div class="panel-body">
 			{!! Form::open(array('class'=>'form-horizontal','method'=>'POST','role'=>'form', 'id'=>'minute_history_form')) !!}
 			<div class="col-md-4">
@@ -17,8 +17,9 @@
 					<label class="col-md-4 control-label">Attendees</label>
 					<div class="col-md-8">
 						<?php
+							$uids = array_merge(explode(',', $minutes->attendees),explode(',', $minutes->minuters));
 							$users = App\User::where('id','!=',Auth::user()->id)
-							->whereIn('id',explode(',', $minutes->attendees))
+							->whereIn('id',$uids)
 							->lists('name','id');
 						?>
 						@foreach($users as $key=>$value)

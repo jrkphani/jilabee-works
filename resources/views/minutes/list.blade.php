@@ -7,9 +7,11 @@
 	        <tbody>
 	        	@foreach($minutes as $minute)
 	        		<tr>
-			        	<td style="background-color:{{$minute->label}}">{{$minute->title}}
-			        		@if(!$minute->minute_history()->where('lock_flag','!=','0')->count())
-			        		<span mid="{{$minute->id}}" class="add_next_minute pull-right btn btn-primary glyphicon glyphicon-forward"></span>
+			        	<td {{-- style="background-color:{{$minute->label}}" --}}>{{$minute->title}}
+			        		@if($minute->hasPermissoin())
+				        		@if(!$minute->minute_history()->where('lock_flag','!=','0')->count())
+				        		<span mid="{{$minute->id}}" class="add_next_minute pull-right btn btn-primary glyphicon glyphicon-forward"></span>
+				        		@endif
 			        		@endif
 			        	</td>
 			        </tr>
