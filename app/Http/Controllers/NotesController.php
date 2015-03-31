@@ -118,7 +118,7 @@ class NotesController extends Controller {
 	}
 	public function postAdd($id)
 	{
-		$message = $error = '';
+		//validation has to be done
 		$input = Request::only('title', 'description','assignee','assigner','due');
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)

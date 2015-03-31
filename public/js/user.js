@@ -128,31 +128,27 @@
                 console.log("complete");
             });
         });
-        /*$(document).on('click', '#addminute', function(event) {
-            $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
-            $.ajax({
-                url: '/minute/add',
-                type: 'GET',
-                //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-                //data: $('#notes_form').serialize(),
-            })
-            .done(function(output) {
-                $('#content_right').html(output);
-            })
-            .fail(function() {
-                $.notify('Oops, Something went wrong!',
-                {
-                   className:'error',
-                   globalPosition:'top center'
-                });
-                $('#content_right').html('No data to display!');
-            })
-            .always(function() {
-                console.log("complete");
-            });
-        });*/
         $(document).on('click', '.add_next_minute', function(event){
             $.get('/minutehistory/add/'+$(this).attr('mid'), function(data) {
                 $('#content_right').html(data);
             });
         });
+    $('#stickynotes_content').on('click', '#add_stick_notes', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/stickynotes',
+            type: 'POST',
+            dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+            data: $('#sticknotes_form').serialize(),
+        })
+        .done(function() {
+            console.log("success");
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+    });

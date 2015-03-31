@@ -16,7 +16,7 @@
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</div>
 			<div id="stickynotes_content" class="col-md-12">
-				@include('stickynotes')
+				@include('stickynotes',['stickynotes'=>App\Model\Stickynotes::where('created_by',Auth::id())->get()])
 			</div>
 		</div>
 		<div class="row">
