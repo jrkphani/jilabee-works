@@ -60,6 +60,7 @@
 								@if(Auth::user()->profile->role == '999')
 									<li><a href="{{ app_url('/auth/register') }}">Add User</a></li>
 									<li><a href="{{ app_url('/minute/add') }}">Add Minute</a></li>
+									<li><a href="{{ app_url('/userlist') }}">Users</a></li>
 								@endif
 								<li><a href="{{ app_url('/auth/logout') }}">Logout</a></li>
 							</ul>

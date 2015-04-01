@@ -28,8 +28,7 @@ Route::controllers([
 		Route::get('home', 'NotesController@index');
 		
 		Route::get('minute', 'MinutesController@list_minutes');
-		Route::get('minute/add', 'MinutesController@getAdd');
-		Route::post('minute/add', 'MinutesController@postAdd');
+		
 
 		Route::get('notes', 'NotesController@index');
 		
@@ -38,14 +37,24 @@ Route::controllers([
 
 		// Route::get('minute', 'MinutesController@list_minutes');
 		// Route::get('minute/{id}', 'MinutesController@list_history')->where('id', '[0-9]+');
-
+		Route::group(['middleware' => 'admin'], function()
+		{
+			Route::get('minute/add', 'MinutesController@getAdd');
+			Route::post('minute/add', 'MinutesController@postAdd');
+			Route::get('userlist', 'ProfileController@userlist');
+			Route::bind('userid', function($uid){
+				return App\User::find($uid);
+			});
+			Route::get('edit/user/{userid}', 'ProfileController@getuser');
+			Route::post('edit/user/{userid}', 'ProfileController@postuser');
+		});
 		
 		
 		Route::group(['middleware' => 'onlyajax'], function()
 		{
-			Route::get('minutehistory/{id}', 'MinutesHistoryController@list_history')->where('id', '[0-9]+');;
-			Route::get('minutehistory/add/{id}', 'MinutesHistoryController@getAdd')->where('id', '[0-9]+');;
-			Route::post('minutehistory/add/{id}', 'MinutesHistoryController@postAdd')->where('id', '[0-9]+');;
+			Route::get('minutehistory/{id}', 'MinutesHistoryController@list_history')->where('id', '[0-9]+');
+			Route::get('minutehistory/add/{id}', 'MinutesHistoryController@getAdd')->where('id', '[0-9]+');
+			Route::post('minutehistory/add/{id}', 'MinutesHistoryController@postAdd')->where('id', '[0-9]+');
 			Route::post('comments/add/{id}', 'NotesController@postComment')->where('id', '[0-9]+');
 			//Route::get('minute/{id}', 'MinutesController@list_history')->where('id', '[0-9]+');
 			Route::get('notes/{id?}', 'NotesController@index')->where('id', '[0-9]+');
