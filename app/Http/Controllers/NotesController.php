@@ -57,7 +57,7 @@ class NotesController extends Controller {
 	{
 		if($minuteshistory = Minuteshistory::find($mhid))
 		{
-			if($minuteshistory->lock_flag == Auth::user()->id)
+			if($minuteshistory->lock_flag == Auth::id() || Auth::user()->profile->role == '999')
 			{
 				//$users = User::lists('name','id');
 				$users = User::whereIn('id',explode(',', $minuteshistory->attendees))->lists('name','id');

@@ -118,14 +118,15 @@ class MinutesHistoryController extends Controller {
 		$minute_history = Minuteshistory::find($mhid);
 		if($minute_history)
 		{
-			if($minute_history->lock_flag == Auth::user()->id)
+			if($minute_history->lock_flag != 0)
 			{
-				return redirect('notes/add/'.$mhid);
-			}
-			else
-			{
-				return view('minutes.history',array('minuteshistory'=>$minute_history));
-			}
+				if($minute_history->lock_flag == Auth::id() || Auth::user()->profile->role == '999')
+				{
+					return redirect('notes/add/'.$mhid);
+				}	
+			}	
+			return view('minutes.history',array('minuteshistory'=>$minute_history));
+		
 		}
 		else
 		{

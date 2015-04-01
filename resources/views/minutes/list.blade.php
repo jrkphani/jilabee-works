@@ -24,7 +24,7 @@
 			        				<td>
 			        					{{ $minute_history->venue }}
 			        					@if($minute_history->lock_flag != 0)
-			        					<span class="glyphicon glyphicon-pencil glyphicon-pencil-animate pull-right"></span>
+			        					<span class="glyphicon glyphicon-lock pull-right"></span>
 			        				@endif
 			        				</td>
 			        			</tr>
