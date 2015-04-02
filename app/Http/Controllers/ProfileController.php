@@ -2,6 +2,7 @@
 use Auth;
 use App\User;
 use Request;
+use Validator;
 class ProfileController extends Controller {
 
 	/*
@@ -22,7 +23,7 @@ class ProfileController extends Controller {
 	 */
 	public function __construct()
 	{
-		//$this->middleware('guest');
+		
 	}
 
 	/**
@@ -59,7 +60,33 @@ class ProfileController extends Controller {
 	}
 	public function postuser(User $user)
 	{
-		//return view('user.edit',['user'=>$user]);	
+		$input = Request::only('name','email','dob','phone','password','password_confirmation','gender','role');
+		$validator = Validator::make($input, [
+			'name' => 'required|max:255',
+			'email' => 'email|max:255|unique:users,email,' . $user->id,
+			'password' => 'confirmed|min:6',
+			'role'	=>'required|integer',
+			'phone'	=>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'dob' =>'required|date|date_format:Y-m-d',
+			'gender' =>'required|in:M,F,O',
+		]);
+
+		if ($validator->fails())
+		{
+			return redirect('edit/user/'.$user->id)->withErrors($validator);
+		}
+		$userinput = ['name'=>$input['name'],'email'=>$input['email'],
+					'password'=>bcrypt($input['password']),'update_by' => Auth::id()];
+		if($user->update(array_filter($userinput)))
+		{
+			$profileinput = ['dob'=>$input['dob'],'phone'=>$input['phone'],
+							'gender'=>$input['gender'],'role'=>$input['role']
+							,'update_by' => Auth::id()];
+			if($user->profile->update($profileinput))
+			{
+				return redirect('edit/user/'.$user->id)->with('message', 'Updated successfully!');
+			}
+		}
 	}
 
 }

@@ -49,6 +49,7 @@ $(document).on('click', '#continue_minute', function(event) {
     $.ajax({
         url: '/minutehistory/add/'+$(this).attr('mid'),
         type: 'POST',
+        async:false,
         dataType: 'html',
         data: $('#minute_history_form').serialize(),
     })

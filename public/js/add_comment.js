@@ -3,6 +3,7 @@ $(document).ready(function($) {
 		$.ajax({
 			url: '/comments/add/'+$(this).attr('nid'),
 			type: 'POST',
+			async:false,
 			dataType: 'html',
 			data: {_token: $_token,'description':$('#description').val() },
 		})

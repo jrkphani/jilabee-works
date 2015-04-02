@@ -24,14 +24,14 @@
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="nav nav-tabs">
-						    <li class="user_left_menu" id="menuMytask"><a href="#">My Task <span class="badge">2</span></a>
+						    <li class="user_left_menu" id="menuMytask"><a href="#">My Task {{-- <span class="badge">2</span> --}}</a>
 						    </li>
 						    <li class="user_left_menu" id="menuFolloup" url="{{ app_url('/') }}">
-						    	<a href="#">Follow Ups <span class="badge">4</span></a>
+						    	<a href="#">Follow Ups {{-- <span class="badge">4</span> --}}</a>
 
 						    </li>
 						    <li class="user_left_menu" id="menuMinutes">
-						    	<a href="#">Minutes <span class="badge">1</span></a>
+						    	<a href="#">Minutes {{-- <span class="badge">1</span> --}}</a>
 						    </li>
 					  	</ul>
 					</div>

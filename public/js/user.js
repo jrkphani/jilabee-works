@@ -87,6 +87,7 @@
             $.ajax({
                 url: '/minutehistory/'+$(this).attr('mhid'),
                 type: 'GET',
+                async:false,
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
                 //data: $('#notes_form').serialize(),
             })
@@ -110,6 +111,7 @@
             $.ajax({
                 url: '/notes/'+$(this).attr('nid'),
                 type: 'GET',
+                async:false,
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
                 //data: $('#notes_form').serialize(),
             })
@@ -135,9 +137,11 @@
         });
     $('#stickynotes_content').on('click', '#add_stick_notes', function(event) {
         event.preventDefault();
+        $('#stick_notes_loading').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
         $.ajax({
             url: '/stickynotes',
             type: 'POST',
+            async:false,
             //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
             data: $('#sticknotes_form').serialize(),
             })
@@ -157,6 +161,7 @@
                 });
             })
             .always(function() {
+                $('#stick_notes_loading').html('');
             });
         
     });
@@ -165,6 +170,7 @@
         $.ajax({
             url: '/stickynotes/remove/'+$(this).attr('sid'),
             type: 'GET',
+            async:false,
             })
             .done(function(data) {
                 $('#stickynotes_content').html(data);

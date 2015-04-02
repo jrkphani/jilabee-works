@@ -3,6 +3,7 @@ $(document).ready(function($) {
 		$.ajax({
 			url: '/notes/draft/'+$(this).attr('mhid'),
 			type: 'POST',
+			async:false,
 			//dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 			data: $('#notes_form').serialize(),
 		})
@@ -31,6 +32,7 @@ $(document).ready(function($) {
 		$.ajax({
 			url: '/notes/add/'+$(this).attr('mhid'),
 			type: 'POST',
+			async:false,
 			//dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 			data: $('#notes_form').serialize(),
 		})

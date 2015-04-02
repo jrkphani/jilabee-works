@@ -5,6 +5,7 @@
 		{!! Form::close() !!}
 	</div>
 	<div class="col-md-12">
+		<div id="stick_notes_loading"></div>
 		<span class="btn btn-primary pull-right" id="add_stick_notes">Add</span>
 	</div>
 	@foreach($stickynotes as $row)
@@ -18,8 +19,6 @@
 				</div>
 			</div>
 			<div class="col-md-12">{!! $row->description !!}</div>
-			<div class="col-md-10">{!! $row->description !!}</div>
-			<div class="col-md-2"></div>
 		</div>
 	@endforeach
 	

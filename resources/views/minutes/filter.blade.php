@@ -22,14 +22,14 @@
 			    	<option>Something</option>
 				 </select>
   			</div>
-  			<div class="col-md-6 text-right">
+  			{{-- <div class="col-md-6 text-right">
  				Filter By
   				<select>
 		    	<option>Open</option>
 		    	<option>Closed</option>
 		    	<option>Expire</option>
 		    	</select>
-  			</div>
+  			</div> --}}
   		</div>
   	</div>
 </div>
