@@ -56,8 +56,8 @@
 				</div>
     </div>
     <div class="col-sm-4">
-    	 <h4>Don't have a login?</h4>
-    	 <a href="{{ app_url('/auth/register') }}">Register</a>
+    	 {{-- <h4>Don't have a login?</h4>
+    	 <a href="{{ app_url('/auth/register') }}">Register</a> --}}
     	 <h4>Want to learn more?</h4>
     	 <a>See how Jotter can help you and your organisatoin!</a>
     </div>

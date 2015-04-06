@@ -63,6 +63,8 @@ Route::controllers([
 			Route::post('notes/draft/{id}', 'NotesController@postDraft')->where('id', '[0-9]+');
 			Route::post('notes/add/{id}', 'NotesController@postAdd')->where('id', '[0-9]+');
 			Route::get('notes/add/{id}', 'NotesController@getAdd')->where('id', '[0-9]+');
+			Route::post('notes/accept/{id}', 'NotesController@accept')->where('id', '[0-9]+');
+			Route::post('notes/reject/{id}', 'NotesController@reject')->where('id', '[0-9]+');
 
 			Route::get('user/search', 'ProfileController@findUser');
 

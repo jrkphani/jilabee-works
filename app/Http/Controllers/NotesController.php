@@ -130,6 +130,12 @@ class NotesController extends Controller {
 			$tempArr['assigner'] = $input['assigner'][$i];
 			$tempArr['due'] = $input['due'][$i];
 			$tempArr['created_by'] = $tempArr['updated_by'] = Auth::user()->id;
+			$validation = Notes::validation($tempArr);
+			if ($validation->fails())
+			{
+				
+			}
+
 			if(($tempArr['title']) && ($tempArr['description']))
 			$records[] = new Notes(array_filter($tempArr));
 		}
@@ -170,12 +176,68 @@ class NotesController extends Controller {
 		}
 		else
 		{
-			$notes = Notes::where('assigner','=',Auth::user()->id)
+			$notes = Notes::select('notes.*')->join('minutes_history','notes.mhid','=','minutes_history.id')
+							->join('minutes','minutes_history.mid','=','minutes.id')
+							->where('notes.assigner','=',Auth::user()->id)
+							->orWhere(function($query){
+								$query->whereRaw('FIND_IN_SET('.Auth::id().',minutes.minuters)');
+							})
+							->where('notes.status','!=','close')
+							->orderBy('notes.due')->paginate(15);
+
+			/*$notes = Notes::where('assigner','=',Auth::user()->id)
+				->orWhereNull('assigner')
 				->where('status','!=','close')
-				->orderBy('due')->paginate(15);;
+				->orderBy('due')->paginate(15);*/
 		}
 		
 		return view('notes.followup',array('notes'=>$notes,'input'=>$input));
+	}
+
+	public function accept($id)
+	{
+		$input = Request::only('description');
+		$notes = Notes::where('id','=',$id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->first();
+		if($notes)
+		{
+			$notes->update(['status'=>'open','updated_by'=>Auth::id()]);
+			if($input['description'])
+			{
+				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
+				$record = new Noteshistory($input);
+				$notes->notes_history()->save($record);
+			}
+			return redirect('notes/'.$id);		
+		}
+		else
+		{
+			abort('403','Unauthorized access');
+		}
+	}
+	public function reject($id)
+	{
+		$input = Request::only('description');
+		$notes = Notes::where('id','=',$id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->first();
+		if($notes)
+		{
+			$validation = Noteshistory::validation($input);
+			if ($validation->fails())
+			{
+				return redirect('notes/'.$id)->withErrors($validation);
+			}
+			else
+			{
+				$notes->update(['status'=>'rejected','updated_by'=>Auth::id()]);
+				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
+				$record = new Noteshistory($input);
+				$notes->notes_history()->save($record);
+				return redirect('notes/'.$id);
+			}
+		}
+		else
+		{
+			abort('403','Unauthorized access');
+		}
 	}
 
 }

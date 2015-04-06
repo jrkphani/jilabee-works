@@ -54,18 +54,18 @@ class MinutesController extends Controller {
 	public function postAdd($id=NULL)
 	{
 		$input = Request::only('title', 'label','venue','attendees','minuters');
-		$validatoin = Minutes::validatoin($input);
+		$validation = Minutes::validation($input);
 
-		if ($validatoin->fails())
+		if ($validation->fails())
 		{
 			if($id)
 			{
-				return redirect('minute/edit/'.$id)->withErrors($validatoin);
+				return redirect('minute/edit/'.$id)->withErrors($validation);
 			}
 			else
 			{
 				return redirect('minute/add/')->withInput($input)->with('minuters',$input['minuters'])
-				->with('attendees',$input['attendees'])->withErrors($validatoin);
+				->with('attendees',$input['attendees'])->withErrors($validation);
 			}
 		}
 		$input['updated_by'] = Auth::user()->id;

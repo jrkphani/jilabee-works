@@ -11,8 +11,8 @@
 						<div class="col-md-3">{{$minuteshistory->created_at}}</div>
 						<div class="col-md-3">
 							<span class="glyphicon glyphicon-pencil"></span>
-							<a href="">
-	  							{{Auth::user()->name}}
+							<a href="{{url('profile/'.$minuteshistory->created_by)}}">
+	  							{{$minuteshistory->createdby->name}}
 	  							<span class="glyphicon glyphicon-user"></span>
 	  						</a>
 						</div>
@@ -26,7 +26,7 @@
 					     @if($attendees)
 						<div class="list-group alert alert-success col-md-12 margin_top_20">
 					    	@foreach($attendees as $key=>$value)
-	  							<a {{-- class="list-group-item" --}} href="">
+	  							<a {{-- class="list-group-item" --}} href="{{url('profile/'.$key)}}">
 	  								<span class="glyphicon glyphicon-user"></span>
 	  								{{$value}}
 	  							</a>
@@ -85,9 +85,9 @@
 							        				<td>	
 							        					{{$notes->due}}
 							        				</td>
-							        				<td>
+							        				{{-- <td>
 							        					<span nid="{{$notes->id}}" class="glyphicon glyphicon-eye-open btn note"></span>
-							        				</td>
+							        				</td> --}}
 							        			</tr>
 						        				@endforeach
 						        			</table>

@@ -83,11 +83,11 @@ class MinutesHistoryController extends Controller {
 		if($minutes->hasPermissoin())
 		{
 			$input = Request::only('venue','attendees');
-			$validatoin = Minuteshistory::validatoin($input);
+			$validation = Minuteshistory::validation($input);
 
-			if ($validatoin->fails())
+			if ($validation->fails())
 			{
-				return redirect('minutehistory/add/'.$id)->withInput($input)->withErrors($validatoin);
+				return redirect('minutehistory/add/'.$id)->withInput($input)->withErrors($validation);
 			}
 			$attendeesList =  array_merge(explode(',', $minutes->attendees),explode(',', $minutes->minuters));
 			$input['attendees'][] = Auth::user()->id;

@@ -35,7 +35,7 @@ class Minuteshistory extends Model{
     {
         return $this->hasMany('App\Model\Notesdraft','mhid','id');
     }
-    public static function validatoin($data)
+    public static function validation($data)
     {
         $rule = array('attendees'=>'required','venue'=>'max:64');
         return Validator::make($data,$rule);

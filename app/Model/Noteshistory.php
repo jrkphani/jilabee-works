@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 class Noteshistory extends Model{
 	/**
 	 * The database table used by the model.
@@ -26,5 +27,10 @@ class Noteshistory extends Model{
     {	
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
+     public static function validation($data)
+    {
+        $rule = array( 'description'=>'required|max:254');
+        return Validator::make($data,$rule);
 
+    }
 }

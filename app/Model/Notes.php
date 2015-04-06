@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 class Notes extends Model{
 	/**
 	 * The database table used by the model.
@@ -38,12 +39,12 @@ class Notes extends Model{
     {   
         return $this->hasOne('App\User', 'id', 'assigner');
     }
-    public static function validatoin($data)
+    public static function validation($data)
     {
         $rule = array('title'=>'required|max:64',
                         'description'=>'required|max:254',
                         'assignee'=>'required',
-                        'assigner'=>'required',
+                        //'assigner'=>'required',
                         'due'=>'required');
         return Validator::make($data,$rule);
 

@@ -28,7 +28,7 @@ class Minutes extends Model{
     {
         return $this->hasMany('App\Model\Minuteshistory','mid','id');
     }
-    public static function validatoin($data)
+    public static function validation($data)
     {
         $rule = array('title'=>'required',
                         'minuters'=>'required',
