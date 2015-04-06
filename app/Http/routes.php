@@ -41,6 +41,8 @@ Route::controllers([
 		{
 			Route::get('minute/add', 'MinutesController@getAdd');
 			Route::post('minute/add', 'MinutesController@postAdd');
+			Route::get('minute/edit/{mid}', 'MinutesController@getAdd');
+			Route::post('minute/edit/{mid}', 'MinutesController@postAdd');
 			Route::get('userlist', 'ProfileController@userlist');
 			Route::bind('userid', function($uid){
 				return App\User::find($uid);

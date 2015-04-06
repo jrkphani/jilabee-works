@@ -67,13 +67,23 @@
 							        					{{$notes->description}}
 							        				</td>
 							        				<td>
+							        					@if($notes->assigner)
+							        					<a href="{{ app_url('/profile/').$notes->assignee}}">
+															{{$notes->getassigner->name}}
+															<span class="glyphicon glyphicon-user"></span>
+															<span class="glyphicon glyphicon-hand-right"></span>
+														</a>
+							        					
+							        					@endif
 							        					@if($notes->assignee)
 							        					<a href="{{ app_url('/profile/').$notes->assignee}}">
 															{{$notes->getassignee->name}}
 															<span class="glyphicon glyphicon-user"></span>
 														</a>
-							        					
 							        					@endif
+							        				</td>
+							        				<td>	
+							        					{{$notes->due}}
 							        				</td>
 							        				<td>
 							        					<span nid="{{$notes->id}}" class="glyphicon glyphicon-eye-open btn note"></span>

@@ -37,34 +37,66 @@ class MinutesController extends Controller {
 		return view('minutes.home');
 	}
 	
-	public function getAdd()
+	public function getAdd($id=NULL)
 	{
 		//print_r(Minutes::all());
 		$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
-		return view('minutes.add',array('users'=>$users));
+		if($id)
+		{
+			$minute = Minutes::find($id);
+			return view('minutes.edit',['minute'=>$minute,'users'=>$users]);
+		}
+		else
+		{
+			return view('minutes.add',array('users'=>$users));
+		}
 	}
-	public function postAdd()
+	public function postAdd($id=NULL)
 	{
 		$input = Request::only('title', 'label','venue','attendees','minuters');
 		$validatoin = Minutes::validatoin($input);
 
 		if ($validatoin->fails())
 		{
-			return redirect('minute/add/')->withInput($input)->with('minuters',$input['minuters'])
-			->with('attendees',$input['attendees'])->withErrors($validatoin);
+			if($id)
+			{
+				return redirect('minute/edit/'.$id)->withErrors($validatoin);
+			}
+			else
+			{
+				return redirect('minute/add/')->withInput($input)->with('minuters',$input['minuters'])
+				->with('attendees',$input['attendees'])->withErrors($validatoin);
+			}
 		}
-		$input['created_by'] = $input['updated_by'] = Auth::user()->id;
+		$input['updated_by'] = Auth::user()->id;
 		$input['attendees'] = implode(',', $input['attendees']);
 		$input['minuters'] = implode(',', $input['minuters']);
-		if(Minutes::create($input))
+		if($id)
 		{
-			return redirect('minute/add/')->with('message', 'Minute added successfully');
+			$minute = Minutes::find($id);
+			if($minute->update($input))
+			{
+				return redirect('minute/edit/'.$id)->with('message', 'Minute added successfully');
+			}
+			else
+			{
+				return redirect('minute/edit/'.$id)->with('error', 'Oops something went wrong!');			
+			}
 		}
 		else
 		{
-			return redirect('minute/add/')->with('error', 'Oops something went wrong!')
-			->withInput($input)->withErrors($validatoin);
+			$input['created_by'] = Auth::user()->id;
+			if(Minutes::create($input))
+			{
+				return redirect('minute/add/')->with('message', 'Minute added successfully');
+			}
+			else
+			{
+				return redirect('minute/add/')->with('error', 'Oops something went wrong!')
+				->withInput($input);
+			}	
 		}
+		
 		
 	}
 	public function list_minutes()

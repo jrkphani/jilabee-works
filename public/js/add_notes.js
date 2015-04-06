@@ -37,11 +37,11 @@ $(document).ready(function($) {
 			data: $('#notes_form').serialize(),
 		})
 		.done(function(output) {
-			/*$.notify('Saved !',
+			$.notify('Saved !',
 		    	{
 		        	className:'success',
 		            globalPosition:'top center'
-		          });*/
+		          });
 			$('#content_right').html(output);
 		})
 		.fail(function() {

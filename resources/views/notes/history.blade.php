@@ -3,15 +3,19 @@
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				{{$notes->title}}
+				<p>{{$notes->title}}</p>
+				{{$notes->minute_history->minute->title}} | 
+				{{$notes->minute_history->created_at}} | 
+				{{$notes->minute_history->venue}} |
+				{{$notes->getassigner->name}}
 				<span class="pull-right">
 					{!! Form::select('status', array('open', 'close','expired','timeout','failed'), 'opne')!!}
 				</span>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-12">
-					<div class="col-md-12">
-						<h4>{!! nl2br($notes->description) !!}</h4>
+					<div class="col-md-12 alert alert-info" role="alert">
+						{!! nl2br($notes->description) !!}
 					</div>
 					@foreach($notes->notes_history()->get() as $history)
 						<div class="col-md-8 border_top">

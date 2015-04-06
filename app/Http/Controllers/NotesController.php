@@ -123,6 +123,7 @@ class NotesController extends Controller {
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
+			$tempArr= array();
 			$tempArr['title'] = trim($input['title'][$i]);
 			$tempArr['description'] = trim($input['description'][$i]);
 			$tempArr['assignee'] = $input['assignee'][$i];
