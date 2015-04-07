@@ -51,10 +51,14 @@
 		</div>
 	</div>
 	@stop
-	@section('javascript')		
+	@section('javascript')
+		<script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
 	    <script src="{{ asset('/js/user.js') }}"></script>
 	    <script src="{{ asset('/js/add_comment.js') }}"></script>
 	    <script src="{{ asset('/js/add_notes.js') }}"></script>
 	    <script src="{{ asset('/js/add_minute_history.js') }}"></script>
+	@stop
+	@section('css')
+	<link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 	@stop
 @endif

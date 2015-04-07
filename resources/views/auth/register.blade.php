@@ -57,7 +57,7 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">DOB</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="dob" value="{{ old('dob') }}">
+								<input type="text" class="form-control dateInput" name="dob" value="{{ old('dob') }}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -87,3 +87,16 @@
 	</div>
 </div>
 @endsection
+
+@section('javascript')
+<script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+	$(document).ready(function($)
+		{
+			 $('.dateInput').datepicker({format: "yyyy-mm-dd",endDate: "-10y",startView: 2,autoclose: true});
+    	});
+	</script>
+@stop
+@section('css')
+	<link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+@stop

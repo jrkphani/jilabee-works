@@ -9,7 +9,7 @@
 				{!! $errors->first('description','<div class="alert alert-info">:message</div>')!!}
 	</div>
 	<div class="col-md-3">
-				{!! Form::text('due',$notes->due,array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
+				{!! Form::text('due',$notes->due,array('class'=>"form-control dateInput",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
 				{!! $errors->first('due','<div class="alert alert-info">:message</div>')!!}
 	</div>
 	<div class="col-md-12">
@@ -37,3 +37,6 @@
 	</div>
 </div>
 {!! Form::close()!!}
+<script type="text/javascript">
+$('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "today"});
+</script>

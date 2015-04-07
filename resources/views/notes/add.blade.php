@@ -66,7 +66,7 @@
 										<div class="col-md-2">
 											<div class="form-group">
 												<div class="col-md-12">
-													{!! Form::text('due[]',date('Y-m-d',strtotime($notes->due)),array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+													{!! Form::text('due[]',date('Y-m-d',strtotime($notes->due)),array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 												</div>
 											</div>
 										</div>
@@ -107,7 +107,7 @@
 								<div class="col-md-2">
 									<div class="form-group">
 										<div class="col-md-12">
-											{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+											{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 										</div>
 									</div>
 								</div>
@@ -179,7 +179,7 @@
 						<div class="col-md-2">
 							<div class="form-group">
 								<div class="col-md-12">
-									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+									{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 								</div>
 							</div>
 						</div>
@@ -201,4 +201,7 @@
 						</div>
 					</div>
 </div>
+<script type="text/javascript">
+$('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "today",autoclose: true});
+</script>
 @endsection
