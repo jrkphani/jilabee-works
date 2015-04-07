@@ -88,46 +88,47 @@
 										</div>
 									</div>
 								@endforeach
-							@endif
-					<div class="row notes_form">
-						<div class="col-md-3">
-							<div class="form-group">
-								<div class="col-md-12">
-									{!! Form::text('title[]',old('title'),array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<div class="col-md-12">
-									<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="form-group">
-								<div class="col-md-12">
-									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="row">
-								<div class="col-md-10">
+							@else
+							<div class="row notes_form">
+								<div class="col-md-3">
 									<div class="form-group">
 										<div class="col-md-12">
-											{!! Form::select('assignee[]',array(''=>'Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-										</div>
-										<div class="col-md-12">
-											{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+											{!! Form::text('title[]',old('title'),array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
 										</div>
 									</div>
-
 								</div>
-								<div class="col-md-2 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<div class="col-md-12">
+											<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<div class="col-md-12">
+											{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="row">
+										<div class="col-md-10">
+											<div class="form-group">
+												<div class="col-md-12">
+													{!! Form::select('assignee[]',array(''=>'Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+												</div>
+												<div class="col-md-12">
+													{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+												</div>
+											</div>
+
+										</div>
+										<div class="col-md-2 btn remove_notes_form"><span class="glyphicon glyphicon-trash"></span></div>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
+						@endif
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<ul>
