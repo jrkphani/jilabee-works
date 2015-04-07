@@ -1,5 +1,5 @@
 <link href="{{ asset('/css/bootstrap-dialog.min.css') }}" rel="stylesheet">
-<?php $checkMid = NULL; ?>
+<?php $canedit = 0; ?>
 @if($minuteshistory)
 <div class="row">
 	<div class="col-md-12">
@@ -43,12 +43,13 @@
 					    	@endforeach
 					    </div>
 					    @endif
+					    @if($minuteshistory->minute->hasPermissoin())
+						<?php $canedit = 1; ?>
+						<div class="col-md-12">
+							<span mid="{{$minuteshistory->minute->id}}" class="pull-right btn btn-primary add_next_minute" style="padding:0px">Continue Session</span>
+						</div>
+						@endif
 					</div>
-				@if($minuteshistory->minute->hasPermissoin())
-				<div class="col-md-12">
-					<span mid="{{$minuteshistory->minute->id}}" class="pull-right btn btn-primary add_next_minute" style="padding:0px">Continue Session</span>
-				</div>
-				@endif
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">       
@@ -85,9 +86,14 @@
 							        				<td>	
 							        					{{$notes->due}}
 							        				</td>
-							        				{{-- <td>
-							        					<span nid="{{$notes->id}}" class="glyphicon glyphicon-eye-open btn note"></span>
-							        				</td> --}}
+							        				<td>
+							        					<span class="{{$notes->status}}">{{$notes->status}}</span>
+							        				</td>
+							        				@if($canedit)
+							        				<td>	
+							        					<span nid="{{$notes->id}}" class="btn glyphicon glyphicon-edit edit_note"></span>
+							        				</td>
+							        				@endif
 							        			</tr>
 						        				@endforeach
 						        			</table>

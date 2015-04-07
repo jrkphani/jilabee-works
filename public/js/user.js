@@ -103,7 +103,7 @@
                 $('#content_right').html('No data to display!');
             })
             .always(function() {
-                console.log("complete");
+               // console.log("complete");
             });
         });
         $(document).on('click', '.note', function(event) {
@@ -127,7 +127,7 @@
                 $('#content_right').html('No data to display!');
             })
             .always(function() {
-                console.log("complete");
+               // console.log("complete");
             });
         });
         $(document).on('click', '.add_next_minute', function(event){
@@ -147,7 +147,7 @@
             })
             .done(function(data) {
                 $('#stickynotes_content').html(data);
-                $.notify('Minute saved!',
+                $.notify('Notes saved!',
                 {
                     className:'success',
                     globalPosition:'top center'

@@ -24,7 +24,7 @@ $(document).ready(function($) {
 	        });
 		})
 		.always(function() {
-			console.log("complete");
+			//console.log("complete");
 		});
 		
 	});
@@ -37,11 +37,6 @@ $(document).ready(function($) {
 			data: $('#notes_form').serialize(),
 		})
 		.done(function(output) {
-			$.notify('Saved !',
-		    	{
-		        	className:'success',
-		            globalPosition:'top center'
-		          });
 			$('#content_right').html(output);
 		})
 		.fail(function() {
@@ -52,7 +47,7 @@ $(document).ready(function($) {
 	        });
 		})
 		.always(function() {
-			console.log("complete");
+			//console.log("complete");
 		});
 		
 	});
@@ -65,5 +60,58 @@ $(document).ready(function($) {
 		//$(this).parents('.notes_form').css( "background", "yellow" );
 		//alert($(this).parent('.notes_form').attr('class').val());
 		//alert("Sfsd");
+	});
+	$(document).on('click', '.edit_note',function(event) {
+			var nid =$(this).attr('nid');
+	 BootstrapDialog.show({
+	 		title: 'Continue Minute',
+            message: $('<div id="edit_note_popup"></div>').load('/notes/edit/'+nid),
+            buttons: [{
+                label: 'Continue',
+                cssClass: 'btn-primary',
+                action: function(dialogItself){
+                    $.ajax({
+                    	url: '/notes/edit/'+nid,
+                    	type: 'POST',
+                    	dataType: 'html',
+                    	data: $('#note_edit_form').serialize(),
+                    })
+                    .done(function(output) {
+                    	if(output == 'updated')
+                    	{
+                    		dialogItself.close();
+	                        $.notify('Tasked updated !',
+	                        {
+	                           className:'success',
+	                           globalPosition:'top center'
+	                        });
+                    	}
+                    	else
+                    	{
+                    		$('#edit_note_popup').html(output);
+                    	}
+                        
+                        //$('#menuMinutes').click();
+                    })
+                    .fail(function() {
+                    	$.notify('Oops, Something went wrong!',
+		                {
+		                   className:'error',
+		                   globalPosition:'top center'
+		                });
+                    })
+                    .always(function() {
+                    	// console.log("complete");
+                    });
+                    
+                }
+            	},
+            	{
+                label: 'Close',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }]
+        });
 	});
 });

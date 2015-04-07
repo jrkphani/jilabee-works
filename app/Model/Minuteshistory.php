@@ -37,7 +37,7 @@ class Minuteshistory extends Model{
     }
     public static function validation($data)
     {
-        $rule = array('attendees'=>'required','venue'=>'max:64');
+        $rule = array('attendees'=>'required','venue'=>'required:max:64');
         return Validator::make($data,$rule);
     }
 }

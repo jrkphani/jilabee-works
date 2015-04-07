@@ -57,7 +57,7 @@
 		        		<table class="table">
 		        			@foreach($noterow as $notecol)
 		        			<tr>
-		        				<td>due date @if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
+		        				<td>@if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
 					            <td class="note btn btn-link" nid="{{$notecol->id }}">{{$notecol->title}} </td>
 		        			    {{-- <td>
 		        			    	<span class="glyphicon glyphicon-tag pull-right" aria-hidden="true" style="color:{{ $notecol->minute_history->minute->label}}"></span>

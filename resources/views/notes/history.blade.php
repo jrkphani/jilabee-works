@@ -11,7 +11,7 @@
 				{{$notes->getassigner->name}}
 				@endif
 				<span class="pull-right">
-					Status: {{$notes->status}}
+					Status: <span class="{{$notes->status}}">{{$notes->status}}</span>
 				</span>
 			</div>
 			<div class="panel-body">
@@ -30,15 +30,15 @@
 					@endforeach
 				</div>
 					<div class="col-md-12">
-						<textarea id="description" class="form-group col-md-12" rows='3'></textarea>
+						<textarea id="description" class="form-group col-md-12" rows='3' placeholder="description"></textarea>
 						{!!$errors->first('description','<div class="alert alert-danger">:message</div>')!!}
 						@if($notes->status == 'waiting' && $notes->where('id','=',$notes->id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->count())
 							<div class="col-md-12">
 								<div class="col-md-2">
-									<button id="accept_task" nid="{{ $notes->id }}" class="pull-right btn btn-primary">Accept</button>
+									<button id="accept_task" nid="{{ $notes->id }}" class="pull-right btn btn-success">Accept</button>
 								</div>
 								<div class="col-md-10">
-									<button id="reject_task" nid="{{ $notes->id }}" class="pull-right btn btn-primary">Reject</button>
+									<button id="reject_task" nid="{{ $notes->id }}" class="pull-right btn btn-danger">Reject</button>
 								</div>
 							</div>
 						@else

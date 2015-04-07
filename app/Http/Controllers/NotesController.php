@@ -99,7 +99,7 @@ class NotesController extends Controller {
 			$tempArr['assigner'] = $input['assigner'][$i];
 			$tempArr['due'] = $input['due'][$i];
 			$tempArr['created_by'] = Auth::user()->id;
-			if(($tempArr['title']) && ($tempArr['description']))
+			if(($tempArr['title']) || ($tempArr['description']))
 			$records[] = new Notesdraft(array_filter($tempArr));
 		}
 		//print_r($records); die;
@@ -119,6 +119,7 @@ class NotesController extends Controller {
 	public function postAdd($id)
 	{
 		//validation has to be done
+		$this->postDraft($id);
 		$input = Request::only('title', 'description','assignee','assigner','due');
 		$records=array();
 		for ($i=0; $i < count($input['title']); $i++)
@@ -133,13 +134,12 @@ class NotesController extends Controller {
 			$validation = Notes::validation($tempArr);
 			if ($validation->fails())
 			{
-				
+				return redirect('notes/add/'.$id)->withErrors($validation);
 			}
 
 			if(($tempArr['title']) && ($tempArr['description']))
 			$records[] = new Notes(array_filter($tempArr));
 		}
-		//print_r($records); die;
 		if($records)
 		{
 			$minuteshistory = Minuteshistory::find($id);		
@@ -238,6 +238,30 @@ class NotesController extends Controller {
 		{
 			abort('403','Unauthorized access');
 		}
+	}
+	public function edit($nid)
+	{
+		$notes = Notes::find($nid);
+		$users = User::whereIn('id',explode(',', $notes->minute_history->attendees))->lists('name','id');
+		return view('notes.edit',['notes'=>$notes,'users'=>$users]);
+	}
+	public function update($nid)
+	{
+		$input = Request::only('title', 'description','assignee','assigner','due');
+		$validation = Notes::validation($input);
+		if ($validation->fails())
+		{
+			return redirect('notes/edit/'.$nid)->withErrors($validation);
+		}
+		else
+		{
+			$input['updated_by'] = Auth::user()->id;
+			$input['status'] = 'waiting';
+			$notes = Notes::find($nid);
+			$notes->update($input);
+			return "updated";
+		}
+		
 	}
 
 }

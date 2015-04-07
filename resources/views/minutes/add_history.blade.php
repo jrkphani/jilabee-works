@@ -8,8 +8,8 @@
 					<label class="col-md-4 control-label">Venue</label>
 					<div class="col-md-8">
 						{!! Form::text('venue',$minutes->venue,array('class'=>"form-control",'placeholder'=>'Venue','autocomplete'=>'off')) !!}
-						{!! $errors->first('venue', '<span class="alert alert-danger">:message</span>') !!}
 					</div>
+					{!! $errors->first('venue', '<div class="col-md-12 alert alert-danger">:message</div>') !!}
 				</div>
 			</div>
 			<div class="col-md-8">
@@ -25,8 +25,8 @@
 						@foreach($users as $key=>$value)
 							{!! Form::checkbox('attendees[]',$key,true) !!} {{ $value }}</br>
 						@endforeach
-						{!! $errors->first('attendees', '<span class="error">:message</span>') !!}
 					</div>
+					{!! $errors->first('attendees', '<div class="col-md-12 alert alert-danger">:message</div>') !!}
 				</div>
 			</div>
 			<div class="col-md-2 col-md-offset-6">

@@ -44,8 +44,8 @@ class Notes extends Model{
         $rule = array('title'=>'required|max:64',
                         'description'=>'required|max:254',
                         'assignee'=>'required',
-                        //'assigner'=>'required',
-                        'due'=>'required');
+                        //  'assigner'=>'required',
+                        'due'=>'required|date|date_format:Y-m-d|after:today');
         return Validator::make($data,$rule);
 
     }

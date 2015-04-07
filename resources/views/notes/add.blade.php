@@ -66,7 +66,7 @@
 										<div class="col-md-2">
 											<div class="form-group">
 												<div class="col-md-12">
-													{!! Form::text('due[]',$notes->due,array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
+													{!! Form::text('due[]',date('Y-m-d',strtotime($notes->due)),array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 												</div>
 											</div>
 										</div>
@@ -75,7 +75,7 @@
 												<div class="col-md-10">
 													<div class="form-group">
 														<div class="col-md-12">
-															{!! Form::select('assignee[]',array('Assingee')+$users, explode(',',$notes->assignee),array('class'=>"form-control",'autocomplete'=>'off')) !!}
+															{!! Form::select('assignee[]',array(''=>'Assingee')+$users, explode(',',$notes->assignee),array('class'=>"form-control",'autocomplete'=>'off')) !!}
 														</div>
 														<div class="col-md-12">
 															{!! Form::select('assigner[]',array('Assinger')+$users, explode(',',$notes->assigner),array('class'=>"form-control",'autocomplete'=>'off')) !!}
@@ -107,7 +107,7 @@
 						<div class="col-md-2">
 							<div class="form-group">
 								<div class="col-md-12">
-									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
+									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 								</div>
 							</div>
 						</div>
@@ -116,7 +116,7 @@
 								<div class="col-md-10">
 									<div class="form-group">
 										<div class="col-md-12">
-											{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+											{!! Form::select('assignee[]',array(''=>'Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 										</div>
 										<div class="col-md-12">
 											{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
@@ -128,6 +128,15 @@
 							</div>
 						</div>
 					</div>
+					@if (count($errors) > 0)
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+					@endif
 					{!! Form::close() !!}
 					<div class="row">
 						<div class="col-md-8 col-md-offset-4">
@@ -169,7 +178,7 @@
 						<div class="col-md-2">
 							<div class="form-group">
 								<div class="col-md-12">
-									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'Due Date','autocomplete'=>'off')) !!}
+									{!! Form::text('due[]','',array('class'=>"form-control",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 								</div>
 							</div>
 						</div>
@@ -178,7 +187,7 @@
 								<div class="col-md-10">
 									<div class="form-group">
 										<div class="col-md-12">
-											{!! Form::select('assignee[]',array('Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+											{!! Form::select('assignee[]',array(''=>'Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 										</div>
 										<div class="col-md-12">
 											{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}

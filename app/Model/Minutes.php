@@ -45,7 +45,6 @@ class Minutes extends Model{
         }
         else
         {
-            
             if(in_array(Auth::user()->id, explode(',',$this->minuters)))
             {
                 return TRUE;

@@ -20,7 +20,7 @@ class CreateNotesDraftTable extends Migration {
 			$table->string('assignee','64')->nullable();
 			$table->string('assigner','64')->nullable();
 			//$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
-			$table->dateTime('due')->nullable();
+			$table->string('due','32')->nullable();
 			$table->integer('created_by')->unsigned();
         	$table->timestamps();
 		});
