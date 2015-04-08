@@ -26,6 +26,7 @@
 						<div class="col-md-4 border_top">
 							<a href="{{ app_url('/profile/') }}" >{!! nl2br($history->createdby->name) !!}
 							<span class="glyphicon glyphicon-user"></span></a>
+							{{date('d M Y',strtotime($history->updated_at))}}
 						</div>
 					@endforeach
 				</div>

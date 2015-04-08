@@ -7,7 +7,7 @@
     			type: 'GET',
     			async:false,
     			dataType: 'html',
-    			//data: {_token: $_token },
+    			//data: {'sortby': 'duedate' },
     		})
     		.done(function(output) {
     			$('#user_left_menu_cont').html(output);
@@ -191,3 +191,56 @@
             });
         
     });
+    $('#user_left_menu_cont').on('change', '#task_filter', function(event) {
+        event.preventDefault();
+        $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
+            $.ajax({
+                url: '/notes',
+                type: 'GET',
+                async:false,
+                dataType: 'html',
+                data: {'sortby': $(this).val() },
+            })
+            .done(function(output) {
+                $('#user_left_menu_cont').html(output);
+                 $("#user_left_menu_cont .note:first").click();
+            })
+            .fail(function() {
+                $.notify('Oops, Something went wrong!',
+                {
+                   className:'error',
+                   globalPosition:'top center'
+                });
+                $('#user_left_menu_cont').html('No data to display!');
+            })
+            .always(function() {
+                //console.log("complete");
+            });
+    });
+        $('#user_left_menu_cont').on('change', '#followup_filter', function(event) {
+        event.preventDefault();
+        $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
+            $.ajax({
+                url: '/followup',
+                type: 'GET',
+                async:false,
+                dataType: 'html',
+                data: {'sortby': $(this).val() },
+            })
+            .done(function(output) {
+                $('#user_left_menu_cont').html(output);
+                 $("#user_left_menu_cont .note:first").click();
+            })
+            .fail(function() {
+                $.notify('Oops, Something went wrong!',
+                {
+                   className:'error',
+                   globalPosition:'top center'
+                });
+                $('#user_left_menu_cont').html('No data to display!');
+            })
+            .always(function() {
+                //console.log("complete");
+            });
+    });
+   

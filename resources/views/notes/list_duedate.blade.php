@@ -1,6 +1,5 @@
 @extends('user')
 @section('leftcontent')
-@include('filter')
 @if($notes->first())
 @foreach($notes as $note)
 	<?php
@@ -47,31 +46,7 @@
         }
 	?>
 @endforeach
-<div class="table-responsive scroll_horizontal">          
-    <table class="table table-bordered">
-        <tbody>
-        	@foreach($noteArr as $key=>$noterow)
-        		<tr>
-		        	<td class="rotate_90_left ">{{$key}}</td>
-		        	<td>
-		        		<table class="table">
-		        			@foreach($noterow as $notecol)
-		        			<tr class="{{$notecol->status}}">
-		        				<td>@if($notecol->due){{ date("d M Y",strtotime($notecol->due)) }} @endif</td>
-					            <td class="note btn btn-link" nid="{{$notecol->id }}">{{$notecol->title}} </td>
-		        			    {{-- <td>
-		        			    	<span class="glyphicon glyphicon-tag pull-right" aria-hidden="true" style="color:{{ $notecol->minute_history->minute->label}}"></span>
-		        			    </td> --}}
-		        			</tr>
-		        			@endforeach
-		        		</table>
-		        	</td>
-		        </tr>
-        	@endforeach	
-	    </tbody>
-	</table>
-</div>
-<?php echo $notes->appends($input)->render(); ?>
+@include('notes.list',['noteArr'=>$noteArr,'sortby'=>$input['sortby']])
 @else
 	No data to display!
 @endif
@@ -82,7 +57,7 @@
     <script>
 	$(document).ready(function($)
 		{
-			$('#menuFolloup').addClass('active');
+			$('#menuMytask').addClass('active');
 			$(".note:first").click();
     	});
 	</script>

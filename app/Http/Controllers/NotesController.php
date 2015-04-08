@@ -44,12 +44,39 @@ class NotesController extends Controller {
 		}
 		else
 		{
-			$input = Request::only('sortby','filterby');
+			$input = Request::only('sortby');
 			//get all notes for current user
-			$notes = Notes::where('assignee','=',Auth::user()->id)
+			if($input['sortby'] == 'duedate' || !($input['sortby']))
+			{
+				$notes = Notes::where('assignee','=',Auth::user()->id)
 					->where('status','!=','close')
 					->orderBy('due')->paginate(15);
-			return view('notes.list',array('notes'=>$notes,'input'=>$input));
+				return view('notes.list_duedate',array('notes'=>$notes,'input'=>$input));
+			}
+			else if($input['sortby'] == 'assigner')
+			{
+				$notes = Notes::where('assignee','=',Auth::user()->id)
+					->where('status','!=','close')
+					->orderBy('assigner')->paginate(15);
+				return view('notes.list_assigner',array('notes'=>$notes,'input'=>$input));
+			}
+			else if($input['sortby'] == 'meeting')
+			{
+				$notes = Notes::select('notes.*')->where('notes.assignee','=',Auth::user()->id)
+					->where('notes.status','!=','close')
+					->join('minutes_history','notes.mhid','=','minutes_history.id')
+					->join('minutes','minutes_history.mid','=','minutes.id')
+					->orderBy('minutes.id')->paginate(15);
+				return view('notes.list_meeting',array('notes'=>$notes,'input'=>$input));
+			}
+			else
+			{
+				$notes = Notes::where('assignee','=',Auth::user()->id)
+					->where('status','!=','close')
+					->orderBy('due')->paginate(15);
+				return view('notes.list_duedate',array('notes'=>$notes,'input'=>$input));
+			}
+
 		}
 		
 	}
@@ -167,31 +194,44 @@ class NotesController extends Controller {
 	}
 	public function followup()
 	{
-		$input = Request::only('sortby','filterby');
-		//get all notes assinged by current user
-		if(Auth::user()->profile->role == '999')
-		{
-			$notes = Notes::where('status','!=','close')
-				->orderBy('due')->paginate(15);;
-		}
-		else
-		{
-			$notes = Notes::select('notes.*')->join('minutes_history','notes.mhid','=','minutes_history.id')
+
+			$input = Request::only('sortby');
+			//get all notes for current user
+			if(Auth::user()->profile->role == '999')
+			{
+				$notes = Notes::select('notes.*')->where('notes.status','!=','close')->join('minutes_history','notes.mhid','=','minutes_history.id')
+							->join('minutes','minutes_history.mid','=','minutes.id');
+			}
+			else
+			{
+				$notes = Notes::select('notes.*')->join('minutes_history','notes.mhid','=','minutes_history.id')
 							->join('minutes','minutes_history.mid','=','minutes.id')
 							->where('notes.assigner','=',Auth::user()->id)
 							->orWhere(function($query){
 								$query->whereRaw('FIND_IN_SET('.Auth::id().',minutes.minuters)');
 							})
-							->where('notes.status','!=','close')
-							->orderBy('notes.due')->paginate(15);
-
-			/*$notes = Notes::where('assigner','=',Auth::user()->id)
-				->orWhereNull('assigner')
-				->where('status','!=','close')
-				->orderBy('due')->paginate(15);*/
-		}
-		
-		return view('notes.followup',array('notes'=>$notes,'input'=>$input));
+							->where('notes.status','!=','close');
+			}
+			if($input['sortby'] == 'duedate' || !($input['sortby']))
+			{
+				$notes = $notes->orderBy('notes.due')->paginate(15);
+				return view('notes.list_duedate',array('notes'=>$notes,'input'=>$input));
+			}
+			else if($input['sortby'] == 'assignee')
+			{
+				$notes = $notes->orderBy('notes.assignee')->paginate(15);
+				return view('notes.list_assignee',array('notes'=>$notes,'input'=>$input));
+			}
+			else if($input['sortby'] == 'meeting')
+			{
+				$notes = $notes->orderBy('minutes.id')->paginate(15);
+				return view('notes.list_meeting',array('notes'=>$notes,'input'=>$input));
+			}
+			else
+			{
+				$notes = $notes->orderBy('notes.due')->paginate(15);
+				return view('notes.list_duedate',array('notes'=>$notes,'input'=>$input));
+			}
 	}
 
 	public function accept($id)

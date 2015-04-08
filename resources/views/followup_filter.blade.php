@@ -13,20 +13,8 @@
  		<div class="row">
   			<div class="col-md-6">
   				Sort By
-  				<select>
-				    <option>Timeline</option>
-			    	<option>Minutes</option>
-			    	<option>Something</option>
-				 </select>
+  				{!! Form::select('followup_filter', ['duedate'=>'Timeline','meeting'=>'Meeting','assignee'=>'Assignee'], $sortby, ['id'=>'followup_filter','autocomplete'=>'off'])!!}
   			</div>
-  			{{-- <div class="col-md-6 text-right">
- 				Filter By
-  				<select>
-		    	<option>Open</option>
-		    	<option>Closed</option>
-		    	<option>Expire</option>
-		    	</select>
-  			</div> --}}
   		</div>
   	</div>
 </div>
