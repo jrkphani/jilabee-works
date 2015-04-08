@@ -13,13 +13,25 @@
 @endif
 @endsection
 
+
 @section('javascript')
 @parent
+@if(Request::segment(1) == 'followup')
     <script>
+	$(document).ready(function($)
+		{
+			$('#menuFolloup').addClass('active');
+			$(".note:first").click();
+    	});
+	</script>
+@else
+<script>
 	$(document).ready(function($)
 		{
 			$('#menuMytask').addClass('active');
 			$(".note:first").click();
     	});
 	</script>
+@endif
+
 @stop
