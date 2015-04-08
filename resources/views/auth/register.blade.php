@@ -93,7 +93,7 @@
     <script>
 	$(document).ready(function($)
 		{
-			 $('.dateInput').datepicker({format: "yyyy-mm-dd",endDate: "-10y",startView: 2,autoclose: true});
+			 $('.dateInput').datepicker({format: "yyyy-mm-dd",endDate: "-15y",startView: 2,autoclose: true});
     	});
 	</script>
 @stop

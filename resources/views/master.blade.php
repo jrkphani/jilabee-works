@@ -42,12 +42,12 @@
 					<li><a href="{{ base_url() }}">Home</a></li>
 				</ul>
 
-				<ul class="nav navbar-nav">
+				{{-- <ul class="nav navbar-nav">
 					<li><a href="{{ base_url() }}">Link1</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
 					<li><a href="{{ base_url() }}">Link2</a></li>
-				</ul>
+				</ul> --}}
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
 						<li><a href="{{ app_url('/auth/login') }}">Login</a></li>
