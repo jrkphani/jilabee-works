@@ -4,5 +4,5 @@ $(document).ready(function($) {
     	});
     	$('#stickynotes_open').click(function(event) {
     		$('#stickynotes').show(500);
-    	});
+    	}); 
     });

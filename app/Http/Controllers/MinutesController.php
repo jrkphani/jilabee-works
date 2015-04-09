@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
+use App\Model\Meetings;
 use App\Model\Minutes;
-use App\Model\Minuteshistory;
-use App\Model\Notes;
 use App\User;
 use Auth;
 use Request;
@@ -32,105 +31,102 @@ class MinutesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($nid=NULL)
 	{
-		return view('minutes.home');
-	}
-	
-	public function getAdd($id=NULL)
-	{
-		//print_r(Minutes::all());
-		$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
-		if($id)
+		if($nid)
 		{
-			$minute = Minutes::find($id);
-			return view('minutes.edit',['minute'=>$minute,'users'=>$users]);
+			//get notes histroy for note id
+			$noteshistory = Noteshistory::where('nid','=',$nid)->orderBy('updated_at','desc')->get();
+			if($noteshistory->first())
+			{
+				$notes =NULL;
+			}
+			else
+			{
+				$notes = Notes::find($nid);
+			}
+			//print_r($noteshistory); die;
+			return view('notes.history',array('noteshistory'=>$noteshistory,'notes'=>$notes));
 		}
 		else
 		{
-			return view('minutes.add',array('users'=>$users));
+			//get all notes for current user
+			$notes = Notes::where('assignee','=',Auth::user()->id)
+					->where('status','!=','close')
+					->orderBy('due')->get();
+			return view('notes.list',array('notes'=>$notes));
 		}
+		
 	}
-	public function postAdd($id=NULL)
+	public function getAdd($meeting)
 	{
-		$input = Request::only('title', 'label','venue','attendees','minuters');
-		$validation = Minutes::validation($input);
+		if($meeting->hasPermissoin())
+		{
+			if($meeting->minutes()->where('lock_flag','!=','0')->count())
+			{
+				return redirect('minute/'.$meeting->minutes()->where('lock_flag','!=','0')->first()->id.'/tasks/add');
+			}
+			return view('minutes.add',array('meeting'=>$meeting));
+		}
+		else
+		{
+			return abort(403, 'Unauthorized action.');
+		}
+		
+		
+	}
+	public function postAdd($meeting)
+	{
+		if($meeting->hasPermissoin())
+		{
+			if($meeting->minutes()->where('lock_flag','!=','0')->count())
+			{
+				return redirect('minute/'.$meeting->minutes()->where('lock_flag','!=','0')->first()->id.'/tasks/add');
+			}
+			$input = Request::only('venue','attendees','dt');
+			$validation = Minutes::validation($input);
 
-		if ($validation->fails())
-		{
-			if($id)
+			if ($validation->fails())
 			{
-				return redirect('minute/edit/'.$id)->withErrors($validation);
+				return redirect('nextminute/'.$meeting->id)->withInput($input)->withErrors($validation);
 			}
-			else
-			{
-				return redirect('minute/add/')->withInput($input)->with('minuters',$input['minuters'])
-				->with('attendees',$input['attendees'])->withErrors($validation);
-			}
-		}
-		$input['updated_by'] = Auth::user()->id;
-		$input['attendees'] = implode(',', $input['attendees']);
-		$input['minuters'] = implode(',', $input['minuters']);
-		if($id)
-		{
-			$minute = Minutes::find($id);
-			if($minute->update($input))
-			{
-				return redirect('minute/edit/'.$id)->with('message', 'Minute added successfully');
-			}
-			else
-			{
-				return redirect('minute/edit/'.$id)->with('error', 'Oops something went wrong!');			
-			}
+			
+			$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
+			$input['attendees'][] = Auth::user()->id;
+			$absentees = array_diff($attendeesList, $input['attendees']);
+			$input['attendees'] = implode(',', $input['attendees']);
+			$input['absentees'] = implode(',', $absentees);
+			$input['lock_flag']=$input['created_by']=$input['updated_by']=Auth::user()->id;
+			$record = new Minutes($input);
+			$result = $meeting->minutes()->save($record);
+			
+			return redirect('minute/'.$result->id.'/tasks/add');
 		}
 		else
 		{
-			$input['created_by'] = Auth::user()->id;
-			if(Minutes::create($input))
+			return abort(403, 'Unauthorized action.');
+		}
+		
+		
+	}
+	public function list_history($mhid)
+	{
+		$minute = Minutes::find($mhid);
+		if($minute)
+		{
+			if($minute->lock_flag != 0)
 			{
-				return redirect('minute/add/')->with('message', 'Minute added successfully');
-			}
-			else
-			{
-				return redirect('minute/add/')->with('error', 'Oops something went wrong!')
-				->withInput($input);
+				if($minute->lock_flag == Auth::id() || Auth::user()->profile->role == '999')
+				{
+					return redirect('notes/add/'.$mhid);
+				}	
 			}	
-		}
+			return view('meetings.history',array('minute'=>$minute));
 		
-		
-	}
-	public function list_minutes()
-	{
-		$uid = Auth::id();
-		if(Auth::user()->profile->role == '999')
-		{
-			$minutes = Minutes::all();
 		}
 		else
 		{
-			$minutes = Minutes::whereRaw('FIND_IN_SET('.$uid.',attendees)')->orWhereRaw('FIND_IN_SET('.$uid.',minuters)')->get();	
-		}
-		
-		//$minutes = Minutes::orderBy('updated_at', 'desc')->get();
-		//print_r($minutes); die;
-		return view('minutes.list',array('minutes'=>$minutes));
-	}
-	public function list_history($id)
-	{
-		$minutes = Minutes::find($id);
-		// echo "<pre>";
-		//echo "i am here";
-		// print_r($notes);
-		//die;
-		if($minutes->minute_history()->where('lock_flag','=',Auth::user()->id)->count())
-		{
-			//redirect to add notes page if same user
-			$mhid = $minutes->minute_history()->where('lock_flag','=',Auth::user()->id)->first()->id;
-			return redirect('notes/add/'.$mhid);
-		}
-		else
-		{
-			return view('minutes.history',array('minutes'=>$minutes));
+			return abort(403, 'Unauthorized action.');
 		}
 	}
 }

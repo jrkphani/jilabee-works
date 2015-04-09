@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIdeaTable extends Migration {
+class CreateMeetingsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,24 +12,24 @@ class CreateIdeaTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ideas', function(Blueprint $table)
+		Schema::create('meetings', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('mhid')->unsigned();
 			$table->string('title');
-			$table->mediumText('description');
-			$table->string('orginators','64');
+			$table->string('venue','64')->nullable();
+			$table->string('attendees','64');
+			$table->string('minuters','64');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('ideas', function(Blueprint $table)
+		Schema::table('meetings', function(Blueprint $table)
 		{
-			$table->foreign('mhid')->references('id')->on('meetings_history')->onDelete('restrict')->onUpdate('cascade');			
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
+		
 	}
 
 	/**
@@ -39,7 +39,7 @@ class CreateIdeaTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('ideas');
+		Schema::drop('minutes');
 	}
 
 }

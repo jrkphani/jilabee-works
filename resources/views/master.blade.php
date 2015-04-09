@@ -4,15 +4,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{ Config::get('site.title') }}</title>
+	<title>Jotter</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sticky-footer-navbar.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
-
-	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
-	<link href="{{ asset('/css/colorpicker.css') }}" rel="stylesheet">
 	@yield('css')
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -33,14 +29,14 @@
 					<span class="icon-bar"></span>
 				</button>
 				 
-				<a href="/"><img src="{{ asset('/img/jotter.jpg') }}" class="img-circle" alt="Cinque Terre" width="100" height="50"></a>
-				<!--<a class="navbar-brand" href="#">{{ Config::get('site.title') }}</a> -->
+				{{-- <a href="/"><img src="{{ asset('/img/jotter.jpg') }}" class="img-circle" alt="Cinque Terre" width="100" height="50"></a> --}}
+				<a class="navbar-brand" href="/"><strong>Jotter</strong></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
+				{{-- <ul class="nav navbar-nav">
 					<li><a href="{{ base_url() }}">Home</a></li>
-				</ul>
+				</ul> --}}
 
 				{{-- <ul class="nav navbar-nav">
 					<li><a href="{{ base_url() }}">Link1</a></li>
@@ -50,19 +46,19 @@
 				</ul> --}}
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						<li><a href="{{ app_url('/auth/login') }}">Login</a></li>
+						{{-- <li><a href="{{ app_url('/auth/login') }}">Login</a></li> --}}
 					@else
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ app_url('/profile') }}">Profile</a></li>
+								<li><a href="{{ url('profile') }}">Profile</a></li>
 								
 								@if(Auth::user()->profile->role == '999')
-									<li><a href="{{ app_url('/auth/register') }}">Add User</a></li>
-									<li><a href="{{ app_url('/minute/add') }}">Add Minute</a></li>
-									<li><a href="{{ app_url('/userlist') }}">Users</a></li>
+									<li><a href="{{ url('auth/register') }}">Add User</a></li>
+									<li><a href="{{ url('meeting/add') }}">Add Meeting</a></li>
+									<li><a href="{{ url('userlist') }}">Users</a></li>
 								@endif
-								<li><a href="{{ app_url('/auth/logout') }}">Logout</a></li>
+								<li><a href="{{ url('auth/logout') }}">Logout</a></li>
 							</ul>
 						</li>
 					@endif
@@ -79,7 +75,7 @@
       		<div class="col-md-6">
 		        <p class="text-muted">
 		        	<span class="glyphicon glyphicon-copyright-mark"></span>{{date('Y')}}
-		        	<span class="border_left">{{Config::get('site.title')}}</span>
+		        	<span class="border_left">Jotter</span>
 		        	<span class="border_left">All Rights Reserved</span>
 		        </p>
 		    </div>

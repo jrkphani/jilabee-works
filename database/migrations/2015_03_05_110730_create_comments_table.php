@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNotesHistoryTable extends Migration {
+class CreateCommentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateNotesHistoryTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('notes_history', function(Blueprint $table)
+		Schema::create('comments', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('nid')->unsigned();
@@ -22,9 +22,9 @@ class CreateNotesHistoryTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('notes_history', function(Blueprint $table)
+		Schema::table('comments', function(Blueprint $table)
 		{
-			$table->foreign('nid')->references('id')->on('notes')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('nid')->references('id')->on('tasks')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});

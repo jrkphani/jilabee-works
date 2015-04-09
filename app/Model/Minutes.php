@@ -1,7 +1,6 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-use Auth;
 class Minutes extends Model{
 	/**
 	 * The database table used by the model.
@@ -15,7 +14,11 @@ class Minutes extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title', 'label','venue','attendees','minuters','created_by','updated_by'];
+	protected $fillable = ['mid','lock_flag','attendees','absentees','venue','dt','created_by','updated_by'];
+	public function meeting()
+    {	
+        return $this->hasOne('App\Model\Meetings', 'id', 'mid');
+    }
 	public function createdby()
     {	
         return $this->hasOne('App\User', 'id', 'created_by');
@@ -24,33 +27,25 @@ class Minutes extends Model{
     {	
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
-    public function minute_history()
+    public function tasks()
     {
-        return $this->hasMany('App\Model\Minuteshistory','mid','id');
+        return $this->hasMany('App\Model\Tasks','mhid','id');
+    }
+    public function tasks_draft()
+    {
+        return $this->hasMany('App\Model\Tasksdraft','mhid','id');
     }
     public static function validation($data)
     {
-        $rule = array('title'=>'required',
-                        'minuters'=>'required',
-                        'attendees'=>'required',
-                        'venue'=>'max:64','label'=>'max:8');
-        return Validator::make($data,$rule);
-
+        $messages = array(
+            'dt.required' => 'The date time field is required.',
+            'dt.date_format' => 'The date time does not match the format Y-m-d H:i:s.',
+            'dt.before' => 'The date time must be before today date and current time.',
+            'dt.date' => 'The date time is not a valid.'
+        );
+        $rule = array('attendees'=>'required',
+                    'venue'=>'required:max:64',
+                    'dt'=>'required|date|date_format:Y-m-d H:i:s|before:now');
+        return Validator::make($data,$rule,$messages);
     }
-     public function hasPermissoin()
-    {
-        if(Auth::user()->profile->role == '999')
-        {
-            return TRUE;
-        }
-        else
-        {
-            if(in_array(Auth::user()->id, explode(',',$this->minuters)))
-            {
-                return TRUE;
-            }
-            return FALSE;
-        }
-    }
-
 }

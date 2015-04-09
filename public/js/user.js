@@ -1,3 +1,34 @@
+$(document).ready(function($)
+{
+    // Javascript to enable link to tab
+        var url = document.location.toString();
+        if (url.match('#'))
+        {
+            if(url.split('#')[1] == 'meetings')
+            {
+                $('.user_left_menu').removeClass('active');
+                $('#menuMeetings').click();
+                /*if(url.split('#')[2].length > 0)
+                {
+                    $('#'+url.split('#')[2]).click();
+                }*/
+                return false;
+            }
+            else if(url.split('#')[1] == 'followup')
+            {
+                $('#menuFolloup').click();
+            }
+            else if(url.split('#')[1] == '' || url.split('#')[1] == 'mytask')
+            {
+                $('#menuMytask').addClass('active');
+            }
+        }
+        else
+        {
+            $('#menuMytask').addClass('active');
+        }    
+});
+
     	$('#menuMytask').click(function(event) {
     		$('.user_left_menu').removeClass('active');
     		$(this).addClass('active');
@@ -54,12 +85,12 @@
             });
             
         });
-        $('#menuMinutes').click(function(event) {
+        $('#menuMeetings').click(function(event) {
             $('.user_left_menu').removeClass('active');
             $(this).addClass('active');
             $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/minute',
+                url: '/meetings',
                 type: 'GET',
                 async:false,
                 dataType: 'html',
@@ -67,7 +98,21 @@
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
-                $(".minutehistory:first").click();
+                var url = document.location.toString();
+                if (url.match('#'))
+                {
+                    if(url.split('#')[1] == 'meetings')
+                    {
+                        if(url.split('#').length > 2)
+                        {
+                            $('#'+url.split('#')[2]).click();
+                        }
+                        else
+                        {
+                            $("#user_left_menu_cont .minute:first").click();
+                        }
+                    }
+                }
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',
@@ -82,10 +127,10 @@
             });
             
         });
-        $(document).on('click', '.minutehistory', function(event) {
+        $(document).on('click', '.minute', function(event) {
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/minutehistory/'+$(this).attr('mhid'),
+                url: '/minute/'+$(this).attr('id').match(/\d+/)+'/tasks',
                 type: 'GET',
                 async:false,
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
@@ -106,10 +151,10 @@
                // console.log("complete");
             });
         });
-        $(document).on('click', '.note', function(event) {
+        $(document).on('click', '.mytask', function(event) {
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/notes/'+$(this).attr('nid'),
+                url: '/mytask/'+$(this).attr('nid'),
                 type: 'GET',
                 async:false,
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
@@ -128,11 +173,6 @@
             })
             .always(function() {
                // console.log("complete");
-            });
-        });
-        $(document).on('click', '.add_next_minute', function(event){
-            $.get('/minutehistory/add/'+$(this).attr('mid'), function(data) {
-                $('#content_right').html(data);
             });
         });
     $('#stickynotes_content').on('click', '#add_stick_notes', function(event) {

@@ -1,12 +1,12 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
-class Notesdraft extends Model{
+class Tasksdraft extends Model{
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'notes_draft';
+	protected $table = 'tasks_draft';
 
 	/**
 	 * The attributes that are mass assignable.

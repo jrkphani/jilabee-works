@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 
-class CreateUserProfilesTable extends Migration {
+class CreateProfilesTable extends Migration {
 
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserProfilesTable extends Migration {
      */
     public function up()
     {
-        Schema::create('user_profiles', function(Blueprint $table)
+        Schema::create('profiles', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('uid')->unsigned();
@@ -25,7 +25,7 @@ class CreateUserProfilesTable extends Migration {
 			$table->integer('updated_by')->unsigned();
             $table->timestamps();
         });
-        Schema::table('user_profiles', function(Blueprint $table)
+        Schema::table('profiles', function(Blueprint $table)
 		{
 			$table->foreign('uid')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');

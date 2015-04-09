@@ -1,13 +1,13 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-class Noteshistory extends Model{
+class Comments extends Model{
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'notes_history';
+	protected $table = 'comments';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -15,9 +15,9 @@ class Noteshistory extends Model{
 	 * @var array
 	 */
 	protected $fillable = ['description','created_by','updated_by'];
-	public function notes()
+	public function tasks()
     {	
-        return $this->hasOne('App\Model\Notes', 'id', 'nid');
+        return $this->hasOne('App\Model\Tasks', 'id', 'nid');
     }
 	public function createdby()
     {	

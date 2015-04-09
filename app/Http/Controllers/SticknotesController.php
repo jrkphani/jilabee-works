@@ -33,7 +33,7 @@ class SticknotesController extends Controller {
 	public function index($uid=NULL)
 	{
 		$result = Stickynotes::where('created_by',Auth::id())->orderBy('updated_at','DESC')->get();
-		return view('stickynotes',['stickynotes'=>$result]);
+		return view('notes.stickynotes',['stickynotes'=>$result]);
 	}
 	public function postData($id=NULL)
 	{	 

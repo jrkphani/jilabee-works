@@ -1,13 +1,13 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-class Notes extends Model{
+class Tasks extends Model{
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'notes';
+	protected $table = 'tasks';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -23,13 +23,13 @@ class Notes extends Model{
     {	
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
-    public function minute_history()
+    public function minute()
     {
-        return $this->hasOne('App\Model\Minuteshistory', 'id', 'mhid');
+        return $this->hasOne('App\Model\Minutes', 'id', 'mhid');
     }
-    public function notes_history()
+    public function comments()
     {
-        return $this->hasMany('App\Model\Noteshistory','nid','id');
+        return $this->hasMany('App\Model\Comments','nid','id');
     }
     public function getassignee()
     {   

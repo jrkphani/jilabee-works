@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+/*Route::get('/', 'WelcomeController@index');*/
+Route::get('/', 'Auth\AuthController@getRegister');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
@@ -23,57 +25,50 @@ Route::controllers([
 
     Route::group(['middleware' => 'auth'], function()
 	{
-		//Route::get('home', 'HomeController@index');
-		Route::get('profile/{id?}', 'ProfileController@index');
-		Route::get('home', 'NotesController@index');
+		Route::get('/', 'TasksController@index');
 		
-		Route::get('minute', 'MinutesController@list_minutes');
+		Route::bind('meetingid', function($meetingid){
+				return App\Model\Meetings::find($meetingid);
+			});
+		Route::bind('minuteid', function($minuteid){
+				return App\Model\Minutes::find($minuteid);
+			});
 		
-
-		Route::get('notes', 'NotesController@index');
-		
-		
-		Route::get('followup', 'NotesController@followup');
-
-		// Route::get('minute', 'MinutesController@list_minutes');
-		// Route::get('minute/{id}', 'MinutesController@list_history')->where('id', '[0-9]+');
 		Route::group(['middleware' => 'admin'], function()
 		{
-			Route::get('minute/add', 'MinutesController@getAdd');
-			Route::post('minute/add', 'MinutesController@postAdd');
-			Route::get('minute/edit/{mid}', 'MinutesController@getAdd');
-			Route::post('minute/edit/{mid}', 'MinutesController@postAdd');
 			Route::get('userlist', 'ProfileController@userlist');
+			Route::get('meeting/add', 'MeetingsController@getAdd');
+			Route::post('meeting/add', 'MeetingsController@postAdd');
+			Route::get('meeting/{meetingid}/edit', 'MeetingsController@getEdit')->where('id', '[0-9]+');;
+			Route::post('meeting/{meetingid}/edit', 'MeetingsController@postEdit')->where('id', '[0-9]+');;
+
 			Route::bind('userid', function($uid){
 				return App\User::find($uid);
 			});
-			Route::get('edit/user/{userid}', 'ProfileController@getuser');
-			Route::post('edit/user/{userid}', 'ProfileController@postuser');
+			Route::get('user/{userid}/edit', 'ProfileController@getuser');
+			Route::post('user/{userid}/edit', 'ProfileController@postuser');
 		});
-		
-		
+
 		Route::group(['middleware' => 'onlyajax'], function()
 		{
-			Route::get('minutehistory/{id}', 'MinutesHistoryController@list_history')->where('id', '[0-9]+');
-			Route::get('minutehistory/add/{id}', 'MinutesHistoryController@getAdd')->where('id', '[0-9]+');
-			Route::post('minutehistory/add/{id}', 'MinutesHistoryController@postAdd')->where('id', '[0-9]+');
-			Route::post('comments/add/{id}', 'NotesController@postComment')->where('id', '[0-9]+');
-			//Route::get('minute/{id}', 'MinutesController@list_history')->where('id', '[0-9]+');
-			Route::get('notes/{id?}', 'NotesController@index')->where('id', '[0-9]+');
-			Route::post('notes/draft/{id}', 'NotesController@postDraft')->where('id', '[0-9]+');
-			Route::post('notes/add/{id}', 'NotesController@postAdd')->where('id', '[0-9]+');
-			Route::get('notes/add/{id}', 'NotesController@getAdd')->where('id', '[0-9]+');
-			Route::post('notes/accept/{id}', 'NotesController@accept')->where('id', '[0-9]+');
-			Route::post('notes/reject/{id}', 'NotesController@reject')->where('id', '[0-9]+');
-			Route::get('notes/edit/{id?}', 'NotesController@edit')->where('id', '[0-9]+');
-			Route::post('notes/edit/{id?}', 'NotesController@update')->where('id', '[0-9]+');
-
 			Route::get('user/search', 'ProfileController@findUser');
 
 			Route::get('stickynotes', 'SticknotesController@index');
-			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove');
-			Route::post('stickynotes', 'SticknotesController@postData');		
+			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove')->where('id', '[0-9]+');;
+			Route::post('stickynotes', 'SticknotesController@postData');
 		});
+		Route::get('profile/{id?}', 'ProfileController@index');
+
+		Route::get('meetings', 'MeetingsController@index');
+		
+		Route::get('meeting/{meetingid}/nextminute', 'MinutesController@getAdd')->where('id', '[0-9]+');;
+		Route::post('meeting/{meetingid}/nextminute', 'MinutesController@postAdd')->where('id', '[0-9]+');;
+		
+		Route::get('minute/{minuteid}/tasks/add', 'TasksController@getAdd')->where('id', '[0-9]+');
+		Route::post('minute/{minuteid}/tasks/add/draft', 'TasksController@postDraft')->where('id', '[0-9]+');
+		Route::post('minute/{minuteid}/tasks/add', 'TasksController@postAdd')->where('id', '[0-9]+');
+		
 	});
 
-//});
+
+		
