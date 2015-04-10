@@ -17,7 +17,6 @@ $(document).ready(function($) {
 		        	className:'success',
 		            globalPosition:'top center'
 		          });
-			//$('#add_more').click();
 		})
 		.fail(function() {
 			$.notify('Oops, Something went wrong!',
@@ -45,58 +44,5 @@ $(document).ready(function($) {
 		event.preventDefault();
 		needToConfirm = false;
 		$('#tasksAddForm').submit();
-	});
-	$(document).on('click', '.edit_note',function(event) {
-			var nid =$(this).attr('nid');
-	 BootstrapDialog.show({
-	 		title: 'Continue Minute',
-            message: $('<div id="edit_note_popup"></div>').load('/notes/edit/'+nid),
-            buttons: [{
-                label: 'Continue',
-                cssClass: 'btn-primary',
-                action: function(dialogItself){
-                    $.ajax({
-                    	url: '/notes/edit/'+nid,
-                    	type: 'POST',
-                    	dataType: 'html',
-                    	data: $('#note_edit_form').serialize(),
-                    })
-                    .done(function(output) {
-                    	if(output == 'updated')
-                    	{
-                    		dialogItself.close();
-	                        $.notify('Tasked updated !',
-	                        {
-	                           className:'success',
-	                           globalPosition:'top center'
-	                        });
-                    	}
-                    	else
-                    	{
-                    		$('#edit_note_popup').html(output);
-                    	}
-                        
-                        //$('#menuMinutes').click();
-                    })
-                    .fail(function() {
-                    	$.notify('Oops, Something went wrong!',
-		                {
-		                   className:'error',
-		                   globalPosition:'top center'
-		                });
-                    })
-                    .always(function() {
-                    	// console.log("complete");
-                    });
-                    
-                }
-            	},
-            	{
-                label: 'Close',
-                action: function(dialogItself){
-                    dialogItself.close();
-                }
-            }]
-        });
 	});
 });

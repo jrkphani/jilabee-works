@@ -31,36 +31,10 @@ class MinutesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index($nid=NULL)
-	{
-		if($nid)
-		{
-			//get notes histroy for note id
-			$noteshistory = Noteshistory::where('nid','=',$nid)->orderBy('updated_at','desc')->get();
-			if($noteshistory->first())
-			{
-				$notes =NULL;
-			}
-			else
-			{
-				$notes = Notes::find($nid);
-			}
-			//print_r($noteshistory); die;
-			return view('notes.history',array('noteshistory'=>$noteshistory,'notes'=>$notes));
-		}
-		else
-		{
-			//get all notes for current user
-			$notes = Notes::where('assignee','=',Auth::user()->id)
-					->where('status','!=','close')
-					->orderBy('due')->get();
-			return view('notes.list',array('notes'=>$notes));
-		}
-		
-	}
+
 	public function getAdd($meeting)
 	{
-		if($meeting->hasPermissoin())
+		if($meeting->isMinuter())
 		{
 			if($meeting->minutes()->where('lock_flag','!=','0')->count())
 			{
@@ -77,7 +51,7 @@ class MinutesController extends Controller {
 	}
 	public function postAdd($meeting)
 	{
-		if($meeting->hasPermissoin())
+		if($meeting->isMinuter())
 		{
 			if($meeting->minutes()->where('lock_flag','!=','0')->count())
 			{
@@ -108,25 +82,5 @@ class MinutesController extends Controller {
 		}
 		
 		
-	}
-	public function list_history($mhid)
-	{
-		$minute = Minutes::find($mhid);
-		if($minute)
-		{
-			if($minute->lock_flag != 0)
-			{
-				if($minute->lock_flag == Auth::id() || Auth::user()->profile->role == '999')
-				{
-					return redirect('notes/add/'.$mhid);
-				}	
-			}	
-			return view('meetings.history',array('minute'=>$minute));
-		
-		}
-		else
-		{
-			return abort(403, 'Unauthorized action.');
-		}
 	}
 }

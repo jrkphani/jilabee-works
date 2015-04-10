@@ -1,6 +1,7 @@
 @extends('master')
 @section('css')
 	<link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/bootstrap-dialog.min.css') }}" rel="stylesheet">
 @stop
 @section('usercontent')
 	<div class="container">
@@ -45,6 +46,7 @@
 	@stop
 	@section('javascript')
 		<script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
+		<script src="{{ asset('/js/bootstrap-dialog.min.js') }}"></script>
 	    <script src="{{ asset('/js/user.js') }}"></script>
-	    <script src="{{ asset('/js/meetings.js') }}"></script>
+	    <script src="{{ asset('/js/tasks.js') }}"></script>
 	@stop

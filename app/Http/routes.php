@@ -25,13 +25,18 @@ Route::controllers([
 
     Route::group(['middleware' => 'auth'], function()
 	{
-		Route::get('/', 'TasksController@index');
+		Route::get('/', function(){
+			return view('user');
+		});
 		
 		Route::bind('meetingid', function($meetingid){
 				return App\Model\Meetings::find($meetingid);
 			});
 		Route::bind('minuteid', function($minuteid){
 				return App\Model\Minutes::find($minuteid);
+			});
+		Route::bind('taskid', function($taskid){
+				return App\Model\Tasks::find($taskid);
 			});
 		
 		Route::group(['middleware' => 'admin'], function()
@@ -51,21 +56,32 @@ Route::controllers([
 
 		Route::group(['middleware' => 'onlyajax'], function()
 		{
+			Route::get('mytask', 'TasksController@mytask');
+
+			Route::get('followup', 'TasksController@followup');
+
+			Route::get('meetings', 'MeetingsController@index');
+
 			Route::get('user/search', 'ProfileController@findUser');
+			
+			Route::get('task/{taskid}/edit', 'TasksController@edit');
+			Route::post('task/{taskid}/edit', 'TasksController@update');
+
+			Route::get('minute/{minuteid}/tasks', 'TasksController@index')->where('id', '[0-9]+');
+			Route::post('minute/{minuteid}/tasks/add/draft', 'TasksController@postDraft')->where('id', '[0-9]+');
 
 			Route::get('stickynotes', 'SticknotesController@index');
 			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove')->where('id', '[0-9]+');;
 			Route::post('stickynotes', 'SticknotesController@postData');
 		});
-		Route::get('profile/{id?}', 'ProfileController@index');
 
-		Route::get('meetings', 'MeetingsController@index');
+		Route::get('profile/{id?}', 'ProfileController@index');
 		
 		Route::get('meeting/{meetingid}/nextminute', 'MinutesController@getAdd')->where('id', '[0-9]+');;
 		Route::post('meeting/{meetingid}/nextminute', 'MinutesController@postAdd')->where('id', '[0-9]+');;
 		
+		
 		Route::get('minute/{minuteid}/tasks/add', 'TasksController@getAdd')->where('id', '[0-9]+');
-		Route::post('minute/{minuteid}/tasks/add/draft', 'TasksController@postDraft')->where('id', '[0-9]+');
 		Route::post('minute/{minuteid}/tasks/add', 'TasksController@postAdd')->where('id', '[0-9]+');
 		
 	});

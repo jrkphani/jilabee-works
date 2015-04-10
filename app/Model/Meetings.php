@@ -37,20 +37,42 @@ class Meetings extends Model{
         return Validator::make($data,$rule);
 
     }
-     public function hasPermissoin()
+     public function isMinuter()
     {
+        //check permission as minuter or admin
         if(Auth::user()->profile->role == '999')
         {
             return TRUE;
         }
         else
         {
-            if(in_array(Auth::user()->id, explode(',',$this->minuters)))
+            if(in_array(Auth::id(), explode(',',$this->minuters)))
             {
                 return TRUE;
             }
             return FALSE;
         }
     }
+    public function isAttendees()
+    {
+        //check permission as attendess
+        if(Auth::user()->profile->role == '999')
+        {
+            return TRUE;
+        }
+        else
+        {
+            if(in_array(Auth::id(), explode(',',$this->minuters)))
+            {
+                return TRUE;
+            }
+            else if(in_array(Auth::id(), explode(',',$this->attendees)))
+            {
+                return TRUE;
+            }
+            return FALSE;
+        }
+    }
+    
 
 }

@@ -41,7 +41,7 @@ class MeetingsController extends Controller {
 		}
 		else
 		{
-			$meetings = Meetings::whereRaw('FIND_IN_SET('.$uid.',attendees)')->orWhereRaw('FIND_IN_SET('.$uid.',meetingrs)')->get();	
+			$meetings = Meetings::whereRaw('FIND_IN_SET('.$uid.',attendees)')->orWhereRaw('FIND_IN_SET('.$uid.',minuters)')->get();	
 		}
 		return view('meetings.list',array('meetings'=>$meetings));
 	}
@@ -108,25 +108,6 @@ class MeetingsController extends Controller {
 		else
 		{
 			abort('404','Invalid meeting');
-		}
-	}
-
-	public function list_history($id)
-	{
-		$Meetings = Meetings::find($id);
-		// echo "<pre>";
-		//echo "i am here";
-		// print_r($Tasks);
-		//die;
-		if($Meetings->meeting_history()->where('lock_flag','=',Auth::user()->id)->count())
-		{
-			//redirect to add Tasks page if same user
-			$mhid = $Meetings->meeting_history()->where('lock_flag','=',Auth::user()->id)->first()->id;
-			return redirect('Tasks/add/'.$mhid);
-		}
-		else
-		{
-			return view('Meetings.history',array('Meetings'=>$Meetings));
 		}
 	}
 }

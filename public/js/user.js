@@ -8,24 +8,22 @@ $(document).ready(function($)
             {
                 $('.user_left_menu').removeClass('active');
                 $('#menuMeetings').click();
-                /*if(url.split('#')[2].length > 0)
-                {
-                    $('#'+url.split('#')[2]).click();
-                }*/
-                return false;
             }
             else if(url.split('#')[1] == 'followup')
             {
+                $('.user_left_menu').removeClass('active');
                 $('#menuFolloup').click();
             }
-            else if(url.split('#')[1] == '' || url.split('#')[1] == 'mytask')
+            else if(url.split('#')[1] == 'mytask')
             {
-                $('#menuMytask').addClass('active');
+                $('.user_left_menu').removeClass('active');
+                $('#menuMytask').click();
             }
         }
         else
         {
-            $('#menuMytask').addClass('active');
+            $('.user_left_menu').removeClass('active');
+            $('#menuMytask').click();
         }    
 });
 
@@ -34,7 +32,7 @@ $(document).ready(function($)
     		$(this).addClass('active');
     		$('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
     		$.ajax({
-    			url: '/notes',
+    			url: '/mytask',
     			type: 'GET',
     			async:false,
     			dataType: 'html',
@@ -42,7 +40,29 @@ $(document).ready(function($)
     		})
     		.done(function(output) {
     			$('#user_left_menu_cont').html(output);
-                 $("#user_left_menu_cont .note:first").click();
+                var url = document.location.toString();
+                if (url.match('#'))
+                {
+                    if(url.split('#')[1] == 'meetings')
+                    {
+                        if(url.split('#').length > 2)
+                        {
+                            $('#'+url.split('#')[2]).click();
+                        }
+                        else
+                        {
+                            $("#user_left_menu_cont .mytask:first").click();
+                        }
+                    }
+                    else
+                    {
+                        $("#user_left_menu_cont .mytask:first").click();
+                    }
+                }
+                else
+                {
+                    $("#user_left_menu_cont .mytask:first").click();
+                }
     		})
     		.fail(function() {
     			$.notify('Oops, Something went wrong!',
@@ -70,7 +90,29 @@ $(document).ready(function($)
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
-                 $(".note:first").click();
+                var url = document.location.toString();
+                if (url.match('#'))
+                {
+                    if(url.split('#')[1] == 'followup')
+                    {
+                        if(url.split('#').length > 2)
+                        {
+                            $('#'+url.split('#')[2]).click();
+                        }
+                        else
+                        {
+                            $("#user_left_menu_cont .followup:first").click();
+                        }
+                    }
+                    else
+                    {
+                        $("#user_left_menu_cont .followup:first").click();
+                    }
+                }
+                else
+                {
+                    $("#user_left_menu_cont .followup:first").click();
+                }
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',
@@ -112,6 +154,14 @@ $(document).ready(function($)
                             $("#user_left_menu_cont .minute:first").click();
                         }
                     }
+                    else
+                    {
+                        $("#user_left_menu_cont .minute:first").click();
+                    }
+                }
+                else
+                {
+                    $("#user_left_menu_cont .minute:first").click();
                 }
             })
             .fail(function() {
@@ -127,7 +177,9 @@ $(document).ready(function($)
             });
             
         });
-        $(document).on('click', '.minute', function(event) {
+        $('#user_left_menu_cont').on('click', '.minute', function(event) {
+            $('.minute').removeClass('active');
+            $(this).addClass('active');
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
                 url: '/minute/'+$(this).attr('id').match(/\d+/)+'/tasks',
@@ -151,10 +203,39 @@ $(document).ready(function($)
                // console.log("complete");
             });
         });
-        $(document).on('click', '.mytask', function(event) {
+        $('#user_left_menu_cont').on('click', '.mytask', function(event) {
+            $('.mytask').removeClass('active');
+            $(this).addClass('active');
             $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/mytask/'+$(this).attr('nid'),
+                url: '/task/'+$(this).attr('id').match(/\d+/)+'/comments',
+                type: 'GET',
+                async:false,
+                //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+                //data: $('#notes_form').serialize(),
+            })
+            .done(function(output) {
+                $('#content_right').html(output);
+            })
+            .fail(function() {
+                $('#content_right').html('No data to display!');
+                $.notify('Oops, Something went wrong!',
+                {
+                   //className:'error',
+                   globalPosition:'top center'
+                });
+                
+            })
+            .always(function() {
+               // console.log("complete");
+            });
+        });
+        $('#user_left_menu_cont').on('click', '.followup', function(event) {
+            $('.followup').removeClass('active');
+            $(this).addClass('active');
+            $('#content_right').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
+            $.ajax({
+                url: '/task/'+$(this).attr('id').match(/\d+/)+'/comments',
                 type: 'GET',
                 async:false,
                 //dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
@@ -231,11 +312,11 @@ $(document).ready(function($)
             });
         
     });
-    $('#user_left_menu_cont').on('change', '#task_filter', function(event) {
+    $('#user_left_menu_cont').on('change', '#mytask_filter', function(event) {
         event.preventDefault();
         $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
-                url: '/notes',
+                url: '/mytask',
                 type: 'GET',
                 async:false,
                 dataType: 'html',
@@ -243,7 +324,7 @@ $(document).ready(function($)
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
-                 $("#user_left_menu_cont .note:first").click();
+                 $("#user_left_menu_cont .mytask:first").click();
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',
@@ -269,7 +350,7 @@ $(document).ready(function($)
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
-                 $("#user_left_menu_cont .note:first").click();
+                 $("#user_left_menu_cont .followup:first").click();
             })
             .fail(function() {
                 $.notify('Oops, Something went wrong!',

@@ -33,55 +33,52 @@ class TasksController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index($tid=NULL)
+	public function index($minute)
 	{
-		// if($nid)
-		// {
-		// 	//get myTasks histroy for note id
-		// 	$task = Tasks::find($tid);
-		// 	return view('tasks.history',array('task'=>$task));
-		// }
-		// else
-		// {
-		$input = Request::only('sortby');
-		//get all myTasks for current user
-		if($input['sortby'] == 'duedate' || !($input['sortby']))
+		if($minute->meeting->isAttendees())
 		{
-			$myTasks = Tasks::where('assignee','=',Auth::user()->id)
-				->where('status','!=','close')
-				->orderBy('due')->paginate(15);
-			return view('tasks.mytask',array('myTasks'=>$myTasks,'input'=>$input));
-		}
-		else if($input['sortby'] == 'assigner')
-		{
-			$myTasks = Tasks::where('assignee','=',Auth::user()->id)
-				->where('status','!=','close')
-				->orderBy('assigner')->paginate(15);
-			return view('myTasks.list_assigner',array('myTasks'=>$myTasks,'input'=>$input));
-		}
-		else if($input['sortby'] == 'meeting')
-		{
-			$myTasks = Tasks::select('myTasks.*')->where('myTasks.assignee','=',Auth::user()->id)
-				->where('myTasks.status','!=','close')
-				->join('minutes_history','myTasks.mhid','=','minutes_history.id')
-				->join('minutes','minutes_history.mid','=','minutes.id')
-				->orderBy('minutes.id')->paginate(15);
-			return view('myTasks.list_meeting',array('myTasks'=>$myTasks,'input'=>$input));
+			//load task for minutes 
+			return view('tasks.list',array('minute'=>$minute));
 		}
 		else
 		{
-			$myTasks = Tasks::where('assignee','=',Auth::user()->id)
-				->where('status','!=','close')
-				->orderBy('due')->paginate(15);
-			return view('myTasks.list_duedate',array('myTasks'=>$myTasks,'input'=>$input));
+			return abort(403, 'Unauthorized action.');
 		}
-
+		
+	}
+	public function mytask()
+	{
+		$input = Request::only('sortby');
+		//get all myTasks for current user
+		$myTasks = Tasks::where('assignee','=',Auth::user()->id)
+				->where('status','!=','close');
+		if($input['sortby'] == 'duedate')
+		{
+			$myTasks = $myTasks ->orderBy('due')->paginate(15);
+		}
+		else if($input['sortby'] == 'assigner')
+		{
+			$myTasks = $myTasks->orderBy('assigner')->paginate(15);
+		}
+		else if($input['sortby'] == 'meeting')
+		{
+			$myTasks = Tasks::select('tasks.*')->where('tasks.assignee','=',Auth::user()->id)
+				->where('tasks.status','!=','close')
+				->join('minutes','tasks.mhid','=','minutes.id')
+				->join('meetings','minutes.mid','=','meetings.id')
+				->orderBy('meetings.id')->paginate(15);
+		}
+		else
+		{
+			$myTasks = $myTasks ->orderBy('due')->paginate(15);
+		}
+		return view('tasks.mytask',array('myTasks'=>$myTasks,'input'=>$input));
 		// }
 		
 	}
 	public function getAdd($minute)
 	{
-		if($minute->meeting->hasPermissoin())
+		if($minute->meeting->isMinuter())
 		{
 			if($minute->lock_flag == Auth::id())
 			{
@@ -101,34 +98,40 @@ class TasksController extends Controller {
 	}
 	public function postDraft($minute)
 	{
-		$input = Request::only('title', 'description','assignee','assigner','due');
-		$records=array();
-		for ($i=0; $i < count($input['title']); $i++)
+		if($minute->meeting->isMinuter())
 		{
-			$tempArr['title'] = trim($input['title'][$i]);
-			$tempArr['description'] = trim($input['description'][$i]);
-			$tempArr['assignee'] = $input['assignee'][$i];
-			$tempArr['assigner'] = $input['assigner'][$i];
-			$tempArr['due'] = $input['due'][$i];
-			$tempArr['created_by'] = Auth::user()->id;
-			if(($tempArr['title']) || ($tempArr['description']))
-			$records[] = new Tasksdraft(array_filter($tempArr));
+			$input = Request::only('title', 'description','assignee','assigner','due');
+			$records=array();
+			for ($i=0; $i < count($input['title']); $i++)
+			{
+				$tempArr['title'] = trim($input['title'][$i]);
+				$tempArr['description'] = trim($input['description'][$i]);
+				$tempArr['assignee'] = $input['assignee'][$i];
+				$tempArr['assigner'] = $input['assigner'][$i];
+				$tempArr['due'] = $input['due'][$i];
+				$tempArr['created_by'] = Auth::user()->id;
+				if(($tempArr['title']) || ($tempArr['description']))
+				$records[] = new Tasksdraft(array_filter($tempArr));
+			}
+			//print_r($records); die;
+			if($records)
+			{
+				$minute->tasks_draft()->delete();
+				if($minute->tasks_draft()->saveMany($records))
+				{
+					//return true;
+				}
+				else
+				{
+					abort('404','Insertion failed');
+				}
+			}
+			return 'Save Successfully!';
 		}
-		//print_r($records); die;
-		if($records)
+		else
 		{
-			$minute->tasks_draft()->delete();
-			if($minute->tasks_draft()->saveMany($records))
-			{
-				//return true;
-			}
-			else
-			{
-				abort('404','Insertion failed');
-			}
+			return abort(403, 'Unauthorized action.');
 		}
-		return 'Save Successfully!';
-		//return redirect('tasks/add/'.$minute->id);
 		
 	}
 	public function postAdd($minute)
@@ -170,55 +173,45 @@ class TasksController extends Controller {
 		}
 		//return redirect('user/login')->with('message', $message)->with('error', $error);
 	}
-	public function postComment($nid)
+	public function postComment($task)
 	{
 		$input = Request::only('description');
 		$input['created_by'] = $input['updated_by'] = Auth::user()->id;
 		$myTasks = Tasks::find($nid);
-		$record = new myTaskshistory($input);
-		$myTasks->myTasks_history()->save($record);
-		return view('myTasks.history',array('myTasks'=>$myTasks));
+		$record = new Comments($input);
+		$task->comments()->save($record);
+		return view('comment.list',array('task'=>$task));
 	}
 	public function followup()
 	{
 
 			$input = Request::only('sortby');
-			//get all myTasks for current user
-			if(Auth::user()->profile->role == '999')
-			{
-				$myTasks = Tasks::select('myTasks.*')->where('myTasks.status','!=','close')->join('minutes_history','myTasks.mhid','=','minutes_history.id')
-							->join('minutes','minutes_history.mid','=','minutes.id');
-			}
-			else
-			{
-				$myTasks = Tasks::select('myTasks.*')->join('minutes_history','myTasks.mhid','=','minutes_history.id')
-							->join('minutes','minutes_history.mid','=','minutes.id')
-							->where('myTasks.assigner','=',Auth::user()->id)
-							->orWhere(function($query){
-								$query->whereRaw('FIND_IN_SET('.Auth::id().',minutes.minuters)');
-							})
-							->where('myTasks.status','!=','close');
-			}
+			//get all folloup for current user
+			$followup = Tasks::select('tasks.*')->join('minutes','tasks.mhid','=','minutes.id')
+						->join('meetings','minutes.mid','=','meetings.id')
+						->where('tasks.assigner','=',Auth::user()->id)
+						->orWhere(function($query){
+							$query->whereRaw('FIND_IN_SET('.Auth::id().',meetings.minuters)');
+						})
+						->where('tasks.status','!=','close');
+
 			if($input['sortby'] == 'duedate' || !($input['sortby']))
 			{
-				$myTasks = $myTasks->orderBy('myTasks.due')->paginate(15);
-				return view('myTasks.list_duedate',array('myTasks'=>$myTasks,'input'=>$input));
+				$followup = $followup->orderBy('tasks.due')->paginate(15);
 			}
 			else if($input['sortby'] == 'assignee')
 			{
-				$myTasks = $myTasks->orderBy('myTasks.assignee')->paginate(15);
-				return view('myTasks.list_assignee',array('myTasks'=>$myTasks,'input'=>$input));
+				$followup = $followup->orderBy('tasks.assignee')->paginate(15);
 			}
 			else if($input['sortby'] == 'meeting')
 			{
-				$myTasks = $myTasks->orderBy('minutes.id')->paginate(15);
-				return view('myTasks.list_meeting',array('myTasks'=>$myTasks,'input'=>$input));
+				$followup = $followup->orderBy('meetings.id')->paginate(15);
 			}
 			else
 			{
-				$myTasks = $myTasks->orderBy('myTasks.due')->paginate(15);
-				return view('myTasks.list_duedate',array('myTasks'=>$myTasks,'input'=>$input));
+				$followup = $followup->orderBy('tasks.due')->paginate(15);
 			}
+			return view('tasks.followup',array('followup'=>$followup,'input'=>$input));
 	}
 
 	public function accept($id)
@@ -266,26 +259,24 @@ class TasksController extends Controller {
 			abort('403','Unauthorized access');
 		}
 	}
-	public function edit($nid)
+	public function edit($task)
 	{
-		$myTasks = Tasks::find($nid);
-		$users = User::whereIn('id',explode(',', $myTasks->minute_history->attendees))->lists('name','id');
-		return view('myTasks.edit',['myTasks'=>$myTasks,'users'=>$users]);
+		$users = User::whereIn('id',explode(',', $task->minute->attendees))->lists('name','id');
+		return view('tasks.edit',['task'=>$task,'users'=>$users]);
 	}
-	public function update($nid)
+	public function update($task)
 	{
 		$input = Request::only('title', 'description','assignee','assigner','due');
 		$validation = Tasks::validation($input);
 		if ($validation->fails())
 		{
-			return redirect('myTasks/edit/'.$nid)->withErrors($validation);
+			return redirect('task/'.$task->id.'/edit')->withErrors($validation);
 		}
 		else
 		{
 			$input['updated_by'] = Auth::user()->id;
 			$input['status'] = 'waiting';
-			$myTasks = Tasks::find($nid);
-			$myTasks->update($input);
+			$task->update($input);
 			return "updated";
 		}
 		
