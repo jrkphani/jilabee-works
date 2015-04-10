@@ -13,7 +13,7 @@
 							<span class="glyphicon glyphicon-pencil"></span>
 							<a href="">
 	  							{{Auth::user()->name}}
-	  							<span class="glyphicon glyphicon-user"></span>
+	  							
 	  						</a>
 						</div>
 						<?php
@@ -25,8 +25,8 @@
 					     @if($attendees)
 						<div class="list-group alert alert-success col-md-12 margin_top_20">
 					    	@foreach($attendees as $key=>$value)
-	  							<a {{-- class="list-group-item" --}} href="">
-	  								<span class="glyphicon glyphicon-user"></span>
+	  							<a href="{{url('profile/'.$key)}}">
+	  								
 	  								{{$value}}
 	  							</a>
 					    	@endforeach
@@ -35,8 +35,8 @@
 					    @if($absentees)
 						<div class="list-group alert alert-danger col-md-12 ">
 					    	@foreach($absentees as $key=>$value)
-	  							<a {{-- class="list-group-item" --}} href="">
-	  								<span class="glyphicon glyphicon-user"></span>
+	  							<a href="{{url('profile/'.$key)}}">
+	  								
 	  								{{$value}}
 	  							</a>
 					    	@endforeach

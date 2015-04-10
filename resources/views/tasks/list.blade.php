@@ -12,7 +12,7 @@
 							<span class="glyphicon glyphicon-pencil"></span>
 							<a href="{{url('profile/'.$minute->created_by)}}">
 	  							{{$minute->createdby->name}}
-	  							<span class="glyphicon glyphicon-user"></span>
+	  							
 	  						</a>
 						</div>
 						<?php

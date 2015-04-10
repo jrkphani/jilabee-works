@@ -32,8 +32,8 @@
 					{!! nl2br($comment->description) !!}
 				</div>
 				<div class="col-md-4 border_top">
-					<a href="{{ app_url('/profile/') }}" >{!! nl2br($comment->createdby->name) !!}
-					<span class="glyphicon glyphicon-user"></span></a>
+					<a href="{{ app_url('/profile/'.$comment->created_by) }}" >{!! nl2br($comment->createdby->name) !!}
+					</a>
 				</div>
 			@endforeach
 		@endif
