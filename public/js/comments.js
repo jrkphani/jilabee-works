@@ -1,7 +1,7 @@
 $(document).ready(function($) {
 	$(document).on('click', '#add_comment', function(event) {
 		$.ajax({
-			url: '/comments/add/'+$(this).attr('nid'),
+			url: '/task/'+$(this).attr('tid')+'/comments/add',
 			type: 'POST',
 			async:false,
 			dataType: 'html',
@@ -24,7 +24,7 @@ $(document).ready(function($) {
 	});
 	$(document).on('click', '#accept_task', function(event) {
 		$.ajax({
-			url: '/notes/accept/'+$(this).attr('nid'),
+			url: '/task/'+$(this).attr('tid')+'/accept',
 			type: 'POST',
 			async:false,
 			dataType: 'html',
@@ -52,7 +52,7 @@ $(document).ready(function($) {
 	});
 	$(document).on('click', '#reject_task', function(event) {
 		$.ajax({
-			url: '/notes/reject/'+$(this).attr('nid'),
+			url: '/task/'+$(this).attr('tid')+'/reject',
 			type: 'POST',
 			async:false,
 			dataType: 'html',

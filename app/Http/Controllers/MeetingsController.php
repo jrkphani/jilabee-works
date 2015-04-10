@@ -34,15 +34,8 @@ class MeetingsController extends Controller {
 	 */
 	public function index()
 	{
-		$uid = Auth::id();
-		if(Auth::user()->profile->role == '999')
-		{
-			$meetings = Meetings::all();
-		}
-		else
-		{
-			$meetings = Meetings::whereRaw('FIND_IN_SET('.$uid.',attendees)')->orWhereRaw('FIND_IN_SET('.$uid.',minuters)')->get();	
-		}
+
+		$meetings = Meetings::whereRaw('FIND_IN_SET('.Auth::id().',attendees)')->orWhereRaw('FIND_IN_SET('.Auth::id().',minuters)')->get();	
 		return view('meetings.list',array('meetings'=>$meetings));
 	}
 	

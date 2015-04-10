@@ -49,4 +49,5 @@
 		<script src="{{ asset('/js/bootstrap-dialog.min.js') }}"></script>
 	    <script src="{{ asset('/js/user.js') }}"></script>
 	    <script src="{{ asset('/js/tasks.js') }}"></script>
+	    <script src="{{ asset('/js/comments.js') }}"></script>
 	@stop

@@ -67,6 +67,12 @@ Route::controllers([
 			Route::get('task/{taskid}/edit', 'TasksController@edit');
 			Route::post('task/{taskid}/edit', 'TasksController@update');
 
+			Route::post('task/{tid}/reject', 'TasksController@reject');
+			Route::post('task/{tid}/accept', 'TasksController@accept');
+
+			Route::get('task/{taskid}/comments', 'TasksController@getComment');
+			Route::post('task/{taskid}/comments/add', 'TasksController@postComment');
+
 			Route::get('minute/{minuteid}/tasks', 'TasksController@index')->where('id', '[0-9]+');
 			Route::post('minute/{minuteid}/tasks/add/draft', 'TasksController@postDraft')->where('id', '[0-9]+');
 

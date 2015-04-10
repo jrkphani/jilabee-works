@@ -43,7 +43,7 @@ $(document).ready(function($)
                 var url = document.location.toString();
                 if (url.match('#'))
                 {
-                    if(url.split('#')[1] == 'meetings')
+                    if(url.split('#')[1] == 'mytask')
                     {
                         if(url.split('#').length > 2)
                         {

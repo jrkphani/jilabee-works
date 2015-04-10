@@ -3,6 +3,7 @@ use App\Model\Minutes;
 use App\Model\Minuteshistory;
 use App\Model\Tasks;
 use App\Model\Tasksdraft;
+use App\Model\Comments;
 use App\User;
 use Auth;
 use Request;
@@ -173,15 +174,7 @@ class TasksController extends Controller {
 		}
 		//return redirect('user/login')->with('message', $message)->with('error', $error);
 	}
-	public function postComment($task)
-	{
-		$input = Request::only('description');
-		$input['created_by'] = $input['updated_by'] = Auth::user()->id;
-		$myTasks = Tasks::find($nid);
-		$record = new Comments($input);
-		$task->comments()->save($record);
-		return view('comment.list',array('task'=>$task));
-	}
+	
 	public function followup()
 	{
 
@@ -189,9 +182,10 @@ class TasksController extends Controller {
 			//get all folloup for current user
 			$followup = Tasks::select('tasks.*')->join('minutes','tasks.mhid','=','minutes.id')
 						->join('meetings','minutes.mid','=','meetings.id')
-						->where('tasks.assigner','=',Auth::user()->id)
+						->where('tasks.assigner','=',Auth::id())
 						->orWhere(function($query){
-							$query->whereRaw('FIND_IN_SET('.Auth::id().',meetings.minuters)');
+							$query->whereRaw('FIND_IN_SET('.Auth::id().',meetings.minuters)')
+							->whereNull('tasks.assigner');
 						})
 						->where('tasks.status','!=','close');
 
@@ -214,20 +208,48 @@ class TasksController extends Controller {
 			return view('tasks.followup',array('followup'=>$followup,'input'=>$input));
 	}
 
+	public function getComment($task)
+	{
+		return view('comments.list',array('task'=>$task));
+	}
+	public function postComment($task)
+	{
+		if($task->minute->meeting->isAttendees())
+		{
+			$input = Request::only('description');
+			$validation = Comments::validation($input);
+			if ($validation->fails())
+			{
+				return redirect('task/'.$task->id.'/comments')->withErrors($validation);
+			}
+			else
+			{
+				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
+				$record = new Comments($input);
+				$task->comments()->save($record);
+				return redirect('task/'.$task->id.'/comments')->withErrors($validation);
+			}
+		}
+		else
+		{
+			abort('403','Unauthorized access');
+		}
+	}
+
 	public function accept($id)
 	{
 		$input = Request::only('description');
-		$myTasks = Tasks::where('id','=',$id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->first();
-		if($myTasks)
+		$task = Tasks::where('id','=',$id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->first();
+		if($task)
 		{
-			$myTasks->update(['status'=>'open','updated_by'=>Auth::id()]);
+			$task->update(['status'=>'open','updated_by'=>Auth::id()]);
 			if($input['description'])
 			{
 				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
-				$record = new myTaskshistory($input);
-				$myTasks->myTasks_history()->save($record);
+				$record = new Comments($input);
+				$task->comments()->save($record);
 			}
-			return redirect('myTasks/'.$id);		
+			return redirect('task/'.$id.'/comments');	
 		}
 		else
 		{
@@ -237,21 +259,21 @@ class TasksController extends Controller {
 	public function reject($id)
 	{
 		$input = Request::only('description');
-		$myTasks = Tasks::where('id','=',$id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->first();
-		if($myTasks)
+		$task = Tasks::where('id','=',$id)->whereRaw('FIND_IN_SET('.Auth::id().',assignee)')->first();
+		if($task)
 		{
-			$validation = myTaskshistory::validation($input);
+			$validation = Comments::validation($input);
 			if ($validation->fails())
 			{
-				return redirect('myTasks/'.$id)->withErrors($validation);
+				return redirect('task/'.$id.'/comments')->withErrors($validation);
 			}
 			else
 			{
-				$myTasks->update(['status'=>'rejected','updated_by'=>Auth::id()]);
+				$task->update(['status'=>'rejected','updated_by'=>Auth::id()]);
 				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
-				$record = new myTaskshistory($input);
-				$myTasks->myTasks_history()->save($record);
-				return redirect('myTasks/'.$id);
+				$record = new Comments($input);
+				$task->comments()->save($record);
+				return redirect('task/'.$id.'/comments');
 			}
 		}
 		else
