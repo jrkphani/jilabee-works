@@ -63,14 +63,20 @@
 								{!! nl2br($task->description) !!}
 							</div>
 							<div class="col-md-2 nopadding">
-								<div class="col-md-12">
+								<div class="col-md-12 nopadding">
 									@if(isset($task->status))
+									<?php $statusArr = ['close'=>'close'];
+										$statusArr[$task->status]=$task->status
+									?>
 										@if($task->status == "rejected")
-										<div class="btn btn-link nopadding" data-toggle="tooltip" data-placement="bottom" title="{{$task->comments()->first()->description}}">
-											{{$task->status}}
+										<div class="col-md-10 nopadding">
+											{!!Form::select('status',$statusArr,$task->status,['autocomplete'=>'off','class'=>'changeStatus form-control','tid'=>$task->id]) !!}
+										</div>
+										<div class="col-md-2 nopadding">
+											<span class="glyphicon glyphicon-question-sign btn btn-link" data-toggle="tooltip" data-placement="bottom" title="{{$task->comments()->first()->description}}"></span>
 										</div>
 										@else
-											{{$task->status}}
+											{!!Form::select('status',$statusArr,$task->status,['autocomplete'=>'off','class'=>'changeStatus form-control','tid'=>$task->id]) !!}
 										@endif
 									@endif
 								</div>

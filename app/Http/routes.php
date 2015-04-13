@@ -68,6 +68,8 @@ Route::controllers([
 			Route::get('task/{taskid}/edit', 'TasksController@edit');
 			Route::post('task/{taskid}/edit', 'TasksController@update');
 
+			Route::post('task/{taskid}/close', 'TasksController@close');
+
 			Route::post('task/{tid}/reject', 'TasksController@reject');
 			Route::post('task/{tid}/accept', 'TasksController@accept');
 

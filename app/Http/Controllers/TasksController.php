@@ -303,10 +303,17 @@ class TasksController extends Controller {
 	}
 	public function edit($task)
 	{
-		if($task->status == 'waiting' || $task->status == 'rejected')
+		if($task->minute->meeting->isMinuter())
 		{
-			$users = User::whereIn('id',explode(',', $task->minute->attendees))->lists('name','id');
-			return view('tasks.edit',['task'=>$task,'users'=>$users]);
+			if($task->status == 'waiting' || $task->status == 'rejected')
+			{
+				$users = User::whereIn('id',explode(',', $task->minute->attendees))->lists('name','id');
+				return view('tasks.edit',['task'=>$task,'users'=>$users]);
+			}
+			else
+			{
+				abort('Invalid Access!');
+			}
 		}
 		else
 		{
@@ -315,18 +322,40 @@ class TasksController extends Controller {
 	}
 	public function update($task)
 	{
-		$input = Request::only('title', 'description','assignee','assigner','due');
-		$validation = Tasks::validation($input);
-		if ($validation->fails())
+		if($task->minute->meeting->isMinuter())
 		{
-			return redirect('task/'.$task->id.'/edit')->withErrors($validation);
+			$input = Request::only('title', 'description','assignee','assigner','due');
+			$validation = Tasks::validation($input);
+			if ($validation->fails())
+			{
+				return redirect('task/'.$task->id.'/edit')->withErrors($validation);
+			}
+			else
+			{
+				$input['updated_by'] = Auth::user()->id;
+				$input['status'] = 'waiting';
+				$task->update($input);
+				return "updated";
+			}
 		}
 		else
 		{
+			abort('Invalid Access!');
+		}
+		
+	}
+	public function close($task)
+	{
+		if($task->minute->meeting->isMinuter())
+		{
 			$input['updated_by'] = Auth::user()->id;
-			$input['status'] = 'waiting';
+			$input['status'] = 'close';
 			$task->update($input);
 			return "updated";
+		}
+		else
+		{
+			abort('Invalid Access!');
 		}
 		
 	}
