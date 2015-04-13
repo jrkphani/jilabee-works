@@ -94,7 +94,7 @@ to { -moz-transform: rotate(360deg);}
   /*right: 15px;*/
   right: -530px;
   width: 40%;
-  /*display: none;*/
+  display: none;
   z-index: 999;
   overflow-y: scroll;
 }

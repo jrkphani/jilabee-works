@@ -1,9 +1,13 @@
 $(document).ready(function($) {
     	$('#stickynotes_close').click(function(event) {
-    		$('#stickynotes').animate({right:"-530px"});
+    		$('#stickynotes').animate({
+						    right: "-530px",
+						  }, 'fast', function() {
+						    $('#stickynotes').hide();
+						  });
     	});
     	$('#stickynotes_open').click(function(event) {
-    		
+    		$('#stickynotes').show();
     		 $("#stickynotes").animate({right: "15px"});
     	});
     	$('#stickynotes_content').on('click', '#add_stick_notes', function(event) {
