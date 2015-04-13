@@ -259,13 +259,32 @@ $(document).ready(function($)
     
     $('#user_left_menu_cont').on('change', '#mytask_filter', function(event) {
         event.preventDefault();
+        loadMyTask($('#mytask_filter').val(),$('#myTaskSearchInput').val());
+        
+    });
+    $('#user_left_menu_cont').on('change', '#followup_filter', function(event) {
+        event.preventDefault();
+        loadFollowup($('#followup_filter').val(),$('#folloupSearchInput').val());
+    });
+    $('#user_left_menu_cont').on('click', '#myTaskSearch', function(event) {
+        event.preventDefault();
+        loadMyTask($('#mytask_filter').val(),$('#myTaskSearchInput').val());
+        
+    });
+    $('#user_left_menu_cont').on('click', '#folloupSearch', function(event) {
+        event.preventDefault();
+        loadFollowup($('#followup_filter').val(),$('#folloupSearchInput').val());
+    });
+
+    function loadMyTask(sortby,search)
+    {
         $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
                 url: '/mytask',
                 type: 'GET',
                 async:false,
                 dataType: 'html',
-                data: {'sortby': $(this).val() },
+                data: {'sortby': sortby,'search': search },
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
@@ -282,16 +301,17 @@ $(document).ready(function($)
             .always(function() {
                 //console.log("complete");
             });
-    });
-        $('#user_left_menu_cont').on('change', '#followup_filter', function(event) {
-        event.preventDefault();
-        $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
+    }
+   
+   function loadFollowup(sortby,search)
+   {
+    $('#user_left_menu_cont').html('<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>');
             $.ajax({
                 url: '/followup',
                 type: 'GET',
                 async:false,
                 dataType: 'html',
-                data: {'sortby': $(this).val() },
+                data: {'sortby': sortby,'search': search },
             })
             .done(function(output) {
                 $('#user_left_menu_cont').html(output);
@@ -308,5 +328,4 @@ $(document).ready(function($)
             .always(function() {
                 //console.log("complete");
             });
-    });
-   
+   }

@@ -1,3 +1,19 @@
+<div class="row">
+<div class="col-md-12">
+		
+    	<div class="col-md-4 nopadding">
+	  		{!! Form::select('followup_filter', ['duedate'=>'Timeline','meeting'=>'Meeting','assignee'=>'Assignee'], $input['sortby'], ['id'=>'followup_filter','autocomplete'=>'off','class'=>'form-control'])!!}
+    	</div>
+    	<div class="col-md-8 ">
+    		<div class="col-md-10 nopadding">
+    			<input type="text" class="form-control" value="{{$input['search']}}"id="folloupSearchInput" placeholder="Search ">
+    		</div>
+    		<div class="col-md-2 nopadding">
+    			<span class="glyphicon glyphicon-search btn btn-primary" id="folloupSearch"></span>
+    		</div>
+    	</div>
+</div>
+</div>
 @if($followup->first())
 @if($input['sortby'] == 'duedate' || !($input['sortby']))
 	@foreach($followup as $task)
@@ -60,21 +76,6 @@
 @endif
 
 <div class="row scroll_horizontal">
-	<div class="col-md-12">
-		
-    	<div class="col-md-4 nopadding">
-	  		{!! Form::select('followup_filter', ['duedate'=>'Timeline','meeting'=>'Meeting','assignee'=>'Assignee'], $input['sortby'], ['id'=>'followup_filter','autocomplete'=>'off','class'=>'form-control'])!!}
-    	</div>
-    	<div class="col-md-8 ">
-    		<div class="col-md-10 nopadding">
-    			<input type="text" class="form-control" placeholder="Search ">
-    		</div>
-    		<div class="col-md-2 nopadding">
-    			<span class="glyphicon glyphicon-search btn btn-primary"></span>
-    		</div>
-    	</div>
-	   
-	</div>
 	@foreach($taskArr as $key=>$taskrow)
 		<div class="col-md-12 border_bottom margin_top_10">
 			<strong>{{$key}}</strong>

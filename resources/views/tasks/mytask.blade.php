@@ -1,3 +1,18 @@
+<div class="row">
+<div class="col-md-12">
+    	<div class="col-md-4 nopadding">
+	  		{!! Form::select('mytask_filter', ['duedate'=>'Timeline','meeting'=>'Meeting','assigner'=>'Assigner'], $input['sortby'], ['id'=>'mytask_filter','autocomplete'=>'off','class'=>'form-control'])!!}
+    	</div>
+    	<div class="col-md-8 ">
+    		<div class="col-md-10 nopadding">
+    			<input type="text" value="{{$input['search']}}" class="form-control" id="myTaskSearchInput" placeholder="Search ">
+    		</div>
+    		<div class="col-md-2 nopadding">
+    			<span class="glyphicon glyphicon-search btn btn-primary" id="myTaskSearch"></span>
+    		</div>
+    	</div>
+</div>
+</div>
 @if($myTasks->first())
 @if($input['sortby'] == 'duedate' || !($input['sortby']))
 	@foreach($myTasks as $mytask)
@@ -67,21 +82,7 @@
 @endif
 
 <div class="row scroll_horizontal">
-	<div class="col-md-12">
-		
-    	<div class="col-md-4 nopadding">
-	  		{!! Form::select('mytask_filter', ['duedate'=>'Timeline','meeting'=>'Meeting','assigner'=>'Assigner'], $input['sortby'], ['id'=>'mytask_filter','autocomplete'=>'off','class'=>'form-control'])!!}
-    	</div>
-    	<div class="col-md-8 ">
-    		<div class="col-md-10 nopadding">
-    			<input type="text" class="form-control" placeholder="Search ">
-    		</div>
-    		<div class="col-md-2 nopadding">
-    			<span class="glyphicon glyphicon-search btn btn-primary"></span>
-    		</div>
-    	</div>
-	   
-	</div>
+	
 	@foreach($mytaskArr as $key=>$mytaskrow)
 		<div class="col-md-12 border_bottom margin_top_10">
 			<strong>{{$key}}</strong>

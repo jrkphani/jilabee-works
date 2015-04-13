@@ -49,10 +49,14 @@ class TasksController extends Controller {
 	}
 	public function mytask()
 	{
-		$input = Request::only('sortby');
+		$input = Request::only('sortby','search');
 		//get all myTasks for current user
 		$myTasks = Tasks::where('assignee','=',Auth::user()->id)
 				->where('status','!=','close');
+		if(strlen($input['search'])>0)
+		{
+			$myTasks = $myTasks ->where('title','like','%'.$input['search'].'%');
+		}
 		if($input['sortby'] == 'duedate')
 		{
 			$myTasks = $myTasks ->orderBy('due')->paginate(15);
@@ -63,11 +67,23 @@ class TasksController extends Controller {
 		}
 		else if($input['sortby'] == 'meeting')
 		{
-			$myTasks = Tasks::select('tasks.*')->where('tasks.assignee','=',Auth::user()->id)
+			if(strlen($input['search'])>0)
+			{
+				$myTasks = Tasks::select('tasks.*')->where('tasks.assignee','=',Auth::user()->id)
+				->where('tasks.status','!=','close')
+				->where('tasks.title','like','%'.$input['search'].'%')
+				->join('minutes','tasks.mhid','=','minutes.id')
+				->join('meetings','minutes.mid','=','meetings.id')
+				->orderBy('meetings.id')->paginate(15);
+			}
+			else
+			{
+				$myTasks = Tasks::select('tasks.*')->where('tasks.assignee','=',Auth::user()->id)
 				->where('tasks.status','!=','close')
 				->join('minutes','tasks.mhid','=','minutes.id')
 				->join('meetings','minutes.mid','=','meetings.id')
 				->orderBy('meetings.id')->paginate(15);
+			}
 		}
 		else
 		{
@@ -178,7 +194,7 @@ class TasksController extends Controller {
 	public function followup()
 	{
 
-			$input = Request::only('sortby');
+			$input = Request::only('sortby','search');
 			//get all folloup for current user
 			$followup = Tasks::select('tasks.*')->join('minutes','tasks.mhid','=','minutes.id')
 						->join('meetings','minutes.mid','=','meetings.id')
@@ -188,6 +204,10 @@ class TasksController extends Controller {
 							->whereNull('tasks.assigner');
 						})
 						->where('tasks.status','!=','close');
+			if(strlen($input['search'])>0)
+			{
+				$followup = $followup ->where('tasks.title','like','%'.$input['search'].'%');
+			}
 
 			if($input['sortby'] == 'duedate' || !($input['sortby']))
 			{
