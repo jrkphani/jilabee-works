@@ -39,6 +39,9 @@
 				</div>				
 			</div>
 			@endforeach
+			<div class"col-md-12">
+				<?php echo $meetings->render(); ?>
+			</div>
 		@else
 		No data to display!
 		@endif

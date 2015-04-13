@@ -35,12 +35,12 @@ class MeetingsController extends Controller {
 	public function index()
 	{
 
-		$meetings = Meetings::whereRaw('FIND_IN_SET('.Auth::id().',attendees)')->orWhereRaw('FIND_IN_SET('.Auth::id().',minuters)')->get();	
+		$meetings = Meetings::whereRaw('FIND_IN_SET('.Auth::id().',attendees)')->orWhereRaw('FIND_IN_SET('.Auth::id().',minuters)')->paginate(10);	
 		return view('meetings.list',array('meetings'=>$meetings));
 	}
 	public function listAll()
 	{
-		$meetings = Meetings::all();
+		$meetings = Meetings::paginate(10);
 		return view('meetings.admin',array('meetings'=>$meetings));
 	}
 	public function getAdd()
