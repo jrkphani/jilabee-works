@@ -1,9 +1,10 @@
 $(document).ready(function($) {
     	$('#stickynotes_close').click(function(event) {
-    		$('#stickynotes').hide(500);
+    		$('#stickynotes').animate({right:"-530px"});
     	});
     	$('#stickynotes_open').click(function(event) {
-    		$('#stickynotes').show(500);
+    		
+    		 $("#stickynotes").animate({right: "15px"});
     	});
     	$('#stickynotes_content').on('click', '#add_stick_notes', function(event) {
         event.preventDefault();

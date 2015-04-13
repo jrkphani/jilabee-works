@@ -91,9 +91,10 @@ to { -moz-transform: rotate(360deg);}
   background-color: #8b8b8b;
   height: 80%;
   position: absolute;
-  right: 15px;
+  /*right: 15px;*/
+  right: -530px;
   width: 40%;
-  display: none;
+  /*display: none;*/
   z-index: 999;
   overflow-y: scroll;
 }
