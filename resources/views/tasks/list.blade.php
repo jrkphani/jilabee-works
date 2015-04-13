@@ -64,7 +64,15 @@
 							</div>
 							<div class="col-md-2 nopadding">
 								<div class="col-md-12">
-									{{(isset($task->status)?$task->status:'')}}
+									@if(isset($task->status))
+										@if($task->status == "rejected")
+										<div class="btn btn-link nopadding" data-toggle="tooltip" data-placement="bottom" title="{{$task->comments()->first()->description}}">
+											{{$task->status}}
+										</div>
+										@else
+											{{$task->status}}
+										@endif
+									@endif
 								</div>
 								<div class="col-md-12">
 									<a href="{{ app_url('/profile/').$task->assignee}}">
@@ -74,7 +82,7 @@
 								<div class="col-md-12">
 									{{(isset($task->due)?date('Y-m-d',strtotime($task->due)):'')}}
 								</div>
-								@if($minute->updated_by == Auth::id())
+								@if($minute->updated_by == Auth::id() && ($task->status == 'waiting' || $task->status == 'rejected'))
 		        					<div class="col-md-12">
 										<span tid="{{$task->id}}" class="btn glyphicon glyphicon-edit edit_task"></span>
 									</div>
@@ -92,3 +100,8 @@
 	</div>
 </div>
 @endif
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+    });
+</script>

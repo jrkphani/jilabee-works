@@ -84,7 +84,7 @@ class ProfileController extends Controller {
 							,'update_by' => Auth::id()];
 			if($user->profile->update($profileinput))
 			{
-				return redirect('edit/user/'.$user->id)->with('message', 'Updated successfully!');
+				return redirect('user/'.$user->id.'/edit')->with('message', 'Updated successfully!');
 			}
 		}
 	}

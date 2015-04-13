@@ -1,5 +1,5 @@
-@extends('master')
-@section('usercontent')
+@extends('admin')
+@section('content')
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 			@foreach($users as $user)
-				<div class="col-md-12 border_bottom">
+				<div class="col-md-12 border_bottom users">
 					<div class="col-md-2">
 						<img width="50" height="50" alt="Cinque Terre" class="img-circle" src="{{url('img/jotter.jpg')}}">
 					</div>

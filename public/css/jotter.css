@@ -121,3 +121,8 @@ to { -moz-transform: rotate(360deg);}
 {
   background-color:#dff0d8;
 }
+.meetings:hover, .users:hover, .minute:hover, .task:hover, .mytask:hover
+{
+  background-color: #f5f5f5;
+  /*color:#eeeeee;*/
+}

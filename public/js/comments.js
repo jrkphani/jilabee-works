@@ -31,11 +31,6 @@ $(document).ready(function($) {
 			data: {_token: $_token,'description':$('#description').val() },
 		})
 		.done(function(output) {
-			$.notify('Task accepted!',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
 			 $('#content_right').html(output);
 		})
 		.fail(function() {
@@ -59,12 +54,7 @@ $(document).ready(function($) {
 			data: {_token: $_token,'description':$('#description').val() },
 		})
 		.done(function(output) {
-			$.notify('Task rejected!',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
-			 $('#content_right').html(output);
+			$('#content_right').html(output);
 			 //$('#menuMytask').click();
 		})
 		.fail(function() {

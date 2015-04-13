@@ -16,7 +16,7 @@
                             </ul>
                         </div>
                     @endif
-                {!! Form::open(['class' => 'form-horizontal']) !!}
+                {!! Form::open(['class' => 'form-horizontal','method'=>'POST']) !!}
                    <div class="form-group">
                         <label class="col-md-4 control-label">Name</label>
                         <div class="col-md-6">

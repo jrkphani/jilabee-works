@@ -51,12 +51,13 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('profile') }}">Profile</a></li>
+								<li><a href="{{ url('profile') }}">My Profile</a></li>
 								
 								@if(Auth::user()->profile->role == '999')
-									<li><a href="{{ url('auth/register') }}">Add User</a></li>
+								<li><a href="{{ url('admin/userlist') }}">Dashboard</a></li>
+									{{-- <li><a href="{{ url('auth/register') }}">Add User</a></li>
 									<li><a href="{{ url('meeting/add') }}">Add Meeting</a></li>
-									<li><a href="{{ url('userlist') }}">Users</a></li>
+									<li><a href="{{ url('userlist') }}">Users</a></li> --}}
 								@endif
 								<li><a href="{{ url('auth/logout') }}">Logout</a></li>
 							</ul>

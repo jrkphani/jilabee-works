@@ -18,7 +18,7 @@
 						<div class="form-group col-md-6">
 							<label class="col-md-4 control-label">Date</label>
 							<div class="col-md-8">
-								{!! Form::text('dt',date('Y-m-d H:i:s'),array('class'=>"form-control",'placeholder'=>'Venue','autocomplete'=>'off')) !!}
+								{!! Form::text('dt',date('Y-m-d H:i:s'),array('class'=>"form-control",'placeholder'=>'Date','autocomplete'=>'off')) !!}
 							</div>
 							{!! $errors->first('dt', '<div class="col-md-12 alert alert-danger">:message</div>') !!}
 						</div>

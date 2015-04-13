@@ -34,5 +34,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hasOne('App\Model\Profile','uid','id');
     }
-
+    public function isAdmin()
+    {
+        //check permission as admin
+        if($this->profile->role == '999')
+        {
+            return TRUE;
+        }
+        return FALSE;
+    }
 }

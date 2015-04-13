@@ -5,10 +5,27 @@
 			<div class="panel-heading">
 				<strong>{{$task->title}}</strong>
 				<p>Meeting : {{$task->minute->meeting->title}}</p>
-				{{$task->minute->created_at}} | 
+				{{$task->minute->dt}} | 
 				{{$task->minute->venue}} |
+				@if($task->assignee)
+				Assignee :
+					@if($task->assignee == Auth::id())
+						Me
+					@else
+						{{$task->getassignee->name}}
+					@endif
+					|
+				@endif
+
 				@if($task->assigner)
-				{{$task->getassigner->name}}
+				Assigner :
+					@if($task->assigner == Auth::id())
+						Me
+					@else
+						{{$task->getassigner->name}}
+					@endif
+				@else
+				Assigner : Team
 				@endif
 				<span class="pull-right">
 					Status: <span class="{{$task->status}}">{{$task->status}}</span>
@@ -31,7 +48,7 @@
 					@endforeach
 				</div>
 					<div class="col-md-12">
-						<textarea id="description" class="form-group col-md-12" rows='3' placeholder="description"></textarea>
+						<textarea id="description" name="description" class="form-group col-md-12" rows='3' placeholder="description">{{old('description')}}</textarea>
 						{!!$errors->first('description','<div class="alert alert-danger">:message</div>')!!}
 						@if($task->status == 'waiting' && $task->assignee == Auth::id())
 							<div class="col-md-12">
@@ -55,4 +72,13 @@
 		</div>
 	</div>
 </div>
+@endif
+@if(Session::has('message'))
+<script type="text/javascript">
+$.notify("{{Session::get('message')}}",
+                {
+                   className:'success',
+                   globalPosition:'top center'
+                });
+</script>
 @endif

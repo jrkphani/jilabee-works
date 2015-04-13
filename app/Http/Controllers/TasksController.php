@@ -227,7 +227,7 @@ class TasksController extends Controller {
 				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
 				$record = new Comments($input);
 				$task->comments()->save($record);
-				return redirect('task/'.$task->id.'/comments')->withErrors($validation);
+				return redirect('task/'.$task->id.'/comments')->withErrors($validation)->with(['message'=>'Comment posted!']);
 			}
 		}
 		else
@@ -249,7 +249,7 @@ class TasksController extends Controller {
 				$record = new Comments($input);
 				$task->comments()->save($record);
 			}
-			return redirect('task/'.$id.'/comments');	
+			return redirect('task/'.$id.'/comments')->with(['message'=>'Task accepted!']);	
 		}
 		else
 		{
@@ -265,7 +265,7 @@ class TasksController extends Controller {
 			$validation = Comments::validation($input);
 			if ($validation->fails())
 			{
-				return redirect('task/'.$id.'/comments')->withErrors($validation);
+				return redirect('task/'.$id.'/comments')->withErrors($validation)->withInput()->with(['message'=>'']);
 			}
 			else
 			{
@@ -273,7 +273,7 @@ class TasksController extends Controller {
 				$input['created_by'] = $input['updated_by'] = Auth::user()->id;
 				$record = new Comments($input);
 				$task->comments()->save($record);
-				return redirect('task/'.$id.'/comments');
+				return redirect('task/'.$id.'/comments')->with(['message'=>'Task rejected!']);
 			}
 		}
 		else
@@ -283,8 +283,15 @@ class TasksController extends Controller {
 	}
 	public function edit($task)
 	{
-		$users = User::whereIn('id',explode(',', $task->minute->attendees))->lists('name','id');
-		return view('tasks.edit',['task'=>$task,'users'=>$users]);
+		if($task->status == 'waiting' || $task->status == 'rejected')
+		{
+			$users = User::whereIn('id',explode(',', $task->minute->attendees))->lists('name','id');
+			return view('tasks.edit',['task'=>$task,'users'=>$users]);
+		}
+		else
+		{
+			abort('Invalid Access!');
+		}
 	}
 	public function update($task)
 	{

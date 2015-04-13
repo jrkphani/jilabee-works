@@ -38,7 +38,11 @@ class MeetingsController extends Controller {
 		$meetings = Meetings::whereRaw('FIND_IN_SET('.Auth::id().',attendees)')->orWhereRaw('FIND_IN_SET('.Auth::id().',minuters)')->get();	
 		return view('meetings.list',array('meetings'=>$meetings));
 	}
-	
+	public function listAll()
+	{
+		$meetings = Meetings::all();
+		return view('meetings.admin',array('meetings'=>$meetings));
+	}
 	public function getAdd()
 	{
 		$users = User::where('id','!=',Auth::user()->id)->lists('name','id');
@@ -51,7 +55,7 @@ class MeetingsController extends Controller {
 
 		if ($validation->fails())
 		{
-			return redirect('meeting/add/')->withInput($input)->with('minuters',$input['minuters'])
+			return redirect('admin/meeting/add/')->withInput($input)->with('minuters',$input['minuters'])
 				->with('attendees',$input['attendees'])->withErrors($validation);
 		}
 		$input['updated_by'] = Auth::user()->id;
@@ -60,11 +64,11 @@ class MeetingsController extends Controller {
 		$input['created_by'] = Auth::user()->id;
 		if(Meetings::create($input))
 		{
-			return redirect('/#meetings')->with('message', 'Meeting added successfully');
+			return redirect('admin/meetings')->with('message', 'Meeting added successfully');
 		}
 		else
 		{
-			return redirect('meeting/add/')->with('error', 'Oops something went wrong!')
+			return redirect('admin/meeting/add/')->with('error', 'Oops something went wrong!')
 			->withInput($input);
 		}			
 	}
@@ -87,7 +91,7 @@ class MeetingsController extends Controller {
 		{
 			if($validation->fails())
 			{
-				return redirect('meeting/edit/'.$id)->withErrors($validation);
+				return redirect('admin/meeting/'.$meeting->id.'/edit')->withErrors($validation);
 			}
 			else
 			{
@@ -95,7 +99,7 @@ class MeetingsController extends Controller {
 				$input['attendees'] = implode(',', $input['attendees']);
 				$input['minuters'] = implode(',', $input['minuters']);
 				$meeting->update($input);
-				return redirect('/#meetings')->with('message', 'Meeting updated successfully');
+				return redirect('admin/meetings')->with('message', 'Meeting updated successfully');
 			}
 		}
 		else
