@@ -48,92 +48,106 @@
 						{!! Form::open(array('class'=>'form-horizontal','id'=>'tasksAddForm', 'method'=>'POST','role'=>'form')) !!}
 							@if($minute->tasks_draft()->first())
 								@foreach($minute->tasks_draft()->get() as $task)
-									<div class="row task_form">
+								<?php $display=''; if($task->taskidea == 'idea') { $display='none';} ?>
+									<div class="row task_form border_bottom margin_top_10">
 										<div class="col-md-2">
+											<div class="form-group">
+												<div class="col-md-12">
+													{!! Form::select('taskidea[]',['task'=>'Task','idea'=>'Idea'],$task->taskidea,array('class'=>"form-control taskidea",'autocomplete'=>'off')) !!}
+												</div>
+											</div>
+										</div>
+										<div class="col-md-8">
 											<div class="form-group">
 												<div class="col-md-12">
 													{!! Form::text('title[]',$task->title,array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
 												</div>
 											</div>
-										</div>
-										<div class="col-md-6">
 											<div class="form-group">
 												<div class="col-md-12">
-													{!! Form::textarea('description[]',$task->description,array('class'=>"form-control",'placeholder'=>'Description','autocomplete'=>'off','rows'=>1)) !!}
+													{!! Form::textarea('description[]',$task->description,array('class'=>"form-control",'placeholder'=>'Description','autocomplete'=>'off','rows'=>5)) !!}
 													
 												</div>
 											</div>
 										</div>
 										<div class="col-md-2">
+											<div class="col-md-12 taskinput" style="display:{{$display}}">
+												<div class="form-group">
+													<div class="col-md-12">
+														<?php
+														$due = '';
+														if($task->due)
+														$due = date('Y-m-d',strtotime($task->due));
+														?>
+														{!! Form::text('due[]',$due,array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<div class="col-md-12">
+														{!! Form::select('assigner[]',array('Assinger')+$users, explode(',',$task->assigner),array('class'=>"form-control",'autocomplete'=>'off')) !!}
+													</div>
+												</div>
+												<div class="form-group taskinput" style="display:{{$display}}">
+													<div class="col-md-12">
+														{!! Form::select('assignee[]',array(''=>'Assingee')+$users, explode(',',$task->assignee),array('class'=>"form-control",'autocomplete'=>'off')) !!}
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12 btn btn btn-warning remove_task_form">
+												<span class="glyphicon glyphicon-remove-sign"></span>
+											</div>
+										</div>	
+									</div>
+								@endforeach
+							@else
+							<div class="row task_form border_bottom margin_top_10">
+										<div class="col-md-2">
 											<div class="form-group">
 												<div class="col-md-12">
-													<?php
-													$due = '';
-													if($task->due)
-													$due = date('Y-m-d',strtotime($task->due));
-													?>
-													{!! Form::text('due[]',$due,array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+													{!! Form::select('taskidea[]',['task'=>'Task','idea'=>'Idea'],'task',array('class'=>"form-control taskidea",'autocomplete'=>'off')) !!}
+												</div>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<div class="form-group">
+												<div class="col-md-12">
+													{!! Form::text('title[]','',array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-12">
+													{!! Form::textarea('description[]','',array('class'=>"form-control",'placeholder'=>'Description','autocomplete'=>'off','rows'=>5)) !!}
+													
 												</div>
 											</div>
 										</div>
 										<div class="col-md-2">
-											<div class="row">
-												<div class="col-md-10">
-													<div class="form-group">
-														<div class="col-md-12">
-															{!! Form::select('assignee[]',array(''=>'Assingee')+$users, explode(',',$task->assignee),array('class'=>"form-control",'autocomplete'=>'off')) !!}
-														</div>
-														<div class="col-md-12">
-															{!! Form::select('assigner[]',array('Assinger')+$users, explode(',',$task->assigner),array('class'=>"form-control",'autocomplete'=>'off')) !!}
-														</div>
+											<div class="col-md-12 taskinput">
+												<div class="form-group">
+													<div class="col-md-12">
+														{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 													</div>
-
-												</div>
-												<div class="col-md-2 btn remove_task_form"><span class="glyphicon glyphicon-trash"></span></div>
-											</div>
-										</div>
-									</div>
-								@endforeach
-							@else
-							<div class="row task_form">
-								<div class="col-md-2">
-									<div class="form-group">
-										<div class="col-md-12">
-											{!! Form::text('title[]',old('title'),array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<div class="col-md-12">
-											<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<div class="col-md-12">
-											{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
-										</div>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="row">
-										<div class="col-md-10">
-											<div class="form-group">
-												<div class="col-md-12">
-													{!! Form::select('assignee[]',array(''=>'Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-												</div>
-												<div class="col-md-12">
-													{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 												</div>
 											</div>
-
-										</div>
-										<div class="col-md-2 btn remove_task_form"><span class="glyphicon glyphicon-trash"></span></div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<div class="col-md-12">
+														{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+													</div>
+												</div>
+												<div class="form-group taskinput">
+													<div class="col-md-12">
+														{!! Form::select('assignee[]',array(''=>'Assingee')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12 btn btn btn-warning remove_task_form">
+												<span class="glyphicon glyphicon-remove-sign"></span>
+											</div>
+										</div>	
 									</div>
-								</div>
-							</div>
 						@endif
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -145,17 +159,15 @@
 						</div>
 					@endif
 					{!! Form::close() !!}
-					<div class="row">
-						<div class="col-md-12">
-							<span id="add_more" type="submit" class="btn btn-primary pull-right">Add more</span>
+					<div class="row margin_top_10">
+						<div class="col-md-6">
+							<button id="send_minute" mhid={{$minute->id}} type="submit" class="btn btn-primary">Send minutes</button>
 						</div>
-						<div class="col-md-8 col-md-offset-4">
-							<div class="col-md-3">
-								<button id="save_changes" mhid={{$minute->id}} type="submit" class="btn btn-primary">Save</button>
-							</div>
-							<div class="col-md-3">
-								<button id="send_minute" mhid={{$minute->id}} type="submit" class="btn btn-primary">Send minutes</button>
-							</div>
+						<div class="col-md-4">
+							<button id="save_changes" mhid="{{$minute->id}}" type="submit" class="btn btn-primary">Save</button>
+						</div>
+						<div class="col-md-2">
+							<span id="add_more" type="submit" class="btn btn-primary pull-right">Add more</span>
 						</div>
 					</div>
 				</div>
@@ -164,45 +176,52 @@
 	</div>
 </div>
 <div class="hidden" id="add_more_div">
-	<div class="row task_form">
-						<div class="col-md-2">
-							<div class="form-group">
-								<div class="col-md-12">
-									{!! Form::text('title[]',old('title'),array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<div class="col-md-12">
-									<textarea type="text" autocomplete="off" class="form-control" rows="1" name="description[]" placeholder="Description">{{old('description')}}</textarea>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="form-group">
-								<div class="col-md-12">
-									{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="row">
-								<div class="col-md-10">
-									<div class="form-group">
-										<div class="col-md-12">
-											{!! Form::select('assignee[]',array(''=>'Assingee')+$users, '',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-										</div>
-										<div class="col-md-12">
-											{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-										</div>
-									</div>
-
-								</div>
-								<div class="col-md-2 btn remove_task_form"><span class="glyphicon glyphicon-trash"></span></div>
-							</div>
-						</div>
+	<div class="row task_form border_bottom margin_top_10">
+		<div class="col-md-2">
+			<div class="form-group">
+				<div class="col-md-12">
+					{!! Form::select('taskidea[]',['task'=>'Task','idea'=>'Idea'],'task',array('class'=>"form-control taskidea",'autocomplete'=>'off')) !!}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="form-group">
+				<div class="col-md-12">
+					{!! Form::text('title[]','',array('class'=>"form-control",'placeholder'=>'Title','autocomplete'=>'off')) !!}
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					{!! Form::textarea('description[]','',array('class'=>"form-control",'placeholder'=>'Description','autocomplete'=>'off','rows'=>5)) !!}
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="col-md-12 taskinput">
+				<div class="form-group">
+					<div class="col-md-12">
+						{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="col-md-12">
+						{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+					</div>
+				</div>
+				<div class="form-group taskinput">
+					<div class="col-md-12">
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 btn btn btn-warning remove_task_form">
+				<span class="glyphicon glyphicon-remove-sign"></span>
+			</div>
+		</div>	
+	</div>
 </div>
 </div>
 @endsection

@@ -13,7 +13,7 @@ class Tasksdraft extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['mhid','title','due', 'description','assignee','assigner','created_by'];
+	protected $fillable = ['taskidea','mhid','title','due', 'description','assignee','assigner','created_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\User', 'id', 'created_by');

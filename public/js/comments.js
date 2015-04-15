@@ -10,7 +10,12 @@ $(document).ready(function($) {
 		.done(function(output) {
 			 $('#content_right').html(output);
 		})
-		.fail(function() {
+		.fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
 			$.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -33,7 +38,12 @@ $(document).ready(function($) {
 		.done(function(output) {
 			 $('#content_right').html(output);
 		})
-		.fail(function() {
+		.fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
 			$.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -57,7 +67,12 @@ $(document).ready(function($) {
 			$('#content_right').html(output);
 			 //$('#menuMytask').click();
 		})
-		.fail(function() {
+		.fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
 			$.notify('Oops, Something went wrong!',
                 {
                    className:'error',

@@ -18,7 +18,7 @@ class CreateIdeaTable extends Migration {
 			$table->integer('mhid')->unsigned();
 			$table->string('title');
 			$table->mediumText('description');
-			$table->string('orginators','64');
+			$table->string('orginators','64')->nullabel();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();

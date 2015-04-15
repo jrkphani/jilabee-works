@@ -32,7 +32,12 @@ $(document).ready(function($) {
 		                        
 		                        //$('#menuMinutes').click();
 		                    })
-		                    .fail(function() {
+		                    .fail(function(jqXHR) {
+				                if(jqXHR.status == '401')
+				                {
+				                    location.reload();
+				                    return;
+				                }
 		                    	$.notify('Oops, Something went wrong!',
 				                {
 				                   className:'error',
@@ -89,7 +94,12 @@ $(document).ready(function($) {
 		                        
 		                        //$('#menuMinutes').click();
 		                    })
-		                    .fail(function() {
+		                    .fail(function(jqXHR) {
+			                if(jqXHR.status == '401')
+			                {
+			                    location.reload();
+			                    return;
+			                }
 		                    	$.notify('Oops, Something went wrong!',
 				                {
 				                   className:'error',

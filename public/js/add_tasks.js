@@ -18,7 +18,12 @@ $(document).ready(function($) {
 		            globalPosition:'top center'
 		          });
 		})
-		.fail(function() {
+		.fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
 			$.notify('Oops, Something went wrong!',
 	        {
 	           className:'error',
@@ -44,5 +49,15 @@ $(document).ready(function($) {
 		event.preventDefault();
 		needToConfirm = false;
 		$('#tasksAddForm').submit();
+	});
+	$(document).on('change', '.taskidea', function(event) {
+		if($(this).val() == 'idea')
+		{
+			$(this).parents('.task_form').find('.taskinput').hide();
+		}
+		else
+		{
+			$(this).parents('.task_form').find('.taskinput').show();	
+		}
 	});
 });

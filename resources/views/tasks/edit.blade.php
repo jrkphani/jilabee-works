@@ -17,13 +17,13 @@
 	
 	<div class="col-md-12 margin_top_20">
 			<div class="col-md-6">
+				{!! Form::select('assigner',array('Assinger')+$users, explode(',',$task->assigner),array('class'=>"form-control",'autocomplete'=>'off')) !!}
+				{!! $errors->first('assigner','<div class="alert alert-info">:message</div>')!!}
+			</div>
+			<div class="col-md-6">
 				{!! Form::select('assignee',array('Assingee')+$users, explode(',',$task->assignee),array('class'=>"form-control",'autocomplete'=>'off')) !!}
 				{!! $errors->first('assignee','<div class="alert alert-info">:message</div>')!!}
 			</div>
-			<div class="col-md-6">
-				{!! Form::select('assigner',array('Assinger')+$users, explode(',',$task->assigner),array('class'=>"form-control",'autocomplete'=>'off')) !!}
-				{!! $errors->first('assigner','<div class="alert alert-info">:message</div>')!!}
-			</div>		
 	</div>
 	<div class="col-md-12">
 		@if($task->comments()->count())

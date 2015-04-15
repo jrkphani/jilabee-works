@@ -53,9 +53,9 @@
 				@elseif($minute->tasks()->first())
 					<?php $tasks = $minute->tasks()->orderBy('updated_at', 'desc')->get(); ?>
 				@endif
-				@if($tasks)
+
 					@foreach($tasks as $task)
-						<div class="col-md-12">
+						<div class="col-md-12 border_bottom">
 							<div class="col-md-3">
 								{{$task->title}}
 							</div>
@@ -88,6 +88,11 @@
 								<div class="col-md-12">
 									{{(isset($task->due)?date('Y-m-d',strtotime($task->due)):'')}}
 								</div>
+								@if($task->status == "close")
+									<div class="col-md-12">
+										{{date('Y-m-d',strtotime($task->updated_at))}}
+									</div>
+								@endif
 								@if($minute->updated_by == Auth::id() && ($task->status == 'waiting' || $task->status == 'rejected'))
 		        					<div class="col-md-12">
 										<span tid="{{$task->id}}" class="btn glyphicon glyphicon-edit edit_task"></span>
@@ -95,10 +100,20 @@
 								@endif
 							</div>
 						</div>
-						<div class="col-md-12 border_bottom"></div>
 					@endforeach
-					@else
-						No date to display!
+					@if($minute->ideas()->count())
+					<strong>Ideas</strong>
+						@foreach($minute->ideas()->get() as $idea)
+						<div class="col-md-12 border_bottom">
+							<div class="col-md-2">{{$idea->title}}</div>
+							<div class="col-md-8">{{$idea->description}}</div>
+							<div class="col-md-2">
+								@if($idea->orginators)
+								{{$idea->orginator->name}}
+								@endif
+							</div>
+						</div>
+						@endforeach
 					@endif
 				</div>
 			</div>

@@ -64,7 +64,12 @@ $(document).ready(function($)
                     $("#user_left_menu_cont .mytask:first").click();
                 }
     		})
-    		.fail(function() {
+    		.fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
     			$.notify('Oops, Something went wrong!',
     			{
 				   className:'error',
@@ -114,7 +119,12 @@ $(document).ready(function($)
                     $("#user_left_menu_cont .followup:first").click();
                 }
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -164,7 +174,12 @@ $(document).ready(function($)
                     $("#user_left_menu_cont .minute:first").click();
                 }
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -191,7 +206,12 @@ $(document).ready(function($)
             .done(function(output) {
                 $('#content_right').html(output);
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -217,7 +237,12 @@ $(document).ready(function($)
             .done(function(output) {
                 $('#content_right').html(output);
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $('#content_right').html('No data to display!');
                 $.notify('Oops, Something went wrong!',
                 {
@@ -244,7 +269,12 @@ $(document).ready(function($)
             .done(function(output) {
                 $('#content_right').html(output);
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -290,7 +320,12 @@ $(document).ready(function($)
                 $('#user_left_menu_cont').html(output);
                  $("#user_left_menu_cont .mytask:first").click();
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $.notify('Oops, Something went wrong!',
                 {
                    className:'error',
@@ -317,7 +352,12 @@ $(document).ready(function($)
                 $('#user_left_menu_cont').html(output);
                  $("#user_left_menu_cont .followup:first").click();
             })
-            .fail(function() {
+            .fail(function(jqXHR) {
+                if(jqXHR.status == '401')
+                {
+                    location.reload();
+                    return;
+                }
                 $.notify('Oops, Something went wrong!',
                 {
                    className:'error',

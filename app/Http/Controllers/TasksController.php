@@ -2,6 +2,7 @@
 use App\Model\Minutes;
 use App\Model\Minuteshistory;
 use App\Model\Tasks;
+use App\Model\Ideas;
 use App\Model\Tasksdraft;
 use App\Model\Comments;
 use App\User;
@@ -117,7 +118,7 @@ class TasksController extends Controller {
 	{
 		if($minute->meeting->isMinuter())
 		{
-			$input = Request::only('title', 'description','assignee','assigner','due');
+			$input = Request::only('title', 'description','assignee','assigner','due','taskidea');
 			$records=array();
 			for ($i=0; $i < count($input['title']); $i++)
 			{
@@ -126,6 +127,7 @@ class TasksController extends Controller {
 				$tempArr['assignee'] = $input['assignee'][$i];
 				$tempArr['assigner'] = $input['assigner'][$i];
 				$tempArr['due'] = $input['due'][$i];
+				$tempArr['taskidea'] = $input['taskidea'][$i];
 				$tempArr['created_by'] = Auth::user()->id;
 				if(($tempArr['title']) || ($tempArr['description']))
 				$records[] = new Tasksdraft(array_filter($tempArr));
@@ -155,38 +157,50 @@ class TasksController extends Controller {
 	{
 		//validation has to be done
 		$this->postDraft($minute);
-		$input = Request::only('title', 'description','assignee','assigner','due');
-		$records=array();
+		$input = Request::only('title', 'description','assignee','assigner','due','taskidea');
+		$records= $ideasArr = array();
 		for ($i=0; $i < count($input['title']); $i++)
 		{ 
 			$tempArr= array();
 			$tempArr['title'] = trim($input['title'][$i]);
 			$tempArr['description'] = trim($input['description'][$i]);
-			$tempArr['assignee'] = $input['assignee'][$i];
-			$tempArr['assigner'] = $input['assigner'][$i];
-			$tempArr['due'] = $input['due'][$i];
-			$tempArr['created_by'] = $tempArr['updated_by'] = Auth::user()->id;
-			$validation = Tasks::validation($tempArr);
-			if ($validation->fails())
+			if($input['taskidea'][$i] == 'task')
 			{
-				return redirect('minute/'.$minute->id.'/tasks/add')->withErrors($validation);
-			}
+				$tempArr['assignee'] = $input['assignee'][$i];
+				$tempArr['assigner'] = $input['assigner'][$i];
+				$tempArr['due'] = $input['due'][$i];
+				$tempArr['created_by'] = $tempArr['updated_by'] = Auth::user()->id;
+				$validation = Tasks::validation($tempArr);
+				if ($validation->fails())
+				{
+					return redirect('minute/'.$minute->id.'/tasks/add')->withErrors($validation);
+				}
 
-			if(($tempArr['title']) && ($tempArr['description']))
-			$records[] = new Tasks(array_filter($tempArr));
+				if(($tempArr['title']) && ($tempArr['description']))
+				$records[] = new Tasks(array_filter($tempArr));	
+			}
+			else
+			{
+				$tempArr['orginators'] = $input['assigner'][$i];
+				$tempArr['created_by'] = $tempArr['updated_by'] = Auth::user()->id;
+				$ideasArr[] = new Ideas(array_filter($tempArr));
+			}
+			
 		}
-		if($records)
+		if($records )
 		{	
+			$minute->ideas()->saveMany($ideasArr);
 			if($minute->tasks()->saveMany($records))
 			{
 				$minute->update(array('lock_flag'=>'0'));
 				$minute->tasks_draft()->delete();
 				return redirect('/#meetings#minute'.$minute->id);
 			}
+
 		}
 		else
 		{
-			$error = "Error DB500";
+			abort('Insertion failed !');
 		}
 		//return redirect('user/login')->with('message', $message)->with('error', $error);
 	}
