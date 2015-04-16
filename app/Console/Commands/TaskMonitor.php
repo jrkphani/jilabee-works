@@ -38,6 +38,11 @@ class TaskMonitor extends Command {
 	 */
 	public function fire()
 	{
+		/*just added thsi line in cron job
+
+		* * * * * php /path/to/artisan schedule:run 1>> /dev/null 2>&1
+		
+		*/
 		//'waiting','rejected','open','close','expired','timeout','failed'
 		$tasksTimeout = Tasks::where("status","=","waiting")->whereRaW("DATEDIFF(now(), updated_at) > 3")
 				->update(['status'=>'timeout']);
