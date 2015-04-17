@@ -31,7 +31,7 @@
 				</button>
 				 
 				{{-- <a href="/"><img src="{{ asset('/img/jotter.jpg') }}" class="img-circle" alt="Cinque Terre" width="100" height="50"></a> --}}
-				<a class="navbar-brand" href="/"><strong>Jotter</strong></a>
+				<a class="navbar-brand" id="logo" href="/"><strong>Jotter</strong></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

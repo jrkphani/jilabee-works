@@ -127,3 +127,8 @@ to { -moz-transform: rotate(360deg);}
   background-color: #f5f5f5;
   /*color:#eeeeee;*/
 }
+
+#logo{
+  font-family: 'Grand Hotel', cursive,Helvetica, Arial, sans-serif;
+  font-size: 40px;
+}
