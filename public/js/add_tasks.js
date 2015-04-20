@@ -91,8 +91,10 @@ $(document).ready(function($) {
 	});
 	$(document).on('click', '.edit_icon', function(event) {
 		event.preventDefault();
+		$(this).parents('.task_form').css('background-color', '#ffffff');
 		$(this).parents('.task_form').find('.task_form_edit').show();
 		$(this).parents('.task_form_non_edit').html('');
+
 		
 	});
 	$(document).on('mouseenter', '.task_form_non_edit', function(event) {
