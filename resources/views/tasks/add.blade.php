@@ -130,7 +130,6 @@
 									</div>
 								@endforeach
 							@else
-							<div class="mask_layer"></div>
 							<div class="row task_form border_bottom padding_top_20">
 										<div class="task_form_non_edit">
 										</div>
@@ -152,12 +151,7 @@
 													<div class="col-md-6">
 														{!! Form::select('taskidea[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>"form-control taskidea",'autocomplete'=>'off')) !!}
 													</div>
-													<div class="col-md-6 taskinput" style="display:{{$display}}">
-														<?php
-															$due = '';
-															if($task->due)
-															$due = date('Y-m-d',strtotime($task->due));
-														?>
+													<div class="col-md-6 taskinput">
 														{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 													</div>
 												</div>
@@ -167,7 +161,7 @@
 														{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 														
 													</div>
-													<div class="taskinput col-md-6" style="display:{{$display}}">
+													<div class="taskinput col-md-6">
 														{!! Form::select('assignee[]',array(''=>'Assingee')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 														
 													</div>
@@ -207,7 +201,6 @@
 	</div>
 </div>
 <div class="hidden" id="add_more_div">
-	<div class="mask_layer" style="display:none;"></div>
 	<div class="row task_form border_bottom padding_top_20">
 		<div class="task_form_non_edit"></div>
 			<div class="col-md-12 task_form_edit">									
@@ -228,12 +221,7 @@
 												<div class="col-md-6">
 													{!! Form::select('taskidea[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>"form-control taskidea",'autocomplete'=>'off')) !!}
 												</div>
-												<div class="col-md-6 taskinput" style="display:{{$display}}">
-													<?php
-														$due = '';
-														if($task->due)
-														$due = date('Y-m-d',strtotime($task->due));
-													?>
+												<div class="col-md-6 taskinput">
 													{!! Form::text('due[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
 												</div>
 											</div>
@@ -243,7 +231,7 @@
 													{!! Form::select('assigner[]',array('Assinger')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 													
 												</div>
-												<div class="taskinput col-md-6" style="display:{{$display}}">
+												<div class="taskinput col-md-6">
 													{!! Form::select('assignee[]',array(''=>'Assingee')+$users,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 													
 												</div>
