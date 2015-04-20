@@ -50,7 +50,7 @@ $(document).ready(function($) {
 		needToConfirm = false;
 		$('#tasksAddForm').submit();
 	});
-	$(document).on('change', '.taskidea', function(event) {
+		$(document).on('change', '.taskidea', function(event) {
 		if($(this).val() == 'idea')
 		{
 			$(this).parents('.task_form').find('.taskinput').hide();
@@ -59,5 +59,50 @@ $(document).ready(function($) {
 		{
 			$(this).parents('.task_form').find('.taskinput').show();	
 		}
+	});
+	$(document).on('click', '.ok_task_form', function(event) {
+		event.preventDefault();
+		//$(this).parents('.task_form').find('input , textarea , select, .btn').addClass('non-edit');
+		non_edit = $(this).parents('.task_form').find('.task_form_non_edit');
+		edit = $(this).parents('.task_form_edit');
+		if(edit.find("input[name='title[]']").val().length <= 0)
+		{
+			edit.find("input[name='title[]']").focus();	
+			return false;
+		}
+		output = '<div class="col-md-12" style="min-height: 14px"><a href="" class="edit_icon  glyphicon glyphicon-edit pull-right" style="display:none;"></a></div>' 
+				+'<div class="col-md-8">'
+					+'<div class="col-md-12">'+edit.find("input[name='title[]']").val()+'</div>'
+					+'<div class="col-md-12 margin_top_20" style="max-height: 100px; min-height: 100px; overflow-y: scroll;">'+edit.find("textarea[name='description[]']").val().replace(/\n/g, "<br />")+'</div>'
+				+'</div>'
+				+'<div class="col-md-4">'
+					+'<div class="col-md-12">'
+						+'<div class="col-md-6">'+edit.find("select[name='taskidea[]']").val()+'</div>'
+						+'<div class="col-md-6">'+edit.find("input[name='due[]']").val()+'</div>'
+					+'</div>'
+			
+					+'<div class="col-md-12">'
+						+'<div class="col-md-6  margin_top_20">'+edit.find("select[name='assigner[]']").find('option:selected').text()+'</div>'
+						+'<div class="col-md-6  margin_top_20">'+edit.find("select[name='assignee[]']").find('option:selected').text()+'</div>'
+					+'</div>'	
+				+'</div>';
+		non_edit.html(output);
+		edit.hide();				
+	});
+	$(document).on('click', '.edit_icon', function(event) {
+		event.preventDefault();
+		$(this).parents('.task_form').find('.task_form_edit').show();
+		$(this).parents('.task_form_non_edit').html('');
+		
+	});
+	$(document).on('mouseenter', '.task_form_non_edit', function(event) {
+		event.preventDefault();
+		$(this).parents('.task_form').css('background-color', '#dddddd');
+		$(this).find('.edit_icon').show();
+	});
+	$(document).on('mouseleave', '.task_form_non_edit', function(event) {
+		event.preventDefault();
+		$(this).parents('.task_form').css('background-color', '#ffffff');
+		$(this).find('.edit_icon').hide();
 	});
 });
