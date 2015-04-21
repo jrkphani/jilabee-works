@@ -65,6 +65,7 @@ Route::controllers([
 
 			Route::get('user/search', 'ProfileController@findUser');
 			
+			Route::get('task/{taskid}/get', 'TasksController@get');
 			Route::get('task/{taskid}/edit', 'TasksController@edit');
 			Route::post('task/{taskid}/edit', 'TasksController@update');
 

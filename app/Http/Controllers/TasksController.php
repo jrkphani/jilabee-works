@@ -349,7 +349,7 @@ class TasksController extends Controller {
 				$input['updated_by'] = Auth::user()->id;
 				$input['status'] = 'waiting';
 				$task->update($input);
-				return "updated";
+				return redirect('task/'.$task->id.'/get');
 			}
 		}
 		else
@@ -358,6 +358,24 @@ class TasksController extends Controller {
 		}
 		
 	}
+	public function get($task)
+	{
+		if($task->minute->meeting->isMinuter())
+		{
+			if($task->status == 'waiting' || $task->status == 'rejected')
+			{
+				return view('tasks.task',['task'=>$task]);
+			}
+			else
+			{
+				abort('Invalid Access!');
+			}
+		}
+		else
+		{
+			abort('Invalid Access!');
+		}
+	}
 	public function close($task)
 	{
 		if($task->minute->meeting->isMinuter())
@@ -365,7 +383,7 @@ class TasksController extends Controller {
 			$input['updated_by'] = Auth::user()->id;
 			$input['status'] = 'close';
 			$task->update($input);
-			return "updated";
+			return view('tasks.task',['task'=>$task]);
 		}
 		else
 		{
