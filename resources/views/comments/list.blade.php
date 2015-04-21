@@ -50,23 +50,16 @@
 					<div class="col-md-12">
 						<textarea id="description" name="description" class="form-group col-md-12" rows='3' placeholder="description">{{old('description')}}</textarea>
 						{!!$errors->first('description','<div class="alert alert-danger">:message</div>')!!}
-						@if($task->status == 'waiting' && $task->assignee == Auth::id())
-							<div class="col-md-12">
-								<div class="col-md-2">
-									<button id="accept_task" tid="{{ $task->id }}" class="pull-right btn btn-success">Accept</button>
-								</div>
-								<div class="col-md-10">
-									<button id="reject_task" tid="{{ $task->id }}" class="pull-right btn btn-danger">Reject</button>
-								</div>
-							</div>
-						@else
-							<div class="col-md-12">
-								<div class="col-md-12">
-									<button id="add_comment" tid="{{ $task->id }}" class="pull-right btn btn-primary">Add Comment</button>
-								</div>
-							</div>
-						@endif
 					</div>
+					@if($task->status == 'waiting' && $task->assignee == Auth::id())
+						<div class="btn btn-success col-md-12" id="accept_task" tid="{{ $task->id }}">Accept</div>
+						<div class="btn btn-danger col-md-12 margin_top_10" id="reject_task" tid="{{ $task->id }}" >Reject</div>
+					@else
+
+							<div class="col-md-12">
+								<button id="add_comment" tid="{{ $task->id }}" class="pull-right btn btn-primary">Add Comment</button>
+							</div>
+					@endif
 				
 			</div>
 		</div>
