@@ -25,7 +25,7 @@
 <div class="container">
   <div class="row">
   	<div class="col-md-8 border_right">
-  		<div class="col-md-8 col-md-offset-4" style="padding-bottom:75px;">
+  		<div class="col-md-8 col-md-offset-5" style="padding-bottom:75px;">
   			<div class="navbar-brand" id="logo" style="font-size:100px"><strong>Jotter</strong></div>
   		</div>
   		<div class="col-md-6 col-md-offset-6">
