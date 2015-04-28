@@ -54,6 +54,38 @@ class ProfileController extends Controller {
 		$users = User::where('id','!=',Auth::id())->paginate(10);;
 		return view('user.list',['users'=>$users]);
 	}
+	public function getedit()
+	{
+		return view('user.selfedit',['user'=>Auth::user()]);	
+	}
+	public function postedit()
+	{
+		$user= Auth::user();
+		$input = Request::only('name','dob','phone','password','password_confirmation','gender');
+		$validator = Validator::make($input, [
+			'name' => 'required|max:255',
+			'password' => 'confirmed|min:6',
+			'phone'	=>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'dob' =>'required|date|date_format:Y-m-d',
+			'gender' =>'required|in:M,F,O',
+		]);
+
+		if ($validator->fails())
+		{
+			return redirect('profile/edit')->withErrors($validator);
+		}
+		$userinput = ['name'=>$input['name'],
+					'password'=>bcrypt($input['password']),'update_by' => Auth::id()];
+		if($user->update(array_filter($userinput)))
+		{
+			$profileinput = ['dob'=>$input['dob'],'phone'=>$input['phone'],
+							'gender'=>$input['gender'],'update_by' => Auth::id()];
+			if($user->profile->update($profileinput))
+			{
+				return redirect('profile/edit')->with('message', 'Updated successfully!');
+			}
+		}
+	}
 	public function getuser(User $user)
 	{
 		return view('user.edit',['user'=>$user]);	

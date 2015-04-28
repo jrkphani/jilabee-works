@@ -73,7 +73,7 @@ $(document).ready(function($) {
 		output = '<div class="col-md-12" style="min-height: 14px"><a href="" class="edit_icon  glyphicon glyphicon-edit pull-right" style="display:none;"></a></div>' 
 				+'<div class="col-md-8">'
 					+'<div class="col-md-12">'+edit.find("input[name='title[]']").val()+'</div>'
-					+'<div class="col-md-12 margin_top_20" style="max-height: 100px; min-height: 100px; overflow-y: scroll;">'+edit.find("textarea[name='description[]']").val().replace(/\n/g, "<br />")+'</div>'
+					+'<div class="col-md-12 margin_top_20" overflow-y: auto;">'+edit.find("textarea[name='description[]']").val().replace(/\n/g, "<br />")+'</div>'
 				+'</div>'
 				+'<div class="col-md-4">'
 					+'<div class="col-md-12">'

@@ -81,11 +81,13 @@ Route::controllers([
 			Route::post('minute/{minuteid}/tasks/add/draft', 'TasksController@postDraft')->where('minuteid', '[0-9]+');
 
 			Route::get('stickynotes', 'SticknotesController@index');
-			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove')->where('id', '[0-9]+');;
+			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove')->where('id', '[0-9]+');
 			Route::post('stickynotes', 'SticknotesController@postData');
 		});
 
-		Route::get('profile/{id?}', 'ProfileController@index');
+		Route::get('profile/{id?}', 'ProfileController@index')->where('id', '[0-9]+');
+		Route::get('profile/edit', 'ProfileController@getedit');
+		Route::post('profile/edit', 'ProfileController@postedit');
 		
 		Route::get('meeting/{meetingid}/nextminute', 'MinutesController@getAdd')->where('meetingid', '[0-9]+');;
 		Route::post('meeting/{meetingid}/nextminute', 'MinutesController@postAdd')->where('meetingid', '[0-9]+');;

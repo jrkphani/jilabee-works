@@ -22,6 +22,7 @@
 				<div class="col-md-6">DOB</div>
 				<div class="col-md-6">{{$user->profile->dob}}</div>
 			</div>
+			<a href="{{url('profile/edit')}}" class="btn btn-primary col-md-12 margin_top_10" >Edit</a>
 		</div>
 	</div>
 </div>
