@@ -6,21 +6,12 @@
              <div class="panel panel-default">
                 <div class="panel-heading">Update</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                               @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 {!! Form::open(['class' => 'form-horizontal','method'=>'POST']) !!}
                    <div class="form-group">
                         <label class="col-md-4 control-label">Name</label>
                         <div class="col-md-6">
                            <input type="text" class="form-control" name="name" value="{{ $user->name }}">
+                           {!! $errors->first('name','<div class="error">:message</div>') !!}
                         </div>
                    </div>
                    <div class="form-group">
@@ -34,6 +25,7 @@
                         <label class="col-md-4 control-label">Password</label>
                         <div class="col-md-6">
                             <input type="password" autocomplete ='off' class="form-control" name="password">
+                            {!! $errors->first('password','<div class="error">:message</div>') !!}
                         </div>
                    </div>
                    <div class="form-group">
@@ -46,12 +38,14 @@
                         <label class="col-md-4 control-label">Phone</label>
                         <div class="col-md-6">
                            <input type="text" class="form-control" name="phone" value="{{ $user->profile->phone }}">
+                           {!! $errors->first('phone','<div class="error">:message</div>') !!}
                         </div>
                    </div>
                    <div class="form-group">
                         <label class="col-md-4 control-label">DOB</label>
                         <div class="col-md-6">
                            <input type="text" class="form-control" name="dob" value="{{ $user->profile->dob }}">
+                           {!! $errors->first('dob','<div class="error">:message</div>') !!}
                         </div>
                    </div>
                   <div class="form-group">
@@ -66,6 +60,7 @@
 
                            {!!Form::radio('gender', 'M',$male,['autocomplete'=>'off']) !!} Male 
                            {!!Form::radio('gender', 'F', $female,['autocomplete'=>'off']) !!} Female
+                           {!! $errors->first('gender','<div class="error">:message</div>') !!}
                         </div>
                   </div>
                   

@@ -105,7 +105,7 @@ class ProfileController extends Controller {
 
 		if ($validator->fails())
 		{
-			return redirect('edit/user/'.$user->id)->withErrors($validator);
+			return redirect('user/'.$user->id.'/edit')->withErrors($validator);
 		}
 		$userinput = ['name'=>$input['name'],'email'=>$input['email'],
 					'password'=>bcrypt($input['password']),'update_by' => Auth::id()];
