@@ -55,7 +55,7 @@
 											<div class="col-md-12" style="min-height: 14px"><a href="" class="edit_icon  glyphicon glyphicon-edit pull-right" style="display:none;"></a></div> 
 											<div class="col-md-8">
 												<div class="col-md-12">{{$task->title}}</div>
-												<div class="col-md-12 margin_top_20" style="max-height: 100px; min-height: 100px; overflow-y: scroll;">{!! nl2br($task->description) !!}</div>
+												<div class="col-md-12 margin_top_20" style="overflow-y: auto;  max-height:100px">{!! nl2br($task->description) !!}</div>
 											</div>
 											<div class="col-md-4">
 												<div class="col-md-12">
