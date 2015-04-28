@@ -72,7 +72,10 @@
                         </div>
                   </div>
                   <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
+                    <div class="col-md-3 col-md-offset-3">
+                           <a class="btn btn-primary" href="{{ URL::previous() }}">Back</a> 
+                        </div>
+                        <div class="col-md-3 col-md-offset-3">
                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                   </div>

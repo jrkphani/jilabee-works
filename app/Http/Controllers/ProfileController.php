@@ -62,10 +62,11 @@ class ProfileController extends Controller {
 	{
 		$user= Auth::user();
 		$input = Request::only('name','dob','phone','password','password_confirmation','gender');
+		$input = array_filter($input);
 		$validator = Validator::make($input, [
 			'name' => 'required|max:255',
 			'password' => 'confirmed|min:6',
-			'phone'	=>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
 			'dob' =>'required|date|date_format:Y-m-d',
 			'gender' =>'required|in:M,F,O',
 		]);
@@ -74,8 +75,11 @@ class ProfileController extends Controller {
 		{
 			return redirect('profile/edit')->withErrors($validator);
 		}
-		$userinput = ['name'=>$input['name'],
-					'password'=>bcrypt($input['password']),'update_by' => Auth::id()];
+		$userinput = ['name'=>$input['name'],'update_by' => Auth::id()];
+		if(isset($input['password']))
+		{
+			$userinput['password']=bcrypt($input['password']);
+		}
 		if($user->update(array_filter($userinput)))
 		{
 			$profileinput = ['dob'=>$input['dob'],'phone'=>$input['phone'],
@@ -93,12 +97,13 @@ class ProfileController extends Controller {
 	public function postuser(User $user)
 	{
 		$input = Request::only('name','email','dob','phone','password','password_confirmation','gender','role');
+		$input = array_filter($input);
 		$validator = Validator::make($input, [
 			'name' => 'required|max:255',
-			'email' => 'email|max:255|unique:users,email,' . $user->id,
+			'email' => 'required|email|max:255|unique:users,email,' . $user->id,
 			'password' => 'confirmed|min:6',
 			'role'	=>'required|integer',
-			'phone'	=>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
 			'dob' =>'required|date|date_format:Y-m-d',
 			'gender' =>'required|in:M,F,O',
 		]);
@@ -107,8 +112,11 @@ class ProfileController extends Controller {
 		{
 			return redirect('user/'.$user->id.'/edit')->withErrors($validator);
 		}
-		$userinput = ['name'=>$input['name'],'email'=>$input['email'],
-					'password'=>bcrypt($input['password']),'update_by' => Auth::id()];
+		$userinput = ['name'=>$input['name'],'email'=>$input['email'],'update_by' => Auth::id()];
+		if(isset($input['password']))
+		{
+			$userinput['password']=bcrypt($input['password']);
+		}
 		if($user->update(array_filter($userinput)))
 		{
 			$profileinput = ['dob'=>$input['dob'],'phone'=>$input['phone'],

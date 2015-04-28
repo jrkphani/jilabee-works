@@ -24,12 +24,14 @@
 <body>
 <div class="container">
   <div class="row">
-  	<div class="col-sm-8 border_right">
-  		<div class="col-sm-8 col-sm-offset-5">
-  			<div class="navbar-brand" id="logo" style="height:100px; font-size:100px"><strong>Jotter</strong></div>
+  	<div class="col-md-8 border_right">
+  		<div class="col-md-8 col-md-offset-4" style="padding-bottom:75px;">
+  			<div class="navbar-brand" id="logo" style="font-size:100px"><strong>Jotter</strong></div>
   		</div>
-  		<div class="col-sm-6 col-sm-offset-6"><h4>Login</h4></div>
-  			<div class="col-sm-12">
+  		<div class="col-md-6 col-md-offset-6">
+  			<h4>Login</h4>
+  		</div>
+  			<div class="col-md-6 col-md-offset-3">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -60,7 +62,7 @@
 						</div>
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
+							<div class="col-md-12 col-md-offset-3">
 								<button type="submit" class="btn btn-primary">Login</button>
 
 								<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
@@ -69,7 +71,7 @@
 					</form>
 				</div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-4">
     	 {{-- <h4>Don't have a login?</h4>
     	 <a href="{{ app_url('/auth/register') }}">Register</a> --}}
     	 <h4>Want to learn more?</h4>
