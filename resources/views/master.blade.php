@@ -7,6 +7,7 @@
 	<title>Jotter</title>
 	
 	<link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sticky-footer-navbar.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
