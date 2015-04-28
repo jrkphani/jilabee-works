@@ -3,6 +3,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
+			<a class="btn btn-primary pull-right" href="{{url('auth/register')}}">Add</a>
+		</div>
+		<div class="col-md-8 col-md-offset-2">
 			<div class="col-md-12 border_bottom">
 					<div class="col-md-2">
 					</div>

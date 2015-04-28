@@ -21,7 +21,7 @@ class Registrar implements RegistrarContract {
 			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:6',
 			'role'	=>'required|integer',
-			'phone'	=>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
 			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
 			'gender' =>'required|in:M,F,O',
 		]);
