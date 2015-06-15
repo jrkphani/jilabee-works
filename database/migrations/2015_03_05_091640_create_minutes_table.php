@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMeetingsHistoryTable extends Migration {
+class CreateMinutesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class CreateMeetingsHistoryTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('minutes', function(Blueprint $table)
+		Schema::connection('client')->create('minutes', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('mid')->unsigned();
+			$table->integer('meetingId')->unsigned();
 			$table->string('venue','64')->nullable();
-			$table->dateTime('dt');
+			$table->dateTime('minuteDate');
 			$table->string('attendees','64');
 			$table->string('absentees','64')->nullable();
 			$table->integer('lock_flag')->nullable()->unsigned()->default(0);
@@ -28,7 +28,7 @@ class CreateMeetingsHistoryTable extends Migration {
 		});
 		Schema::table('minutes', function(Blueprint $table)
 		{
-			$table->foreign('mid')->references('id')->on('meetings')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('meetingId')->references('id')->on('meetings')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
@@ -41,7 +41,7 @@ class CreateMeetingsHistoryTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('minutes_history');
+		Schema::drop('minutes');
 	}
 
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentsTable extends Migration {
+class CreateNotesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('client')->create('comments', function(Blueprint $table)
+		Schema::connection('client')->create('notes', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('jobId')->unsigned();
@@ -22,7 +22,7 @@ class CreateCommentsTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('comments', function(Blueprint $table)
+		Schema::table('notes', function(Blueprint $table)
 		{
 			$table->foreign('jobId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -37,7 +37,7 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('comments');
+		Schema::drop('notes');
 	}
 
 }

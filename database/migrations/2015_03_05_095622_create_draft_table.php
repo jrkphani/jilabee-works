@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksDraftTable extends Migration {
+class CreateDraftTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,21 +12,21 @@ class CreateTasksDraftTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('tasks_draft', function(Blueprint $table)
+		Schema::connection('client')->create('draft', function(Blueprint $table)
 		{
-			$table->integer('mhid')->unsigned();
+			$table->integer('parentId')->unsigned()->nullable();
 			$table->string('title');
 			$table->mediumText('description');
 			$table->string('assignee','64')->nullable();
 			$table->string('assigner','64')->nullable();
-			$table->enum('taskidea', array('task','idea'))->default('task');
-			$table->string('due','32')->nullable();
+			$table->string('orginator','64')->nullabel();
+			$table->enum('type', array('job','minute','job_idea','minute_idea'))->default('job');
+			$table->string('dueDate','32')->nullable();
 			$table->integer('created_by')->unsigned();
         	$table->timestamps();
 		});
-		Schema::table('tasks_draft', function(Blueprint $table)
+		Schema::table('draft', function(Blueprint $table)
 		{
-			$table->foreign('mhid')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
@@ -38,7 +38,7 @@ class CreateTasksDraftTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('notes_draft');
+		Schema::drop('draft');
 	}
 
 }

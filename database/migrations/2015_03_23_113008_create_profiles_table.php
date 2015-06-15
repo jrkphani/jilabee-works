@@ -13,21 +13,24 @@ class CreateProfilesTable extends Migration {
      */
     public function up()
     {
-        Schema::create('profiles', function(Blueprint $table)
+        Schema::connection('client')->create('profiles', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('uid')->unsigned();
+            $table->integer('userId')->unsigned();
+            $table->string('name');
             $table->string('phone',16);
             $table->date('dob');
             $table->enum('gender', array('M','F','O'));
-            $table->integer('role')->default('1');
+            $table->string('notification',16);
+            $table->integer('isAdmin')->default('0');
             $table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('profiles', function(Blueprint $table)
 		{
-			$table->foreign('uid')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('userId')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
@@ -40,7 +43,7 @@ class CreateProfilesTable extends Migration {
      */
     public function down()
     {
-        Schema::drop('user_profiles');
+        Schema::drop('profiles');
     }
 
 }

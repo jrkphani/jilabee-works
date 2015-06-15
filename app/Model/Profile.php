@@ -13,7 +13,7 @@ class Profile extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['uid', 'phone','dob','created_by','updated_by'];
+	protected $fillable = ['userId', 'name', 'phone','dob','created_by','updated_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\User', 'id', 'created_by');
@@ -24,6 +24,6 @@ class Profile extends Model{
     }
     public function user()
     {
-        return $this->belongsTo('App\User', 'uid', 'id');
+        return $this->belongsTo('App\User', 'userId', 'id');
     }
 }

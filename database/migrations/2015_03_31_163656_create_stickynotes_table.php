@@ -12,7 +12,7 @@ class CreateStickynotesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('sticky_notes', function(Blueprint $table)
+		/*Schema::create('sticky_notes', function(Blueprint $table)
         {
             $table->increments('id');
             $table->string('description');
@@ -24,7 +24,7 @@ class CreateStickynotesTable extends Migration {
 		{
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});
+		});*/
     }
 
     /**
@@ -34,7 +34,7 @@ class CreateStickynotesTable extends Migration {
      */
     public function down()
     {
-        Schema::drop('sticky_notes');
+       // Schema::drop('sticky_notes');
     }
 
 }

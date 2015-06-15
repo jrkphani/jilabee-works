@@ -79,7 +79,7 @@ return [
 	|
 	*/
 
-	'key' => env('APP_KEY', 'jotter)(*&^%$#@!'),
+	'key' => env('APP_KEY', 'jotter)(*&^%$#@!rettoj'),
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -136,6 +136,7 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+		'Regulus\ActivityLog\ActivityLogServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -197,6 +198,7 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form'=> 'Illuminate\Html\FormFacade',
 		'HTML'=> 'Illuminate\Html\HtmlFacade',
+		'Activity' => 'Regulus\ActivityLog\Models\Activity',
 
 	],
 

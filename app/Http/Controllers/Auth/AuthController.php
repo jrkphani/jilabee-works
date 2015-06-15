@@ -36,7 +36,8 @@ class AuthController extends Controller {
 	}
 	public function getRegister()
 	{
-		if (Auth::check())
+		return view('auth.register');
+		/*if (Auth::check())
 		{
 			if(Auth::user()->profile->role == '999')
 			{
@@ -51,7 +52,7 @@ class AuthController extends Controller {
 		else
 		{
 			return redirect('/auth/login');
-		}
+		}*/
 		
 	}
 	public function postRegister(Request $request)

@@ -18,6 +18,9 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 	]);
+
+	Route::get('admin/register', 'Admin\AuthController@signupGet');
+	Route::post('admin/register', 'Admin\AuthController@signupPost');
 //uncomment  domain group routing after fixing multi domain seesoin works 
 //Route::group(['domain' => 'app.localjotter.com'], function()
 //{
@@ -39,6 +42,7 @@ Route::controllers([
 				return App\Model\Tasks::find($taskid);
 			});
 		
+
 		Route::group(['middleware' => 'admin'], function()
 		{
 			Route::get('admin/userlist', 'ProfileController@userlist');

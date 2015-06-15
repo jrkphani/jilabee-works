@@ -12,7 +12,7 @@ class CreateMeetingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('meetings', function(Blueprint $table)
+		Schema::connection('client')->create('meetings', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('title');
@@ -39,7 +39,7 @@ class CreateMeetingsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('minutes');
+		Schema::drop('meetings');
 	}
 
 }
