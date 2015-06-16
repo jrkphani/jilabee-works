@@ -17,9 +17,8 @@ class CreateOrganizationsTable extends Migration {
 			$table->increments('id');
 			$table->string('customerId')->unique();
 			$table->string('email')->unique();
+			$table->string('secondEmail');
 			$table->string('domain')->unique();
-			$table->string('password');
-			$table->tinyInteger('active')->default('0');
 			$table->rememberToken();
 			$table->timestamps();
 		});

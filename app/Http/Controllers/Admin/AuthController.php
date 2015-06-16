@@ -1,8 +1,9 @@
 <?php namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\Organization;
+use App\Model\Organizations;
 use App\Model\OrganizationInfo;
+use App\Model\Clients;
 use Auth;
 use DB;
 class AuthController extends Controller {
@@ -39,38 +40,46 @@ class AuthController extends Controller {
 	}
 	public function signupPost(Request $request)
 	{
-		$validator = Organization::validation($request->all());
+		$validator = Organizations::validation($request->all());
 		$input = $request->all();
 		 if ($validator->fails())
 		 {
-		 	return redirect('admin/register')->withInput($input)->withErrors($validator);
+		 	return redirect('auth/register')->withInput($input)->withErrors($validator);
 		 }
 		DB::connection('base')->transaction(function() use ($input)
 		 {
-		      $organization = Organization::create([
+		      $organizations = Organizations::create([
 					'email' => $input['email'],
+					'secondEmail' => $input['secondEmail'],
 					'customerId' => "dumy".date('His'),
-					'domain' => $input['domain'],
-					'password' => bcrypt($input['password']),
+					'domain' => $input['domain']
 				]);
-				if($organization)
+				if($organizations)
 				{
-					$customerId = $this->generateCustomerId($input['domain'],$organization->id);
-					$organization->update(['customerId'=>$customerId]);
+					$customerId = $this->generateCustomerId($input['domain'],$organizations->id);
+					$organizations->update(['customerId'=>$customerId]);
 					$input  = array('customerId'=>$customerId,
 									'orgName'=>$input['name'],
 									'phone'=>$input['phone'],
 									'phone1'=>$input['phone1']);
 
 					$organizationInfo = new OrganizationInfo($input);
-					if($organization->organizationInfo()->save($organizationInfo))
+					if($organizations->organizationInfo()->save($organizationInfo))
 					{
-						//sdc;		
+						//sdc;
+						//'password' => bcrypt($input['password']
+
+						if(DB::statement(DB::raw('CREATE DATABASE '.$customerId)))
+						{
+							Clients::create(['customerId'=>$customerId,'domain'=>$organizations->domain,
+											'dbIp'=>'localhost','dbUser'=>'root','dbPassword'=>'password','dbName'=>$customerId]);
+							echo "yes"; die;
+						}
 					}
-					return redirect('admin/register')->with('message', 'Success');
+					return redirect('auth/register')->with('message', 'Success');
 				}
 		 });
-		return redirect('admin/register')->withInput($input)->with('error', 'Oops something went wrong!');
+		return redirect('auth/register')->withInput($input)->with('error', 'Oops something went wrong!');
 	}
 	public function generateCustomerId($domain,$id)
 	{

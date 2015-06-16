@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration {
 			$table->string('userId',42)->unique();
 			$table->string('email')->unique();
 			$table->string('password', 60);
-			$table->tinyInteger('active')->default('0');
+			$table->string('active',32)->nullable();
 			$table->rememberToken();
 			$table->timestamps();
 			$table->softDeletes();

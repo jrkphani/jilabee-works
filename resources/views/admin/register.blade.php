@@ -39,6 +39,13 @@
 								{!! $errors->first('email','<div class="error">:message</div>') !!}
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Secondary E-Mail</label>
+							<div class="col-md-6">
+								<input type="email" autocomplete="off" class="form-control" name="secondEmail" value="{{ old('secondEmail') }}">
+								{!! $errors->first('secondEmail','<div class="error">:message</div>') !!}
+							</div>
+						</div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Password</label>

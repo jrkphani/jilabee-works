@@ -17,10 +17,11 @@ class CreateClientsTable extends Migration {
 			$table->increments('id');
 			$table->string('domain');
 			$table->string('customerId',45);
-			$table->string('dbIp',16);
-			$table->string('dbUser',16);
-			$table->string('dbPassword',16);
-			$table->string('dbName',16);
+			$table->string('host',16);
+			$table->string('driver',16);
+			$table->string('username',16);
+			$table->string('password',16);
+			$table->string('database',16);
 			$table->timestamps();
 		});
 	}

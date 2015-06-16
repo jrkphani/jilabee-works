@@ -19,7 +19,6 @@ class CreateOrganizationInfoTable extends Migration {
 			$table->increments('id');
 			$table->string('customerId');
 			$table->string('orgName',32);
-			//$table->string('tagLine',64);
 			$table->string('address',255);
 			$table->string('phone',16);
 			$table->string('phone1',16)->nullable();
