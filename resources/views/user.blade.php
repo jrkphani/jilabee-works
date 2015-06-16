@@ -14,9 +14,6 @@
 			<div class="col-md-1 btn pull-left" id="stickynotes_close">
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</div>
-			<div id="stickynotes_content" class="col-md-12">
-				@include('notes.stickynotes',['stickynotes'=>App\Model\Stickynotes::where('created_by',Auth::id())->orderBy('updated_at','DESC')->get()])
-			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">

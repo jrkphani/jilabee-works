@@ -12,7 +12,7 @@ class CreateOrganizationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('organization', function(Blueprint $table)
+		Schema::connection('base')->create('organizations', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('customerId')->unique();
@@ -20,6 +20,7 @@ class CreateOrganizationsTable extends Migration {
 			$table->string('domain')->unique();
 			$table->string('password');
 			$table->tinyInteger('active')->default('0');
+			$table->rememberToken();
 			$table->timestamps();
 		});
 	}
@@ -31,7 +32,7 @@ class CreateOrganizationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('organization');
+		Schema::connection('base')->drop('organizations');
 	}
 
 }

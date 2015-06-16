@@ -27,7 +27,7 @@ class CreateSubscriptionTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('ideas');
+		Schema::connection('base')->drop('ideas');
 	}
 
 }

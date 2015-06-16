@@ -28,7 +28,7 @@ class CreateWalletDetailsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('walletDetails');
+		Schema::connection('base')->drop('walletDetails');
 	}
 
 }

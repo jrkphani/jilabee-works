@@ -27,7 +27,7 @@ class CreatePasswordResetsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('password_resets');
+		Schema::connection('client')->drop('password_resets');
 	}
 
 }

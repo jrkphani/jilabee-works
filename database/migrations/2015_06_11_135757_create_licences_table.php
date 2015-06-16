@@ -33,7 +33,7 @@ class CreateLicencesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('licences');
+		Schema::connection('base')->drop('licences');
 	}
 
 }

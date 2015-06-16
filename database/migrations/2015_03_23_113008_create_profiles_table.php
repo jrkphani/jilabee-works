@@ -28,7 +28,7 @@ class CreateProfilesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::table('profiles', function(Blueprint $table)
+        Schema::connection('client')->table('profiles', function(Blueprint $table)
 		{
 			$table->foreign('userId')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -43,7 +43,7 @@ class CreateProfilesTable extends Migration {
      */
     public function down()
     {
-        Schema::drop('profiles');
+        Schema::connection('client')->drop('profiles');
     }
 
 }

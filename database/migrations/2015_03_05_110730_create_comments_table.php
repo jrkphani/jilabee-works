@@ -22,7 +22,7 @@ class CreateCommentsTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('comments', function(Blueprint $table)
+		Schema::connection('client')->table('comments', function(Blueprint $table)
 		{
 			$table->foreign('jobId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -37,7 +37,7 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('comments');
+		Schema::connection('client')->drop('comments');
 	}
 
 }

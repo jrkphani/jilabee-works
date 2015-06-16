@@ -26,7 +26,7 @@ class CreateMinutesTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('minutes', function(Blueprint $table)
+		Schema::connection('client')->table('minutes', function(Blueprint $table)
 		{
 			$table->foreign('meetingId')->references('id')->on('meetings')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -41,7 +41,7 @@ class CreateMinutesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('minutes');
+		Schema::connection('client')->drop('minutes');
 	}
 
 }

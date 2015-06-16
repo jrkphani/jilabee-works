@@ -27,7 +27,7 @@ class CreateNotificationListTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('notificationList');
+		Schema::connection('client')->drop('notificationList');
 	}
 
 }

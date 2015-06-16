@@ -63,7 +63,10 @@ class AuthController extends Controller {
 									'phone1'=>$input['phone1']);
 
 					$organizationInfo = new OrganizationInfo($input);
-					$organization->organizationInfo()->save($organizationInfo);
+					if($organization->organizationInfo()->save($organizationInfo))
+					{
+						//sdc;		
+					}
 					return redirect('admin/register')->with('message', 'Success');
 				}
 		 });
@@ -71,29 +74,53 @@ class AuthController extends Controller {
 	}
 	public function generateCustomerId($domain,$id)
 	{
-		//return substr($domain, 0, 3).dechex($id);
 		return 'ORG'.dechex($id).date('s');
 	}
 	public function loginGet()
 	{
-		$validator = $this->registrar->validator($request->all());
-
-		if ($validator->fails())
-		{
-			$this->throwValidationException(
-				$request, $validator
-			);
-		}
+		return view('admin.login');
 	}
-	public function loginPost()
+	public function loginPost(Request $request)
 	{
-		$validator = $this->registrar->validator($request->all());
-
-		if ($validator->fails())
+		if(DB::connection()->getDatabaseName())
 		{
-			$this->throwValidationException(
-				$request, $validator
-			);
+		  // echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
 		}
+		 //die;
+		//print_r($request->all()); die;
+		$input = $request->all();
+
+		if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']]))
+        {
+        	echo "done";
+            return redirect('admin/');
+        }
+        else
+        {
+        	return redirect('admin/login');	
+        }
+echo "jjjjjjjjj";
+        if(DB::connection()->getDatabaseName())
+		{
+		   echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
+		}
+		 die;
+
+
+		/*$checkAdmin = Organization::where(['email'=> $input['email'],'active'=>1])->first();
+		if($checkAdmin)
+		{
+			if (Hash::check('secret', $hashedPassword))
+			{
+			    // The passwords match...
+			}
+			echo "Dfvdfdfvdf"; die;
+		}
+		echo "dfvdf"; die;
+		 if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']]))
+        {
+        	echo "yes"; die;
+            return redirect()->intended('dashboard');
+        }*/
 	}
 }

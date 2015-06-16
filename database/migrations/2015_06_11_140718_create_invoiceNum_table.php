@@ -29,7 +29,7 @@ class CreateInvoiceNumTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('invoice');
+		Schema::connection('base')->drop('invoice');
 	}
 
 }

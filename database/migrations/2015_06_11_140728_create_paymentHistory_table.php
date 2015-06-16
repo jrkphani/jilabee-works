@@ -29,7 +29,7 @@ class CreatePaymentHistoryTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('paymentHistory');
+		Schema::connection('base')->drop('paymentHistory');
 	}
 
 }

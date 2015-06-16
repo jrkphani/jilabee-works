@@ -30,7 +30,7 @@ class CreateOrganizationInfoTable extends Migration {
 		});
 		Schema::connection('base')->table('organizationInfo', function(Blueprint $table)
 		{
-			$table->foreign('customerId')->references('customerId')->on('organization')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('customerId')->references('customerId')->on('organizations')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -41,7 +41,7 @@ class CreateOrganizationInfoTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('organizationInfo');
+		Schema::connection('base')->drop('organizationInfo');
 	}
 
 }

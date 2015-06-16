@@ -32,7 +32,7 @@ class CreateClientsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('clients');
+		Schema::connection('base')->drop('clients');
 	}
 
 }

@@ -12,15 +12,29 @@
 */
 
 /*Route::get('/', 'WelcomeController@index');*/
-Route::get('/', 'Auth\AuthController@getRegister');
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-	]);
 
-	Route::get('admin/register', 'Admin\AuthController@signupGet');
-	Route::post('admin/register', 'Admin\AuthController@signupPost');
+	Route::group(['domain' => 'admin.localjotter.com'], function()
+	{
+		DB::disconnect();
+	    Config::set('database.default','base');
+	    DB::reconnect();
+
+
+	    Route::get('auth/register', 'Admin\AuthController@signupGet');
+		Route::post('auth/register', 'Admin\AuthController@signupPost');
+		Route::get('auth/login', 'Admin\AuthController@loginGet');
+		Route::post('auth/login', 'Admin\AuthController@loginPost');
+		Route::get('auth/logout', 'Admin\AuthController@logout');
+	});	
+
+	Route::get('/', 'Auth\AuthController@getRegister');
+
+	Route::controllers([
+		'auth' => 'Auth\AuthController',
+		'password' => 'Auth\PasswordController',
+		]);
+	
 //uncomment  domain group routing after fixing multi domain seesoin works 
 //Route::group(['domain' => 'app.localjotter.com'], function()
 //{
@@ -31,75 +45,6 @@ Route::controllers([
 		Route::get('/', function(){
 			return view('user');
 		});
-		
-		Route::bind('meetingid', function($meetingid){
-				return App\Model\Meetings::find($meetingid);
-			});
-		Route::bind('minuteid', function($minuteid){
-				return App\Model\Minutes::find($minuteid);
-			});
-		Route::bind('taskid', function($taskid){
-				return App\Model\Tasks::find($taskid);
-			});
-		
-
-		Route::group(['middleware' => 'admin'], function()
-		{
-			Route::get('admin/userlist', 'ProfileController@userlist');
-			Route::get('admin/meetings', 'MeetingsController@listAll');
-			Route::get('admin/meeting/add', 'MeetingsController@getAdd');
-			Route::post('admin/meeting/add', 'MeetingsController@postAdd');
-			Route::get('admin/meeting/{meetingid}/edit', 'MeetingsController@getEdit')->where('meetingid', '[0-9]+');;
-			Route::post('admin/meeting/{meetingid}/edit', 'MeetingsController@postEdit')->where('meetingid', '[0-9]+');;
-
-			Route::bind('userid', function($uid){
-				return App\User::find($uid);
-			});
-			Route::get('user/{userid}/edit', 'ProfileController@getuser');
-			Route::post('user/{userid}/edit', 'ProfileController@postuser');
-		});
-
-		Route::group(['middleware' => 'onlyajax'], function()
-		{
-			Route::get('mytask', 'TasksController@mytask');
-
-			Route::get('followup', 'TasksController@followup');
-
-			Route::get('meetings', 'MeetingsController@index');
-
-			Route::get('user/search', 'ProfileController@findUser');
-			
-			Route::get('task/{taskid}/get', 'TasksController@get');
-			Route::get('task/{taskid}/edit', 'TasksController@edit');
-			Route::post('task/{taskid}/edit', 'TasksController@update');
-
-			Route::post('task/{taskid}/close', 'TasksController@close');
-
-			Route::post('task/{tid}/reject', 'TasksController@reject');
-			Route::post('task/{tid}/accept', 'TasksController@accept');
-
-			Route::get('task/{taskid}/comments', 'TasksController@getComment');
-			Route::post('task/{taskid}/comments/add', 'TasksController@postComment');
-
-			Route::get('minute/{minuteid}/tasks', 'TasksController@index')->where('minuteid', '[0-9]+');
-			Route::post('minute/{minuteid}/tasks/add/draft', 'TasksController@postDraft')->where('minuteid', '[0-9]+');
-
-			Route::get('stickynotes', 'SticknotesController@index');
-			Route::get('stickynotes/remove/{id}', 'SticknotesController@remove')->where('id', '[0-9]+');
-			Route::post('stickynotes', 'SticknotesController@postData');
-		});
-
-		Route::get('profile/{id?}', 'ProfileController@index')->where('id', '[0-9]+');
-		Route::get('profile/edit', 'ProfileController@getedit');
-		Route::post('profile/edit', 'ProfileController@postedit');
-		
-		Route::get('meeting/{meetingid}/nextminute', 'MinutesController@getAdd')->where('meetingid', '[0-9]+');;
-		Route::post('meeting/{meetingid}/nextminute', 'MinutesController@postAdd')->where('meetingid', '[0-9]+');;
-		
-		
-		Route::get('minute/{minuteid}/tasks/add', 'TasksController@getAdd')->where('meetingid', '[0-9]+');
-		Route::post('minute/{minuteid}/tasks/add', 'TasksController@postAdd')->where('meetingid', '[0-9]+');
-		
 	});
 
 
