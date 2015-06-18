@@ -13,7 +13,7 @@ class CreateProfilesTable extends Migration {
      */
     public function up()
     {
-        Schema::connection('client')->create('profiles', function(Blueprint $table)
+        Schema::create('profiles', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('userId')->unsigned();
@@ -27,7 +27,7 @@ class CreateProfilesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::connection('client')->table('profiles', function(Blueprint $table)
+        Schema::table('profiles', function(Blueprint $table)
 		{
 			$table->foreign('userId')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
@@ -42,7 +42,7 @@ class CreateProfilesTable extends Migration {
      */
     public function down()
     {
-        Schema::connection('client')->drop('profiles');
+        Schema::drop('profiles');
     }
 
 }

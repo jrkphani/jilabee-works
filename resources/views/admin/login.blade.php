@@ -30,7 +30,7 @@
   			<h4>Login</h4>
   		</div>
   			<div class="col-md-6 col-md-offset-3">
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/login') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">

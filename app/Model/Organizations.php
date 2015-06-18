@@ -14,7 +14,7 @@ class Organizations extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['customerId','domain','email','password','active'];
+	protected $fillable = ['customerId','domain','email','secondEmail','password','active'];
     public function __construct(array $attributes = array())
     {
         parent::__construct($attributes);

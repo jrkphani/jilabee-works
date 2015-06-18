@@ -13,13 +13,19 @@
 
 /*Route::get('/', 'WelcomeController@index');*/
 
-
 	Route::group(['domain' => 'admin.localjotter.com'], function()
 	{
-		DB::disconnect();
-	    Config::set('database.default','base');
-	    DB::reconnect();
+		print_r(Auth::user());
+		print_r(Session::get('blabla','dd'));
+		if(DB::connection()->getDatabaseName())
+		{
+		   echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
+		}
 
+		// DB::disconnect();
+	 //    Config::set('database.default','base');
+	 //    DB::reconnect();
+	    //configureConnection('jotterBase');
 
 	    Route::get('auth/register', 'Admin\AuthController@signupGet');
 		Route::post('auth/register', 'Admin\AuthController@signupPost');
