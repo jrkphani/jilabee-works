@@ -12,7 +12,7 @@ class CreatePasswordResetsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('client')->create('password_resets', function(Blueprint $table)
+		Schema::connection('base')->create('password_resets', function(Blueprint $table)
 		{
 			$table->string('email')->index();
 			$table->string('token')->index();
@@ -27,7 +27,7 @@ class CreatePasswordResetsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('client')->drop('password_resets');
+		Schema::connection('base')->drop('password_resets');
 	}
 
 }

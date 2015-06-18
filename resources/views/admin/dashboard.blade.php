@@ -1,6 +1,4 @@
-sdjchhsvdcsbdckhsd'vsdvsd
-v
-sd
-vsd
-v
-sdv
+@extends('master')
+@section('content')
+svsvrevre
+@endsection

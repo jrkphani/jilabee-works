@@ -31,8 +31,8 @@ class CreateJobTasksTable extends Migration {
 		Schema::table('jobTasks', function(Blueprint $table)
 		{
 			//$table->foreign('meetingId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');			
-			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			//$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			//$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

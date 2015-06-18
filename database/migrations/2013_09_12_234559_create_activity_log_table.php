@@ -35,7 +35,7 @@ class CreateActivityLogTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('activity_log');
+		Schema::connection('client')->drop('activity_log');
 	}
 
 }

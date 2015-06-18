@@ -12,13 +12,14 @@ class CreateUsersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('client')->create('users', function(Blueprint $table)
+		Schema::connection('base')->create('users', function(Blueprint $table)
 		{
 			$table->increments('id')->unique();
 			$table->string('userId',42)->unique();
 			$table->string('email')->unique();
 			$table->string('password', 60);
-			$table->string('active',32)->nullable();
+			$table->enum('isAdmin',array('0','1'))->default('0');
+			$table->enum('active',array('0','1'))->default('0');
 			$table->rememberToken();
 			$table->timestamps();
 			$table->softDeletes();
@@ -32,7 +33,7 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('client')->drop('users');
+		Schema::connection('base')->drop('users');
 	}
 
 }

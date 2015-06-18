@@ -16,7 +16,7 @@ class CreateProfilesTable extends Migration {
         Schema::connection('client')->create('profiles', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('userId')->unsigned();
+            $table->string('userId',42);
             $table->string('name');
             $table->string('phone',16);
             $table->date('dob');
@@ -27,12 +27,12 @@ class CreateProfilesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::connection('client')->table('profiles', function(Blueprint $table)
+        /*Schema::connection('client')->table('profiles', function(Blueprint $table)
 		{
 			$table->foreign('userId')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});
+		});*/
     }
 
     /**

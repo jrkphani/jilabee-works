@@ -12,29 +12,30 @@
 */
 
 /*Route::get('/', 'WelcomeController@index');*/
-
-	Route::group(['domain' => 'admin.localjotter.com'], function()
+Route::group(['prefix' => 'admin'], function()
+{
+	Route::group(['middleware' => 'adminOnly'], function()
 	{
-		print_r(Auth::user());
-		print_r(Session::get('blabla','dd'));
-		if(DB::connection()->getDatabaseName())
+		Route::group(['middleware' => 'checkDatabase'], function()
 		{
-		   echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
-		}
-
-		// DB::disconnect();
-	 //    Config::set('database.default','base');
-	 //    DB::reconnect();
-	    //configureConnection('jotterBase');
-
-	    Route::get('auth/register', 'Admin\AuthController@signupGet');
-		Route::post('auth/register', 'Admin\AuthController@signupPost');
-		Route::get('auth/login', 'Admin\AuthController@loginGet');
-		Route::post('auth/login', 'Admin\AuthController@loginPost');
-		Route::get('auth/logout', 'Admin\AuthController@logout');
-	});	
-
-	Route::get('/', 'Auth\AuthController@getRegister');
+			Route::get('/', function(){
+				return view('admin.dashboard');
+			});
+		});
+	});
+    Route::get('auth/register', 'Admin\AuthController@signupGet');
+	Route::post('auth/register', 'Admin\AuthController@signupPost');
+	Route::get('auth/login', 'Admin\AuthController@loginGet');
+	Route::post('auth/login', 'Admin\AuthController@loginPost');
+	Route::get('auth/logout', 'Admin\AuthController@logout');
+});
+	/*Route::group(['domain' => 'admin.localjotter.com'], function()
+	{
+		 DB::disconnect();
+	     Config::set('database.default','base');
+	     DB::reconnect();
+	    configureConnection('jotterBase');	    
+	});*/	
 
 	Route::controllers([
 		'auth' => 'Auth\AuthController',
@@ -48,10 +49,11 @@
 
     Route::group(['middleware' => 'auth'], function()
 	{
-		Route::get('/', function(){
+		Route::group(['middleware' => 'checkDatabase'], function()
+		{
+			Route::get('/', function(){
 			return view('user');
+			});
 		});
-	});
-
-
 		
+	});	

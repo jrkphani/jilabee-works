@@ -17,6 +17,8 @@ class CreateSubscriptionTypesTable extends Migration {
 			$table->increments('id');
 			$table->string('module',16);
 			$table->string('action',16);
+			$table->string('monthlyPrice',5);
+			$table->string('anualPrice',5);
 		});
 	}
 

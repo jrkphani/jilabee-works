@@ -15,9 +15,9 @@ class Clients extends Model{
 	 * @var array
 	 */
 	protected $fillable = ['domain','customerId','driver','database','database','password','username'];
-	public function __construct(array $attributes = array())
+	/*public function __construct(array $attributes = array())
     {
         parent::__construct($attributes);
         $this->setConnection('base');
-    }
+    }*/
 }

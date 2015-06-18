@@ -30,8 +30,8 @@ class CreateMinuteTaskTable extends Migration {
 		Schema::table('minuteTasks', function(Blueprint $table)
 		{
 			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');			
-			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			// $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			// $table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

@@ -32,28 +32,11 @@ class AuthController extends Controller {
 	{
 		$this->auth = $auth;
 		$this->registrar = $registrar;
-		$this->middleware('guest', ['except' => ['getRegister','postRegister','getLogout']]);
+		$this->middleware('guest', ['except' => ['getLogout']]);
 	}
 	public function getRegister()
 	{
 		return view('auth.register');
-		/*if (Auth::check())
-		{
-			if(Auth::user()->profile->role == '999')
-			{
-				return view('auth.register');		
-			}
-			else
-			{
-				return abort(403, 'Unauthorized action.');
-			}
-			
-		}
-		else
-		{
-			return redirect('/auth/login');
-		}*/
-		
 	}
 	public function postRegister(Request $request)
 	{
@@ -68,5 +51,12 @@ class AuthController extends Controller {
 		$this->registrar->create($request->all());
 		return redirect('/auth/register')->with('message', 'Registration successfully!');
 	}
+	public function authenticate()
+    {
+        if (Auth::attempt(['email' => $email, 'password' => $password,'active'=>'1'])) {
+            // Authentication passed...
+            return redirect('/');
+        }
+    }
 
 }

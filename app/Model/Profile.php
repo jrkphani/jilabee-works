@@ -14,16 +14,16 @@ class Profile extends Model{
 	 * @var array
 	 */
 	protected $fillable = ['userId', 'name', 'phone','dob','created_by','updated_by'];
-	public function createdby()
-    {	
-        return $this->hasOne('App\User', 'id', 'created_by');
-    }
-    public function updatedby()
-    {	
-        return $this->hasOne('App\User', 'id', 'updated_by');
-    }
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'userId', 'userId');
-    }
+	// public function createdby()
+ //    {	
+ //        return $this->hasOne('App\User', 'id', 'created_by');
+ //    }
+ //    public function updatedby()
+ //    {	
+ //        return $this->hasOne('App\User', 'id', 'updated_by');
+ //    }
+ //    public function user()
+ //    {
+ //        return $this->belongsTo('App\User', 'userId', 'userId');
+ //    }
 }

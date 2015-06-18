@@ -25,10 +25,10 @@ class CreateDraftTable extends Migration {
 			$table->integer('created_by')->unsigned();
         	$table->timestamps();
 		});
-		Schema::connection('client')->table('draft', function(Blueprint $table)
+		/*Schema::connection('client')->table('draft', function(Blueprint $table)
 		{
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});
+		});*/
 	}
 
 	/**

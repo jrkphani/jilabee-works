@@ -54,7 +54,8 @@ class Registrar implements RegistrarContract {
 		              				'updated_by'=>$user->id);
 
 					$profile = new Profile($input);
-					$user->profile()->save($profile);
+			        $profile->setConnection('client');
+					$profile->save();
 				}
 		 });
 		

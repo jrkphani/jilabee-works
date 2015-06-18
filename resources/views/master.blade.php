@@ -55,13 +55,12 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('profile') }}">My Profile</a></li>
 								
-								@if(Auth::user()->profile->role == '999')
-								<li><a href="{{ url('admin/userlist') }}">Dashboard</a></li>
-									{{-- <li><a href="{{ url('auth/register') }}">Add User</a></li>
-									<li><a href="{{ url('meeting/add') }}">Add Meeting</a></li>
-									<li><a href="{{ url('userlist') }}">Users</a></li> --}}
+								@if(Auth::user()->isAdmin == '1')
+									<li><a href="{{ url('admin/auth/logout') }}">Logout</a></li>
+								@else
+									<li><a href="{{ url('auth/logout') }}">Logout</a></li>
 								@endif
-								<li><a href="{{ url('auth/logout') }}">Logout</a></li>
+								
 							</ul>
 						</li>
 					@endif
@@ -69,9 +68,7 @@
 			</div>
 		</div>
 	</nav>
-
-	@yield('guestcontent')
-	@yield('usercontent')
+	@yield('content')
 	<footer class="footer">
       <div class="container">
       	<div class="row">
@@ -99,7 +96,6 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="{{ asset('/js/notify.min.js') }}"></script>
-	<script src="{{ asset('/js/main.js') }}"></script>
 	<script type="text/javascript">
 	$(document).ready(function($) {
 		$.notify("{!! Session::get('message')!!}",

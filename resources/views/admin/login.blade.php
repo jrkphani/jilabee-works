@@ -30,7 +30,7 @@
   			<h4>Login</h4>
   		</div>
   			<div class="col-md-6 col-md-offset-3">
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
@@ -71,7 +71,7 @@
     </div>
     <div class="col-md-4">
     	 <h4>Don't have a login?</h4>
-    	 <a href="{{ app_url('/auth/register') }}">Register</a>
+    	 <a href="{{ app_url('/admin/auth/register') }}">Register</a>
     	 <h4>Want to learn more?</h4>
     	 <a>See how Jotter can help you and your organisatoin!</a>
     </div>

@@ -16,23 +16,23 @@ class CreateProfilesTable extends Migration {
         Schema::create('profiles', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('userId')->unsigned();
+            $table->string('userId',42);
             $table->string('name');
             $table->string('phone',16);
             $table->date('dob');
             $table->enum('gender', array('M','F','O'));
             $table->string('notification',16);
             $table->integer('created_by')->unsigned();
-			$table->integer('updated_by')->unsigned();
+            $table->integer('updated_by')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
-        Schema::table('profiles', function(Blueprint $table)
+        /*Schema::table('profiles', function(Blueprint $table)
 		{
 			$table->foreign('userId')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});
+		});*/
     }
 
     /**

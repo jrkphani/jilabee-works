@@ -30,7 +30,7 @@ class Organizations extends Model{
             'name'=>'required',
             'domain'=>'required|min:3|unique:organizations',
             'email' => 'required|email|max:255|unique:organizations',
-            'email' => 'email|max:255',
+            'secondEmail' => 'email|max:255',
             'password' => 'required|confirmed|min:6',
             'phone' =>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
             'phone1' =>'Regex:/^([0-9\s\-\+\(\)]*)$/');
@@ -41,9 +41,5 @@ class Organizations extends Model{
     public function organizationInfo()
     {   
         return $this->hasOne('App\Model\OrganizationInfo', 'customerId', 'customerId');
-    }
-    public function dbconnection()
-    {   
-        return $this->hasOne('App\Model\Clients', 'customerId', 'customerId');
     }
 }
