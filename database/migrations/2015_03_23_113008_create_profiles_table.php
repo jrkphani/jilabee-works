@@ -27,12 +27,6 @@ class CreateProfilesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
-        /*Schema::connection('client')->table('profiles', function(Blueprint $table)
-		{
-			$table->foreign('userId')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});*/
     }
 
     /**

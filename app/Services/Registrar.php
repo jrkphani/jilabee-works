@@ -3,6 +3,7 @@
 use App\User;
 use App\Model\Profile;
 use Auth;
+use App;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 use DB;
@@ -16,7 +17,9 @@ class Registrar implements RegistrarContract {
 	 */
 	public function validator(array $data)
 	{
-		return Validator::make($data, [
+		$verifier = App::make('validation.presence');
+        $verifier->setConnection('base');
+		$validator = Validator::make($data, [
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:6',
@@ -24,6 +27,8 @@ class Registrar implements RegistrarContract {
 			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
 			'gender' =>'required|in:M,F,O',
 		]);
+        $validator->setPresenceVerifier($verifier);
+        return $validator;
 	}
 
 	/**
@@ -49,9 +54,7 @@ class Registrar implements RegistrarContract {
 									'name'=>$data['name'],
 									'dob'=>$data['dob'],
 									'gender'=>$data['gender'],
-									'phone'=>$data['phone'],
-									'created_by'=>$user->id,
-		              				'updated_by'=>$user->id);
+									'phone'=>$data['phone']);
 
 					$profile = new Profile($input);
 			        $profile->setConnection('client');

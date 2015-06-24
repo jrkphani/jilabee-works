@@ -1,6 +1,5 @@
 @extends('master')
 @section('usercontent')
-<div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
 			<div class="col-md-12">
@@ -25,5 +24,4 @@
 			<a href="{{url('profile/edit')}}" class="btn btn-primary col-md-12 margin_top_10" >Edit</a>
 		</div>
 	</div>
-</div>
 @endsection

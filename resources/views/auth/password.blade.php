@@ -1,7 +1,6 @@
 @extends('master')
 
-@section('guestcontent')
-<div class="container-fluid">
+@section('content')
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
@@ -46,5 +45,4 @@
 			</div>
 		</div>
 	</div>
-</div>
 @endsection

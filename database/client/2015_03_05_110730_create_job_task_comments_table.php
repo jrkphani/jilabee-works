@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentsTable extends Migration {
+class CreateJobTaskCommentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,21 +12,19 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('comments', function(Blueprint $table)
+		Schema::create('jobTaskComments', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('jobId')->unsigned();
+			$table->integer('pId')->unsigned();
 			$table->mediumText('description');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('comments', function(Blueprint $table)
+		Schema::table('jobTaskComments', function(Blueprint $table)
 		{
-			$table->foreign('jobId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
-			//$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			//$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('pId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

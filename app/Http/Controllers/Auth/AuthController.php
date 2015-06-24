@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
+use App\Model\Clients;
+use Validator;
 class AuthController extends Controller {
 
 	/*
@@ -51,11 +54,37 @@ class AuthController extends Controller {
 		$this->registrar->create($request->all());
 		return redirect('/auth/register')->with('message', 'Registration successfully!');
 	}
-	public function authenticate()
+	public function postLogin(Request $request)
     {
-        if (Auth::attempt(['email' => $email, 'password' => $password,'active'=>'1'])) {
+    	$input = $request->all();
+        $validatorRule =['email'=>'required|email',
+            'password'=>'required'];
+        $validator = Validator::make($input,$validatorRule);
+		if ($validator->fails())
+		{
+			return redirect('auth/login')->withInput($input)->withErrors($validator);
+		}
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password,'active'=>'1']))
+        {
             // Authentication passed...
+            if(starts_with(Auth::user()->userId, 'GEN'))
+            {
+            	//do nothing 
+            	//changedatabase middleware will connect to general database "jotter"
+            }
+            else
+            {
+            	//get the client database to session
+            	//echo substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u')); die;
+            	Session::put('database', substr(Auth::user()->userId, 0, strrpos(Auth::user()->userId, 'u')));
+            }
             return redirect('/');
+        }
+        else
+        {
+        	$errors = $validator->messages();
+			$errors->add('email', 'Invalid credentials');
+        	return redirect('auth/login')->withInput($input)->withErrors($validator);
         }
     }
 

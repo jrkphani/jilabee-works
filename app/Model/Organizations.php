@@ -29,7 +29,7 @@ class Organizations extends Model{
         $rule = array('customerId'=>'unique:organizations',
             'name'=>'required',
             'domain'=>'required|min:3|unique:organizations',
-            'email' => 'required|email|max:255|unique:organizations',
+            'email' => 'required|email|max:255|unique:users',
             'secondEmail' => 'email|max:255',
             'password' => 'required|confirmed|min:6',
             'phone' =>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',

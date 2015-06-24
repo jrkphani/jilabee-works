@@ -16,7 +16,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var string
 	 */
 	protected $table = 'users';
-	//protected $connection = 'client';
+	protected $connection = 'base';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -34,14 +34,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function profile()
     {
         return $this->hasOne('App\Model\Profile','userId','id');
-    }
-    public function isAdmin()
-    {
-        //check permission as admin
-        if($this->profile->role == '999')
-        {
-            return TRUE;
-        }
-        return FALSE;
     }
 }

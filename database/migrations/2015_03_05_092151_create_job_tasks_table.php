@@ -19,7 +19,7 @@ class CreateJobTasksTable extends Migration {
 			$table->string('title');
 			$table->mediumText('description');
 			$table->string('assignee','64');
-			$table->string('assigner','64')->nullable();
+			$table->integer('assigner')->nullable();
 			$table->enum('status', array('waiting','rejected','open','finished' ,'close','expired','timeout','failed'))->default('waiting');
 			//$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
 			$table->dateTime('dueDate')->nullable();
@@ -28,12 +28,6 @@ class CreateJobTasksTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		/*Schema::connection('client')->table('jobTasks', function(Blueprint $table)
-		{
-			//$table->foreign('meetingId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');			
-			$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-		});*/
 	}
 
 	/**

@@ -36,16 +36,24 @@
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				{{-- <ul class="nav navbar-nav">
-					<li><a href="{{ base_url() }}">Home</a></li>
-				</ul> --}}
+				<ul class="nav navbar-nav">
+					@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
+					<li class="active"><a href="{{ url('jobs') }}">Jobs</a></li>
+					@else
+					<li><a href="{{ url('jobs') }}">Jobs</a></li>
+					@endif
+				</ul>
 
-				{{-- <ul class="nav navbar-nav">
-					<li><a href="{{ base_url() }}">Link1</a></li>
+				<ul class="nav navbar-nav">
+					@if(Request::segment(1) == 'meetings')
+					<li class="active"><a href="{{ url('meetings') }}">Meetings</a></li>
+					@else
+					<li><a href="{{ url('meetings') }}">Meetings</a></li>
+					@endif
 				</ul>
 				<ul class="nav navbar-nav">
-					<li><a href="{{ base_url() }}">Link2</a></li>
-				</ul> --}}
+					<li><a href="{{ url() }}">Plans</a></li>
+				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
 						{{-- <li><a href="{{ app_url('/auth/login') }}">Login</a></li> --}}
@@ -54,12 +62,8 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('profile') }}">My Profile</a></li>
+								<li><a href="{{ url('auth/logout') }}">Logout</a></li>
 								
-								@if(Auth::user()->isAdmin == '1')
-									<li><a href="{{ url('admin/auth/logout') }}">Logout</a></li>
-								@else
-									<li><a href="{{ url('auth/logout') }}">Logout</a></li>
-								@endif
 								
 							</ul>
 						</li>
@@ -68,7 +72,9 @@
 			</div>
 		</div>
 	</nav>
+	<div class="container">
 	@yield('content')
+	</div>
 	<footer class="footer">
       <div class="container">
       	<div class="row">

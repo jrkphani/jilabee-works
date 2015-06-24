@@ -6,7 +6,7 @@
  * @param  string $tenantName The database name.
  * @return void
  */
-function configureConnection($connectionName=NULL)
+function configureConnection($connectionName)
 {
     // Just get access to the config. 
     $config = App::make('config');
@@ -25,5 +25,17 @@ function configureConnection($connectionName=NULL)
     
     // This will add our new connection to the run-time configuration for the duration of the request.
     App::make('config')->set('database.connections.'.$connectionName, $newConnection);
+}
+function generatePublicUserId($id)
+{
+    return "GEN".dechex($id).date('s');
+}
+function generateCustomerId($id)
+{
+    return 'ORG'.dechex($id).date('s');
+}
+function generateUserId($customerId,$id)
+{
+    return $customerId.'u'.$id;
 }
 ?>

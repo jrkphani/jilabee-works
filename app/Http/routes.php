@@ -21,6 +21,9 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('/', function(){
 				return view('admin.dashboard');
 			});
+			Route::get('user/add', 'Admin\UserController@getAdd');
+			Route::post('user/add', 'Admin\UserController@postAdd');
+			Route::get('meetings', 'Admin\MeetingsController@index');
 		});
 	});
     Route::get('auth/register', 'Admin\AuthController@signupGet');
@@ -51,9 +54,24 @@ Route::group(['prefix' => 'admin'], function()
 	{
 		Route::group(['middleware' => 'checkDatabase'], function()
 		{
-			Route::get('/', function(){
-			return view('user');
+			Route::get('/', 'Jobs\TaskController@index');
+			Route::get('user/search', 'Auth\ProfileController@findUser');	
+			Route::group(['prefix' => 'jobs'], function()
+			{
+				Route::get('/', 'Jobs\TaskController@index');
+				Route::get('mytask', 'Jobs\TaskController@mytask');
+				Route::get('followups', 'Jobs\TaskController@followups');
+				Route::get('history', 'Jobs\TaskController@history');
+				Route::post('createTask','Jobs\TaskController@createTask');
 			});
+			Route::group(['prefix' => 'meetings'], function()
+			{
+				Route::get('/', 'Meetings\MeetingsController@index');
+				Route::get('myminutes', 'Meetings\MeetingsController@myminutes');
+				Route::get('history', 'Meetings\MeetingsController@history');
+				Route::post('create','Meetings\MeetingsController@createMeeting');
+			});
+		
 		});
 		
 	});	

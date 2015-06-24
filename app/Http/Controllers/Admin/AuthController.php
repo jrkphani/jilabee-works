@@ -23,12 +23,6 @@ class AuthController extends Controller {
 	{
 		$this->middleware('admin',['except'=>['logout']]);
 	}
-
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
 	public function signupGet()
 	{
 		return view('admin.register');
@@ -51,7 +45,7 @@ class AuthController extends Controller {
 				]);
 				if($organizations)
 				{
-					$customerId = $this->generateCustomerId($organizations->id);
+					$customerId = generateCustomerId($organizations->id);
 					$organizations->update(['customerId'=>$customerId]);
 					$orgInput  = array('customerId'=>$customerId,
 									'orgName'=>$input['name'],
@@ -67,7 +61,7 @@ class AuthController extends Controller {
 							'isAdmin' => '1',
 							'password' => bcrypt($input['password']),
 							]);
-						$userId = $this->generateUserId($customerId,$user->id);
+						$userId = generateUserId($customerId,$user->id);
 						$user->update(['userId'=>$userId]);
 						if($user)
 						{
@@ -81,6 +75,7 @@ class AuthController extends Controller {
 								Artisan::call('migrate', array('--force' => true,'--database'=>$customerId,  '--path' => 'database/client'));
 								$profile = new Profile;
 						        $profile->setConnection($customerId);
+						        $profile->userId = $userId;
 							    $profile->phone = $input['phone'];
 							    $profile->save();
 							}		
@@ -90,14 +85,7 @@ class AuthController extends Controller {
 		 });
 		return redirect('admin/auth/register')->with('message', 'Success');
 	}
-	public function generateCustomerId($id)
-	{
-		return 'ORG'.dechex($id).date('s');
-	}
-	public function generateUserId($customerId,$id)
-	{
-		return $customerId.'u'.$id;
-	}
+	
 	public function loginGet()
 	{
 		return view('admin.login');

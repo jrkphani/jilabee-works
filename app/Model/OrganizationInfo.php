@@ -20,8 +20,4 @@ class OrganizationInfo extends Model{
         parent::__construct($attributes);
         $this->setConnection('base');
     }
-	/*public function organizationInfo()
-    {   
-        return $this->hasOne('App\Model\Organization', 'customerId', 'customerId');
-    }*/
 }

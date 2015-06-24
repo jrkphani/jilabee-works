@@ -29,8 +29,6 @@ class CreateMinutesTable extends Migration {
 		Schema::connection('client')->table('minutes', function(Blueprint $table)
 		{
 			$table->foreign('meetingId')->references('id')->on('meetings')->onDelete('restrict')->onUpdate('cascade');
-			//$table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-			//$table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
