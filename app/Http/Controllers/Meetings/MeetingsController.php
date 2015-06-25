@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Model\JobTasks;
 use App\Model\TempMeetings;
 use App\Model\Meetings;
+use App\Model\Profile;
 use Auth;
 class MeetingsController extends Controller {
 
@@ -54,6 +55,7 @@ class MeetingsController extends Controller {
 			}
 			else
 			{
+				$input['requested_by'] = Profile::where('userId','=',Auth::user()->userId)->first()->name;
 				TempMeetings::create($input);
 			}
 			return json_encode($output);

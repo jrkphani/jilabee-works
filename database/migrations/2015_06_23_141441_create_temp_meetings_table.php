@@ -22,6 +22,7 @@ class CreateTempMeetingsTable extends Migration {
 			$table->string('minuters','64');
 			$table->enum('status',array('waiting','rejected'))->default('waiting');
 			$table->string('reason','100')->nullable();
+			$table->string('requested_by','20');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();

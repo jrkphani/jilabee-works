@@ -67,6 +67,9 @@
 		    </div>
 			{!! Form::close() !!}
 			<div class="row">
+				<div class="col-md-12">
+					Requested by : {{$meeting->requested_by}}
+				</div>
 				<div class="col-md-3 col-md-offset-3">
 					<button type="button" class="btn btn-primary approve" fromid="m{{$meeting->id}}">Approve</button>
 					@if($meeting->status != 'rejected')
