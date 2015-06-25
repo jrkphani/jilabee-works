@@ -14,5 +14,5 @@ class Meetings extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','venue','attendees','minuters','created_by','updated_by'];	
+	protected $fillable = ['title','description','venue','attendees','minuters','created_by','updated_by'];	
 }

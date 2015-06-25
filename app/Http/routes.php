@@ -24,6 +24,8 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('user/add', 'Admin\UserController@getAdd');
 			Route::post('user/add', 'Admin\UserController@postAdd');
 			Route::get('meetings', 'Admin\MeetingsController@index');
+			Route::post('meetings/approve', 'Admin\MeetingsController@approve');
+			Route::post('meetings/disapprove', 'Admin\MeetingsController@disapprove');
 		});
 	});
     Route::get('auth/register', 'Admin\AuthController@signupGet');

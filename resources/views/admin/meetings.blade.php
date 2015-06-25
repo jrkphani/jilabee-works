@@ -14,6 +14,7 @@
 			@foreach($meetings as $meeting)
 			{!! Form::open(array('id' => 'm'.$meeting->id)) !!}
 			<div class="col-md-12 form-group">
+				{!! Form::hidden('mid', $meeting->id) !!}
 	        	{!! Form::label('title', 'Meeting title',['class'=>'control-label']); !!}
 	        	{!! Form::text('title', $meeting->title,['class'=>'form-control title','id'=>''])!!}
 	        	<div class="title_err error"></div>
@@ -36,7 +37,7 @@
 	        		@endif
 	        	</div>
 	        	
-	        	{!! Form::text('selectMinuters', '',['class'=>'form-control','id'=>''])!!}
+	        	{!! Form::text('selectMinuters', '',['class'=>'form-control selectMinuters','id'=>''])!!}
 	        	<div class="minuters_err error"></div>
 
 	        	{!! Form::label('selectAttendees', 'Expected Attendees',['class'=>'control-label']); !!}
@@ -53,7 +54,7 @@
 	        			@endif
 	        	</div>
 	        	
-	        	{!! Form::text('selectAttendees', '',['class'=>'form-control','id'=>''])!!}
+	        	{!! Form::text('selectAttendees', '',['class'=>'form-control selectAttendees','id'=>''])!!}
 	        	<div class="attendees_err error"></div>
 
 	        	{!! Form::label('venue', 'Venue',['class'=>'control-label']); !!}
@@ -67,8 +68,10 @@
 			{!! Form::close() !!}
 			<div class="row">
 				<div class="col-md-3 col-md-offset-3">
-					<button type="button" class="btn btn-primary">Approve</button>
-					<button type="button" class="btn btn-primary">Disapprove</button>
+					<button type="button" class="btn btn-primary approve" fromid="m{{$meeting->id}}">Approve</button>
+					@if($meeting->status != 'rejected')
+					<button type="button" class="btn btn-primary disapprove" fromid="m{{$meeting->id}}">Disapprove</button>
+					@endif
 				</div>
 	    	</div>
 			@endforeach
