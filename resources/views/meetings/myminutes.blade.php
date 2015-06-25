@@ -15,7 +15,7 @@
 				Requested Meetings
 				<ul>
 				@foreach($tempMeetings as $meeting)
-				<li>
+				<li class="tempMeeting" mid="{{$meeting->id}}" data-toggle="modal" data-target="#loadMeetingModal">
 					<div class="col-md-10">{{$meeting->title}}</div>
 					<div class="col-md-2">{{$meeting->status}}</div>
 				</li>
@@ -89,6 +89,11 @@
 
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
+	{{-- alax pop up --}}
+	<div id="loadMeetingModal" class="modal fade">
+	</div><!-- /.modal -->
+
 </div>
 <script type="text/javascript">
  $( "#selectMinuters" ).autocomplete({

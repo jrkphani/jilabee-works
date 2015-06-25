@@ -64,9 +64,47 @@ $(document).ready(function($)
             });
             
         });
+$('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
+            event.preventDefault();
+            mid = $(this).attr('mid');
+            $.ajax({
+                url: '/meetings/update/'+mid,
+                type: 'POST',
+                dataType: 'html',
+                data: $('#loadMeetingForm').serialize(),
+            })
+            .done(function(htmlData) {
+                if(htmlData == 'success')
+                {
+                    $('#loadMeetingModal').modal('hide');
+                    $('#loadMeetingModal').html('');
+                     $.notify('Sent',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+                }
+                else
+                {
+                   $('#loadMeetingModal').html(htmlData) 
+                }
+            })
+            .fail(function() {
+                //console.log("error");
+            })
+            .always(function() {
+                //console.log("complete");
+            });
+            
+        });
         $('#listLeft').on('click', '.removeParent', function(event) {
             $(this).parent( ".attendees" ).remove();
         });
+            $('#listLeft').on('click', '.tempMeeting', function(event) {
+            $('#loadMeetingModal').load('/meetings/load/'+$(this).attr('mid'));
+            $('#loadMeetingModal').addClass('in');
+            $('#loadMeetingModal').show();
+         });
 });
 $('#minutes').click(function(event)
 {

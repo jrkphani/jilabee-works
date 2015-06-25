@@ -50,8 +50,6 @@ Route::group(['prefix' => 'admin'], function()
 //uncomment  domain group routing after fixing multi domain seesoin works 
 //Route::group(['domain' => 'app.localjotter.com'], function()
 //{
-	
-
     Route::group(['middleware' => 'auth'], function()
 	{
 		Route::group(['middleware' => 'checkDatabase'], function()
@@ -72,6 +70,8 @@ Route::group(['prefix' => 'admin'], function()
 				Route::get('myminutes', 'Meetings\MeetingsController@myminutes');
 				Route::get('history', 'Meetings\MeetingsController@history');
 				Route::post('create','Meetings\MeetingsController@createMeeting');
+				Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting');
+				Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting');
 			});
 		
 		});
