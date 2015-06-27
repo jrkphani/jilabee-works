@@ -15,7 +15,7 @@ class CreateClientsTable extends Migration {
 		Schema::connection('base')->create('clients', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('domain');
+			$table->string('domain','32');
 			$table->string('customerId',45);
 			$table->string('host',16);
 			$table->string('driver',16);

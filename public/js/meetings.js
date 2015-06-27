@@ -98,13 +98,192 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             
         });
         $('#listLeft').on('click', '.removeParent', function(event) {
-            $(this).parent( ".attendees" ).remove();
+            $(this).parent(".attendees" ).remove();
         });
             $('#listLeft').on('click', '.tempMeeting', function(event) {
             $('#loadMeetingModal').load('/meetings/load/'+$(this).attr('mid'));
             $('#loadMeetingModal').addClass('in');
             $('#loadMeetingModal').show();
          });
+            $('#listLeft').on('click', '.meetings', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '/minute/',
+                    type: 'GET',
+                    dataType: 'html',
+                    //data: {param1: 'value1'},
+                })
+                .done(function(htmlData) {
+                    //console.log("success");
+                    $('#rightContent').html(htmlData);
+                })
+                .fail(function() {
+                    //console.log("error");
+                })
+                .always(function() {
+                    //console.log("complete");
+                });
+                
+            });
+            $('#listLeft').on('click', '#createMinute', function(event) {
+                event.preventDefault();
+                //createMinuteForm
+                $('#createMinuteError').html('');
+                var mid = $(this).attr('mid');
+                $.ajax({
+                    url: '/minute/'+mid+'/new',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#createMinuteForm').serialize(),
+                })
+                .done(function(jsonData) {
+                    if(jsonData.success == 'no')
+                    {
+                        if(jsonData.hasOwnProperty('validator'))
+                        {
+                            errorList = '<ul>';
+                            $.each(jsonData.validator, function(index, val) {
+                                errorList += '<li class="error">'+val+'</li>';
+                            });
+                            errorList += '</ul>';
+                            $('#createMinuteError').html(errorList);
+                        }
+                    }
+                    else if(jsonData.success == 'error')
+                    {
+                        $('#createMinuteError').html('<span class="error">'+jsonData.msg+'</span>');
+                    }
+                    else if(jsonData.success == 'yes')
+                    {
+                        //top bar notification
+                        $.notify('Session created',
+                        {
+                           className:'success',
+                           globalPosition:'top center'
+                        });
+                        $('#minuteBlock').load('/minute/'+mid+'/task/get');
+                        
+                    }
+                    //console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+                
+            });
+    $('#listLeft').on('click', '#editMinute', function(event) {
+        event.preventDefault();
+        $('.updateMinute').prop('disabled',false);
+        $('.removeAttendees , .removeAbsentees').show();
+        $('#updateMinute, #canleMinute').show();
+        $(this).hide();
+    });
+    $('#listLeft').on('click', '#updateMinute', function(event) {
+        event.preventDefault();
+        $('#updateMinuteError').html('');
+            var mid = $(this).attr('mid');
+            $.ajax({
+                url: '/minute/'+mid+'/update',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#updateMinuteForm').serialize(),
+            })
+            .done(function(jsonData) {
+                if(jsonData.success == 'no')
+                {
+                    if(jsonData.hasOwnProperty('validator'))
+                    {
+                        errorList = '<ul>';
+                        $.each(jsonData.validator, function(index, val) {
+                            errorList += '<li class="error">'+val+'</li>';
+                        });
+                        errorList += '</ul>';
+                        $('#updateMinuteError').html(errorList);
+                    }
+                }
+                else if(jsonData.success == 'error')
+                {
+                    $('#updateMinuteError').html('<span class="error">'+jsonData.msg+'</span>');
+                }
+                else if(jsonData.success == 'yes')
+                {
+                    //top bar notification
+                    $.notify('Updated',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+                    $('.updateMinute').prop('disabled',true);
+                    $('.removeAttendees , .removeAbsentees').hide();
+                    $('#editMinute').show();
+                    $('#updateMinute, #canleMinute').hide();
+                    
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+    });
+     $('#listLeft').on('click', '#canleMinute', function(event) { 
+        $('.updateMinute').prop('disabled',true);
+        $('.removeAttendees , .removeAbsentees').hide();
+        $('#editMinute').show();
+        $('#updateMinute, #canleMinute').hide();
+     });
+
+    $('#listLeft').on('click', '.removeAttendees', function(event) {
+            userName = $(this).parent(".attendees" ).text();
+            userId = $(this).parent(".attendees" ).attr('uid').match(/\d+/);
+            html = '<div uid="u'+userId+'1" class="col-md-2 absentees"><input type="hidden" value="'+userId+'" name="absentees[]">'+userName+'<span style="" class="removeAttendees btn glyphicon glyphicon-trash"></span></div>';
+            $('#absentees').append(html);
+            $(this).parent(".attendees" ).remove();
+        });
+    $('#listLeft').on('click', '.removeAbsentees', function(event) {
+        userName = $(this).parent( ".absentees" ).text();
+        userId = $(this).parent( ".absentees" ).attr('uid').match(/\d+/);
+        html = '<div uid="u'+userId+'1" class="col-md-2 attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<span style="" class="removeAttendees btn glyphicon glyphicon-trash"></span></div>';
+        $('#attendees').append(html);
+        $(this).parent( ".absentees" ).remove();
+        });
+    $('#listLeft').on('click', '#add_more', function(event) {
+        event.preventDefault();
+        taskBlock = $( ".taskBlock:first").html();
+        $('#taskAddBlock').append('<div class="row taskBlock">'+taskBlock+'</div>');
+    });
+    $('#listLeft').on('click', '.removeTaskFrom ', function(event) {
+        event.preventDefault();
+        if($('.taskBlock').length > 1)
+        {
+            $(this).parents('.taskBlock').remove();
+        }
+    });
+    $('#listLeft').on('click', '#save_changes', function(event) {
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        $.ajax({
+            url: '/minute/'+mid+'/task/draft',
+            type: 'POST',
+            dataType: 'html',
+            data: $('#tasksAddForm').serialize(),
+        })
+        .done(function() {
+            //console.log("success");
+        })
+        .fail(function() {
+            //console.log("error");
+        })
+        .always(function() {
+            //console.log("complete");
+        });
+        
+    });
 });
 $('#minutes').click(function(event)
 {

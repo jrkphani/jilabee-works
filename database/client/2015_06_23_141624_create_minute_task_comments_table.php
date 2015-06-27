@@ -25,6 +25,8 @@ class CreateMinuteTaskCommentsTable extends Migration {
 		Schema::table('minuteTaskComments', function(Blueprint $table)
 		{
 			$table->foreign('pId')->references('id')->on('minuteTasks')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

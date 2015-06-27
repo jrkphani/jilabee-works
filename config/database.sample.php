@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'base',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -52,12 +52,29 @@ return [
 			'prefix'   => '',
 		],
 
-		'mysql' => [
+		'client' => [
+		 	/*'read' => [
+        		'host' => '192.168.1.1',
+		    	],
+		    'write' => [
+		       	'host' => '196.168.1.2'
+		    	],*/
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'forge'),
-			'username'  => env('DB_USERNAME', 'forge'),
-			'password'  => env('DB_PASSWORD', ''),
+			'database'  => env('DB_DATABASE', 'jotter'),
+			'username'  => env('DB_USERNAME', 'root'),
+			'password'  => env('DB_PASSWORD', 'password'),
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+			'strict'    => false,
+		],
+		'base' => [
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'jotterBase',
+			'username'  => 'root',
+			'password'  => 'password',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

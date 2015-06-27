@@ -16,7 +16,7 @@ class CreateMinuteTaskTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('minuteId')->unsigned();
-			$table->string('title');
+			$table->string('title','64');
 			$table->mediumText('description');
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
@@ -30,6 +30,8 @@ class CreateMinuteTaskTable extends Migration {
 		Schema::connection('client')->table('minuteTasks', function(Blueprint $table)
 		{
 			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

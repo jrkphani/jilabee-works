@@ -25,6 +25,11 @@ class CreateMeetingsTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
+		Schema::table('meetings', function(Blueprint $table)
+		{
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+		});
 		
 	}
 

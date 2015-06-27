@@ -73,6 +73,13 @@ Route::group(['prefix' => 'admin'], function()
 				Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting');
 				Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting');
 			});
+			Route::group(['prefix' => 'minute'], function()
+			{
+				Route::get('/', 'Meetings\MinuteController@index');
+				Route::post('{meetingID}/new', 'Meetings\MinuteController@create');
+				Route::post('{minuteID}/update', 'Meetings\MinuteController@update');
+				Route::post('{minuteID}/task/draft', 'Meetings\MinuteController@draft');
+			});
 		
 		});
 		

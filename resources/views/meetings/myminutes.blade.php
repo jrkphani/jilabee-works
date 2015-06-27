@@ -22,7 +22,8 @@
 				@endforeach
 			</ul>
 			@endif			
-			@if($mytask->count())
+			@if($mymeetings->count())
+			<div class="col-md-12">My Meetings</div>
 			<div class="col-md-6">
 				{!! Form::text('filter', '',['class'=>'form-control'])!!}
 			</div>
@@ -30,15 +31,15 @@
 				{!! Form::select('sortby', array('frequency' => 'Frequency', 'status' => 'Status'),'frequency',['class'=>'form-control']) !!}
 			</div>
 			<ul>
-				@foreach($mytask as $job)
-				<li>{{$job->title}}</li>
+				@foreach($mymeetings as $meetings)
+				<li class="meetings" mid="{{$meetings->id}}">{{$meetings->title}}</li>
 				@endforeach
 			</ul>
 			@else
 				No Minutes
 			@endif
 		</div>
-		<div class="col-md-9">
+		<div id="rightContent" class="col-md-9">
 			right content
 		</div>
 	</div>

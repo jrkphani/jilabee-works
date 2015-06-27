@@ -15,15 +15,20 @@ class CreateIdeaTable extends Migration {
 		Schema::connection('client')->create('ideas', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('parentId')->unsigned();
-			$table->string('title');
+			$table->integer('pId')->unsigned();
+			$table->string('title','64');
 			$table->mediumText('description');
 			$table->string('orginator','64')->nullabel();
-			$table->enum('type', array('job','minute'))->default('job');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
         	$table->softDeletes();
+		});
+		Schema::connection('client')->table('ideas', function(Blueprint $table)
+		{
+			$table->foreign('pId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

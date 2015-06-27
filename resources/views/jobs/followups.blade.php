@@ -85,7 +85,7 @@
                 }
                 else
                 {
-                    insert = '<div class="assignee" id="u'+ui.item.userId+'"><input type="hidden" name="assignee[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+                    insert = '<div class="assignee" id="u'+ui.item.userId+'"><input type="hidden" name="assignee" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
                     $('#selected_Assignee').append(insert);
                     $(this).val("");
                     $('#selectAssignee , #assigneeEmail, .or').hide();

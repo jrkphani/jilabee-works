@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Jobs;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Request;
 use App\Model\JobTasks;
 use Auth;
 class TaskController extends Controller {
@@ -42,7 +42,7 @@ class TaskController extends Controller {
 	}
 	public function createTask(Request $request)
 	{
-		$input = $request->all();
+		$input = Request::only('title','description','assignee','assigner','dueDate');
 		if(!$input['assignee'])
 			{
 				$input['assignee'] = $input['assigneeEmail'];

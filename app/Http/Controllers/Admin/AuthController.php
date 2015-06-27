@@ -75,7 +75,7 @@ class AuthController extends Controller {
 								Artisan::call('migrate', array('--force' => true,'--database'=>$customerId,  '--path' => 'database/client'));
 								$profile = new Profile;
 						        $profile->setConnection($customerId);
-						        $profile->userId = $userId;
+						        $profile->userId = $user->id;
 							    $profile->phone = $input['phone'];
 							    $profile->save();
 							}		

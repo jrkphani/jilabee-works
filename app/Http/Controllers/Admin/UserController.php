@@ -48,7 +48,7 @@ class UserController extends Controller {
 				$user->update(['userId'=>$userId]);
 				$profile = new Profile();
 				$profile->setConnection($input['dbconnection']);
-				$profile->userId = $userId;
+				$profile->userId = $user->id;
 				$profile->name = $input['name'];
 				$profile->dob = $input['dob'];
 				$profile->gender = $input['gender'];

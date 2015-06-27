@@ -28,4 +28,12 @@ class TempMeetings extends Model{
         $validator = Validator::make($data,$rule);
         return $validator;
     }
+    public function createdby()
+    {	
+        return $this->hasOne('App\Model\Profile', 'userId', 'created_by');
+    }
+    public function updatedby()
+    {	
+        return $this->hasOne('App\Model\Profile', 'userId','updated_by');
+    }
 }

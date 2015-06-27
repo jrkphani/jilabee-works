@@ -23,9 +23,11 @@ class MeetingsController extends Controller {
 	public function myminutes()
 	{
 		$tempMeetings = TempMeetings::where('created_by','=',Auth::id())->get();
+		$mymeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->get();
+		//$myminutes = Meetings::whereRaw('FIND_IN_SET("'.$userId.'",attendees)')->orWhereRaw('FIND_IN_SET("'.$userId.'",minuters)')->get();
 		$mytask = JobTasks::where('assignee','=',Auth::id())
 					->where('status','!=','close')->get();
-		return view('meetings.myminutes',['mytask'=>$mytask,'tempMeetings'=>$tempMeetings]);
+		return view('meetings.myminutes',['mymeetings'=>$mymeetings,'tempMeetings'=>$tempMeetings]);
 	}
 	public function history()
 	{

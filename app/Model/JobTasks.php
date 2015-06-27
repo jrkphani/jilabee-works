@@ -15,10 +15,18 @@ class JobTasks extends Model{
 	 * @var array
 	 */
 	protected $fillable = ['title','description','assignee','assigner','status','dueDate','username','created_by','updated_by'];
+	public function createdby()
+    {	
+        return $this->hasOne('App\Model\Profile', 'userId', 'created_by');
+    }
+    public function updatedby()
+    {	
+        return $this->hasOne('App\Model\Profile', 'userId','updated_by');
+    }
 	public static function validation($data)
     {
         $rule = array('title'=>'required',
-            'description'=>'required|max:255',
+            'description'=>'required|max:64',
             'assignee'=>'required',
             'assigneeEmail' => 'email',
             //'status' => '',

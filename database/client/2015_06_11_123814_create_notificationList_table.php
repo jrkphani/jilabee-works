@@ -15,7 +15,7 @@ class CreateNotificationListTable extends Migration {
 		Schema::create('notificationList', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('title')->unsigned();
+			$table->string('title','64');
 			$table->mediumText('description');
 		});
 	}

@@ -25,6 +25,8 @@ class CreateJobTaskCommentsTable extends Migration {
 		Schema::connection('client')->table('jobTaskComments', function(Blueprint $table)
 		{
 			$table->foreign('pId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

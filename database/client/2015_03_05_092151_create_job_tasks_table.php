@@ -16,7 +16,7 @@ class CreateJobTasksTable extends Migration {
 		{
 			$table->increments('id');
 			//$table->integer('meetingId')->unsigned();
-			$table->string('title');
+			$table->string('title','64');
 			$table->mediumText('description');
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
@@ -27,6 +27,11 @@ class CreateJobTasksTable extends Migration {
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
         	$table->softDeletes();
+		});
+		Schema::table('jobTasks', function(Blueprint $table)
+		{
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

@@ -50,7 +50,7 @@ class Registrar implements RegistrarContract {
 				{
 					$userId = $this->generatePublicUserId($user->id);
 					$user->update(['userId'=>$userId]);
-					$input  = array('userId'=>$userId,
+					$input  = array('userId'=>$user->id,
 									'name'=>$data['name'],
 									'dob'=>$data['dob'],
 									'gender'=>$data['gender'],

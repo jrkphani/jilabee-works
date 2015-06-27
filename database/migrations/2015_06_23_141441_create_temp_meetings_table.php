@@ -27,6 +27,11 @@ class CreateTempMeetingsTable extends Migration {
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
 		});
+		Schema::connection('client')->table('tempMeetings', function(Blueprint $table)
+		{
+			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+		});
 	}
 
 	/**

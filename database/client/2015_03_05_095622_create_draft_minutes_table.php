@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIdeaTable extends Migration {
+class CreateDraftMinutesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,23 +12,23 @@ class CreateIdeaTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ideas', function(Blueprint $table)
+		Schema::create('draftMinutes', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->integer('pId')->unsigned();
+			$table->integer('minuteId')->unsigned()->nullable();
 			$table->string('title','64');
 			$table->mediumText('description');
+			$table->integer('assignee')->nullable();;
+			$table->integer('assigner')->nullable();
 			$table->string('orginator','64')->nullabel();
+			$table->enum('type', array('task','idea'))->default('task');
+			$table->string('dueDate','32')->nullable();
 			$table->integer('created_by')->unsigned();
-			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
-        	$table->softDeletes();
 		});
-		Schema::table('ideas', function(Blueprint $table)
+		Schema::table('draftMinutes', function(Blueprint $table)
 		{
-			$table->foreign('pId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -39,7 +39,7 @@ class CreateIdeaTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('ideas');
+		Schema::connection('client')->drop('draftMinutes');
 	}
 
 }

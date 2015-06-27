@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMinuteTaskTable extends Migration {
+class CreateDraftMinutesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,27 +12,25 @@ class CreateMinuteTaskTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('minuteTasks', function(Blueprint $table)
+		Schema::connection('client')->create('draftMinutes', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->integer('minuteId')->unsigned();
+			$table->integer('minuteId')->unsigned()->nullable();
 			$table->string('title','64');
 			$table->mediumText('description');
-			$table->string('assignee','64');
+			$table->integer('assignee');
 			$table->integer('assigner')->nullable();
-			$table->enum('status', array('waiting','rejected','open','finished' ,'close','expired','timeout','failed'))->default('waiting');
-			$table->dateTime('dueDate')->nullable();
+			$table->string('orginator','64')->nullabel();
+			$table->enum('type', array('job','minute','job_idea','minute_idea'))->default('job');
+			$table->string('dueDate','32')->nullable();
 			$table->integer('created_by')->unsigned();
-			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
-        	$table->softDeletes();
 		});
-		Schema::table('minuteTasks', function(Blueprint $table)
+		Schema::connection('client')->table('draftMinutes', function(Blueprint $table)
 		{
 			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
+
 	}
 
 	/**
@@ -42,7 +40,7 @@ class CreateMinuteTaskTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('minuteTasks');
+		Schema::connection('client')->drop('draftMinutes');
 	}
 
 }
