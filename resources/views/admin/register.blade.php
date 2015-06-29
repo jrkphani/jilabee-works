@@ -92,7 +92,7 @@
 						</div> --}}
 						<div class="form-group">
 							<div class="col-md-3 col-md-offset-3">
-                           		<a class="btn btn-primary" href="{{ URL::previous() }}">Back</a> 
+                           		<a class="btn btn-primary" href="{{url('/admin')}}">Back</a> 
                         	</div>
 							<div class="col-md-3 col-md-offset-3">
 								<button type="submit" class="btn btn-primary">

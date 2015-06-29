@@ -74,6 +74,8 @@
     	 <a href="{{ url('/auth/register') }}">Register</a>
     	 <h4>Want to learn more?</h4>
     	 <a>See how Jotter can help you and your organisatoin!</a>
+    	 <h4>Are you Admin?</h4>
+    	 <a href="{{ url('/admin/auth/login') }}">Dashboard</a>
     </div>
   </div>
 </div>

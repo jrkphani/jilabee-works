@@ -32,6 +32,10 @@ class Minutes extends Model{
     {
         return $this->hasMany('App\Model\MinuteDraft','minuteId','id');
     }
+    public function tasks()
+    {
+        return $this->hasMany('App\Model\MinuteTasks','minuteId','id');
+    }
 	public static function isMinuter($meetingId)
     {
     	//check permission as minuter

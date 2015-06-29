@@ -31,8 +31,16 @@
 				{!! Form::select('sortby', array('frequency' => 'Frequency', 'status' => 'Status'),'frequency',['class'=>'form-control']) !!}
 			</div>
 			<ul>
-				@foreach($mymeetings as $meetings)
-				<li class="meetings" mid="{{$meetings->id}}">{{$meetings->title}}</li>
+				@foreach($mymeetings as $meeting)
+				<li class="meetings" mid="{{$meeting->id}}">{{$meeting->title}}
+					@if($meeting->minutes()->count())
+					<ul>
+						@foreach($meeting->minutes()->get() as $minute)
+						<li>{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
+						@endforeach
+					</ul>
+					@endif
+				</li>
 				@endforeach
 			</ul>
 			@else

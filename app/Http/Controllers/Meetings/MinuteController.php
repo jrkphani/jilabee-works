@@ -17,9 +17,11 @@ class MinuteController extends Controller {
 	/*public function __construct()
 	{
 	}*/
-	public function index()
+	public function index($meetingId,$minuteID=NULL)
 	{
-		$meeting = Meetings::find(1);
+		//need to secure the link by check the user has permission and particpated in the meeting
+		//echo  $meetingId; echo $minuteID; die;
+		$meeting = Meetings::find($meetingId);
 		return view('meetings.minute',['meeting'=>$meeting]);
 	}
 	public function create($mid)
@@ -27,7 +29,7 @@ class MinuteController extends Controller {
 		if($meeting = Meetings::isMinuter($mid))
 		{
 			//echo $meeting->minutes()->first()->lock_flag; die;
-			if($meeting->minutes()->first()->lock_flag)
+			if($meeting->minutes()->count() && ($meeting->minutes()->first()->lock_flag == Auth::id()))
 			{
 				$output['success'] = 'error';
 				$output['msg'] = 'More than one minute';

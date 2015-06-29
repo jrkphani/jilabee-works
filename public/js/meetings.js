@@ -106,9 +106,10 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             $('#loadMeetingModal').show();
          });
             $('#listLeft').on('click', '.meetings', function(event) {
+                var mid = $(this).attr('mid');
                 event.preventDefault();
                 $.ajax({
-                    url: '/minute/',
+                    url: '/minute/'+mid,
                     type: 'GET',
                     dataType: 'html',
                     //data: {param1: 'value1'},
@@ -131,7 +132,7 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                 $('#createMinuteError').html('');
                 var mid = $(this).attr('mid');
                 $.ajax({
-                    url: '/minute/'+mid+'/new',
+                    url: '/minute/'+mid,
                     type: 'POST',
                     dataType: 'json',
                     data: $('#createMinuteForm').serialize(),
@@ -161,7 +162,8 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                            className:'success',
                            globalPosition:'top center'
                         });
-                        $('#minuteBlock').load('/minute/'+mid+'/task/get');
+                        $('#nextMinute').remove();
+                        $('#rightContent').load('/minute/'+mid);
                         
                     }
                     //console.log("success");
@@ -254,8 +256,9 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
         });
     $('#listLeft').on('click', '#add_more', function(event) {
         event.preventDefault();
-        taskBlock = $( ".taskBlock:first").html();
-        $('#taskAddBlock').append('<div class="row taskBlock">'+taskBlock+'</div>');
+        taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock').find(".form-control").val("");
+        //$('#taskAddBlock').append('<div class="row taskBlock">'+taskBlock+'</div>');
+        dateInput();
     });
     $('#listLeft').on('click', '.removeTaskFrom ', function(event) {
         event.preventDefault();
@@ -268,13 +271,17 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
         event.preventDefault();
         var mid = $(this).attr('mid');
         $.ajax({
-            url: '/minute/'+mid+'/task/draft',
+            url: '/minute/'+mid+'/draft',
             type: 'POST',
             dataType: 'html',
             data: $('#tasksAddForm').serialize(),
         })
         .done(function() {
-            //console.log("success");
+            $.notify('Updated',
+                {
+                   className:'saved',
+                   globalPosition:'top center'
+                });
         })
         .fail(function() {
             //console.log("error");
@@ -283,6 +290,50 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             //console.log("complete");
         });
         
+    });
+    $('#listLeft').on('click', '#send_minute', function(event) {
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        $.ajax({
+            url: '/minute/'+mid+'/task',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#tasksAddForm').serialize(),
+        })
+        .done(function(jsonData) {
+            if(jsonData.success == 'no')
+                {
+                    if(jsonData.hasOwnProperty('validator'))
+                    {
+                        errorList = '<ul>';
+                        $.each(jsonData.validator, function(index, val) {
+                            errorList += '<li class="error">'+val+'</li>';
+                        });
+                        errorList += '</ul>';
+                        $('#createTaskError').html(errorList);
+                    }
+                }
+            else if(jsonData.success == 'yes')
+                {
+                    $.notify('Sent',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+                    $('#rightContent').load('/minute/'+$('#meetingId').val());
+                }
+        })
+        .fail(function() {
+
+        })
+        .always(function() {
+
+        });
+        
+    });
+    $('#listLeft').on('click', '#nextMinute', function(event) {
+        event.preventDefault();
+        $('#minuteBlock').toggle();
     });
 });
 $('#minutes').click(function(event)
@@ -326,3 +377,7 @@ $('#history').click(function(event)
     	//console.log("complete");
     });
 });
+function dateInput()
+{
+    $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
+}

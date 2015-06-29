@@ -39,7 +39,7 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		DB::transaction(function($data) use ($data)
+		DB::transaction(function() use ($data)
 		 {
 		      $user = User::create([
 					'email' => $data['email'],

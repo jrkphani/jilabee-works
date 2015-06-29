@@ -75,10 +75,11 @@ Route::group(['prefix' => 'admin'], function()
 			});
 			Route::group(['prefix' => 'minute'], function()
 			{
-				Route::get('/', 'Meetings\MinuteController@index');
-				Route::post('{meetingID}/new', 'Meetings\MinuteController@create');
+				Route::get('{meetingID}/{minuteID?}', 'Meetings\MinuteController@index');
+				Route::post('{meetingID}', 'Meetings\MinuteController@create');
 				Route::post('{minuteID}/update', 'Meetings\MinuteController@update');
-				Route::post('{minuteID}/task/draft', 'Meetings\MinuteController@draft');
+				Route::post('{minuteID}/draft', 'Meetings\MinuteController@draft');
+				Route::post('{minuteID}/task', 'Meetings\TaskController@createTask');
 			});
 		
 		});

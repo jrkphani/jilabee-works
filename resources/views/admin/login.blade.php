@@ -27,7 +27,7 @@
   			<div class="navbar-brand" id="logo" style="font-size:100px"><strong>Jotter</strong></div>
   		</div>
   		<div class="col-md-6 col-md-offset-6">
-  			<h4>Login</h4>
+  			<h4>Admin Login</h4>
   		</div>
   			<div class="col-md-6 col-md-offset-3">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/login') }}">

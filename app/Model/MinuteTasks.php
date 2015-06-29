@@ -23,4 +23,19 @@ class MinuteTasks extends Model{
     {	
         return $this->hasOne('App\Model\Profile', 'userId','updated_by');
     }
+    public function minute()
+    {
+        return $this->hasOne('App\Model\Minutes', 'id', 'minuteId');
+    }
+    public static function validation($data)
+    {
+        $rule = array('title'=>'required',
+            'description'=>'required|max:64',
+            'assignee'=>'required',
+            'assigneeEmail' => 'email',
+            //'status' => '',
+            'dueDate' => 'required');
+        $validator = Validator::make($data,$rule);
+        return $validator;
+    }
 }
