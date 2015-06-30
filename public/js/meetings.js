@@ -105,26 +105,26 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             $('#loadMeetingModal').addClass('in');
             $('#loadMeetingModal').show();
          });
-            $('#listLeft').on('click', '.meetings', function(event) {
-                var mid = $(this).attr('mid');
+            $('#listLeft').on('click', '.minute', function(event) {
+                //alert($(this).find('.minute').length);
+                //return false;
                 event.preventDefault();
-                $.ajax({
-                    url: '/minute/'+mid,
-                    type: 'GET',
-                    dataType: 'html',
-                    //data: {param1: 'value1'},
-                })
-                .done(function(htmlData) {
-                    //console.log("success");
-                    $('#rightContent').html(htmlData);
-                })
-                .fail(function() {
-                    //console.log("error");
-                })
-                .always(function() {
-                    //console.log("complete");
-                });
-                
+                var mid = $(this).attr('mid');
+                loadMinute(mid)          
+            });
+            $('#listLeft').on('click', '.meetings', function(event) {
+                //alert($(this).find('.minute').length);
+                //return false;
+                event.preventDefault();
+                if($(this).find('.minute').length)
+                {
+                    mid = $(this).find('.minute:first').attr('mid');
+                }
+                else
+                {
+                    mid = $(this).attr('mid');   
+                }
+                loadMinute(mid)          
             });
             $('#listLeft').on('click', '#createMinute', function(event) {
                 event.preventDefault();
@@ -380,4 +380,23 @@ $('#history').click(function(event)
 function dateInput()
 {
     $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
+}
+function loadMinute(mid)
+{
+    $.ajax({
+        url: '/minute/'+mid,
+        type: 'GET',
+        dataType: 'html',
+        //data: {param1: 'value1'},
+    })
+    .done(function(htmlData) {
+        //console.log("success");
+        $('#rightContent').html(htmlData);
+    })
+    .fail(function() {
+        //console.log("error");
+    })
+    .always(function() {
+        //console.log("complete");
+    });
 }

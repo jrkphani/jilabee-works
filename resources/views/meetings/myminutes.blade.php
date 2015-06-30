@@ -32,13 +32,15 @@
 			</div>
 			<ul>
 				@foreach($mymeetings as $meeting)
-				<li class="meetings" mid="{{$meeting->id}}">{{$meeting->title}}
 					@if($meeting->minutes()->count())
+					<li class="meetings" mid="{{$meeting->id}}/{{$meeting->minutes()->first()->id}}">{{$meeting->title}}
 					<ul>
 						@foreach($meeting->minutes()->get() as $minute)
-						<li>{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
+						<li class="minute" mid="{{$meeting->id}}/{{$minute->id}}">{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
 						@endforeach
 					</ul>
+					@else
+					<li class="meetings" mid="{{$meeting->id}}">{{$meeting->title}}
 					@endif
 				</li>
 				@endforeach

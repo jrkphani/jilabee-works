@@ -22,6 +22,10 @@ class MinuteController extends Controller {
 		//need to secure the link by check the user has permission and particpated in the meeting
 		//echo  $meetingId; echo $minuteID; die;
 		$meeting = Meetings::find($meetingId);
+		if($minuteID)
+		{
+			$minute = Minutes::where('meetingId','=',$meetingId)->where('id','=',$minuteId)->first();
+		}
 		return view('meetings.minute',['meeting'=>$meeting]);
 	}
 	public function create($mid)
