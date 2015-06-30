@@ -34,13 +34,6 @@ Route::group(['prefix' => 'admin'], function()
 	Route::post('auth/login', 'Admin\AuthController@loginPost');
 	Route::get('auth/logout', 'Admin\AuthController@logout');
 });
-	/*Route::group(['domain' => 'admin.localjotter.com'], function()
-	{
-		 DB::disconnect();
-	     Config::set('database.default','base');
-	     DB::reconnect();
-	    configureConnection('jotterBase');	    
-	});*/	
 
 	Route::controllers([
 		'auth' => 'Auth\AuthController',

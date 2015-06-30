@@ -17,12 +17,12 @@ class MinuteController extends Controller {
 	/*public function __construct()
 	{
 	}*/
-	public function index($meetingId,$minuteID=NULL)
+	public function index($meetingId,$minuteId=NULL)
 	{
 		//need to secure the link by check the user has permission and particpated in the meeting
 		//echo  $meetingId; echo $minuteID; die;
 		$meeting = Meetings::find($meetingId);
-		if($minuteID)
+		if($minuteId)
 		{
 			$minute = Minutes::where('meetingId','=',$meetingId)->where('id','=',$minuteId)->first();
 		}
