@@ -57,7 +57,7 @@ class MeetingsController extends Controller {
 			}
 			else
 			{
-				$input['requested_by'] = Profile::where('userId','=',Auth::user()->userId)->first()->name;
+				$input['requested_by'] = Profile::where('userId','=',Auth::id())->first()->name;
 				TempMeetings::create($input);
 			}
 			return json_encode($output);

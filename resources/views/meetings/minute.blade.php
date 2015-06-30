@@ -16,7 +16,28 @@
 		
 		<div class="row">
 			<div class="col-md-12" id="previousMinutes">
-				previousMinutes
+				@if($minute)
+					<?php
+					$attendess = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->attendess))->get();
+					if($minute->absentees)
+					{
+						$absentees = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->absentees))->get();
+					}
+					else
+					{
+						$absentees = NULL;
+					}
+					?>
+					<div class="col-md-12">
+						@if($minute->venue)
+							Venue : {{$minute->venue}}
+						@endif
+						Date : {{$minute->minuteDate}}
+					</div>
+					Previous Meeting Details Here.....
+				@else
+				No minutes yet
+				@endif
 			</div>
 			@if($createMinute)
 					<?php

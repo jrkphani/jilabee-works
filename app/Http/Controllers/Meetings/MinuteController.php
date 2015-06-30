@@ -22,11 +22,13 @@ class MinuteController extends Controller {
 		//need to secure the link by check the user has permission and particpated in the meeting
 		//echo  $meetingId; echo $minuteID; die;
 		$meeting = Meetings::find($meetingId);
+		$tasks = NULL;
 		if($minuteId)
 		{
 			$minute = Minutes::where('meetingId','=',$meetingId)->where('id','=',$minuteId)->first();
+			$tasks = $minute->tasks()->where('status','!=','closed')->get();
 		}
-		return view('meetings.minute',['meeting'=>$meeting]);
+		return view('meetings.minute',['meeting'=>$meeting,'minute'=>$minute,'tasks'=>$tasks]);
 	}
 	public function create($mid)
 	{

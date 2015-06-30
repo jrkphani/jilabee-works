@@ -40,7 +40,7 @@
 								$attendees = App\Model\Profile::select('userId','name')->whereIn('userId',explode(',', $tempMeetings->attendees))->get();
 								foreach ($attendees as $attendee)
 								{
-									echo '<div class="col-md-2 attendees" id="u'.$attendee->userId.'"><input type="hidden" name="minuters[]" value="'.$attendee->userId.'">'.$attendee->name.'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+									echo '<div class="col-md-2 attendees" id="u'.$attendee->userId.'"><input type="hidden" name="attendees[]" value="'.$attendee->userId.'">'.$attendee->name.'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
 								}
 							?>
 							@endif
