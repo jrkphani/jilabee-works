@@ -23,6 +23,7 @@ class MinuteController extends Controller {
 		//echo  $meetingId; echo $minuteID; die;
 		$meeting = Meetings::find($meetingId);
 		$tasks = NULL;
+		$minute=NULL;
 		if($minuteId)
 		{
 			$minute = Minutes::where('meetingId','=',$meetingId)->where('id','=',$minuteId)->first();

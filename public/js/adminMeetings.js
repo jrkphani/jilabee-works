@@ -131,7 +131,7 @@ $(document).ready(function($)
             }
             });
     $('.approve').click(function(event) {
-       var fromid = $(this).attr('fromid');
+       var mid = $(this).attr('mid');
        $.ajax({
            url: '/admin/meetings/approve',
            type: 'POST',
@@ -144,16 +144,16 @@ $(document).ready(function($)
                     //console.log("sa");
                     if(jsonData.hasOwnProperty('validator'))
                     {
-                        $('#'+fromid).find('.error').html('');
+                        $$('#m'+mid).find('.error').html('');
                         $.each(jsonData.validator, function(index, val) {
                             //console.log(index);
-                             $('#'+fromid).find('.'+index+'_err').html(val);
+                             $('#m'+mid).find('.'+index+'_err').html(val);
                         });
                     }
                 }
                 else if(jsonData.success == 'yes')
                 {
-                    $('#'+fromid).remove();
+                    $('#meetingBlock'+mid).remove();
                     $.notify('Approved',
                     {
                        className:'success',

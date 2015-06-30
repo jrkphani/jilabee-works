@@ -111,14 +111,14 @@
             source: "/user/search",
             minLength: 2,
             select: function( event, ui ) {
-                if($("#u" + ui.item.userId).length != 0)
+                if($("#user" + ui.item.userId).length != 0)
                 {
                   alert('User already exist!');
                   return false;
                 }
                 else
                 {
-                    insert = '<div class="col-md-6 attendees" id="u'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+                    insert = '<div class="col-md-6 attendees" id="user'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
                     $('#selected_minuters').append(insert);
                     $(this).val("");
                     return false;
@@ -130,14 +130,14 @@
             source: "/user/search",
             minLength: 2,
             select: function( event, ui ) {
-                if($("#u" + ui.item.userId).length != 0)
+                if($("#user" + ui.item.userId).length != 0)
                 {
                   alert('User already exist!');
                   return false;
                 }
                 else
                 {
-                    insert = '<div class="col-md-6 attendees" id="u'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+                    insert = '<div class="col-md-6 attendees" id="user'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
                     $('#selected_attendees').append(insert);
                     $(this).val("");
                     return false;

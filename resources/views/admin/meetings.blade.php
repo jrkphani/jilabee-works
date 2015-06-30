@@ -9,9 +9,9 @@
 			New meeting
 		</button>
 	</div>
-	<div class="col-md-12">
 		@if($meetings->count())
 			@foreach($meetings as $meeting)
+			<div class="col-md-12" id="meetingBlock{{$meeting->id}}">
 			{!! Form::open(array('id' => 'm'.$meeting->id)) !!}
 			<div class="col-md-12 form-group">
 				{!! Form::hidden('mid', $meeting->id) !!}
@@ -71,15 +71,15 @@
 					Requested by : {{$meeting->requested_by}}
 				</div>
 				<div class="col-md-3 col-md-offset-3">
-					<button type="button" class="btn btn-primary approve" fromid="m{{$meeting->id}}">Approve</button>
+					<button type="button" class="btn btn-primary approve" id="{{$meeting->id}}">Approve</button>
 					@if($meeting->status != 'rejected')
-					<button type="button" class="btn btn-primary disapprove" fromid="m{{$meeting->id}}">Disapprove</button>
+					<button type="button" class="btn btn-primary disapprove" id="{{$meeting->id}}">Disapprove</button>
 					@endif
 				</div>
 	    	</div>
+	    	</div>
 			@endforeach
 		@endif
-	</div>
 	<div id="createMeetingModal" class="modal fade">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
