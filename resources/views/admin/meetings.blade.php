@@ -71,9 +71,9 @@
 					Requested by : {{$meeting->requested_by}}
 				</div>
 				<div class="col-md-3 col-md-offset-3">
-					<button type="button" class="btn btn-primary approve" id="{{$meeting->id}}">Approve</button>
+					<button type="button" class="btn btn-primary approve" mid="{{$meeting->id}}">Approve</button>
 					@if($meeting->status != 'rejected')
-					<button type="button" class="btn btn-primary disapprove" id="{{$meeting->id}}">Disapprove</button>
+					<button type="button" class="btn btn-primary disapprove" mid="{{$meeting->id}}">Disapprove</button>
 					@endif
 				</div>
 	    	</div>

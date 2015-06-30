@@ -136,7 +136,7 @@ $(document).ready(function($)
            url: '/admin/meetings/approve',
            type: 'POST',
            dataType: 'json',
-           data: $('#'+fromid).serialize(),
+           data: $('#m'+mid).serialize(),
        })
        .done(function(jsonData) {
            if(jsonData.success == 'no')
@@ -171,20 +171,20 @@ $(document).ready(function($)
     });
 $('.disapprove').click(function(event) {
         var btn = $(this);
-        var fromid = btn.attr('fromid');
-        var reason = $('#'+fromid).find('input[name = reason]').val();
-        var token =  $('#'+fromid).find('input[name = _token]').val();
-        $('#'+fromid).find('.reason_err').html('');
+        var mid = btn.attr('mid');
+        var reason = $('#m'+mid).find('input[name = reason]').val();
+        var token =  $('#m'+mid).find('input[name = _token]').val();
+        $('#m'+mid).find('.reason_err').html('');
         $.ajax({
            url: '/admin/meetings/disapprove',
            type: 'POST',
            dataType: 'json',
-           data: {'mid': fromid.match(/\d+/),'reason':reason,'_token':token},
+           data: {'mid': mid,'reason':reason,'_token':token},
         })
         .done(function(jsonData) {
            if(jsonData.success == 'no')
                 {
-                    $('#'+fromid).find('.reason_err').html(jsonData.reason);
+                    $('#m'+mid).find('.reason_err').html(jsonData.reason);
                 }
                 else if(jsonData.success == 'yes')
                 {

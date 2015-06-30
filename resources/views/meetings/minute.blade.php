@@ -11,6 +11,10 @@
 						Proceed next minute of meeting
 					</button>
 				@endif
+			@else
+				<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
+						Proceed next minute of meeting
+					</button>
 			@endif
 		@endif
 		

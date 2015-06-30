@@ -1,6 +1,7 @@
 {!! Form::open(array('id' => 'createMinuteForm')) !!}
 {!! Form::text('venue',$meeting->venue) !!}
 {!! Form::text('minuteDate',date('Y-m-d')) !!}
+<div class"col-md-12">Attendees</div>
 <div class="col-md-12" Id="attendees">
 	<?php
 	foreach ($users as $key=>$value)
