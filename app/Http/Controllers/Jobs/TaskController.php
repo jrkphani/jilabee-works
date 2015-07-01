@@ -28,14 +28,21 @@ class TaskController extends Controller {
 	}
 	public function viewTask($id)
 	{
-		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		$task = JobTasks::where('id','=',$id)->where('assigner','=',Auth::id())->first();
 		return view('jobs.task',['task'=>$task]);
+	}
+	public function viewfollowup($id)
+	{
+		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		return view('jobs.followupTask',['task'=>$task]);
 	}
 	public function followups()
 	{
-		$followups = JobTasks::where('assigner','=',Auth::id())
+		$jobtask = JobTasks::where('assigner','=',Auth::id())
 					->where('status','!=','closed')->get();
-		return view('jobs.followups',['followups'=>$followups]);
+		$minutetask = MinuteTasks::where('assigner','=',Auth::id())
+					->where('status','!=','closed')->get();
+		return view('jobs.followups',['minutetask'=>$minutetask,'jobtask'=>$jobtask]);
 	}
 	public function history()
 	{

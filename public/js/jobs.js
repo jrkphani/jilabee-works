@@ -100,6 +100,33 @@ $(document).ready(function($)
         });
         
         });
+    $('#listLeft').on('click', '.followup', function(event){
+        myid = $(this).attr('myid');
+        if($(this).attr('mid'))
+        {
+            path = '/minute/'+$(this).attr('mid')+'/followup/'+myid;
+        }
+        else
+        {
+            path = '/jobs/followup/'+myid;
+        }
+        $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'html',
+            //data: {param1: 'value1'},
+        })
+        .done(function(htmlData) {
+            $('#rightContent').html(htmlData);
+        })
+        .fail(function() {
+            
+        })
+        .always(function() {
+            
+        });
+        
+        });
 });
 $('#mytask').click(function(event)
 {

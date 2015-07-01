@@ -11,17 +11,22 @@
 	</div>
 	<div class="col-md-12">
 		<div class="col-md-3">
-			@if($followups->count())
+			@if($jobtask->count())
 			<ul>
-				@foreach($followups as $job)
-				<li>{{$job->title}}</li>
+				@foreach($jobtask as $job)
+				<li myid="{{$job->id}}" class="followup">{{$job->title}}</li>
 				@endforeach
 			</ul>
-			@else
-				No Tasks
+			@endif
+			@if($minutetask->count())
+			<ul>
+				@foreach($minutetask as $job)
+				<li myid="{{$job->id}}" mid="{{$job->minuteId}}" class="followup">{{$job->title}}</li>
+				@endforeach
+			</ul>
 			@endif
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-9" id="rightContent">
 			right content
 		</div>
 	</div>

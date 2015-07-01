@@ -151,7 +151,12 @@ class MinuteController extends Controller {
 	}
 	public function viewTask($mid,$id)
 	{
-		$task = MinuteTasks::where('minuteId','=',$mid)->where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		$task = MinuteTasks::where('minuteId','=',$mid)->where('id','=',$id)->where('assigner','=',Auth::id())->first();
 		return view('jobs.task',['task'=>$task]);
+	}
+	public function viewFollowup($mid,$id)
+	{
+		$task = MinuteTasks::where('minuteId','=',$mid)->where('id','=',$id)->where('assigner','=',Auth::id())->first();
+		return view('jobs.followupTask',['task'=>$task]);
 	}
 }
