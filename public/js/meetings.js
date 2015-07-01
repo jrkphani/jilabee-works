@@ -47,6 +47,7 @@ $(document).ready(function($)
                         {
                             $(this).val('');
                         });
+                    $('.meetingMenu.active').click();
                     //top bar notification
                     $.notify('Sent',
                     {
@@ -319,7 +320,8 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                        className:'success',
                        globalPosition:'top center'
                     });
-                    $('#rightContent').load('/minute/'+$('#meetingId').val());
+                    //$('#rightContent').load('/minute/'+$('#meetingId').val());
+                    $('.meetingMenu.active').click();
                 }
         })
         .fail(function() {
@@ -333,6 +335,10 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
     $('#listLeft').on('click', '#nextMinute', function(event) {
         event.preventDefault();
         $('#minuteBlock').toggle();
+    });
+    $('#listLeft').on('click', '#refresh', function(event) {
+        event.preventDefault();
+        $('.meetingMenu.active').click();
     });
 });
 $('#minutes').click(function(event)

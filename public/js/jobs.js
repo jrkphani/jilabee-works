@@ -49,6 +49,7 @@ $(document).ready(function($)
                         {
                             $(this).val('');
                         });
+                    $('.jobsMenu.active').click()
                 }
                 ////console.log("success");
         	})
