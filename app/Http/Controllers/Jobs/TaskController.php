@@ -28,12 +28,12 @@ class TaskController extends Controller {
 	}
 	public function viewTask($id)
 	{
-		$task = JobTasks::where('id','=',$id)->where('assigner','=',Auth::id())->first();
+		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
 		return view('jobs.task',['task'=>$task]);
 	}
 	public function viewfollowup($id)
 	{
-		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		$task = JobTasks::where('id','=',$id)->where('assigner','=',Auth::id())->first();
 		return view('jobs.followupTask',['task'=>$task]);
 	}
 	public function followups()
