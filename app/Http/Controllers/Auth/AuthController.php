@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use Activity;
 use App\Model\Clients;
 use Validator;
 class AuthController extends Controller {
@@ -52,6 +53,12 @@ class AuthController extends Controller {
 			);
 		}
 		$this->registrar->create($request->all());
+		Activity::log([
+		    'contentType' => 'User',
+		    'action'      => 'General Signup',
+		    'description' => 'General signup',
+		    'details'     => 'Username: '.$request->name.'Email:'.$request->email
+		]);
 		return redirect('/auth/register')->with('message', 'Registration successfully!');
 	}
 	public function postLogin(Request $request)
