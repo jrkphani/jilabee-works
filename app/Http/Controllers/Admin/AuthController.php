@@ -78,6 +78,12 @@ class AuthController extends Controller {
 						        $profile->userId = $user->id;
 							    $profile->phone = $input['phone'];
 							    $profile->save();
+							    Activity::log([
+								    'contentType' => 'Organizations',
+								    'action'      => 'OrganizationsOrganizations Signup',
+								    'description' => 'Organizations signup',
+								    'details'     => 'Organizations name: '.$input['name'].'Email:'.$input['email']
+								]);
 							}		
 						}
 					}					

@@ -1,4 +1,7 @@
 <div class="row">
+	<div class="col-md-12">
+		<strong>{{$meeting->title}}</strong>
+	</div>
 	<div class="col-md-12 form-group">
 		<?php $createMinute = 0; ?>
 		@if(App\Model\Minutes::isMinuter($meeting->id))
@@ -32,13 +35,17 @@
 						$absentees = NULL;
 					}
 					?>
-					<div class="col-md-12">
+					<strong>Minutes of the Meeting on: {{$minute->minuteDate}}</strong>
+					<div class="col-md-12">	
 						@if($minute->venue)
 							Venue : {{$minute->venue}}
 						@endif
-						Date : {{$minute->minuteDate}}
 					</div>
-					Previous Meeting Details Here.....
+					<div class="col-md-12">	
+						@foreach($minute->tasks()->get() as $task)
+							<div class="col-md-12">{{$task->title}}</div>
+						@endforeach
+					</div>
 				@else
 				No minutes yet
 				@endif

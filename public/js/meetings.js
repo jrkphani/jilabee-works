@@ -118,13 +118,12 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                 event.preventDefault();
                 if($(this).find('.minute').length)
                 {
-                    mid = $(this).find('.minute:first').attr('mid');
+                   // mid = $(this).find('.minute:first').attr('mid');
                 }
                 else
                 {
-                    mid = $(this).attr('mid');   
-                }
-                loadMinute(mid)          
+                   loadMinute($(this).attr('mid'));
+                }          
             });
             $('#listLeft').on('click', '#createMinute', function(event) {
                 event.preventDefault();
@@ -348,6 +347,14 @@ $('#minutes').click(function(event)
     })
     .done(function(htmlData) {
     	$('#listLeft').html(htmlData);
+        if($('#listLeft').find('.minute').length)
+        {
+           $('#listLeft').find('.minute:first').click();
+        }
+        else
+        {
+           $('#listLeft').find('.meetings:first').click();
+        } 
     })
     .fail(function() {
     	//console.log("error");

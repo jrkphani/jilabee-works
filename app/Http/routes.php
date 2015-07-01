@@ -21,6 +21,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('/', function(){
 				return view('admin.dashboard');
 			});
+			Route::get('user/list', 'Admin\UserController@userList');
 			Route::get('user/add', 'Admin\UserController@getAdd');
 			Route::post('user/add', 'Admin\UserController@postAdd');
 			Route::get('meetings', 'Admin\MeetingsController@index');

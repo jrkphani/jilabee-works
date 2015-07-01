@@ -22,8 +22,8 @@ class Profile extends Model{
  //    {	
  //        return $this->hasOne('App\User', 'id', 'updated_by');
  //    }
- //    public function user()
- //    {
- //        return $this->belongsTo('App\User', 'userId', 'userId');
- //    }
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId', 'id');
+    }
 }

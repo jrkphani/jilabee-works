@@ -35,7 +35,7 @@
 					@if($meeting->minutes()->count())
 					<li class="meetings" mid="{{$meeting->id}}/{{$meeting->minutes()->first()->id}}">{{$meeting->title}}
 					<ul>
-						@foreach($meeting->minutes()->get() as $minute)
+						@foreach($meeting->minutes()->orderBy('updated_at','desc')->get() as $minute)
 						<li class="minute" mid="{{$meeting->id}}/{{$minute->id}}">{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
 						@endforeach
 					</ul>

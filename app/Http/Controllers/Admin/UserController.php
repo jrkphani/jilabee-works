@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Guard;
 use DB;
 use Auth;
 use Validator;
+use Activity;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Registrar;
 class UserController extends Controller {
@@ -39,6 +40,7 @@ class UserController extends Controller {
 		    $user = new User();
 			$user->setConnection('base');
 			$user->email = $input['email'];
+			$user->active ='1';
 			$user->userId = "dumy".date('His');
 			$user->password = bcrypt($input['password']);
 			if($user->save())
@@ -59,6 +61,14 @@ class UserController extends Controller {
 				{
 					DB::connection('base')->rollback();
 				}
+				Activity::log([
+					'userId'	=> Auth::id(),
+					'contentId'   => $user->id,
+				    'contentType' => 'Add Organizations User',
+				    'action'      => 'Create',
+				    //'description' => 'Add Organizations User',
+				    'details'     => 'Name: '.$input['name'].'Email:'.$input['email']
+				]);
 				return redirect('/admin/user/add')->with('message','Success');
 			}
 		 }
@@ -67,5 +77,10 @@ class UserController extends Controller {
 	        //error
 	        DB::connection('base')->rollback();
     	}	
+	}
+	public function userList()
+	{
+		$users = Profile::all();
+		return view('admin.userList',['users'=>$users]);
 	}
 }
