@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller;
 use Request;
 use App\Model\JobTasks;
+use App\Model\MinuteTasks;
 use Auth;
 class TaskController extends Controller {
 
@@ -19,19 +20,21 @@ class TaskController extends Controller {
 	}
 	public function mytask()
 	{
-		$mytask = JobTasks::where('assignee','=',Auth::id())
-					->where('status','!=','close')->get();
-		/*$jotask = JobTasks::where('assignee','=',Auth::id())
-					->where('status','!=','close')->get();
-		$meetingtask = JobTasks::where('assignee','=',Auth::id())
-					->where('status','!=','close')->get();
-		$users = DB::table('users')->whereNull('last_name')->union($first)->get();*/
-		return view('jobs.mytask',['mytask'=>$mytask]);
+		$jobtask = JobTasks::where('assignee','=',Auth::id())
+					->where('status','!=','closed')->get();
+		$minutetask = MinuteTasks::where('assignee','=',Auth::id())
+					->where('status','!=','closed')->get();
+		return view('jobs.mytask',['minutetask'=>$minutetask,'jobtask'=>$jobtask]);
+	}
+	public function viewTask($id)
+	{
+		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		return view('jobs.task',['task'=>$task]);
 	}
 	public function followups()
 	{
 		$followups = JobTasks::where('assigner','=',Auth::id())
-					->where('status','!=','close')->get();
+					->where('status','!=','closed')->get();
 		return view('jobs.followups',['followups'=>$followups]);
 	}
 	public function history()

@@ -135,8 +135,8 @@ class MinuteController extends Controller {
 				$minute->draft()->delete();
 				if($minute->draft()->saveMany($records))
 				{
-					echo "done"; die;
-					//return true;
+					//echo "done"; die;
+					return true;
 				}
 				else
 				{
@@ -148,5 +148,10 @@ class MinuteController extends Controller {
 		{
 			abort('403');
 		}
+	}
+	public function viewTask($mid,$id)
+	{
+		$task = MinuteTasks::where('minuteId','=',$mid)->where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		return view('jobs.task',['task'=>$task]);
 	}
 }

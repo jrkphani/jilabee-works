@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::group(['prefix' => 'jobs'], function()
 			{
 				Route::get('/', 'Jobs\TaskController@index');
+				Route::get('/task/{taskid}', 'Jobs\TaskController@viewTask');
 				Route::get('mytask', 'Jobs\TaskController@mytask');
 				Route::get('followups', 'Jobs\TaskController@followups');
 				Route::get('history', 'Jobs\TaskController@history');
@@ -69,11 +70,12 @@ Route::group(['prefix' => 'admin'], function()
 			});
 			Route::group(['prefix' => 'minute'], function()
 			{
-				Route::get('{meetingID}/{minuteID?}', 'Meetings\MinuteController@index');
-				Route::post('{meetingID}', 'Meetings\MinuteController@create');
-				Route::post('{minuteID}/update', 'Meetings\MinuteController@update');
-				Route::post('{minuteID}/draft', 'Meetings\MinuteController@draft');
-				Route::post('{minuteID}/task', 'Meetings\TaskController@createTask');
+				Route::get('{meetingId}/{minuteId?}', 'Meetings\MinuteController@index');
+				Route::get('{minueId}/task/{taskid}', 'Meetings\MinuteController@viewTask');
+				Route::post('{meetingId}', 'Meetings\MinuteController@create');
+				Route::post('{minuteId}/update', 'Meetings\MinuteController@update');
+				Route::post('{minuteId}/draft', 'Meetings\MinuteController@draft');
+				Route::post('{minuteId}/task', 'Meetings\TaskController@createTask');
 			});
 		
 		});

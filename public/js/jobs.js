@@ -73,6 +73,33 @@ $(document).ready(function($)
             $(this).parent( ".assignee" ).remove();
             $('#selectAssignee , #assigneeEmail, .or').show();
         });
+    $('#listLeft').on('click', '.task', function(event){
+        myid = $(this).attr('myid');
+        if($(this).attr('mid'))
+        {
+            path = '/minute/'+$(this).attr('mid')+'/task/'+myid;
+        }
+        else
+        {
+            path = '/jobs/task/'+myid;
+        }
+        $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'html',
+            //data: {param1: 'value1'},
+        })
+        .done(function(htmlData) {
+            $('#rightContent').html(htmlData);
+        })
+        .fail(function() {
+            
+        })
+        .always(function() {
+            
+        });
+        
+        });
 });
 $('#mytask').click(function(event)
 {
