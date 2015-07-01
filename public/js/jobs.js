@@ -127,6 +127,10 @@ $(document).ready(function($)
         });
         
         });
+    $('#listLeft').on('click', '#refresh', function(event) {
+        event.preventDefault();
+        $('.jobsMenu.active').click();
+    });
 });
 $('#mytask').click(function(event)
 {
@@ -140,6 +144,7 @@ $('#mytask').click(function(event)
     })
     .done(function(htmlData) {
     	$('#listLeft').html(htmlData);
+        $('#listLeft').find('.task:first').click();
     })
     .fail(function() {
     	//console.log("error");
@@ -161,6 +166,7 @@ $('#followups').click(function(event)
     })
     .done(function(htmlData) {
     	$('#listLeft').html(htmlData);
+        $('#listLeft').find('.followup:first').click();
     })
     .fail(function() {
     	//console.log("error");
