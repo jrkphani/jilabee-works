@@ -136,7 +136,7 @@ class MinuteController extends Controller {
 				if($minute->draft()->saveMany($records))
 				{
 					//echo "done"; die;
-					return true;
+					return 'success';
 				}
 				else
 				{

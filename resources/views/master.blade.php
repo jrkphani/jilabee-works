@@ -51,9 +51,7 @@
 					<li><a href="{{ url('meetings') }}">Meetings</a></li>
 					@endif
 				</ul>
-				<ul class="nav navbar-nav">
-					<li><a href="{{ url() }}">Plans</a></li>
-				</ul>
+				
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
 						{{-- <li><a href="{{ app_url('/auth/login') }}">Login</a></li> --}}

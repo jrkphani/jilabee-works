@@ -77,7 +77,7 @@ class AuthController extends Controller {
             if(starts_with(Auth::user()->userId, 'GEN'))
             {
             	//do nothing 
-            	//changedatabase middleware will connect to general database "jotter"
+            	//changedatabase middleware will connect to general database connection "client"
             }
             else
             {
@@ -85,7 +85,7 @@ class AuthController extends Controller {
             	//echo substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u')); die;
             	Session::put('database', substr(Auth::user()->userId, 0, strrpos(Auth::user()->userId, 'u')));
             }
-            return redirect('/');
+            return redirect()->intended('/');
         }
         else
         {
