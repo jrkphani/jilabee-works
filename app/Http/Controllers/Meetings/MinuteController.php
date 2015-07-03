@@ -4,7 +4,6 @@ use Request;
 use App\Model\JobTasks;
 use App\Model\Meetings;
 use App\Model\Minutes;
-use App\Model\MinuteTasks;
 use App\Model\MinuteDraft;
 use Auth;
 class MinuteController extends Controller {
@@ -149,14 +148,5 @@ class MinuteController extends Controller {
 			abort('403');
 		}
 	}
-	public function viewTask($mid,$id)
-	{
-		$task = MinuteTasks::where('minuteId','=',$mid)->where('id','=',$id)->where('assignee','=',Auth::id())->first();
-		return view('jobs.task',['task'=>$task]);
-	}
-	public function viewFollowup($mid,$id)
-	{
-		$task = MinuteTasks::where('minuteId','=',$mid)->where('id','=',$id)->where('assigner','=',Auth::id())->first();
-		return view('jobs.followupTask',['task'=>$task]);
-	}
+	
 }

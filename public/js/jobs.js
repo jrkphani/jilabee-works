@@ -78,44 +78,84 @@ $(document).ready(function($)
         myid = $(this).attr('myid');
         if($(this).attr('mid'))
         {
-            path = '/minute/'+$(this).attr('mid')+'/task/'+myid;
+            path = '/minute/task/'+myid;
         }
         else
         {
             path = '/jobs/task/'+myid;
         }
-        $.ajax({
-            url: path,
-            type: 'GET',
-            dataType: 'html',
-            //data: {param1: 'value1'},
-        })
-        .done(function(htmlData) {
-            $('#rightContent').html(htmlData);
-        })
-        .fail(function() {
-            
-        })
-        .always(function() {
-            
-        });
+        rightContentAjaxGet(path);
         
         });
     $('#listLeft').on('click', '.followup', function(event){
         myid = $(this).attr('myid');
         if($(this).attr('mid'))
         {
-            path = '/minute/'+$(this).attr('mid')+'/followup/'+myid;
+            path = '/minute/followup/'+myid;
         }
         else
         {
             path = '/jobs/followup/'+myid;
         }
-        $.ajax({
+        rightContentAjaxGet(path);
+        
+        });
+    $('#listLeft').on('click', '#refresh', function(event) {
+        event.preventDefault();
+        $('.jobsMenu.active').click();
+    });
+    $('#listLeft').on('click', '#accept', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            path = 'minute/accept/task/'+$(this).attr('mtask');
+        }
+        else
+        {
+            path = 'jobs/accept/task/'+$(this).attr('task');
+        }
+        rightContentAjaxGet(path);
+        
+    });
+
+    $('#listLeft').on('click', '#reject', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            form = 'mtaskForm'+$(this).attr('mtask');
+            path = 'minute/reject/task/'+$(this).attr('mtask');
+        }
+        else
+        {
+            form = 'taskForm'+$(this).attr('task');
+            path = 'jobs/reject/task/'+$(this).attr('task');
+        }
+        rightContentAjaxPost(path,form);
+        
+    });
+    $('#listLeft').on('click', '#postComment', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            form = 'mtaskForm'+$(this).attr('mtask');
+            path = 'minute/task/'+$(this).attr('mtask')+'/comment';
+        }
+        else
+        {
+            form = 'taskForm'+$(this).attr('task');
+            path = 'jobs/task/'+$(this).attr('task')+'/comment';
+        }
+        rightContentAjaxPost(path,form);
+    });
+
+});
+function rightContentAjaxPost(path,form)
+{
+    $.ajax({
             url: path,
-            type: 'GET',
+            type: 'POST',
             dataType: 'html',
-            //data: {param1: 'value1'},
+            data: $('#'+form).serialize()
         })
         .done(function(htmlData) {
             $('#rightContent').html(htmlData);
@@ -126,13 +166,24 @@ $(document).ready(function($)
         .always(function() {
             
         });
-        
+}
+function rightContentAjaxGet(path)
+{
+    $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#rightContent').html(htmlData);
+        })
+        .fail(function() {
+            
+        })
+        .always(function() {
+            
         });
-    $('#listLeft').on('click', '#refresh', function(event) {
-        event.preventDefault();
-        $('.jobsMenu.active').click();
-    });
-});
+}
 $('#mytask').click(function(event)
 {
 	$('.jobsMenu').removeClass('active');

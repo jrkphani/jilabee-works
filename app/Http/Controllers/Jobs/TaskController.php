@@ -36,6 +36,30 @@ class TaskController extends Controller {
 		$task = JobTasks::where('id','=',$id)->where('assigner','=',Auth::id())->first();
 		return view('jobs.followupTask',['task'=>$task]);
 	}
+	public function acceptTask($id)
+	{
+		$task = JobTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
+		$task->status = 'open';
+		$task->save();
+		return view('jobs.task',['task'=>$task]);
+	}
+	public function rejectTask($id)
+	{
+		$input = Request::only('reason');
+		if($input['reason'])
+		{
+			$task = JobTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
+			$task->status = 'rejected';
+			$task->reason = $input['reason'];
+			$task->save();
+			return view('jobs.task',['task'=>$task]);
+		}
+		else
+		{
+			$task = JobTasks::find($id);
+			return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
+		}
+	}
 	public function followups()
 	{
 		$jobtask = JobTasks::where('assigner','=',Auth::id())

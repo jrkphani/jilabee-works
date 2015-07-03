@@ -17,11 +17,11 @@ class CreateJobTasksTable extends Migration {
 			$table->increments('id');
 			//$table->integer('meetingId')->unsigned();
 			$table->string('title','64');
-			$table->mediumText('description');
+			$table->string('description');
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
 			$table->enum('status', array('waiting','rejected','open','finished' ,'closed','expired','timeout','failed'))->default('waiting');
-			//$table->enum('priority', array('immediate','high', 'normal','low'))->default('normal');
+			$table->string('reason')->nullable();
 			$table->dateTime('dueDate')->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
