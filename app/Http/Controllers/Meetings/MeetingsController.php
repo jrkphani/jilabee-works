@@ -31,9 +31,8 @@ class MeetingsController extends Controller {
 	}
 	public function history()
 	{
-		$history = JobTasks::where('assignee','=',Auth::id())
-					->orWhere('assigner','=',Auth::id())->get();
-		return view('jobs.history',['history'=>$history]);
+		$meetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->orderBy('updated_at','desc')->get();
+		return view('meetings.history',['meetings'=>$meetings]);
 	}
 	public function createMeeting(Request $request)
 	{

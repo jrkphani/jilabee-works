@@ -31,11 +31,11 @@ class Meetings extends Model{
     }
 	public function isMinuter()
     {
-    	//check permission as minuter
-    	if($this->whereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->first())
-    	{
-    		return $this;
-    	}
-    	return FALSE;
+        //check permission as minuter
+        if(in_array(Auth::id(), explode(',',$this->minuters)))
+         {
+             return $this;
+         }
+         return FALSE;
     }
 }

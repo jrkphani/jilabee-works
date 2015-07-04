@@ -5,19 +5,22 @@
 		</div>
 	</div>
 	<div class="col-md-12">
-		<div class="col-md-3">
-			@if($history->count())
-			<ul>
-				@foreach($history as $job)
-				<li>{{$job->title}}</li>
-				@endforeach
-			</ul>
-			@else
-				No Tasks
-			@endif
-		</div>
-		<div id="rightContent" class="col-md-9">
-			right content
-		</div>
+		@if($meetings->count())
+		<ul>
+			@foreach($meetings as $meeting)
+				<div class="col-md-4">
+					<div class="jumbotron">{{$meeting->title}}
+					<ul>
+						@foreach($meeting->minutes()->orderBy('updated_at','desc')->get() as $minute)
+						<li class="minute" mid="{{$meeting->id}}/{{$minute->id}}">{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
+						@endforeach
+					</ul>
+				</div>
+			</div>
+			@endforeach
+		</ul>
+		@else
+			No Meetings
+		@endif
 	</div>
 </div>

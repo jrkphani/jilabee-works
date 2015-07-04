@@ -144,6 +144,10 @@ class MinuteController extends Controller {
 					abort('404','Insertion failed');
 				}
 			}
+			else
+			{
+				return 'No data submited';
+			}
 		}
 		else
 		{
