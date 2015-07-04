@@ -142,7 +142,7 @@ $(document).ready(function($)
         }
         else
         {
-            form = 'CommentForm5'+$(this).attr('task');
+            form = 'CommentForm'+$(this).attr('task');
             path = 'jobs/task/'+$(this).attr('task')+'/comment';
         }
         rightContentAjaxPost(path,form);

@@ -113,6 +113,15 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                 var mid = $(this).attr('mid');
                 loadMinute(mid)          
             });
+            $('#listLeft').on('click', '.minutePopup', function(event) {
+                //alert($(this).find('.minute').length);
+                //return false;
+                event.preventDefault();
+                var mid = $(this).attr('mid');
+                $('#loadTaskModal').load('/minute/'+mid);
+                $('#loadTaskModal').addClass('in');
+                $('#loadTaskModal').show();         
+            });
             $('#listLeft').on('click', '.meetings', function(event) {
                 //alert($(this).find('.minute').length);
                 //return false;

@@ -149,7 +149,14 @@ class TaskController extends Controller {
 		if ($validator->fails())
 		{
 			$task = MinuteTasks::find($id);
-			return view('jobs.followupTask',['task'=>$task])->withErrors($validator)->withInput($input);
+			if($task->assignee == Auth::id())
+			{
+				return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
+			}
+			else
+			{
+				return view('jobs.followupTask',['task'=>$task])->withErrors($validator)->withInput($input);	
+			}
 		}
 		else
 		{
@@ -162,7 +169,14 @@ class TaskController extends Controller {
 				$input['description'] = nl2br($input['description']);
 				$comment = new MinuteTaskComments($input);
 				$task->comments()->save($comment);
-				return view('jobs.followupTask',['task'=>$task]);
+				if($task->assignee == Auth::id())
+				{
+					return view('jobs.task',['task'=>$task]);
+				}
+				else
+				{
+					return view('jobs.followupTask',['task'=>$task]);
+				}
 			}
 			else
 			{

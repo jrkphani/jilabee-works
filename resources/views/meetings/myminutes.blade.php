@@ -50,7 +50,7 @@
 			@endif
 		</div>
 		<div id="rightContent" class="col-md-9">
-			right content
+			{{-- right content --}}
 		</div>
 	</div>
 
