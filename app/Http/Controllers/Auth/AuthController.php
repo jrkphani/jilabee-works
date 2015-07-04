@@ -76,6 +76,7 @@ class AuthController extends Controller {
             // Authentication passed...
             if(starts_with(Auth::user()->userId, 'GEN'))
             {
+            	Session::put('database', 'jotterGeneral');
             	//do nothing 
             	//changedatabase middleware will connect to general database connection "client"
             }
