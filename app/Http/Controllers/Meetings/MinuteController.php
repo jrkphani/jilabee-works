@@ -3,6 +3,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use App\Model\JobTasks;
 use App\Model\Meetings;
+use App\Model\MinuteTasks;
 use App\Model\Minutes;
 use App\Model\MinuteDraft;
 use Auth;
@@ -154,5 +155,9 @@ class MinuteController extends Controller {
 			abort('403');
 		}
 	}
-	
+	public function viewMinute($id)
+	{
+		$tasks = MinuteTasks::where('minuteId','=',$id)->get();
+		return view('meetings.tasks',['tasks'=>$tasks]);
+	}
 }

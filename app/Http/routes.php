@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin'], function()
 			{
 				Route::get('{meetingId}/{minuteId?}', 'Meetings\MinuteController@index')->where('meetingId', '[0-9]+')->where('minuteId', '[0-9]+');
 				Route::get('followup/{taskid}', 'Meetings\TaskController@viewFollowup')->where('minueId', '[0-9]+')->where('taskid', '[0-9]+');
+				Route::get('view/{minuteId}', 'Meetings\MinuteController@viewMinute')->where('minueId', '[0-9]+');
 				Route::get('accept/task/{taskid}', 'Meetings\TaskController@acceptTask')->where('taskid', '[0-9]+');
 				Route::post('reject/task/{taskid}', 'Meetings\TaskController@rejectTask')->where('taskid', '[0-9]+');
 				Route::post('task/{taskid}/comment', 'Meetings\TaskController@comment')->where('taskid', '[0-9]+');

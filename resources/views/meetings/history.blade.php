@@ -12,7 +12,7 @@
 					<div class="jumbotron">{{$meeting->title}}
 					<ul>
 						@foreach($meeting->minutes()->orderBy('updated_at','desc')->get() as $minute)
-						<li class="minutePopup" mid="{{$meeting->id}}/{{$minute->id}}">{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
+						<li class="minutePopup" mid="{{$minute->id}}">{{date('Y-m-d',strtotime($minute->minuteDate))}}</li>
 						@endforeach
 					</ul>
 				</div>
@@ -24,6 +24,6 @@
 		@endif
 	</div>
 	{{-- alax pop up --}}
-	<div id="loadTaskModal" class="col-md-6 modal fade">
+	<div id="loadTaskModal" class="col-md-6 col-md-offset-3 modal fade">
 	</div>
 </div>
