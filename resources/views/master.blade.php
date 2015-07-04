@@ -60,7 +60,9 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->profile()->first()->name}} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('profile') }}">My Profile</a></li>
+								@if(Auth::user()->isAdmin)
 								<li><a href="{{ url('admin') }}">Admin Dashboard</a></li>
+								@endif
 								<li><a href="{{ url('auth/logout') }}">Logout</a></li>
 							</ul>
 						</li>

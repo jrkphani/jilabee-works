@@ -3,7 +3,9 @@ use App\Http\Controllers\Controller;
 use Request;
 use App\Model\MinuteTasks;
 use App\Model\Minutes;
+use App\Model\MinuteTaskComments;
 use Auth;
+use Activity;
 use DB;
 class TaskController extends Controller {
 
@@ -83,20 +85,6 @@ class TaskController extends Controller {
 			$output['success'] = 'Empty fields';
 			return json_encode($output);
 		}
-
-		$validator = MinuteTasks::validation($input);
-		// if ($validator->fails())
-		// {
-		// 	$output['success'] = 'no';
-		// 	$output['validator'] = $validator->messages()->toArray();
-		// 	return json_encode($output);
-		// }
-		// else
-		// {
-		// 	$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
-		// 	MinuteTasks::create($input);
-		// 	return json_encode($output);
-		// }
 	}
 	public function viewTask($id)
 	{
@@ -112,7 +100,18 @@ class TaskController extends Controller {
 	{
 		$task = MinuteTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
 		$task->status = 'open';
-		$task->save();
+		$task->reason = NULL;
+		if($task->save())
+			{
+				Activity::log([
+					'userId'	=> Auth::id(),
+					'contentId'   => $task->id,
+				    'contentType' => 'Minute Task',
+				    'action'      => 'Accepted',
+				    //'description' => 'Add Organizations User',
+				    //'details'     => 'Rejected Reason: '.$input['reason']
+				]);
+			}
 		return view('jobs.task',['task'=>$task]);
 	}
 	public function rejectTask($id)
@@ -122,8 +121,18 @@ class TaskController extends Controller {
 		{
 			$task = MinuteTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
 			$task->status = 'rejected';
-			$task->reason = $input['reason'];
-			$task->save();
+			$task->reason = nl2br($input['reason']);
+			if($task->save())
+			{
+				Activity::log([
+					'userId'	=> Auth::id(),
+					'contentId'   => $task->id,
+				    'contentType' => 'Minute Task',
+				    'action'      => 'Rejected',
+				    //'description' => 'Add Organizations User',
+				    'details'     => 'Rejected Reason: '.$input['reason']
+				]);
+			}
 			return view('jobs.task',['task'=>$task]);		
 		}
 		else
@@ -132,5 +141,33 @@ class TaskController extends Controller {
 			return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
 		}
 		
+	}
+	public function comment($id)
+	{
+		$input = Request::only('description');
+		$validator = MinuteTaskComments::validation($input);
+		if ($validator->fails())
+		{
+			$task = MinuteTasks::find($id);
+			return view('jobs.followupTask',['task'=>$task])->withErrors($validator)->withInput($input);
+		}
+		else
+		{
+			$task = MinuteTasks::find($id)
+				//->where('status','=','open')
+				->where('assignee','=',Auth::id())->orWhere('assigner','=',Auth::id())->first();
+			if($task)
+			{
+				$input['created_by'] = $input['updated_by'] = Auth::id();
+				$input['description'] = nl2br($input['description']);
+				$comment = new MinuteTaskComments($input);
+				$task->comments()->save($comment);
+				return view('jobs.followupTask',['task'=>$task]);
+			}
+			else
+			{
+				abort('403');
+			}
+		}
 	}
 }

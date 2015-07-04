@@ -6,6 +6,7 @@ use App\Model\OrganizationInfo;
 use App\User;
 use App\Model\Clients;
 use App\Model\Profile;
+use Activity;
 use Artisan;
 use Auth;
 use Session;

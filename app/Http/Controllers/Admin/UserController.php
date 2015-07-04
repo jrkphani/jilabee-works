@@ -51,7 +51,7 @@ class UserController extends Controller {
 				$profile = new Profile();
 				$profile->setConnection($input['dbconnection']);
 				$profile->userId = $user->id;
-				$profile->name = $input['name'];
+				$profile->name = ucwords(strtolower($input['name']));
 				$profile->dob = $input['dob'];
 				$profile->gender = $input['gender'];
 				$profile->phone = $input['phone'];
@@ -67,7 +67,7 @@ class UserController extends Controller {
 				    'contentType' => 'Add Organizations User',
 				    'action'      => 'Create',
 				    //'description' => 'Add Organizations User',
-				    'details'     => 'Name: '.$input['name'].'Email:'.$input['email']
+				    'details'     => 'Name:'.$input['name'].'Email:'.$input['email']
 				]);
 				return redirect('/admin/user/add')->with('message','Success');
 			}

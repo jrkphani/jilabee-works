@@ -335,6 +335,8 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
     $('#listLeft').on('click', '#nextMinute', function(event) {
         event.preventDefault();
         $('#minuteBlock').toggle();
+        //$('#createMinuteForm').find('input[name="venue"]').focus();
+         $("html, body").animate({ scrollTop: $(document).height() }, 1000);
     });
     $('#listLeft').on('click', '#refresh', function(event) {
         event.preventDefault();

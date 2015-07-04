@@ -137,12 +137,12 @@ $(document).ready(function($)
         event.preventDefault();
         if($(this).attr('mtask'))
         {
-            form = 'mtaskForm'+$(this).attr('mtask');
+            form = 'CommentForm'+$(this).attr('mtask');
             path = 'minute/task/'+$(this).attr('mtask')+'/comment';
         }
         else
         {
-            form = 'taskForm'+$(this).attr('task');
+            form = 'CommentForm5'+$(this).attr('task');
             path = 'jobs/task/'+$(this).attr('task')+'/comment';
         }
         rightContentAjaxPost(path,form);

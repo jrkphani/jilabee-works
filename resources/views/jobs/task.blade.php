@@ -26,7 +26,7 @@
 		<button {{$parentAttr}}="{{$task->id}}" id="accept" class="btn btn-primary">Accept</button>
 		<button {{$parentAttr}}="{{$task->id}}" id="reject" class="btn btn-primary">Reject</button>
 	@elseif($task->status == 'rejected')
-		Refused Reason : {{$task->reason}}
+		Refused Reason : {!! $task->reason !!}
 	@else
 		<button type="submit" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
 		{!! Form::open(['id'=>$parentAttr."Form".$task->id]) !!}

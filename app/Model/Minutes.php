@@ -36,15 +36,6 @@ class Minutes extends Model{
     {
         return $this->hasMany('App\Model\MinuteTasks','minuteId','id');
     }
-	public static function isMinuter($meetingId)
-    {
-    	//check permission as minuter
-    	if($meeting = Meetings::where('id','=',$meetingId)->whereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->first())
-    	{
-    		return $meeting;
-    	}
-    	return FALSE;
-    }
     public static function validation($data)
     {
         $rule = array('venue'=>'max:64',

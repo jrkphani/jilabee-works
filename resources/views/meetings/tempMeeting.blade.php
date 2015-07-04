@@ -52,9 +52,10 @@
 					{!! Form::label('venue', 'Venue',['class'=>'control-label']); !!}
 					{!! Form::text('venue', $tempMeetings->venue,['class'=>'form-control','id'=>''])!!}
 					{!! $errors->first('venue','<div class="error">:message</div>') !!}
-
-					{!! Form::label('reason', 'Reason for disapprove : ',['class'=>'control-label']); !!}
-					{{$tempMeetings->reason}}
+					@if($tempMeetings->reason)
+						{!! Form::label('reason', 'Reason for disapprove : ',['class'=>'control-label']); !!}
+						{{$tempMeetings->reason}}
+					@endif
 					{!! Form::close() !!}
 				</div>
 				<div class="modal-footer">

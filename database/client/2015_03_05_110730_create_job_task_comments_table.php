@@ -15,8 +15,8 @@ class CreateJobTaskCommentsTable extends Migration {
 		Schema::create('jobTaskComments', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('pId')->unsigned();
-			$table->mediumText('description');
+			$table->integer('taskId')->unsigned();
+			$table->text('description');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
@@ -24,7 +24,7 @@ class CreateJobTaskCommentsTable extends Migration {
 		});
 		Schema::table('jobTaskComments', function(Blueprint $table)
 		{
-			$table->foreign('pId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('taskId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});

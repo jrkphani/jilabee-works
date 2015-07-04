@@ -38,4 +38,19 @@ function generateUserId($customerId,$id)
 {
     return $customerId.'u'.$id;
 }
+function getProfile($userId=NULL)
+{
+    if(Auth::check())
+    {
+        if(!$userId)
+        {
+            $userId = Auth::id();
+        }
+        return App\Model\Profile::find($userId);
+    }
+    else
+    {
+        return false;
+    }
+}
 ?>

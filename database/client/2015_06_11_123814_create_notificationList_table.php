@@ -16,7 +16,7 @@ class CreateNotificationListTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('title','64');
-			$table->mediumText('description');
+			$table->text('description');
 		});
 	}
 

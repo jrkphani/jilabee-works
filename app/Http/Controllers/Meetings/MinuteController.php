@@ -32,7 +32,7 @@ class MinuteController extends Controller {
 	}
 	public function create($mid)
 	{
-		if($meeting = Meetings::isMinuter($mid))
+		if($meeting = Meetings::find($mid)->isMinuter())
 		{
 			//echo $meeting->minutes()->first()->lock_flag; die;
 			if($meeting->minutes()->count() && ($meeting->minutes()->first()->lock_flag == Auth::id()))
@@ -75,7 +75,7 @@ class MinuteController extends Controller {
 	{
 		if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
 		{
-			if(!Meetings::isMinuter($minute->meetingId))
+			if(!$minute->meeting->isMinuter())
 			{
 				abort('403');
 			}
@@ -89,13 +89,15 @@ class MinuteController extends Controller {
 			else
 			{
 				$output['success'] = 'yes';
-				$attendeesList =  array_merge(explode(',', $minute->attendees),explode(',', $minute->minuters));
+				$attendeesList =  array_filter(array_merge(explode(',', $minute->attendees),explode(',', $minute->minuters)));
 				$input['attendees'][] = Auth::user()->id;
 				$input['attendees'] = array_unique($input['attendees']);
 				$absentees = array_diff($attendeesList, $input['attendees']);
 				$input['attendees'] = implode(',', $input['attendees']);
 				$input['absentees'] = implode(',', $absentees);
 				$input['updated_by'] = $input['lock_flag'] = Auth::id();
+				/*print_r($attendeesList);
+				print_r($input); die;*/
 				$minute->update($input);
 			}
 			return json_encode($output);
@@ -110,7 +112,7 @@ class MinuteController extends Controller {
 	{
 		if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
 		{
-			if(!Meetings::isMinuter($minute->meetingId))
+			if(!$minute->meeting->isMinuter())
 			{
 				abort('403');
 			}

@@ -4,7 +4,7 @@
 	</div>
 	<div class="col-md-12 form-group">
 		<?php $createMinute = 0; ?>
-		@if(App\Model\Minutes::isMinuter($meeting->id))
+		@if($meeting->isMinuter())
 			<?php $createMinute = 1; ?>
 			@if($meeting->minutes()->count())
 				@if($meeting->minutes()->where('lock_flag','!=','NULL')->count())
@@ -43,7 +43,13 @@
 					</div>
 					<div class="col-md-12">	
 						@foreach($minute->tasks()->get() as $task)
+							<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
+							<div class="col-md-12">Status: {{$task->status}}</div>
+							<div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div>
+							<div class="col-md-12">Assignee: {{$task->assignerDetail->name}}</div>
 							<div class="col-md-12">{{$task->title}}</div>
+							<div class="col-md-12">{!!$task->description!!}</div>
+							<div class="col-md-12"><hr></div>
 						@endforeach
 					</div>
 				@else

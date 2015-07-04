@@ -23,14 +23,26 @@ class MinuteTasks extends Model{
     {	
         return $this->hasOne('App\Model\Profile', 'userId','updated_by');
     }
+    public function assigneeDetail()
+    {   
+        return $this->hasOne('App\Model\Profile', 'userId', 'assignee');
+    }
+    public function assignerDetail()
+    {   
+        return $this->hasOne('App\Model\Profile', 'userId','assigner');
+    }
     public function minute()
     {
         return $this->hasOne('App\Model\Minutes', 'id', 'minuteId');
     }
+    public function comments()
+    {
+        return $this->hasMany('App\Model\MinuteTaskComments','taskId','id');
+    }
     public static function validation($data)
     {
         $rule = array('title'=>'required',
-            'description'=>'required|max:64',
+            'description'=>'required|max:500',
             'assignee'=>'required',
             'assigneeEmail' => 'email',
             //'status' => '',

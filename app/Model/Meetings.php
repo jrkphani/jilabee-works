@@ -29,12 +29,12 @@ class Meetings extends Model{
     {	
         return $this->hasOne('App\Model\Profile', 'userId','updated_by');
     }
-	public static function isMinuter($meetingId)
+	public function isMinuter()
     {
     	//check permission as minuter
-    	if($meeting = Meetings::where('id','=',$meetingId)->whereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->first())
+    	if($this->whereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->first())
     	{
-    		return $meeting;
+    		return $this;
     	}
     	return FALSE;
     }
