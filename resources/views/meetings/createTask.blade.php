@@ -49,6 +49,12 @@
 						<div class="col-md-2">
 							{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$draft->type,array('class'=>"form-control type",'autocomplete'=>'off')) !!}
 						</div>
+						<div class="col-md-3 pull-right">
+							<label class="col-md-4 control-label">Status</label>
+							<div class="col-md-8">							
+									{!! Form::select('',[''=>'Draft'],'',array('class'=>"form-control type",'autocomplete'=>'off','disabled'=>'disabled')) !!}
+								</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-12">
@@ -88,6 +94,12 @@
 			<div class="form-group">
 				<div class="col-md-2">
 					{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>"form-control type",'autocomplete'=>'off')) !!}
+				</div>
+				<div class="col-md-3 pull-right">
+					<label class="col-md-4 control-label">Status</label>
+					<div class="col-md-8">							
+							{!! Form::select('',[''=>'Draft'],'',array('class'=>"form-control type",'autocomplete'=>'off','disabled'=>'disabled')) !!}
+						</div>
 				</div>
 			</div>
 		</div>
