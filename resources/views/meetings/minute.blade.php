@@ -38,6 +38,7 @@
 					}
 					?>
 					<strong>Minutes of the Meeting on: {{$minute->minuteDate}}</strong>
+					<div class="col-md-12">ID: M{{$minute->meetingId}}S{{$minute->id}}</div>
 					<div class="col-md-12">	
 						@if($minute->venue)
 							Venue : {{$minute->venue}}

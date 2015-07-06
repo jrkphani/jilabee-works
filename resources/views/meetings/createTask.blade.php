@@ -1,6 +1,6 @@
 <div class="pull-right" Id="editMinute">edit</div>
 <div class="col-md-12">Today Minutes</div>
-<div class="col-md-12">ID#{{$minute->meetingId}} </div>
+<div class="col-md-12">ID: M{{$minute->meetingId}}S{{$minute->id}}</div>
 {!! Form::open(array('id' => 'updateMinuteForm')) !!}
 {!! Form::hidden('meetingId', $minute->meetingId,['id'=>'meetingId'])!!}
 {!! Form::text('venue',$minute->venue,['class'=>'updateMinute','disabled'=>'disabled']) !!}
