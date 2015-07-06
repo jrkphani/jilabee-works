@@ -46,7 +46,7 @@
 							<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
 							<div class="col-md-12">Status: {{$task->status}}</div>
 							<div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div>
-							<div class="col-md-12">Assignee: {{$task->assignerDetail->name}}</div>
+							<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
 							<div class="col-md-12">{{$task->title}}</div>
 							<div class="col-md-12">{!!$task->description!!}</div>
 							<div class="col-md-12"><hr></div>
