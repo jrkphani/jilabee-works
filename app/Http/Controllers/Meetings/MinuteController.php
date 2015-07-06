@@ -127,6 +127,10 @@ class MinuteController extends Controller {
 				$tempArr['assignee'] = $input['assignee'][$i];
 				$tempArr['assigner'] = $input['assigner'][$i];
 				$tempArr['dueDate'] = $input['dueDate'][$i];
+				if(!$input['type'][$i])
+				{
+					$input['type'][$i] = "task";
+				}
 				$tempArr['type'] = $input['type'][$i];
 				$tempArr['created_by'] = Auth::id();
 				if(($tempArr['title']) || ($tempArr['description']))
