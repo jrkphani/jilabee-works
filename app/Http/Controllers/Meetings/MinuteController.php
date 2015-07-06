@@ -62,7 +62,7 @@ class MinuteController extends Controller {
 				$input['created_by'] = $input['updated_by'] = $input['lock_flag'] = Auth::id();
 				$minute = New Minutes($input);
 				$meeting->minutes()->save($minute);
-				//return view('meetings.minute',['meeting'=>$meeting]);
+				$output['mid'] = $mid.'/'.$minute->id;
 			}
 			return json_encode($output);
 		}

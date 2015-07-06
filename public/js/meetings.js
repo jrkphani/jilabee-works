@@ -169,8 +169,8 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                            className:'success',
                            globalPosition:'top center'
                         });
-                        $('#nextMinute').remove();
-                        $('#rightContent').load('/minute/'+mid);
+                        //$('#nextMinute').remove();
+                        $('#rightContent').load('/minute/'+jsonData.mid);
                         
                     }
                     //console.log("success");

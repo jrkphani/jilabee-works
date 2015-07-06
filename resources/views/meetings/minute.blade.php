@@ -25,6 +25,7 @@
 		<div class="row">
 			<div class="col-md-12" id="previousMinutes">
 				@if($minute)
+				<div class="col-md-12">Previous Minutes</div>
 					<?php
 					$attendess = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->attendess))->get();
 					if($minute->absentees)
