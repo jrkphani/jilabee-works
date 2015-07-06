@@ -9,22 +9,18 @@ class Organizations extends Model{
 	 * @var string
 	 */
 	protected $table = 'organizations';
+    protected $connection = 'jotterBase';
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
 	protected $fillable = ['customerId','domain','email','secondEmail','password','active'];
-    public function __construct(array $attributes = array())
-    {
-        parent::__construct($attributes);
-        $this->setConnection('base');
-    }
     public static function validation($data)
     {
         $verifier = App::make('validation.presence');
 
-        $verifier->setConnection('base');
+        $verifier->setConnection('jotterBase');
 
         $rule = array('customerId'=>'unique:organizations',
             'name'=>'required',

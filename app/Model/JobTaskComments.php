@@ -1,13 +1,13 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-class MinuteTaskComments extends Model{
+class JobTaskComments extends Model{
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'minuteTaskComments';
+	protected $table = 'jobTaskComments';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -25,7 +25,7 @@ class MinuteTaskComments extends Model{
     }
     public function task()
     {
-        return $this->hasOne('App\Model\MinuteTasks', 'id', 'taskId');
+        return $this->hasOne('App\Model\JobTasks', 'id', 'taskId');
     }
     public static function validation($data)
     {

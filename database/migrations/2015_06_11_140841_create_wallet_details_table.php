@@ -12,7 +12,7 @@ class CreateWalletDetailsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('walletDetails', function(Blueprint $table)
+		Schema::connection('jotterBase')->create('walletDetails', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('customerId');
@@ -28,7 +28,7 @@ class CreateWalletDetailsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('base')->drop('walletDetails');
+		Schema::connection('jotterBase')->drop('walletDetails');
 	}
 
 }

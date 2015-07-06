@@ -8,6 +8,7 @@ class OrganizationInfo extends Model{
 	 * @var string
 	 */
 	protected $table = 'organizationInfo';
+	protected $connection = 'jotterBase';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -15,9 +16,4 @@ class OrganizationInfo extends Model{
 	 * @var array
 	 */
 	protected $fillable = ['customerId','orgName','address','phone','phone1','licenses'];
-	public function __construct(array $attributes = array())
-    {
-        parent::__construct($attributes);
-        $this->setConnection('base');
-    }
 }

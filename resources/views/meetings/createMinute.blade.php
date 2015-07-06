@@ -7,10 +7,12 @@
 	<?php
 	foreach ($users as $key=>$value)
 	{
-		echo '<div class="col-md-2 attendees" uid="u'.$key.'"><input type="hidden" name="attendees[]" value="'.$key.'">'.$value.'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+		echo '<div class="col-md-2 attendees" uid="u'.$key.'"><input type="hidden" name="attendees[]" value="'.$key.'">'.$value.'<span class="removeAttendees btn glyphicon glyphicon-trash"></span></div>';
 	}
 		?>
 </div>
+<div class="col-md-12"><strong>Absentees</strong></div>
+<div class="col-md-12" Id="absentees"></div>
 {!! Form::close() !!}
 <button id="createMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary">
 	Proceed

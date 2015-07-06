@@ -52,16 +52,10 @@ return [
 			'prefix'   => '',
 		],
 
-		'client' => [
-		 	/*'read' => [
-        		'host' => '192.168.1.1',
-		    	],
-		    'write' => [
-		       	'host' => '196.168.1.2'
-		    	],*/
+		'jotterGeneral' => [
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'jotter'),
+			'database'  => env('DB_DATABASE', 'jotterGeneral'),
 			'username'  => env('DB_USERNAME', 'root'),
 			'password'  => env('DB_PASSWORD', 'password'),
 			'charset'   => 'utf8',

@@ -15,13 +15,13 @@ class CreateJobTasksTable extends Migration {
 		Schema::create('jobTasks', function(Blueprint $table)
 		{
 			$table->increments('id');
-			//$table->integer('meetingId')->unsigned();
+			//$table->string('tId','64')->unique()->nullable();
 			$table->string('title','64');
 			$table->text('description');
 			$table->text('notes')->nullable();
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
-			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Expired'))->default('Sent');
+			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Cancelled'))->default('Sent');
 			$table->string('reason')->nullable();
 			$table->dateTime('dueDate')->nullable();
 			$table->integer('created_by')->unsigned();

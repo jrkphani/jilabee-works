@@ -12,7 +12,7 @@ class CreateLicencesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('licences', function(Blueprint $table)
+		Schema::connection('jotterBase')->create('licences', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('licencesNum')->unique();
@@ -33,7 +33,7 @@ class CreateLicencesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('base')->drop('licences');
+		Schema::connection('jotterBase')->drop('licences');
 	}
 
 }

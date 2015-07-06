@@ -14,7 +14,7 @@ class CreateOrganizationInfoTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('organizationInfo', function(Blueprint $table)
+		Schema::connection('jotterBase')->create('organizationInfo', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('customerId');
@@ -27,7 +27,7 @@ class CreateOrganizationInfoTable extends Migration {
 			$table->integer('updated_by')->nullable();
 			$table->timestamps();
 		});
-		Schema::connection('base')->table('organizationInfo', function(Blueprint $table)
+		Schema::connection('jotterBase')->table('organizationInfo', function(Blueprint $table)
 		{
 			$table->foreign('customerId')->references('customerId')->on('organizations')->onDelete('restrict')->onUpdate('cascade');
 		});

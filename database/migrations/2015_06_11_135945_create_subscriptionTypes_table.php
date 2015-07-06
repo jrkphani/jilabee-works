@@ -12,7 +12,7 @@ class CreateSubscriptionTypesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('subscriptionTypes', function(Blueprint $table)
+		Schema::connection('jotterBase')->create('subscriptionTypes', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('module',16);
@@ -29,7 +29,7 @@ class CreateSubscriptionTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('base')->drop('ideas');
+		Schema::connection('jotterBase')->drop('ideas');
 	}
 
 }

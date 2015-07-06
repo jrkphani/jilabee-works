@@ -12,7 +12,7 @@ class CreateOrganizationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('organizations', function(Blueprint $table)
+		Schema::connection('jotterBase')->create('organizations', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('customerId')->unique();
@@ -30,7 +30,7 @@ class CreateOrganizationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('base')->drop('organizations');
+		Schema::connection('jotterBase')->drop('organizations');
 	}
 
 }

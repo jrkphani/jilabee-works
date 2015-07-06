@@ -25,9 +25,8 @@ class CreateDraftTasksTable extends Migration {
 			$table->integer('created_by')->unsigned();
         	$table->timestamps();
 		});
-		Schema::table('draftMinutes', function(Blueprint $table)
-		{
-			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
+		Schema::table('draftTasks', function(Blueprint $table)
+		{		
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
@@ -39,7 +38,7 @@ class CreateDraftTasksTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('client')->drop('draftMinutes');
+		Schema::connection('client')->drop('draftTasks');
 	}
 
 }

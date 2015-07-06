@@ -10,8 +10,8 @@
 	}
 ?>
 <div class="row">
-	@if($task->status != 'closed')
-		@if(($task->status == 'rejected' || $task->status == 'waiting') && !($task->minuteId))
+	@if($task->status != 'Closed')
+		@if(($task->status == 'Rejected' || $task->status == 'Sent') && !($task->minuteId))
 			{!! Form::open()!!}
 			{!! Form::text('title',$task->title) !!}
 			{!! Form::textarea('description',$task->description) !!}
@@ -26,7 +26,7 @@
 			<div class="col-md-12">Assignee: {{$task->assignerDetail->name}}</div>
 			<p><strong>{{$task->title}}</strong></p>
 			<p>{{$task->description}}</p>
-			@if($task->status == 'rejected')
+			@if($task->status == 'Rejected')
 				<p>Reason: {{$task->reason}}</p>
 			@endif
 			@if($task->comments()->first())
@@ -39,7 +39,8 @@
 				<div class="col-md-12"><hr></div>
 				@endforeach
 			@endif
-			@if($task->status != 'rejected')
+			{{-- if($task->status != 'Rejected') --}}
+			@if($task->status == 'Open')
 				{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
 				{!! Form::textarea('description', old('description'),'') !!}
 				{!! $errors->first('description','<div class="error">:message</div>') !!}

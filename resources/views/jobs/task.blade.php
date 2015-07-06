@@ -32,7 +32,7 @@
 			@endforeach
 		</div>
 	@endif
-	@if($task->status == 'waiting')
+	@if($task->status == 'Sent')
 		{!! Form::open(['id'=>$parentAttr."Form".$task->id]) !!}
 		{!! Form::textarea('reason', '','') !!}
 		@if(isset($reason_err))
@@ -41,7 +41,7 @@
 		{!! Form::close() !!}
 		<button {{$parentAttr}}="{{$task->id}}" id="accept" class="btn btn-primary">Accept</button>
 		<button {{$parentAttr}}="{{$task->id}}" id="reject" class="btn btn-primary">Reject</button>
-	@elseif($task->status == 'rejected')
+	@elseif($task->status == 'Rejected')
 		Refused Reason : {!! $task->reason !!}
 	@else
 		<button type="submit" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>

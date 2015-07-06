@@ -36,16 +36,16 @@ class UserController extends Controller {
 		}
 		try
 		 {
-		 	DB::connection('base')->beginTransaction();
+		 	DB::connection('jotterBase')->beginTransaction();
 		    $user = new User();
-			$user->setConnection('base');
+			//$user->setConnection('jotterBase');
 			$user->email = $input['email'];
 			$user->active ='1';
 			$user->userId = "dumy".date('His');
 			$user->password = bcrypt($input['password']);
 			if($user->save())
 			{
-				DB::connection('base')->commit();
+				DB::connection('jotterBase')->commit();
 				$userId = generateUserId($input['dbconnection'],$user->id);
 				$user->update(['userId'=>$userId]);
 				$profile = new Profile();
@@ -59,7 +59,7 @@ class UserController extends Controller {
 				$profile->updated_by = Auth::id();
 				if(!$profile->save())
 				{
-					DB::connection('base')->rollback();
+					DB::connection('jotterBase')->rollback();
 				}
 				Activity::log([
 					'userId'	=> Auth::id(),
@@ -75,7 +75,7 @@ class UserController extends Controller {
 		 catch (Exception $e)
 		 {
 	        //error
-	        DB::connection('base')->rollback();
+	        DB::connection('jotterBase')->rollback();
     	}	
 	}
 	public function userList()

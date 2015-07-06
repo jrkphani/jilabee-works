@@ -18,7 +18,7 @@ class Registrar implements RegistrarContract {
 	public function validator(array $data)
 	{
 		$verifier = App::make('validation.presence');
-        $verifier->setConnection('base');
+        $verifier->setConnection('jotterBase');
 		$validator = Validator::make($data, [
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',

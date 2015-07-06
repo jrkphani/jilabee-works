@@ -250,14 +250,14 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
     $('#listLeft').on('click', '.removeAttendees', function(event) {
             userName = $(this).parent(".attendees" ).text();
             userId = $(this).parent(".attendees" ).attr('uid').match(/\d+/);
-            html = '<div uid="u'+userId+'1" class="col-md-2 absentees"><input type="hidden" value="'+userId+'" name="absentees[]">'+userName+'<span style="" class="removeAbsentees btn glyphicon glyphicon-trash"></span></div>';
+            html = '<div uid="u'+userId+'" class="col-md-2 absentees"><input type="hidden" value="'+userId+'" name="absentees[]">'+userName+'<span style="" class="removeAbsentees btn glyphicon glyphicon-trash"></span></div>';
             $('#absentees').append(html);
             $(this).parent(".attendees" ).remove();
         });
     $('#listLeft').on('click', '.removeAbsentees', function(event) {
         userName = $(this).parent(".absentees").text();
         userId = $(this).parent(".absentees").attr('uid').match(/\d+/);
-        html = '<div uid="u'+userId+'1" class="col-md-2 attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<span style="" class="removeAttendees btn glyphicon glyphicon-trash"></span></div>';
+        html = '<div uid="u'+userId+'" class="col-md-2 attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<span style="" class="removeAttendees btn glyphicon glyphicon-trash"></span></div>';
         $('#attendees').append(html);
         $(this).parent( ".absentees" ).remove();
         });

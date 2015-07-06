@@ -92,7 +92,9 @@ class TaskController extends Controller {
 		else
 		{
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
-			JobTasks::create($input);
+			$task = JobTasks::create($input);
+			//$task->tId = "T".$task->id;
+			//$task->save();
 			return json_encode($output);
 		}
 	}

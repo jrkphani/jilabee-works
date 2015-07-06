@@ -12,7 +12,7 @@ class CreateInvoiceNumTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('base')->create('invoice', function(Blueprint $table)
+		Schema::connection('jotterBase')->create('invoice', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('customerId');
@@ -29,7 +29,7 @@ class CreateInvoiceNumTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('base')->drop('invoice');
+		Schema::connection('jotterBase')->drop('invoice');
 	}
 
 }
