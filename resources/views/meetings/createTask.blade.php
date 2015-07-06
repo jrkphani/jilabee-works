@@ -1,6 +1,13 @@
-<div class ="row">
-	Previous Minutes Will Be Here
-</div>
+{{-- Previous Minutes Will Be Here --}}
+@if($previousMinute = App\Model\Minutes::where('meetingId','=',$minute->meetingId)->where('id','!=',$minute->id)->orderBy('minuteDate', 'DESC')->limit(1)->first())
+	@if($previousMinute)
+		<div class ="row">
+			<p>Previous Minutes</p>
+			@include('meetings.previousMinute',['minute'=>$previousMinute])
+		</div>
+	@endif
+@endif
+<p>Current Minutes</p>
 <div class="pull-right" Id="editMinute">edit</div>
 <div class="col-md-12">ID: M{{$minute->meetingId}}S{{$minute->id}}</div>
 {!! Form::open(array('id' => 'updateMinuteForm')) !!}
