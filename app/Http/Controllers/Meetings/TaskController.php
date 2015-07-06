@@ -34,7 +34,7 @@ class TaskController extends Controller {
 			$tempArr['description'] = trim($input['description'][$i]);
 			if(($tempArr['title']) && ($tempArr['description']))
 			{
-				if($input['type'][$i] == 'task')
+				if($input['type'][$i] == 'task' || !($input['type'][$i] == 'task'))
 				{
 					$tempArr['assignee'] = $input['assignee'][$i];
 					$tempArr['assigner'] = $input['assigner'][$i];
