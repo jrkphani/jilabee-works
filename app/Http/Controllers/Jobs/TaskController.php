@@ -21,9 +21,9 @@ class TaskController extends Controller {
 	public function mytask()
 	{
 		$jobtask = JobTasks::where('assignee','=',Auth::id())
-					->where('status','!=','closed')->get();
+					->where('status','!=','Closed')->get();
 		$minutetask = MinuteTasks::where('assignee','=',Auth::id())
-					->where('status','!=','closed')->get();
+					->where('status','!=','Closed')->get();
 		return view('jobs.mytask',['minutetask'=>$minutetask,'jobtask'=>$jobtask]);
 	}
 	public function viewTask($id)
@@ -38,8 +38,8 @@ class TaskController extends Controller {
 	}
 	public function acceptTask($id)
 	{
-		$task = JobTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
-		$task->status = 'open';
+		$task = JobTasks::find($id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
+		$task->status = 'Open';
 		$task->save();
 		return view('jobs.task',['task'=>$task]);
 	}
@@ -48,8 +48,8 @@ class TaskController extends Controller {
 		$input = Request::only('reason');
 		if($input['reason'])
 		{
-			$task = JobTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
-			$task->status = 'rejected';
+			$task = JobTasks::find($id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
+			$task->status = 'Rejected';
 			$task->reason = $input['reason'];
 			$task->save();
 			return view('jobs.task',['task'=>$task]);
@@ -63,9 +63,9 @@ class TaskController extends Controller {
 	public function followups()
 	{
 		$jobtask = JobTasks::where('assigner','=',Auth::id())
-					->where('status','!=','closed')->get();
+					->where('status','!=','Closed')->get();
 		$minutetask = MinuteTasks::where('assigner','=',Auth::id())
-					->where('status','!=','closed')->get();
+					->where('status','!=','Closed')->get();
 		return view('jobs.followups',['minutetask'=>$minutetask,'jobtask'=>$jobtask]);
 	}
 	public function history()

@@ -98,7 +98,7 @@ class TaskController extends Controller {
 	}
 	public function acceptTask($id)
 	{
-		$task = MinuteTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
+		$task = MinuteTasks::find($id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
 		$task->status = 'open';
 		$task->reason = NULL;
 		if($task->save())
@@ -119,7 +119,7 @@ class TaskController extends Controller {
 		$input = Request::only('reason');
 		if($input['reason'])
 		{
-			$task = MinuteTasks::find($id)->where('status','=','waiting')->where('assignee','=',Auth::id())->first();
+			$task = MinuteTasks::find($id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
 			$task->status = 'rejected';
 			$task->reason = nl2br($input['reason']);
 			if($task->save())
@@ -161,7 +161,7 @@ class TaskController extends Controller {
 		else
 		{
 			$task = MinuteTasks::find($id)
-				//->where('status','=','open')
+				//->where('status','=','Open')
 				->where('assignee','=',Auth::id())->orWhere('assigner','=',Auth::id())->first();
 			if($task)
 			{

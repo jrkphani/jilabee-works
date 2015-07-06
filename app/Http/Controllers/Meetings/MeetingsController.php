@@ -26,7 +26,7 @@ class MeetingsController extends Controller {
 		$mymeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->orderBy('updated_at','desc')->get();
 		//$myminutes = Meetings::whereRaw('FIND_IN_SET("'.$userId.'",attendees)')->orWhereRaw('FIND_IN_SET("'.$userId.'",minuters)')->get();
 		$mytask = JobTasks::where('assignee','=',Auth::id())
-					->where('status','!=','close')->get();
+					->where('status','!=','Closed')->get();
 		return view('meetings.myminutes',['mymeetings'=>$mymeetings,'tempMeetings'=>$tempMeetings]);
 	}
 	public function history()
@@ -92,7 +92,7 @@ class MeetingsController extends Controller {
 		}
 		else
 		{
-			$input['status'] = 'waiting';
+			$input['status'] = 'Sent';
 			$input['updated_by'] = Auth::id();
 			$input['minuters'] = implode(',',$input['minuters']);
 			$input['attendees'] = implode(',',$request->input('attendees',[]));

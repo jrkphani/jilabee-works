@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDraftMinutesTable extends Migration {
+class CreateDraftTasksTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,15 @@ class CreateDraftMinutesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('draftMinutes', function(Blueprint $table)
+		Schema::create('draftTasks', function(Blueprint $table)
 		{
-			$table->integer('minuteId')->unsigned()->nullable();
+			$table->increments('id')->unique();
 			$table->string('title','64')->nullable();
 			$table->text('description')->nullable();
+			$table->text('notes')->nullable();
 			$table->integer('assignee')->nullable();;
 			$table->integer('assigner')->nullable();
 			$table->string('orginator','64')->nullabel();
-			$table->enum('type', array('task','idea'))->default('task');
 			$table->string('dueDate','32')->nullable();
 			$table->integer('created_by')->unsigned();
         	$table->timestamps();

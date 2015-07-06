@@ -27,7 +27,7 @@ class MinuteController extends Controller {
 		if($minuteId)
 		{
 			$minute = Minutes::where('meetingId','=',$meetingId)->where('id','=',$minuteId)->first();
-			$tasks = $minute->tasks()->where('status','!=','closed')->get();
+			$tasks = $minute->tasks()->where('status','!=','Closed')->get();
 		}
 		return view('meetings.minute',['meeting'=>$meeting,'minute'=>$minute,'tasks'=>$tasks]);
 	}

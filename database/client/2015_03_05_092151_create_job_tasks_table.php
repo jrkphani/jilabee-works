@@ -18,9 +18,10 @@ class CreateJobTasksTable extends Migration {
 			//$table->integer('meetingId')->unsigned();
 			$table->string('title','64');
 			$table->text('description');
+			$table->text('notes')->nullable();
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
-			$table->enum('status', array('waiting','rejected','open','finished' ,'closed','expired','timeout','failed'))->default('waiting');
+			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Expired'))->default('Sent');
 			$table->string('reason')->nullable();
 			$table->dateTime('dueDate')->nullable();
 			$table->integer('created_by')->unsigned();

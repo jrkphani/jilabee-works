@@ -20,7 +20,7 @@ class CreateTempMeetingsTable extends Migration {
 			$table->string('venue','64')->nullable();
 			$table->string('attendees','64');
 			$table->string('minuters','64');
-			$table->enum('status',array('waiting','rejected'))->default('waiting');
+			$table->enum('status',array('Sent','Rejected'))->default('Sent');
 			$table->string('reason','100')->nullable();
 			$table->string('requested_by','20');
 			$table->integer('created_by')->unsigned();

@@ -64,7 +64,7 @@ class MeetingsController extends Controller {
 				return json_encode($output);
 			}
 			$output['success'] = 'yes';
-			$tempMeetings->status = 'rejected';
+			$tempMeetings->status = 'Rejected';
 			$tempMeetings->reason = $input['reason'];
 			$tempMeetings->updated_by = Auth::id();
 			$tempMeetings->save();
