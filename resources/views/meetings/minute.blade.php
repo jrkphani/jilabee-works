@@ -8,7 +8,8 @@
 			<?php $createMinute = 1; ?>
 			@if($meeting->minutes()->count())
 				@if($meeting->minutes()->where('lock_flag','!=','NULL')->count())
-					<?php $createMinute = 2; ?>
+				<?php $createMinute = 2; ?>
+					<!-- disable proceed buton -->
 				@else
 					<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
 						Proceed next minute of meeting
@@ -76,7 +77,7 @@
 						<div class="col-md-12" id="minuteBlock" style="display:none">
 							@include('meetings.createMinute',['minute'=>$meeting])
 						</div>
-					@else
+					@elseif(($minute) && ($minute->lock_flag == Auth::id()))
 						<div class="col-md-12" id="minuteBlock">
 							@include('meetings.createTask',['minute'=>$meeting->minutes()->where('lock_flag','!=','NULL')->first(),'usersList'=>$users])
 						</div>
