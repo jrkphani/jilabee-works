@@ -23,9 +23,8 @@
 		@endif
 		
 		<div class="row">
-			<div class="col-md-12" id="previousMinutes">
-				@if($minute)
-				<div class="col-md-12">Previous Minutes</div>
+			<div class="col-md-12">
+				@if($minute && (!$minute->lock_flag))
 					<?php
 					$attendess = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->attendess))->get();
 					if($minute->absentees)
@@ -55,8 +54,6 @@
 							<div class="col-md-12"><hr></div>
 						@endforeach
 					</div>
-				@else
-				No minutes yet
 				@endif
 			</div>
 			@if($createMinute)
@@ -79,7 +76,7 @@
 						<div class="col-md-12" id="minuteBlock" style="display:none">
 							@include('meetings.createMinute',['minute'=>$meeting])
 						</div>
-					@elseif(($minute) && ($minute->lock_flag == Auth::id()))
+					@elseif($minute->lock_flag == Auth::id())
 						<div class="col-md-12" id="minuteBlock">
 							@include('meetings.createTask',['minute'=>$meeting->minutes()->where('lock_flag','!=','NULL')->first(),'usersList'=>$users])
 						</div>
