@@ -127,7 +127,7 @@ class MinuteController extends Controller {
 				$tempArr['assignee'] = $input['assignee'][$i];
 				$tempArr['assigner'] = $input['assigner'][$i];
 				$tempArr['dueDate'] = $input['dueDate'][$i];
-				if(!$input['type'][$i])
+				if(!isset($input['type'][$i]))
 				{
 					$input['type'][$i] = "task";
 				}
