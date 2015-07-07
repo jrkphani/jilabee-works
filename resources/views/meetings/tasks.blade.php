@@ -1,5 +1,5 @@
-@if($tasks)
 <div class="row">
+@if($tasks->count())
 	@foreach($tasks as $task)
 		<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
 		<div class="col-md-12">Status: {{$task->status}}</div>
@@ -12,5 +12,7 @@
 			{{$task->description}}
 		</div>
 	@endforeach
-</div>
+@else
+<div class="col-md-12">No Minutes Yet</div>
 @endif
+</div>

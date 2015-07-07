@@ -63,7 +63,7 @@
 		        	<div id="assigneeEmail_err" class="error"></div>
 
 		        	{!! Form::label('dueDate', 'deadline',['class'=>'control-label']) !!}
-		        	{!! Form::text('dueDate','',['class'=>'form-control']) !!}
+		        	{!! Form::text('dueDate','',['class'=>'form-control dateInput']) !!}
 		        	<div id="dueDate_err" class="error"></div>
 		        </div>
 		        {!! Form::close() !!}
@@ -99,4 +99,5 @@
                 
             }
             });
+dateInput();
 </script>
