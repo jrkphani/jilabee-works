@@ -7,7 +7,7 @@
 		</div>
 	@endif
 @endif
-<p>Current Minutes</p>
+<p><strong>Current Minutes</strong></p>
 <div class="pull-right" Id="editMinute">edit</div>
 <div class="col-md-12">ID: M{{$minute->meetingId}}S{{$minute->id}}</div>
 {!! Form::open(array('id' => 'updateMinuteForm')) !!}

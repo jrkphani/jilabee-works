@@ -36,7 +36,7 @@ class MeetingsController extends Controller {
 	}
 	public function createMeeting(Request $request)
 	{
-		$input = $request->all();
+		$input = Request::only('title,description,venue,attendees,minuters');
 		$output['success'] = 'yes';
 		$validator = TempMeetings::validation($input);
 		if ($validator->fails())
@@ -50,6 +50,7 @@ class MeetingsController extends Controller {
 			$input['created_by'] = $input['updated_by'] = Auth::id();
 			$input['minuters'] = implode(',',$input['minuters']);
 			$input['attendees'] = implode(',',$request->input('attendees',[]));
+			$input['description'] = nl2br($input['description']);
 			if(Auth::user()->isAdmin)
 			{
 				Meetings::create($input);

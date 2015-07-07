@@ -2,86 +2,65 @@
 	<div class="col-md-12">
 		<strong>{{$meeting->title}}</strong>
 	</div>
+	<div class="col-md-12">
+		{{$meeting->description}}
+	</div>
 	<div class="col-md-12 form-group">
-		<?php $createMinute = 0; ?>
-		@if($meeting->isMinuter())
-			<?php $createMinute = 1; ?>
-			@if($meeting->minutes()->count())
-				@if($meeting->minutes()->where('lock_flag','!=','NULL')->count())
-				<?php $createMinute = 2; ?>
-					<!-- disable proceed buton -->
+		<?php
+		$isMinuter = 0;
+		$showMinutes = 0;
+		if($meeting->isMinuter())
+		{
+			$isMinuter = 1;
+		}
+		$participants = array();
+		if($meeting->minuters)
+		{
+			$participants = explode(',',$meeting->minuters);
+		}
+		if($meeting->attendees)
+		{
+			foreach(explode(',',$meeting->attendees) as $attendees)
+			{
+				array_push($participants, $attendees);
+			}
+		}
+		$users = App\Model\Profile::whereIn('userId',$participants)->lists('name','userId');
+		 ?>
+	@if($minute)
+		@if($minute->lock_flag != NULL)
+			<!-- disable proceed buton -->
+				@if($minute->lock_flag == Auth::id())
+					<div class="col-md-12" id="minuteBlock">
+						@include('meetings.createTask',['minute'=>$meeting->minutes()->where('lock_flag','!=','NULL')->first(),'usersList'=>$users])
+					</div>
 				@else
-					<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
-						Proceed next minute of meeting
-					</button>
+					{{-- show nothing bcz the minute is in draft mode --}}
 				@endif
-			@else
+		@elseif($meeting->minutes()->where('lock_flag','!=','NULL')->count())
+			<!-- disable proceed button but show the minutes-->
+			@include('meetings.previousMinute',['minute'=>$minute,'users'=>$users])
+		@else
+			@if($isMinuter)
 				<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
-						Proceed next minute of meeting
-					</button>
+					Proceed next minute of meeting
+				</button>
+				@include('meetings.previousMinute',['minute'=>$minute])
+				<div class="col-md-12" id="minuteBlock" style="display:none">
+					@include('meetings.createMinute',['minute'=>$meeting])
+				</div>
 			@endif
 		@endif
-		
-		<div class="row">
-			<div class="col-md-12">
-				@if($minute && (!$minute->lock_flag))
-					<?php
-					$attendess = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->attendess))->get();
-					if($minute->absentees)
-					{
-						$absentees = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->absentees))->get();
-					}
-					else
-					{
-						$absentees = NULL;
-					}
-					?>
-					<strong>Minutes of the Meeting on: {{$minute->minuteDate}}</strong>
-					<div class="col-md-12">ID: M{{$minute->meetingId}}S{{$minute->id}}</div>
-					<div class="col-md-12">	
-						@if($minute->venue)
-							Venue : {{$minute->venue}}
-						@endif
-					</div>
-					<div class="col-md-12">	
-						@foreach($minute->tasks()->get() as $task)
-							<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
-							<div class="col-md-12">Status: {{$task->status}}</div>
-							<div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div>
-							<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
-							<div class="col-md-12">{{$task->title}}</div>
-							<div class="col-md-12">{!!$task->description!!}</div>
-							<div class="col-md-12"><hr></div>
-						@endforeach
-					</div>
-				@endif
-			</div>
-			@if($createMinute)
-					<?php
-						$participants = array();
-		        		if($meeting->minuters)
-		        		{
-		        			$participants = explode(',',$meeting->minuters);
-		        		}
-		        		if($meeting->attendees)
-		        		{
-		        			foreach(explode(',',$meeting->attendees) as $attendees)
-		        			{
-		        				array_push($participants, $attendees);
-		        			}
-		        		}
-		        		$users = App\Model\Profile::whereIn('userId',$participants)->lists('name','userId');
-					?>
-					@if($createMinute == 1)
-						<div class="col-md-12" id="minuteBlock" style="display:none">
-							@include('meetings.createMinute',['minute'=>$meeting])
-						</div>
-					@elseif($minute->lock_flag == Auth::id())
-						<div class="col-md-12" id="minuteBlock">
-							@include('meetings.createTask',['minute'=>$meeting->minutes()->where('lock_flag','!=','NULL')->first(),'usersList'=>$users])
-						</div>
-					@endif
+	@else
+	<div class="col-md-12"><br/><br/><br/><br/>No Minutes Yet - Create First Minute</div>
+		@if($isMinuter)
+				<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
+					Proceed next minute of meeting
+				</button>
+				<div class="col-md-12" id="minuteBlock" style="display:none">
+					@include('meetings.createMinute',['minute'=>$meeting])
+				</div>
 			@endif
-		</div>
+	@endif
 	</div>
 </div>

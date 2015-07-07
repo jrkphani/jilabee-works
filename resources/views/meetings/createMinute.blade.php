@@ -1,4 +1,4 @@
-<div class="col-md-12">Today Minutes</div>
+<div class="col-md-12"><strong>Today Minutes</strong></div>
 {!! Form::open(array('id' => 'createMinuteForm')) !!}
 {!! Form::text('venue',$meeting->venue) !!}
 {!! Form::text('minuteDate',date('Y-m-d')) !!}
