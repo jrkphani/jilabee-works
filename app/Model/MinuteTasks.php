@@ -45,7 +45,7 @@ class MinuteTasks extends Model{
             'description'=>'required|max:1000',
             'assignee'=>'required',
             'assigneeEmail' => 'email',
-            //'status' => '',
+            'status' => 'in:Draft,Sent,Rejected,Open,Completed,Closed,Cancelled',
             'dueDate' => 'required');
         $validator = Validator::make($data,$rule);
         return $validator;

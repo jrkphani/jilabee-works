@@ -41,7 +41,7 @@ class JobTasks extends Model{
             'description'=>'required|max:64',
             'assignee'=>'required',
             'assigneeEmail' => 'email',
-            //'status' => '',
+            'status' => 'in:Draft,Sent,Rejected,Open,Completed,Closed,Cancelled',
             'dueDate' => 'required');
         $validator = Validator::make($data,$rule);
         return $validator;

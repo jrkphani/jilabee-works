@@ -44,7 +44,9 @@
 	@elseif($task->status == 'Rejected')
 		Refused Reason : {!! $task->reason !!}
 	@else
-		<button type="submit" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
+		@if($task->status != 'Completed')
+		<button type="submit" id="markComplete" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
+		@endif
 		{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
 		{!! Form::textarea('description', '','') !!}
 		{!! $errors->first('description','<div class="error">:message</div>') !!}

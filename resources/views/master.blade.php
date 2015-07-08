@@ -21,6 +21,7 @@
 	<![endif]-->
 </head>
 <body>
+	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">

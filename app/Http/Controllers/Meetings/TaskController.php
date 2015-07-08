@@ -7,6 +7,7 @@ use App\Model\MinuteTaskComments;
 use Auth;
 use Activity;
 use DB;
+use Validator;
 class TaskController extends Controller {
 
 	/**
@@ -164,7 +165,7 @@ class TaskController extends Controller {
 		}
 		else
 		{
-			$task = MinuteTasks::find($id)
+			$task = MinuteTasks::whereId($id)
 				//->where('status','=','Open')
 				->where('assignee','=',Auth::id())->orWhere('assigner','=',Auth::id())->first();
 			if($task)
@@ -187,5 +188,27 @@ class TaskController extends Controller {
 				abort('403');
 			}
 		}
+	}
+	public function updateStatus($id)
+	{
+		$input = Request::only('status');
+		$rule = array('status' => 'required|in:Open,Completed,Closed,Cancelled');
+        $validator = Validator::make($input,$rule);
+		if ($validator->fails())
+		{
+			$output['success'] = "no";
+			$output['validator'] = $validator->messages()->toArray();
+		}
+		else
+		{
+			$task = MinuteTasks::whereId($id)->where(function ($query){
+					$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
+
+					})->first();
+			$task->status = $input['status'];
+			$task->save();
+			$output['success'] = "yes";
+		}
+		return json_encode($output);
 	}
 }

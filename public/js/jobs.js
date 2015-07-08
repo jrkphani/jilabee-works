@@ -147,6 +147,62 @@ $(document).ready(function($)
         }
         rightContentAjaxPost(path,form);
     });
+    $('#listLeft').on('change', '#statusChange', function(event) {
+        event.preventDefault();
+        tid = $(this).attr('mtask');
+        status = $(this).val();
+        $.ajax({
+            url: '/minute/status/'+tid,
+            type: 'POST',
+            dataType: 'json',
+            data: {'_token':$('#_token').val(),'status':status},
+        })
+        .done(function(jsonData) {
+                if(jsonData.success == 'yes')
+                {
+                    $.notify('Status updated',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+                }
+        })
+        .fail(function() {
+            
+        })
+        .always(function() {
+            
+        });
+        
+    });
+    $('#listLeft').on('click', '#markComplete', function(event) {
+        event.preventDefault();
+        tid = $(this).attr('mtask');
+        status = 'Completed';
+        $.ajax({
+            url: '/minute/status/'+tid,
+            type: 'POST',
+            dataType: 'json',
+            data: {'_token':$('#_token').val(),'status':status},
+        })
+        .done(function(jsonData) {
+                if(jsonData.success == 'yes')
+                {
+                    $.notify('Status updated',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+                }
+                $('#rightContent').load('minute/task/'+tid);
+        })
+        .fail(function() {
+            
+        })
+        .always(function() {
+            
+        });
+    });
 
 });
 function rightContentAjaxPost(path,form)

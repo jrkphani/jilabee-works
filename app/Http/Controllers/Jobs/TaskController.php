@@ -98,4 +98,22 @@ class TaskController extends Controller {
 			return json_encode($output);
 		}
 	}
+	public function updateStatus($id)
+	{
+		$input = Request::only('status');
+		$validator = JobTasks::validation($input);
+		if ($validator->fails())
+		{
+			$output['success'] = "no";
+			$output['validator'] = $validator->messages()->toArray();
+		}
+		else
+		{
+			$task = JobTasks::whereId($id)->whereAssignerOrAssignee(Auth::id(),Auth::id())->first();
+			$task->status = $input['status'];
+			$task->save();
+			$output['success'] = "yes";
+		}
+		return json_encode($output);
+	}
 }

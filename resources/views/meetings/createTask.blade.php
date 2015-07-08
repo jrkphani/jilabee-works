@@ -1,8 +1,9 @@
 {{-- Previous Minutes Will Be Here --}}
 @if($previousMinute = App\Model\Minutes::where('meetingId','=',$minute->meetingId)->where('id','!=',$minute->id)->orderBy('minuteDate', 'DESC')->limit(1)->first())
 	@if($previousMinute)
+	<br/><br/>
 		<div class ="row">
-			<p>Previous Minutes</p>
+			<p><strong>Previous Minutes</strong></p>
 			@include('meetings.previousMinute',['minute'=>$previousMinute])
 		</div>
 	@endif

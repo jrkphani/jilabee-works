@@ -17,9 +17,9 @@
 	<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
 	<div class="col-md-12">
 		<?php 
-			$status = array_unique([$task->status=>$task->status,'Open'=>'Open','Close'=>'Close','Cancelled'=>'Cancel']);
+			$status = array_unique([$task->status=>$task->status,'Open'=>'Open','Closed'=>'Close','Cancelled'=>'Cancel']);
 		?>
-		Status: {!! Form::select('statusChange', $status,$task->status,['id'=>'statusChange']) !!}
+		Status: {!! Form::select('statusChange', $status,$task->status,['id'=>'statusChange','mtask'=>$task->id]) !!}
 	</div>
 	@if($task->status == 'Rejected')
 		<p>Reason: {{$task->reason}}</p>
