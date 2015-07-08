@@ -61,11 +61,9 @@ class TaskController extends Controller {
 	}
 	public function followups()
 	{
-		$jobtask = JobTasks::where('assigner','=',Auth::id())
+		$tasks = Tasks::where('assigner','=',Auth::id())
 					->where('status','!=','Closed')->get();
-		$minutetask = MinuteTasks::where('assigner','=',Auth::id())
-					->where('status','!=','Closed')->get();
-		return view('jobs.followups',['minutetask'=>$minutetask,'jobtask'=>$jobtask]);
+		return view('jobs.followups',['tasks'=>$tasks]);
 	}
 	public function history()
 	{

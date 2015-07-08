@@ -15,7 +15,6 @@ class CreateJobTasksTable extends Migration {
 		Schema::create('jobTasks', function(Blueprint $table)
 		{
 			$table->increments('id');
-			//$table->string('tId','64')->unique()->nullable();
 			$table->string('title','64');
 			$table->text('description');
 			$table->text('notes')->nullable();

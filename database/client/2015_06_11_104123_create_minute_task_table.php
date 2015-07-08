@@ -16,7 +16,6 @@ class CreateMinuteTaskTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('minuteId')->unsigned();
-			//$table->string('mtId','64')->unique()->nullable();
 			$table->string('title','64');
 			$table->text('description');
 			$table->string('assignee','64');
