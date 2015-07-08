@@ -6,7 +6,7 @@ class Tasks extends Model{
 	 *
 	 * @var string
 	 */
-	protected $table = 'task';
+	protected $table = 'tasks';
 
 	/**
 	 * The attributes that are mass assignable.

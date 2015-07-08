@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller;
 use Request;
 use App\Model\JobTasks;
+use App\Model\Tasks;
 use App\Model\MinuteTasks;
 use Auth;
 class TaskController extends Controller {
@@ -20,11 +21,9 @@ class TaskController extends Controller {
 	}
 	public function mytask()
 	{
-		$jobtask = JobTasks::where('assignee','=',Auth::id())
+		$tasks = Tasks::where('assignee','=',Auth::id())
 					->where('status','!=','Closed')->get();
-		$minutetask = MinuteTasks::where('assignee','=',Auth::id())
-					->where('status','!=','Closed')->get();
-		return view('jobs.mytask',['minutetask'=>$minutetask,'jobtask'=>$jobtask]);
+		return view('jobs.mytask',['tasks'=>$tasks]);
 	}
 	public function viewTask($id)
 	{
