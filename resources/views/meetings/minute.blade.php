@@ -55,7 +55,7 @@
 	<div class="col-md-12"><br/><br/><br/><br/>No Minutes Yet - Create First Minute</div>
 		@if($isMinuter)
 				<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
-					Proceed next minute of meeting
+					Start first minute of meeting
 				</button>
 				<div class="col-md-12" id="minuteBlock" style="display:none">
 					@include('meetings.createMinute',['minute'=>$meeting])
