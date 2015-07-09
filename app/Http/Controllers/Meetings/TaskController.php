@@ -3,6 +3,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use App\Model\MinuteTasks;
 use App\Model\Minutes;
+use App\Model\Ideas;
 use App\Model\MinuteTaskComments;
 use Auth;
 use Activity;
@@ -25,7 +26,7 @@ class TaskController extends Controller {
 
 	public function createTask($mid)
 	{
-		$input = Request::only('title','description','assignee','assigner','dueDate','type');
+		$input = Request::only('title','description','assignee','assigner','orginator','dueDate','type');
 		$output['success'] = 'yes';
 		$records= $ideasArr = array();
 		for ($i=0; $i < count($input['title']); $i++)
@@ -55,39 +56,49 @@ class TaskController extends Controller {
 					//if(($tempArr['title']) && ($tempArr['description']))
 					$records[] = new MinuteTasks(array_filter($tempArr));	
 				}
-				else
+				elseif($input['type'][$i] == 'idea')
 				{
-					// $tempArr['orginators'] = $input['orginators'][$i];
-					// $tempArr['created_by'] = $tempArr['updated_by'] = Auth::user()->id;
-					// $ideasArr[] = new Ideas(array_filter($tempArr));
+					$tempArr['orginator'] = $input['orginator'][$i];
+					$tempArr['created_by'] = $tempArr['updated_by'] = Auth::id();
+					$validator = Ideas::validation($tempArr);
+					if ($validator->fails())
+					{
+						$output['success'] = 'no';
+						$output['validator'] = $validator->messages()->toArray();
+						return json_encode($output);
+					}
+					$ideasArr[] = new Ideas(array_filter($tempArr));
 				}
 			}
 			
 		}
-		if($records )
+		if($records || $ideasArr)
 		{	
-			//$minute->ideas()->saveMany($ideasArr);
-			// if($minute->tasks()->saveMany($records))
-			// {
-			// 	$minute->update(array('lock_flag'=>'0'));
-			// 	$minute->tasks_draft()->delete();
-			// 	return redirect('/#meetings#minute'.$minute->id);
-			// }
-			DB::transaction(function() use ($mid,$records)
+			$minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first();
+			if($ideasArr)
 			{
-				$minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first();
-				$minute->tasks()->saveMany($records);
-				$minute->update(array('lock_flag'=>null));
-				$minute->draft()->delete();
-				$output['meetingId'] = $minute->meetingId;
-			});
+				DB::transaction(function() use ($minute,$ideasArr)
+				{
+					$minute->ideas()->saveMany($ideasArr);
+				});
+			}
+			if($records)
+			{
+				DB::transaction(function() use ($minute,$records)
+				{
+					$minute->tasks()->saveMany($records);
+					$minute->update(array('lock_flag'=>null));
+					$minute->draft()->delete();
+					$output['meetingId'] = $minute->meetingId;
+				});
+			}
 			return json_encode($output);
 
 		}
 		else
 		{
 			$output['success'] = 'no';
-			$output['success'] = 'Empty fields';
+			$output['message'] = 'Empty fields';
 			return json_encode($output);
 		}
 	}

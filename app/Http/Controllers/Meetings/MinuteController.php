@@ -117,7 +117,7 @@ class MinuteController extends Controller {
 			{
 				abort('403');
 			}
-			$input = Request::only('title','description','assignee','assigner','attendees','orginator','dueDate','type');
+			$input = Request::only('title','description','assignee','assigner','orginator','dueDate','type');
 			$records=array();
 			for ($i=0; $i < count($input['title']); $i++)
 			{
@@ -126,6 +126,7 @@ class MinuteController extends Controller {
 				$tempArr['description'] = trim($input['description'][$i]);
 				$tempArr['assignee'] = $input['assignee'][$i];
 				$tempArr['assigner'] = $input['assigner'][$i];
+				$tempArr['orginator'] = $input['orginator'][$i];
 				$tempArr['dueDate'] = $input['dueDate'][$i];
 				if(!isset($input['type'][$i]))
 				{

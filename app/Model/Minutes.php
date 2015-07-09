@@ -36,6 +36,10 @@ class Minutes extends Model{
     {
         return $this->hasMany('App\Model\MinuteTasks','minuteId','id');
     }
+    public function ideas()
+    {
+        return $this->hasMany('App\Model\Ideas','minuteId','id');
+    }
     public static function validation($data)
     {
         $rule = array('venue'=>'max:64',

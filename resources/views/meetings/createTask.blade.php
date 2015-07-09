@@ -50,8 +50,9 @@
 {!! Form::open(array('class'=>'form-horizontal','id'=>'tasksAddForm', 'method'=>'POST','role'=>'form')) !!}
 <div class="col-md-12" id="taskAddBlock">
 	{{-- include draft --}}
-	@if($drafts = $minute->draft()->get())
-		@foreach($drafts as $draft)
+	<?php $drafts = $minute->draft(); ?>
+	@if($drafts->count())
+		@foreach($drafts->get() as $draft)
 			<div class="row taskBlock">
 				<div class="pull-right"><span class="removeTaskFrom btn glyphicon glyphicon-trash"></span></div>
 				<div class="col-md-12">
@@ -81,22 +82,35 @@
 				</div>
 				<div class="col-md-12">				
 					<div class="col-md-12 form-group">
-						<div class="col-md-4">
+						<?php if($draft->type == 'task')
+							{
+								$taskdisplay='';
+								$ideadisplay='display:none';
+							}
+							else
+							{
+								$taskdisplay='display:none';
+								$ideadisplay='';
+							}
+						?>
+						<div class="taskinput col-md-4" style="{{$taskdisplay}}">
 							{!! Form::select('assigner[]',array(''=>'Assinger')+$usersList,$draft->assigner,array('class'=>"form-control",'autocomplete'=>'off')) !!}
-							
 						</div>
-						<div class="taskinput col-md-4">
+						<div class="taskinput col-md-4" style="{{$taskdisplay}}">
 							{!! Form::select('assignee[]',array(''=>'Assingee')+$usersList,$draft->assignee,array('class'=>"form-control",'autocomplete'=>'off')) !!}
 							
 						</div>
-						<div class="col-md-4">
+						<div class="taskinput col-md-4" style="{{$taskdisplay}}">
 							{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+						</div>
+						<div class="ideainput col-md-4" style="{{$ideadisplay}}">
+							{!! Form::select('orginator[]',array(''=>'Orginator')+$usersList,$draft->orginator,array('class'=>"form-control",'autocomplete'=>'off')) !!}
 						</div>
 					</div>
 				</div>
 			</div>
 		@endforeach
-	@endif
+	@else
 	{{-- empty add task form --}}
 	<div class="row taskBlock">
 		<div class="pull-right"><span class="removeTaskFrom btn glyphicon glyphicon-trash"></span></div>
@@ -108,7 +122,7 @@
 				<div class="col-md-3 pull-right">
 					<label class="col-md-4 control-label">Status</label>
 					<div class="col-md-8">							
-							{!! Form::select('',[''=>'Draft'],'',array('class'=>"form-control type",'autocomplete'=>'off','disabled'=>'disabled')) !!}
+							{!! Form::select('',[''=>'Draft'],'',array('disabled'=>'disabled')) !!}
 						</div>
 				</div>
 			</div>
@@ -127,20 +141,22 @@
 		</div>
 		<div class="col-md-12">				
 			<div class="col-md-12 form-group">
-				<div class="col-md-4">
+				<div class="taskinput col-md-4">
 					{!! Form::select('assigner[]',array(''=>'Assinger')+$usersList,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-					
 				</div>
 				<div class="taskinput col-md-4">
 					{!! Form::select('assignee[]',array(''=>'Assingee')+$usersList,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
-					
 				</div>
-				<div class="col-md-4">
+				<div class="taskinput col-md-4">
 					{!! Form::text('dueDate[]','',array('class'=>"form-control dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
+				</div>
+				<div class="ideainput col-md-4" style="display:none;">
+					{!! Form::select('orginator[]',array(''=>'Orginator')+$usersList,'',array('class'=>"form-control",'autocomplete'=>'off')) !!}
 				</div>
 			</div>
 		</div>
 	</div>
+	@endif
 </div>
 {!! Form::close() !!}
 <div class="row">

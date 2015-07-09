@@ -263,8 +263,11 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
         });
     $('#listLeft').on('click', '#add_more', function(event) {
         event.preventDefault();
-        taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock').find(".form-control").val("");
-        //$('#taskAddBlock').append('<div class="row taskBlock">'+taskBlock+'</div>');
+        taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
+        taskBlock.find(".form-control").val("");
+        taskBlock.find(".type").val("task");
+        taskBlock.find(".ideainput").hide();
+        taskBlock.find(".taskinput").show();
         dateInput();
     });
     $('#listLeft').on('click', '.removeTaskFrom ', function(event) {
@@ -348,6 +351,20 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
     $('#listLeft').on('click', '#refresh', function(event) {
         event.preventDefault();
         $('.meetingMenu.active').click();
+    });
+    $('#listLeft').on('change', '.type', function(event) {
+        event.preventDefault();
+        taskBlock = $(this).parents('.taskBlock');
+        if($(this).val() == 'task')
+        {
+            taskBlock.find('.ideainput').hide();
+            taskBlock.find('.taskinput').show();
+        }
+        else if($(this).val() == 'idea')
+        {
+            taskBlock.find('.ideainput').show();
+            taskBlock.find('.taskinput').hide();
+        }
     });
 });
 $('#minutes').click(function(event)

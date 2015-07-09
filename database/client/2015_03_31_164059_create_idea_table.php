@@ -15,7 +15,7 @@ class CreateIdeaTable extends Migration {
 		Schema::create('ideas', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('pId')->unsigned();
+			$table->integer('minuteId')->unsigned();
 			$table->string('title','64');
 			$table->text('description');
 			$table->string('orginator','64')->nullabel();
@@ -26,7 +26,7 @@ class CreateIdeaTable extends Migration {
 		});
 		Schema::table('ideas', function(Blueprint $table)
 		{
-			$table->foreign('pId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
