@@ -23,13 +23,15 @@ class MinuteController extends Controller {
 		//echo  $meetingId; echo $minuteID; die;
 		$meeting = Meetings::find($meetingId);
 		$tasks = NULL;
+		$ideas = NULL;
 		$minute=NULL;
 		if($minuteId)
 		{
 			$minute = Minutes::where('meetingId','=',$meetingId)->where('id','=',$minuteId)->first();
-			$tasks = $minute->tasks()->where('status','!=','Closed')->get();
+			//$tasks = $minute->tasks()->where('status','!=','Closed')->get();
+			//$ideas = $minute->ideas()->get();
 		}
-		return view('meetings.minute',['meeting'=>$meeting,'minute'=>$minute,'tasks'=>$tasks]);
+		return view('meetings.minute',['meeting'=>$meeting,'minute'=>$minute]);
 	}
 	public function create($mid)
 	{

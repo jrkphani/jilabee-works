@@ -55,6 +55,7 @@ Route::group(['prefix' => 'admin'], function()
 				Route::get('/', 'Jobs\TaskController@index');
 				Route::get('accept/task/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
 				Route::post('reject/task/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
+				Route::post('task/{taskid}/comment', 'Jobs\TaskController@comment')->where('taskid', '[0-9]+');
 				Route::post('task/update/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
 				Route::get('task/{taskid}', 'Jobs\TaskController@viewTask')->where('taskid', '[0-9]+');
 				Route::post('status/{taskid}', 'Jobs\TaskController@updateStatus')->where('taskid', '[0-9]+');

@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller;
 use Request;
 use App\Model\JobTasks;
+use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
 use Auth;
@@ -112,5 +113,46 @@ class TaskController extends Controller {
 			$output['success'] = "yes";
 		}
 		return json_encode($output);
+	}
+	public function comment($id)
+	{
+		$input = Request::only('description');
+		$validator = JobTaskComments::validation($input);
+		$task = JobTasks::whereId($id)->where(function ($query){
+					$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
+					})->first();
+		if ($validator->fails())
+		{
+			if($task->assignee == Auth::id())
+			{
+				return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
+			}
+			else
+			{
+				return view('jobs.followupTask',['task'=>$task])->withErrors($validator)->withInput($input);	
+			}
+		}
+		else
+		{
+			if($task)
+			{
+				$input['created_by'] = $input['updated_by'] = Auth::id();
+				$input['description'] = nl2br($input['description']);
+				$comment = new JobTaskComments($input);
+				$task->comments()->save($comment);
+				if($task->assignee == Auth::id())
+				{
+					return view('jobs.task',['task'=>$task]);
+				}
+				else
+				{
+					return view('jobs.followupTask',['task'=>$task]);
+				}
+			}
+			else
+			{
+				abort('403');
+			}
+		}
 	}
 }
