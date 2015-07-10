@@ -21,6 +21,30 @@ $(document).ready(function($)
         {
             $('#mytask').click();
         }
+        $('#listLeft').on('click', '#createTaskSave', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/jobs/draft',
+                type: 'POST',
+                dataType: 'html',
+                data: $('#createTaskForm').serialize(),
+            })
+            .done(function($htmlData) {
+                $('#createTaskForm').html($htmlData);
+                $.notify('Saved',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+            })
+            .fail(function() {
+                
+            })
+            .always(function() {
+                
+            });
+            
+        });
         $('#listLeft').on('click', '#createTaskSubmit', function(event) {
         	event.preventDefault();
         	$.ajax({
@@ -202,6 +226,15 @@ $(document).ready(function($)
         .always(function() {
             
         });
+    });
+    $('#listLeft').on('click', '#createTaskToggle', function(event) {
+        event.preventDefault();
+        $('#createTaskForm').load('jobs/taskform');
+    });
+    $('#listLeft').on('click', '.followupDraft', function(event) {
+        event.preventDefault();
+        $('#createTaskForm').load('jobs/taskform/'+$(this).attr('tid'));
+        $('#createTaskModal').modal('show') ;
     });
 
 });

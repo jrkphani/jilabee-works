@@ -6,6 +6,7 @@ use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
 use Auth;
+use App\Model\JobDraft;
 class TaskController extends Controller {
 
 	/**
@@ -64,7 +65,8 @@ class TaskController extends Controller {
 	{
 		$tasks = Tasks::where('assigner','=',Auth::id())
 					->where('status','!=','Closed')->get();
-		return view('jobs.followups',['tasks'=>$tasks]);
+		$drafts = JobDraft::where('assigner','=',Auth::id())->get();
+		return view('jobs.followups',['tasks'=>$tasks,'drafts'=>$drafts]);
 	}
 	public function history()
 	{
@@ -72,7 +74,37 @@ class TaskController extends Controller {
 					->orWhere('assigner','=',Auth::id())->get();
 		return view('jobs.history',['history'=>$history]);
 	}
-	public function createTask(Request $request)
+	public function draft()
+	{
+		$input = Request::only('title','description','assignee','notes','dueDate');
+		$input['created_by'] = $input['assigner'] = Auth::id();
+		if(Request::input('id'))
+		{
+			$task = JobDraft::whereId(Request::input('id'))->first();
+			$task->update($input);
+			return view('jobs.taskform',['task'=>$task]);
+		}
+		else if($task = JobDraft::create($input))
+		{
+			return view('jobs.taskform',['task'=>$task]);
+		}
+		else
+		{
+			abort('404','Insertion failed');
+		}
+	}
+	public function taskform($id=null)
+	{
+		if($id)
+		{
+			return view('jobs.taskform',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
+		}
+		else
+		{
+			return view('jobs.taskform',['task'=>null]);
+		}
+	}
+	public function createTask()
 	{
 		$input = Request::only('title','description','assignee','assigner','dueDate');
 		if(!$input['assignee'])

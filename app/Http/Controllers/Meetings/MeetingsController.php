@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Meetings;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Request;
 use App\Model\JobTasks;
 use App\Model\TempMeetings;
 use App\Model\Meetings;
@@ -34,9 +34,9 @@ class MeetingsController extends Controller {
 		$meetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->orderBy('updated_at','desc')->get();
 		return view('meetings.history',['meetings'=>$meetings]);
 	}
-	public function createMeeting(Request $request)
+	public function createMeeting()
 	{
-		$input = Request::only('title,description,venue,attendees,minuters');
+		$input = Request::only('title','description','venue','attendees','minuters');
 		$output['success'] = 'yes';
 		$validator = TempMeetings::validation($input);
 		if ($validator->fails())
@@ -49,7 +49,7 @@ class MeetingsController extends Controller {
 		{
 			$input['created_by'] = $input['updated_by'] = Auth::id();
 			$input['minuters'] = implode(',',$input['minuters']);
-			$input['attendees'] = implode(',',$request->input('attendees',[]));
+			$input['attendees'] = implode(',',$input['attendees']);
 			$input['description'] = nl2br($input['description']);
 			if(Auth::user()->isAdmin)
 			{
@@ -76,9 +76,9 @@ class MeetingsController extends Controller {
 			abort('404');
 		}	
 	}
-	public function updateMeeting(Request $request)
+	public function updateMeeting()
 	{
-		$input = $request->all();
+		$input = Request::all();
 		$mid = $input['mid'];
 		unset($input['mid']);
 		unset($input['_token']);
