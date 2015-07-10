@@ -38,7 +38,7 @@ class JobTasks extends Model{
 	public static function validation($data)
     {
         $rule = array('title'=>'required',
-            'description'=>'required|max:64',
+            'description'=>'required|max:1000',
             'assignee'=>'required',
             'assigneeEmail' => 'email',
             'status' => 'in:Draft,Sent,Rejected,Open,Completed,Closed,Cancelled',

@@ -106,7 +106,7 @@ class TaskController extends Controller {
 	}
 	public function createTask()
 	{
-		$input = Request::only('title','description','assignee','assigner','dueDate');
+		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
 		if(!$input['assignee'])
 			{
 				$input['assignee'] = $input['assigneeEmail'];
@@ -121,6 +121,12 @@ class TaskController extends Controller {
 		}
 		else
 		{
+			if(Request::input('id'))
+			{
+				JobDraft::destroy(Request::input('id'));
+			}
+			$input['description'] = nl2br($input['description']);
+			$input['notes'] = nl2br($input['notes']);
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
 			$task = JobTasks::create($input);
 			//$task->tId = "T".$task->id;
