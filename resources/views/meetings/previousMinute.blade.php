@@ -28,7 +28,7 @@ else
 		<div class="col-md-12"><hr></div>
 	@endforeach
 	@foreach($minute->ideas()->get() as $idea)
-		<div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}D{{$task->id}}</div>
+		<div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}D{{$idea->id}}</div>
 		<div class="col-md-12">Orginator: @if($idea->orginator){{$idea->orginatorDetail->name}} @endif</div>
 		<div class="col-md-12">{{$idea->title}}</div>
 		<div class="col-md-12">{!!$idea->description!!}</div>

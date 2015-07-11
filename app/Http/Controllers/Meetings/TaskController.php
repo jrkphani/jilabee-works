@@ -87,11 +87,11 @@ class TaskController extends Controller {
 				DB::transaction(function() use ($minute,$records)
 				{
 					$minute->tasks()->saveMany($records);
-					$minute->update(array('lock_flag'=>null));
-					$minute->draft()->delete();
-					$output['meetingId'] = $minute->meetingId;
 				});
 			}
+			$minute->update(array('lock_flag'=>null));
+			$minute->draft()->delete();
+			$output['meetingId'] = $minute->meetingId;
 			return json_encode($output);
 
 		}
