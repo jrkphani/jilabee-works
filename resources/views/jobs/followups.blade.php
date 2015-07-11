@@ -14,11 +14,9 @@
 			@if($drafts->count())
 			<ul>
 				@foreach($drafts as $draft)
-					<li tid="{{$draft->id}}" class="followupDraft">{{$draft->title}}</li>
+					<li tid="{{$draft->id}}" class="followupDraft">{{$draft->title}}<span class="pull-right">draft</span></li>
 				@endforeach
 			</ul>
-			@else
-			No Tasks to follow
 			@endif
 			@if($tasks->count())
 			<ul>
