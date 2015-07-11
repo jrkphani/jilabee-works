@@ -173,23 +173,28 @@ $(document).ready(function($)
     });
     $('#listLeft').on('change', '#statusChange', function(event) {
         event.preventDefault();
-        tid = $(this).attr('mtask');
+        if($(this).attr('mtask'))
+        {
+            path = '/minute/status/'+$(this).attr('mtask');
+        }
+        else
+        {
+            path = '/jobs/status/'+$(this).attr('task');
+        }
         status = $(this).val();
         $.ajax({
-            url: '/minute/status/'+tid,
+            url: path,
             type: 'POST',
-            dataType: 'json',
+            dataType: 'html',
             data: {'_token':$('#_token').val(),'status':status},
         })
-        .done(function(jsonData) {
-                if(jsonData.success == 'yes')
-                {
+        .done(function(htmlData) {
                     $.notify('Status updated',
                     {
                        className:'success',
                        globalPosition:'top center'
                     });
-                }
+                $('#rightContent').html(htmlData);
         })
         .fail(function() {
             

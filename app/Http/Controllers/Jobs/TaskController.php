@@ -6,6 +6,7 @@ use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
 use Auth;
+use Validator;
 use App\Model\JobDraft;
 class TaskController extends Controller {
 
@@ -137,20 +138,35 @@ class TaskController extends Controller {
 	public function updateStatus($id)
 	{
 		$input = Request::only('status');
-		$validator = JobTasks::validation($input);
+		$rule = array('status' => 'required|in:Open,Completed,Closed,Cancelled');
+        $validator = Validator::make($input,$rule);
 		if ($validator->fails())
 		{
-			$output['success'] = "no";
-			$output['validator'] = $validator->messages()->toArray();
+			if($task->assignee == Auth::id())
+			{
+				return view('jobs.task',['task'=>$task])->withErrors($validator);
+			}
+			else
+			{
+				return view('jobs.followupTask',['task'=>$task])->withErrors($validator);	
+			}
 		}
 		else
 		{
-			$task = JobTasks::whereId($id)->whereAssignerOrAssignee(Auth::id(),Auth::id())->first();
+			$task = JobTasks::whereId($id)->where(function ($query){
+					$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
+					})->first();
 			$task->status = $input['status'];
 			$task->save();
-			$output['success'] = "yes";
+			if($task->assignee == Auth::id())
+			{
+				return view('jobs.task',['task'=>$task])->withErrors($validator);
+			}
+			else
+			{
+				return view('jobs.followupTask',['task'=>$task])->withErrors($validator);	
+			}
 		}
-		return json_encode($output);
 	}
 	public function comment($id)
 	{

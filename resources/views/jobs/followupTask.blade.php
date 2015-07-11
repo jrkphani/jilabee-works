@@ -19,7 +19,7 @@
 		<?php 
 			$status = array_unique([$task->status=>$task->status,'Open'=>'Open','Closed'=>'Close','Cancelled'=>'Cancel']);
 		?>
-		Status: {!! Form::select('statusChange', $status,$task->status,['id'=>'statusChange','mtask'=>$task->id]) !!}
+		Status: {!! Form::select('statusChange', $status,$task->status,['id'=>'statusChange',$parentAttr=>$task->id]) !!}
 	</div>
 	@if($task->status == 'Rejected')
 		<p>Reason: {{$task->reason}}</p>

@@ -206,8 +206,14 @@ class TaskController extends Controller {
         $validator = Validator::make($input,$rule);
 		if ($validator->fails())
 		{
-			$output['success'] = "no";
-			$output['validator'] = $validator->messages()->toArray();
+			if($task->assignee == Auth::id())
+			{
+				return view('jobs.task',['task'=>$task])->withErrors($validator);
+			}
+			else
+			{
+				return view('jobs.followupTask',['task'=>$task])->withErrors($validator);	
+			}
 		}
 		else
 		{
@@ -216,8 +222,14 @@ class TaskController extends Controller {
 					})->first();
 			$task->status = $input['status'];
 			$task->save();
-			$output['success'] = "yes";
+			if($task->assignee == Auth::id())
+			{
+				return view('jobs.task',['task'=>$task])->withErrors($validator);
+			}
+			else
+			{
+				return view('jobs.followupTask',['task'=>$task])->withErrors($validator);	
+			}	
 		}
-		return json_encode($output);
 	}
 }
