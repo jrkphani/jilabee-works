@@ -52,7 +52,7 @@
 			@endif
 		@endif
 	@else
-	<div class="col-md-12"><br/><br/><br/><br/>No Minutes Yet - Create First Minute</div>
+	<div class="col-md-12"><br/><br/><br/><br/>No Minutes Yet</div>
 		@if($isMinuter)
 				<button id="nextMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary pull-right">
 					Start first minute of meeting
