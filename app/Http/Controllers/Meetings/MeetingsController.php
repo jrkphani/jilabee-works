@@ -96,7 +96,7 @@ class MeetingsController extends Controller {
 			$input['status'] = 'Sent';
 			$input['updated_by'] = Auth::id();
 			$input['minuters'] = implode(',',$input['minuters']);
-			$input['attendees'] = implode(',',$input('attendees',[]));
+			$input['attendees'] = implode(',',$input['attendees']);
 			//$input['requested_by'] = Profile::where('userId','=',Auth::user()->userId)->first()->name;
 			TempMeetings::where('id','=',$mid)->update($input);
 			return 'success';
