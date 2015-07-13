@@ -6,11 +6,11 @@
 	</div>
 	<div class="col-md-12">
 		<div class="col-md-3">
-			<div class="col-md-12 form-group">
+			{{-- <div class="col-md-12 form-group">
 				<button id="newMeetingToggle" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createMeetingModal">
 					Request meeting creation
 				</button>
-			</div>
+			</div> --}}
 			@if($tempMeetings->count())
 				Requested Meetings
 				<ul>
