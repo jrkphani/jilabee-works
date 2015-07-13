@@ -57,11 +57,11 @@ $(document).ready(function($)
                 }
                 ////console.log("success");
             })
-            .fail(function() {
-                //console.log("error");
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
             })
-            .always(function() {
-                //console.log("complete");
+            .always(function(xhr) {
+                checkStatus(xhr.status);
             });
             
         });
@@ -90,11 +90,11 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                    $('#loadMeetingModal').html(htmlData) 
                 }
             })
-            .fail(function() {
-                //console.log("error");
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
             })
-            .always(function() {
-                //console.log("complete");
+            .always(function(xhr) {
+                checkStatus(xhr.status);
             });
             
         });
@@ -118,7 +118,8 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                 var mid = $(this).attr('mid');
                 $('#loadTaskModal').load('/minute/view/'+mid);
                 $('#loadTaskModal').addClass('in');
-                $('#loadTaskModal').show();         
+                $('#loadTaskModal').show();
+                //$('#loadTaskModal').modal('show') ;        
             });
             $('#listLeft').on('click', '.meetings', function(event) {
                 //alert($(this).find('.minute').length);
@@ -175,11 +176,11 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                     }
                     //console.log("success");
                 })
-                .fail(function() {
-                    console.log("error");
+                .fail(function(xhr) {
+                    checkStatus(xhr.status);
                 })
-                .always(function() {
-                    console.log("complete");
+                .always(function(xhr) {
+                    checkStatus(xhr.status);
                 });
                 
             });
@@ -232,11 +233,11 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                     
                 }
             })
-            .fail(function() {
-                console.log("error");
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
             })
-            .always(function() {
-                console.log("complete");
+            .always(function(xhr) {
+                checkStatus(xhr.status);
             });
 
     });
@@ -293,11 +294,11 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                    globalPosition:'top center'
                 });
         })
-        .fail(function() {
-            //console.log("error");
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
         })
-        .always(function() {
-            //console.log("complete");
+        .always(function(xhr) {
+            checkStatus(xhr.status);
         });
         
     });
@@ -334,11 +335,11 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
                     $('.meetingMenu.active').click();
                 }
         })
-        .fail(function() {
-
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
         })
-        .always(function() {
-
+        .always(function(xhr) {
+            checkStatus(xhr.status);
         });
         
     });
@@ -388,11 +389,11 @@ $('#minutes').click(function(event)
            $('#listLeft').find('.meetings:first').click();
         } 
     })
-    .fail(function() {
-    	//console.log("error");
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
     })
-    .always(function() {
-    	//console.log("complete");
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
     
 });
@@ -409,11 +410,11 @@ $('#history').click(function(event)
     .done(function(htmlData) {
     	$('#listLeft').html(htmlData);
     })
-    .fail(function() {
-    	//console.log("error");
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
     })
-    .always(function() {
-    	//console.log("complete");
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
 });
 function dateInput()
@@ -432,10 +433,10 @@ function loadMinute(mid)
         //console.log("success");
         $('#rightContent').html(htmlData);
     })
-    .fail(function() {
-        //console.log("error");
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
     })
-    .always(function() {
-        //console.log("complete");
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
 }

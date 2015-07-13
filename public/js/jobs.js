@@ -37,11 +37,11 @@ $(document).ready(function($)
                        globalPosition:'top center'
                     });
             })
-            .fail(function() {
-                
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
             })
-            .always(function() {
-                
+            .always(function(xhr) {
+                checkStatus(xhr.status);
             });
             
         });
@@ -77,12 +77,12 @@ $(document).ready(function($)
                 }
                 ////console.log("success");
         	})
-        	.fail(function() {
-        		//console.log("error");
-        	})
-        	.always(function() {
-        		//console.log("complete");
-        	});
+        	.fail(function(xhr) {
+                checkStatus(xhr.status);
+            })
+            .always(function(xhr) {
+                checkStatus(xhr.status);
+            });
         	
         });
     $('#listLeft').on('change', '#assigneeEmail', function(event) {
@@ -109,7 +109,6 @@ $(document).ready(function($)
             path = '/jobs/task/'+myid;
         }
         rightContentAjaxGet(path);
-        
         });
     $('#listLeft').on('click', '.followup', function(event){
         myid = $(this).attr('myid');
@@ -196,11 +195,11 @@ $(document).ready(function($)
                     });
                 $('#rightContent').html(htmlData);
         })
-        .fail(function() {
-            
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
         })
-        .always(function() {
-            
+        .always(function(xhr) {
+            checkStatus(xhr.status);
         });
         
     });
@@ -225,20 +224,24 @@ $(document).ready(function($)
                 }
                 $('#rightContent').load('minute/task/'+tid);
         })
-        .fail(function() {
-            
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
         })
-        .always(function() {
-            
+        .always(function(xhr) {
+            checkStatus(xhr.status);
         });
     });
     $('#listLeft').on('click', '#createTaskToggle', function(event) {
         event.preventDefault();
+        $('#createTaskForm').html('loading...');
         $('#createTaskForm').load('jobs/taskform');
     });
     $('#listLeft').on('click', '.followupDraft', function(event) {
         event.preventDefault();
-        $('#createTaskForm').load('jobs/taskform/'+$(this).attr('tid'));
+        $('#createTaskForm').html('loading...');
+        $('#createTaskForm').load('jobs/taskform/'+$(this).attr('tid'),function( response, status, xhr ) {
+            checkStatus(xhr.status);
+            });
         $('#createTaskModal').modal('show') ;
     });
 
@@ -254,11 +257,11 @@ function rightContentAjaxPost(path,form)
         .done(function(htmlData) {
             $('#rightContent').html(htmlData);
         })
-        .fail(function() {
-            
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
         })
-        .always(function() {
-            
+        .always(function(xhr) {
+            checkStatus(xhr.status);
         });
 }
 function rightContentAjaxGet(path)
@@ -271,11 +274,11 @@ function rightContentAjaxGet(path)
         .done(function(htmlData) {
             $('#rightContent').html(htmlData);
         })
-        .fail(function() {
-            
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
         })
-        .always(function() {
-            
+        .always(function(xhr) {
+            checkStatus(xhr.status);
         });
 }
 $('#mytask').click(function(event)
@@ -292,11 +295,11 @@ $('#mytask').click(function(event)
     	$('#listLeft').html(htmlData);
         $('#listLeft').find('.task:first').click();
     })
-    .fail(function() {
-    	//console.log("error");
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
     })
-    .always(function() {
-    	//console.log("complete");
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
     
 });
@@ -314,11 +317,11 @@ $('#followups').click(function(event)
     	$('#listLeft').html(htmlData);
         $('#listLeft').find('.followup:first').click();
     })
-    .fail(function() {
-    	//console.log("error");
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
     })
-    .always(function() {
-    	//console.log("complete");
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
 });
 $('#history').click(function(event)
@@ -334,11 +337,11 @@ $('#history').click(function(event)
     .done(function(htmlData) {
     	$('#listLeft').html(htmlData);
     })
-    .fail(function() {
-    	//console.log("error");
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
     })
-    .always(function() {
-    	//console.log("complete");
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
 });
 function dateInput()
