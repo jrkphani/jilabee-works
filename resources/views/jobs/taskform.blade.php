@@ -18,7 +18,18 @@
 	<div id="selected_Assignee">
 	@if($task->assignee)
 		<?php $display='display:none;'; ?>
-			<div id="u{{$task->assignee}}" class="assignee"><input type="hidden" value="{{$task->assignee}}" name="assignee">{{$task->assigneeDetail->name}}<span class="removeParent btn glyphicon glyphicon-trash"></span></div>
+			@if(isEmail($task->assignee))
+					<div class="assignee">
+							{{$task->assignee}}
+						<span class="removeParent btn glyphicon glyphicon-trash"></span>
+					</div>
+				@else
+					<div id="u{{$task->assignee}}" class="assignee">
+						<input type="hidden" value="{{$task->assignee}}" name="assignee">
+							{{$task->assigneeDetail->name}}
+						<span class="removeParent btn glyphicon glyphicon-trash"></span>
+					</div>
+				@endif
 		
 	@else
 		<?php $display=''; ?>
@@ -26,11 +37,11 @@
 	</div>
 	{!! Form::text('selectAssignee','',['class'=>'form-control','id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
 	<span class="or" >OR</span>
-	{!! Form::text('assigneeEmail', '',['class'=>'form-control','id'=>'assigneeEmail','placeholder'=>'add email','style'=>$display])!!}
+	{!! Form::text('assigneeEmail',isEmail($task->assignee),['class'=>'form-control','id'=>'assigneeEmail','placeholder'=>'add email','style'=>$display])!!}
 	<div id="assignee_err" class="error"></div>
 	<div id="assigneeEmail_err" class="error"></div>
 	{!! Form::label('dueDate', 'deadline',['class'=>'control-label']) !!}
-	{!! Form::text('dueDate','',['class'=>'form-control dateInput']) !!}
+	{!! Form::text('dueDate',$task->dueDate,['class'=>'form-control dateInput']) !!}
 	<div id="dueDate_err" class="error"></div>
 </div>
 @else

@@ -99,26 +99,41 @@ $(document).ready(function($)
             $('#selectAssignee , #assigneeEmail, .or').show();
         });
     $('#listLeft').on('click', '.task', function(event){
-        myid = $(this).attr('myid');
+        otid = $(this).attr('otid');
+        tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
-            path = '/minute/task/'+myid;
+            if($(this).attr('otid'))
+            {
+                path = '/minute/othertask/'+otid;
+            }
+            else
+            {  
+                path = '/minute/task/'+tid;
+            }
         }
         else
         {
-            path = '/jobs/task/'+myid;
+            if($(this).attr('otid'))
+            {
+                path = '/jobs/othertask/'+otid;
+            }
+            else
+            {  
+                path = '/jobs/task/'+tid;
+            }
         }
         rightContentAjaxGet(path);
         });
     $('#listLeft').on('click', '.followup', function(event){
-        myid = $(this).attr('myid');
+        tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
-            path = '/minute/followup/'+myid;
+            path = '/minute/followup/'+tid;
         }
         else
         {
-            path = '/jobs/followup/'+myid;
+            path = '/jobs/followup/'+tid;
         }
         rightContentAjaxGet(path);
         
@@ -140,6 +155,19 @@ $(document).ready(function($)
         rightContentAjaxGet(path);
         
     });
+    $('#listLeft').on('click', '#oAccept', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            path = 'minute/accept/othertask/'+$(this).attr('mtask');
+        }
+        else
+        {
+            path = 'jobs/accept/othertask/'+$(this).attr('task');
+        }
+        rightContentAjaxGet(path);
+        
+    });
 
     $('#listLeft').on('click', '#reject', function(event) {
         event.preventDefault();
@@ -156,6 +184,23 @@ $(document).ready(function($)
         rightContentAjaxPost(path,form);
         
     });
+
+    $('#listLeft').on('click', '#oReject', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            form = 'mtaskForm'+$(this).attr('mtask');
+            path = 'minute/reject/othertask/'+$(this).attr('mtask');
+        }
+        else
+        {
+            form = 'taskForm'+$(this).attr('task');
+            path = 'jobs/reject/othertask/'+$(this).attr('task');
+        }
+        rightContentAjaxPost(path,form);
+        
+    });
+
     $('#listLeft').on('click', '#postComment', function(event) {
         event.preventDefault();
         if($(this).attr('mtask'))

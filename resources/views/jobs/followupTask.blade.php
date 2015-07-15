@@ -11,10 +11,20 @@
 ?>
 <div class="row">
 	<p><strong>{{$task->title}}</strong></p>
-	<p>{{$task->description}}</p>
+	<p>{!!$task->description!!}</p>
+	@if($task->notes)
+		<p><strong>Notes:</strong></p>
+		<p>{!! $task->notes !!}</p>
+	@endif
 	<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
-	<div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div>
-	<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
+	<div class="col-md-12">Assignee: 
+		@if(isEmail($task->assignee))
+			{{$task->assignee}}
+		@else
+			{{$task->assigneeDetail->name}}
+		@endif
+	</div>
+	{{-- <div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div> --}}
 	<div class="col-md-12">
 		<?php 
 			$status = array_unique([$task->status=>$task->status,'Open'=>'Open','Closed'=>'Close','Cancelled'=>'Cancel']);

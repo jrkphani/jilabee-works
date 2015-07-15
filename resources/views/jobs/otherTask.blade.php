@@ -13,12 +13,12 @@
 	<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
 	<div class="col-md-12">Status: {{$task->status}}</div>
 	{{-- <div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div> --}}
-	<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
+	<div class="col-md-12">Assigner: {{$task->assigner}}</div>
 	<div class="col-md-12">
 		<strong>{{$task->title}}</strong>
 	</div>
 	<div class="col-md-12">
-		{{$task->description}}
+		{!!$task->description!!}
 	</div>
 	@if($task->comments()->first())
 		<div class="col-md-12">
@@ -39,19 +39,19 @@
 			<div class="error">{{$reason_err}}</div>
 		@endif
 		{!! Form::close() !!}
-		<button {{$parentAttr}}="{{$task->id}}" id="accept" class="btn btn-primary">Accept</button>
-		<button {{$parentAttr}}="{{$task->id}}" id="reject" class="btn btn-primary">Reject</button>
+		<button {{$parentAttr}}="{{$task->id}}" id="oAccept" class="btn btn-primary">Accept</button>
+		<button {{$parentAttr}}="{{$task->id}}" id="oReject" class="btn btn-primary">Reject</button>
 	@elseif($task->status == 'Rejected')
 		Refused Reason : {!! $task->reason !!}
 	@else
 		@if($task->status != 'Completed')
-		<button type="submit" id="markComplete" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
+		<button type="submit" id="oMarkComplete" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
 		@endif
 		{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
 		{!! Form::textarea('description', '','') !!}
 		{!! $errors->first('description','<div class="error">:message</div>') !!}
 		{!! Form::close() !!}
-		<button {{$parentAttr}}="{{$task->id}}" id="postComment" class="btn btn-primary ">Post</button>
+		<button {{$parentAttr}}="{{$task->id}}" id="oPostComment" class="btn btn-primary ">Post</button>
 	@endif
 	
 </div>

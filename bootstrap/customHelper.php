@@ -53,4 +53,27 @@ function getProfile($userId=NULL)
         return false;
     }
 }
+function getUser($email=NULL)
+{
+    if(Auth::check())
+    {
+        if(!$email)
+        {
+             return Auth::user();
+        }
+        return App\User::whereEmail($email)->first();
+    }
+    else
+    {
+        return false;
+    }
+}
+function isEmail($str)
+{
+    if(filter_var($str, FILTER_VALIDATE_EMAIL))
+    {
+        return $str;
+    }
+    return false;
+}
 ?>

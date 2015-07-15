@@ -18,7 +18,7 @@ class CreateDraftTasksTable extends Migration {
 			$table->string('title','64')->nullable();
 			$table->text('description')->nullable();
 			$table->text('notes')->nullable();
-			$table->integer('assignee')->nullable();;
+			$table->string('assignee','64')->nullable();;
 			$table->integer('assigner')->nullable();
 			$table->string('orginator','64')->nullabel();
 			$table->string('dueDate','32')->nullable();
@@ -38,7 +38,7 @@ class CreateDraftTasksTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('client')->drop('draftTasks');
+		Schema::drop('draftTasks');
 	}
 
 }

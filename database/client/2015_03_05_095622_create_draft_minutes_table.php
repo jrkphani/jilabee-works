@@ -39,7 +39,7 @@ class CreateDraftMinutesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('client')->drop('draftMinutes');
+		Schema::drop('draftMinutes');
 	}
 
 }

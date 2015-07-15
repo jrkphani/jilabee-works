@@ -107,18 +107,27 @@ class AuthController extends Controller {
 		{
 			return redirect('admin/auth/login')->withInput($input)->withErrors($validator);
 		}
-		$domain = Clients::where('domain','=',$this->getDomainFromEmail($input['email']))->first();
-		if(!$domain)
-		{
-			$errors = $validator->messages();
-		    $errors->add('email', 'Invalid credentials');
-			return redirect('admin/auth/login')->withInput($input)->withErrors($errors);
-		}
+		// $domain = Clients::where('domain','=',$this->getDomainFromEmail($input['email']))->first();
+		// if(!$domain)
+		// {
+		// 	$errors = $validator->messages();
+		//     $errors->add('email', 'Invalid credentials');
+		// 	return redirect('admin/auth/login')->withInput($input)->withErrors($errors);
+		// }
 		if (Auth::attempt(['email' => $input['email'], 'password' => $input['password'],'active'=>1,'isAdmin'=>1]))
         {
-        	//echo "success"; die;
-        	//configureConnection($domain->database);
-        	Session::put('database', $domain->database);
+        	if(starts_with(Auth::user()->userId, 'GEN'))
+            {
+            	Session::put('database', 'jotterGeneral');
+            	//do nothing 
+            	//changedatabase middleware will connect to general database connection "client"
+            }
+            else
+            {
+            	//get the client database to session
+            	//echo substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u')); die;
+            	Session::put('database', substr(Auth::user()->userId, 0, strrpos(Auth::user()->userId, 'u')));
+            }
         	return redirect('/admin');
         }
         else

@@ -22,9 +22,9 @@
 			<ul>
 				@foreach($tasks as $task)
 					@if($task->type == 'minute')
-						<li myid="{{$task->id}}" mid="{{$task->minuteId}}" class="followup">{{$task->title}}</li>
+						<li tid="{{$task->id}}" mid="{{$task->minuteId}}" class="followup">{{$task->title}}</li>
 					@else
-						<li myid="{{$task->id}}" class="followup">{{$task->title}}</li>	
+						<li tid="{{$task->id}}" class="followup">{{$task->title}}</li>	
 					@endif				
 				@endforeach
 			</ul>
@@ -55,7 +55,7 @@
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	        <button id="createTaskSave" type="button" class="btn btn-primary">Save Draft</button>
-	        <button id="createTaskSubmit" type="button" class="btn btn-primary">Save</button>
+	        <button id="createTaskSubmit" type="button" class="btn btn-primary">Send</button>
 	      </div>
 	    </div>
 

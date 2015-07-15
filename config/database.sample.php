@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'base',
+	'default' => 'jotterBase',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,21 +54,21 @@ return [
 
 		'jotterGeneral' => [
 			'driver'    => 'mysql',
-			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'jotterGeneral'),
-			'username'  => env('DB_USERNAME', 'root'),
-			'password'  => env('DB_PASSWORD', 'password'),
+			'host'      => env('GEN_HOST'),
+			'database'  => env('GEN_DATABASE'),
+			'username'  => env('GEN_USERNAME'),
+			'password'  => env('GEN_PASSWORD'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
 			'strict'    => false,
 		],
-		'base' => [
+		'jotterBase' => [
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'jotterBase',
-			'username'  => 'root',
-			'password'  => 'password',
+			'host'      => env('DB_HOST'),
+			'database'  => env('DB_DATABASE'),
+			'username'  => env('DB_USERNAME'),
+			'password'  => env('DB_PASSWORD'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

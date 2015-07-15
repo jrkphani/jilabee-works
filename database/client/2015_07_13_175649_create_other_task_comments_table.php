@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJobTaskCommentsTable extends Migration {
+class CreateOtherTaskCommentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateJobTaskCommentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('jobTaskComments', function(Blueprint $table)
+		Schema::create('otherTaskComments', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('taskId')->unsigned();
@@ -22,11 +22,9 @@ class CreateJobTaskCommentsTable extends Migration {
         	$table->timestamps();
         	$table->softDeletes();
 		});
-		Schema::table('jobTaskComments', function(Blueprint $table)
+		Schema::table('otherTaskComments', function(Blueprint $table)
 		{
-			$table->foreign('taskId')->references('id')->on('jobTasks')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('taskId')->references('id')->on('otherTasks')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 
@@ -37,7 +35,7 @@ class CreateJobTaskCommentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('jobTaskComments');
+		Schema::drop('otherTaskComments');
 	}
 
 }
