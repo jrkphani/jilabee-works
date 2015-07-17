@@ -12,7 +12,7 @@ class CreateUsersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('jotterBase')->create('users', function(Blueprint $table)
+		Schema::create('users', function(Blueprint $table)
 		{
 			$table->increments('id')->unique();
 			$table->string('userId',42)->unique();
@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('jotterBase')->drop('users');
+		Schema::drop('users');
 	}
 
 }

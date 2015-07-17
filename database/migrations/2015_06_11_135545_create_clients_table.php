@@ -12,7 +12,7 @@ class CreateClientsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('jotterBase')->create('clients', function(Blueprint $table)
+		Schema::create('clients', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('domain','32');
@@ -33,7 +33,7 @@ class CreateClientsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('jotterBase')->drop('clients');
+		Schema::drop('clients');
 	}
 
 }

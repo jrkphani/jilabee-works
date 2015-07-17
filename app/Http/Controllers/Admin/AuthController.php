@@ -62,30 +62,18 @@ class AuthController extends Controller {
 							'isAdmin' => '1',
 							'password' => bcrypt($input['password']),
 							]);
-						$userId = generateUserId($customerId,$user->id);
-						$user->update(['userId'=>$userId]);
 						if($user)
 						{
-							if(DB::statement(DB::raw('CREATE DATABASE '.$customerId)))
-							{
-								Clients::create(['customerId'=>$customerId,'domain'=>$organizations->domain,
-											'host'=>'localhost','username'=>'root','password'=>'password','database'=>$customerId,'driver'=>'myslq']);
-								//create a dynamic connectoin to access new database
-								configureConnection($customerId);
-								//create tables in new database
-								Artisan::call('migrate', array('--force' => true,'--database'=>$customerId,  '--path' => 'database/client'));
-								$profile = new Profile;
-						        $profile->setConnection($customerId);
-						        $profile->userId = $user->id;
-							    $profile->phone = $input['phone'];
-							    $profile->save();
-							    Activity::log([
-								    'contentType' => 'Organizations',
-								    'action'      => 'OrganizationsOrganizations Signup',
-								    'description' => 'Organizations signup',
-								    'details'     => 'Organizations name: '.$input['name'].'Email:'.$input['email']
-								]);
-							}		
+							$userId = generateUserId($customerId,$user->id);
+							$user->update(['userId'=>$userId]);
+							$profile = new Profile(['phone'=>$input['phone']]);
+						    $user->profile()->save($profile);
+						    Activity::log([
+							    'contentType' => 'Organizations',
+							    'action'      => 'Signup',
+							    //'description' => '',
+							    'details'     => 'Name: '.$input['name'].'Email:'.$input['email']
+							]);
 						}
 					}					
 				}
@@ -116,7 +104,7 @@ class AuthController extends Controller {
 		// }
 		if (Auth::attempt(['email' => $input['email'], 'password' => $input['password'],'active'=>1,'isAdmin'=>1]))
         {
-        	if(starts_with(Auth::user()->userId, 'GEN'))
+        	/*if(starts_with(Auth::user()->userId, 'GEN'))
             {
             	Session::put('database', 'jotterGeneral');
             	//do nothing 
@@ -127,7 +115,7 @@ class AuthController extends Controller {
             	//get the client database to session
             	//echo substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u')); die;
             	Session::put('database', substr(Auth::user()->userId, 0, strrpos(Auth::user()->userId, 'u')));
-            }
+            }*/
         	return redirect('/admin');
         }
         else
@@ -141,12 +129,5 @@ class AuthController extends Controller {
 	{
 		Auth::logout();
 		return redirect('/admin/auth/login');
-	}
-	public function getDomainFromEmail($email)
-	{
-	    // Get the data after the @ sign
-	    $domain = substr(strrchr($email, "@"), 1);
-	 
-	    return $domain;
 	}
 }

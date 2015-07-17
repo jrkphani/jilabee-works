@@ -12,7 +12,7 @@ class CreateActivityLogTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('jotterBase')->create('activity_log', function(Blueprint $table)
+		Schema::create('activity_log', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('user_id')->nullable();
@@ -35,7 +35,7 @@ class CreateActivityLogTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('jotterBase')->drop('activity_log');
+		Schema::drop('activity_log');
 	}
 
 }

@@ -12,7 +12,7 @@ class CreatePaymentHistoryTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('jotterBase')->create('paymentHistory', function(Blueprint $table)
+		Schema::create('paymentHistory', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('customerId');
@@ -29,7 +29,7 @@ class CreatePaymentHistoryTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('jotterBase')->drop('paymentHistory');
+		Schema::drop('paymentHistory');
 	}
 
 }

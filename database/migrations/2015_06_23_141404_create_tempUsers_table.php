@@ -12,7 +12,7 @@ class CreateTempUsersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('jotterBase')->create('tempUsers', function(Blueprint $table)
+		Schema::create('tempUsers', function(Blueprint $table)
 		{
 			$table->increments('id')->unique();
 			$table->string('userId',42)->unique();
@@ -30,7 +30,7 @@ class CreateTempUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('jotterBase')->drop('users');
+		Schema::drop('users');
 	}
 
 }

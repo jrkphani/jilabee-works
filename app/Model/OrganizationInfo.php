@@ -8,7 +8,7 @@ class OrganizationInfo extends Model{
 	 * @var string
 	 */
 	protected $table = 'organizationInfo';
-	protected $connection = 'jotterBase';
+	// protected $connection = 'jotterBase';
 
 	/**
 	 * The attributes that are mass assignable.

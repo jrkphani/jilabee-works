@@ -17,8 +17,8 @@ class Registrar implements RegistrarContract {
 	 */
 	public function validator(array $data)
 	{
-		$verifier = App::make('validation.presence');
-        $verifier->setConnection('jotterBase');
+		//$verifier = App::make('validation.presence');
+        //$verifier->setConnection('jotterBase');
 		$validator = Validator::make($data, [
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',
@@ -27,7 +27,7 @@ class Registrar implements RegistrarContract {
 			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
 			'gender' =>'required|in:M,F,O',
 		]);
-        $validator->setPresenceVerifier($verifier);
+        //$validator->setPresenceVerifier($verifier);
         return $validator;
 	}
 
@@ -57,8 +57,8 @@ class Registrar implements RegistrarContract {
 									'phone'=>$data['phone']);
 
 					$profile = new Profile($input);
-			        $profile->setConnection(env('GEN_DATABASE'));
-					$profile->save();
+			        //$profile->setConnection(env('GEN_DATABASE'));
+					$user->profile()->save();
 				}
 		 });
 		

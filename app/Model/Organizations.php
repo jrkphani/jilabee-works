@@ -9,7 +9,7 @@ class Organizations extends Model{
 	 * @var string
 	 */
 	protected $table = 'organizations';
-    protected $connection = 'jotterBase';
+    // protected $connection = 'jotterBase';
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -18,9 +18,9 @@ class Organizations extends Model{
 	protected $fillable = ['customerId','domain','email','secondEmail','password','active'];
     public static function validation($data)
     {
-        $verifier = App::make('validation.presence');
+        //$verifier = App::make('validation.presence');
 
-        $verifier->setConnection('jotterBase');
+        //$verifier->setConnection('jotterBase');
 
         $rule = array('customerId'=>'unique:organizations',
             'name'=>'required',
@@ -31,7 +31,7 @@ class Organizations extends Model{
             'phone' =>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
             'phone1' =>'Regex:/^([0-9\s\-\+\(\)]*)$/');
         $validator = Validator::make($data,$rule);
-        $validator->setPresenceVerifier($verifier);
+        //$validator->setPresenceVerifier($verifier);
         return $validator;
     }
     public function organizationInfo()

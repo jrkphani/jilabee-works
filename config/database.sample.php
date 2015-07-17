@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'jotterBase',
+	'default' => 'jotter',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -51,19 +51,7 @@ return [
 			'database' => storage_path().'/database.sqlite',
 			'prefix'   => '',
 		],
-
-		'jotterGeneral' => [
-			'driver'    => 'mysql',
-			'host'      => env('GEN_HOST'),
-			'database'  => env('GEN_DATABASE'),
-			'username'  => env('GEN_USERNAME'),
-			'password'  => env('GEN_PASSWORD'),
-			'charset'   => 'utf8',
-			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
-			'strict'    => false,
-		],
-		'jotterBase' => [
+		'jotter' => [
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST'),
 			'database'  => env('DB_DATABASE'),

@@ -16,8 +16,8 @@ Route::group(['prefix' => 'admin'], function()
 {
 	Route::group(['middleware' => 'adminOnly'], function()
 	{
-		Route::group(['middleware' => 'checkDatabase'], function()
-		{
+		//Route::group(['middleware' => 'checkDatabase'], function()
+		//{
 			Route::get('/', function(){
 				return view('admin.dashboard');
 			});
@@ -27,7 +27,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('meetings', 'Admin\MeetingsController@index');
 			Route::post('meetings/approve', 'Admin\MeetingsController@approve');
 			Route::post('meetings/disapprove', 'Admin\MeetingsController@disapprove');
-		});
+		//});
 	});
     Route::get('auth/register', 'Admin\AuthController@signupGet');
 	Route::post('auth/register', 'Admin\AuthController@signupPost');
@@ -46,8 +46,8 @@ Route::group(['prefix' => 'admin'], function()
 //{
     Route::group(['middleware' => 'auth'], function()
 	{
-		Route::group(['middleware' => 'checkDatabase'], function()
-		{
+		//Route::group(['middleware' => 'checkDatabase'], function()
+		//{
 			Route::get('/', 'Jobs\TaskController@index');
 			Route::get('user/search', 'Auth\ProfileController@findUser');	
 			Route::group(['prefix' => 'jobs'], function()
@@ -106,6 +106,6 @@ Route::group(['prefix' => 'admin'], function()
 				Route::post('{minuteId}/task', 'Meetings\TaskController@createTask')->where('minueId', '[0-9]+');
 			});
 		
-		});
+		//});
 		
 	});	
