@@ -26,7 +26,7 @@
 			@foreach($task->comments()->get() as $comment)
 			<p>
 				{!! $comment->description !!}
-				<p>{{$comment->createdby->name}} - {{$comment->updated_at}}</p>
+				<p>Name will be here - {{$comment->updated_at}}</p>
 			</p>
 			<div class="col-md-12"><hr></div>
 			@endforeach
@@ -51,7 +51,7 @@
 		{!! Form::textarea('description', '','') !!}
 		{!! $errors->first('description','<div class="error">:message</div>') !!}
 		{!! Form::close() !!}
-		<button {{$parentAttr}}="{{$task->id}}" id="oPostComment" class="btn btn-primary ">Post</button>
+		<button {{$parentAttr}}="{{$task->id}}" id="otherTaskComment" class="btn btn-primary ">Post</button>
 	@endif
 	
 </div>

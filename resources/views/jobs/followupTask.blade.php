@@ -26,13 +26,16 @@
 	</div>
 	{{-- <div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div> --}}
 	<div class="col-md-12">
-		<?php 
-			$status = array_unique([$task->status=>$task->status,'Open'=>'Open','Closed'=>'Close','Cancelled'=>'Cancel']);
-		?>
-		Status: {!! Form::select('statusChange', $status,$task->status,['id'=>'statusChange',$parentAttr=>$task->id]) !!}
+		Status: {{$task->status}}
 	</div>
 	@if($task->status == 'Rejected')
-		<p>Reason: {{$task->reason}}</p>
+		<div class="col-md-12">Reason: {{$task->reason}}</div>
+		{{-- <button class="btn btn-primary " id="rejectCompletion" {{$parentAttr}}="{{$task->id}}">Re-open</button> --}}
+	@elseif($task->status == 'Completed')
+		<div class="col-md-12">
+			<button class="btn btn-primary " id="acceptCompletion" {{$parentAttr}}="{{$task->id}}">accept completion</button>
+			<button class="btn btn-primary " id="rejectCompletion" {{$parentAttr}}="{{$task->id}}">reject completion</button>
+		</div>
 	@endif
 	@if($task->comments()->first())
 	<strong>Comments</strong>
@@ -44,11 +47,13 @@
 		<div class="col-md-12"><hr></div>
 		@endforeach
 	@endif
-	{{-- post new comment --}}
-	{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
-	{!! Form::textarea('description', old('description'),'') !!}
-	{!! $errors->first('description','<div class="error">:message</div>') !!}
-	{!! Form::close() !!}
-	<button {{$parentAttr}}="{{$task->id}}" id="postComment" class="btn btn-primary ">Post</button>
+	@if($task->status != 'Closed')
+		{{-- post new comment --}}
+		{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
+		{!! Form::textarea('description', old('description'),'') !!}
+		{!! $errors->first('description','<div class="error">:message</div>') !!}
+		{!! Form::close() !!}
+		<button {{$parentAttr}}="{{$task->id}}" id="followupComment" class="btn btn-primary ">Post</button>
+	@endif
 </div>
 @endif

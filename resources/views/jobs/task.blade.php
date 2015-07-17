@@ -51,7 +51,7 @@
 		{!! Form::textarea('description', '','') !!}
 		{!! $errors->first('description','<div class="error">:message</div>') !!}
 		{!! Form::close() !!}
-		<button {{$parentAttr}}="{{$task->id}}" id="postComment" class="btn btn-primary ">Post</button>
+		<button {{$parentAttr}}="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button>
 	@endif
 	
 </div>

@@ -36,7 +36,7 @@ function generateCustomerId($id)
 }
 function generateUserId($customerId,$id)
 {
-    return $customerId.'u'.$id;
+    return $customerId.'u'.dechex($id);
 }
 function getProfile($userId=NULL)
 {

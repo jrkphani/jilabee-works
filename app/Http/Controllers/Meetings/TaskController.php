@@ -158,78 +158,100 @@ class TaskController extends Controller {
 		}
 		
 	}
-	public function comment($id)
+	public function markComplete($id)
 	{
-		$input = Request::only('description');
-		$validator = MinuteTaskComments::validation($input);
-		$task = MinuteTasks::whereId($id)->where(function ($query){
-					$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
-					})->first();
-		if ($validator->fails())
+		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->first();
+		if($task)
 		{
-			if($task->assignee == Auth::id())
+			$task->status = 'Completed';
+			if($task->save())
 			{
-				return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
-			}
-			else
-			{
-				return view('jobs.followupTask',['task'=>$task])->withErrors($validator)->withInput($input);	
+				return view('jobs.task',['task'=>$task]);
 			}
 		}
 		else
 		{
+			abort('403');
+		}
+	}
+	public function acceptCompletion($id)
+	{
+			$task = MinuteTasks::whereId($id)->whereAssigner(Auth::id())->first();
 			if($task)
 			{
-				$input['created_by'] = $input['updated_by'] = Auth::id();
-				$input['description'] = nl2br($input['description']);
-				$comment = new MinuteTaskComments($input);
-				$task->comments()->save($comment);
-				if($task->assignee == Auth::id())
+				$task->status = 'Closed';
+				if($task->save())
 				{
-					return view('jobs.task',['task'=>$task]);
-				}
-				else
-				{
-					return view('jobs.followupTask',['task'=>$task]);
+					return view('jobs.followupTask',['task'=>$task]);	
 				}
 			}
 			else
 			{
 				abort('403');
 			}
-		}
 	}
-	public function updateStatus($id)
+	public function rejectCompletion($id)
 	{
-		$input = Request::only('status');
-		$rule = array('status' => 'required|in:Open,Completed,Closed,Cancelled');
-        $validator = Validator::make($input,$rule);
-		if ($validator->fails())
-		{
-			if($task->assignee == Auth::id())
+			$task = MinuteTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			if($task)
 			{
-				return view('jobs.task',['task'=>$task])->withErrors($validator);
+				$task->status = 'Open';
+				if($task->save())
+				{
+					return view('jobs.followupTask',['task'=>$task]);	
+				}
 			}
 			else
 			{
-				return view('jobs.followupTask',['task'=>$task])->withErrors($validator);	
+				abort('403');
+			}
+	}
+	public function taskComment($id)
+	{
+		$input = Request::only('description');
+		$validator = MinuteTaskComments::validation($input);
+		if ($validator->fails())
+		{
+			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
+		}
+		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->first();
+		if($task)
+		{
+			$input['created_by'] = $input['updated_by'] = Auth::id();
+			$input['description'] = nl2br($input['description']);
+			$comment = new MinuteTaskComments($input);
+			if($task->comments()->save($comment))
+			{
+				return view('jobs.task',['task'=>$task]);
 			}
 		}
 		else
 		{
-			$task = MinuteTasks::whereId($id)->where(function ($query){
-					$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
-					})->first();
-			$task->status = $input['status'];
-			$task->save();
-			if($task->assignee == Auth::id())
+			abort('403');
+		}
+	}
+	public function followupComment($id)
+	{
+		$input = Request::only('description');
+		$validator = MinuteTaskComments::validation($input);
+		if ($validator->fails())
+		{
+			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
+		}
+		$task = MinuteTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		if($task)
+		{
+			$input['created_by'] = $input['updated_by'] = Auth::id();
+			$input['description'] = nl2br($input['description']);
+			$comment = new MinuteTaskComments($input);
+			if($task->comments()->save($comment))
 			{
-				return view('jobs.task',['task'=>$task])->withErrors($validator);
+				return view('jobs.followupTask',['task'=>$task]);
 			}
-			else
-			{
-				return view('jobs.followupTask',['task'=>$task])->withErrors($validator);	
-			}	
+		}
+		else
+		{
+			abort('403');
 		}
 	}
 }

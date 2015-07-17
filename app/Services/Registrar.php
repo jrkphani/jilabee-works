@@ -57,7 +57,7 @@ class Registrar implements RegistrarContract {
 									'phone'=>$data['phone']);
 
 					$profile = new Profile($input);
-			        $profile->setConnection('client');
+			        $profile->setConnection(env('GEN_DATABASE'));
 					$profile->save();
 				}
 		 });

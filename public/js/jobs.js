@@ -146,11 +146,11 @@ $(document).ready(function($)
         event.preventDefault();
         if($(this).attr('mtask'))
         {
-            path = 'minute/accept/task/'+$(this).attr('mtask');
+            path = 'minute/acceptTask/'+$(this).attr('mtask');
         }
         else
         {
-            path = 'jobs/accept/task/'+$(this).attr('task');
+            path = 'jobs/acceptTask/'+$(this).attr('task');
         }
         rightContentAjaxGet(path);
         
@@ -159,11 +159,11 @@ $(document).ready(function($)
         event.preventDefault();
         if($(this).attr('mtask'))
         {
-            path = 'minute/accept/othertask/'+$(this).attr('mtask');
+            path = 'minute/acceptOthertask/'+$(this).attr('mtask');
         }
         else
         {
-            path = 'jobs/accept/othertask/'+$(this).attr('task');
+            path = 'jobs/acceptOthertask/'+$(this).attr('task');
         }
         rightContentAjaxGet(path);
         
@@ -174,12 +174,12 @@ $(document).ready(function($)
         if($(this).attr('mtask'))
         {
             form = 'mtaskForm'+$(this).attr('mtask');
-            path = 'minute/reject/task/'+$(this).attr('mtask');
+            path = 'minute/rejectTask/'+$(this).attr('mtask');
         }
         else
         {
             form = 'taskForm'+$(this).attr('task');
-            path = 'jobs/reject/task/'+$(this).attr('task');
+            path = 'jobs/rejectTask/'+$(this).attr('task');
         }
         rightContentAjaxPost(path,form);
         
@@ -190,91 +190,98 @@ $(document).ready(function($)
         if($(this).attr('mtask'))
         {
             form = 'mtaskForm'+$(this).attr('mtask');
-            path = 'minute/reject/othertask/'+$(this).attr('mtask');
+            path = 'minute/rejectOthertask/'+$(this).attr('mtask');
         }
         else
         {
             form = 'taskForm'+$(this).attr('task');
-            path = 'jobs/reject/othertask/'+$(this).attr('task');
+            path = 'jobs/rejectOthertask/'+$(this).attr('task');
         }
         rightContentAjaxPost(path,form);
         
     });
 
-    $('#listLeft').on('click', '#postComment', function(event) {
+    $('#listLeft').on('click', '#taskComment', function(event) {
         event.preventDefault();
         if($(this).attr('mtask'))
         {
             form = 'CommentForm'+$(this).attr('mtask');
-            path = 'minute/task/'+$(this).attr('mtask')+'/comment';
+            path = 'minute/task/'+$(this).attr('mtask')+'/taskComment';
         }
         else
         {
             form = 'CommentForm'+$(this).attr('task');
-            path = 'jobs/task/'+$(this).attr('task')+'/comment';
+            path = 'jobs/task/'+$(this).attr('task')+'/taskComment';
         }
         rightContentAjaxPost(path,form);
     });
-    $('#listLeft').on('change', '#statusChange', function(event) {
+    $('#listLeft').on('click', '#otherTaskComment', function(event) {
         event.preventDefault();
         if($(this).attr('mtask'))
         {
-            path = '/minute/status/'+$(this).attr('mtask');
+            form = 'CommentForm'+$(this).attr('mtask');
+            path = 'minute/task/'+$(this).attr('mtask')+'/otherTaskComment';
         }
         else
         {
-            path = '/jobs/status/'+$(this).attr('task');
+            form = 'CommentForm'+$(this).attr('task');
+            path = 'jobs/task/'+$(this).attr('task')+'/otherTaskComment';
         }
-        status = $(this).val();
-        $.ajax({
-            url: path,
-            type: 'POST',
-            dataType: 'html',
-            data: {'_token':$('#_token').val(),'status':status},
-        })
-        .done(function(htmlData) {
-                    $.notify('Status updated',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
-                $('#rightContent').html(htmlData);
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
+        rightContentAjaxPost(path,form);
+    });
+    $('#listLeft').on('click', '#followupComment', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            form = 'CommentForm'+$(this).attr('mtask');
+            path = 'minute/task/'+$(this).attr('mtask')+'/followupComment';
+        }
+        else
+        {
+            form = 'CommentForm'+$(this).attr('task');
+            path = 'jobs/task/'+$(this).attr('task')+'/followupComment';
+        }
+        rightContentAjaxPost(path,form);
+    });
+    $('#listLeft').on('click', '#acceptCompletion', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            path = '/minute/acceptCompletion/'+$(this).attr('mtask');
+        }
+        else
+        {
+            path = '/jobs/acceptCompletion/'+$(this).attr('task');
+        }
+        rightContentAjaxGet(path);
+        
+    });
+    $('#listLeft').on('click', '#rejectCompletion', function(event) {
+        event.preventDefault();
+        if($(this).attr('mtask'))
+        {
+            path = '/minute/rejectCompletion/'+$(this).attr('mtask');
+        }
+        else
+        {
+            path = '/jobs/rejectCompletion/'+$(this).attr('task');
+        }
+        rightContentAjaxGet(path);
         
     });
     $('#listLeft').on('click', '#markComplete', function(event) {
         event.preventDefault();
-        tid = $(this).attr('mtask');
-        status = 'Completed';
-        $.ajax({
-            url: '/minute/status/'+tid,
-            type: 'POST',
-            dataType: 'json',
-            data: {'_token':$('#_token').val(),'status':status},
-        })
-        .done(function(jsonData) {
-                if(jsonData.success == 'yes')
-                {
-                    $.notify('Status updated',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
-                }
-                $('#rightContent').load('minute/task/'+tid);
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
+        if($(this).attr('mtask'))
+        {
+            tid = $(this).attr('mtask');
+            path = '/minute/markComplete/'+tid;
+        }
+        else
+        {
+            tid = $(this).attr('task');
+            path = '/job/markComplete/'+tid;
+        }
+        rightContentAjaxGet(path);
     });
     $('#listLeft').on('click', '#createTaskToggle', function(event) {
         event.preventDefault();
