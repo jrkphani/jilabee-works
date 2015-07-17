@@ -27,10 +27,13 @@ $(document).ready(function($)
                 $('#selected_attendees , #selected_minuters').html('');
                 $('#createMeetingForm').find(':input').each(function()
                     {
-                        $(this).val('');
+                        if($(this).attr('name') != '_token')
+                        {
+                            $(this).val('');
+                        }
                     });
                 //top bar notification
-                $.notify('Sent',
+                $.notify('Meeting Created Successfully',
                 {
                    className:'success',
                    globalPosition:'top center'
@@ -53,14 +56,14 @@ $(document).ready(function($)
             source: "/user/search",
             minLength: 2,
             select: function( event, ui ) {
-                if($("#u" + ui.item.userId).length != 0)
+                if($("#" + ui.item.userId).length != 0)
                 {
                   alert('User already exist!');
                   return false;
                 }
                 else
                 {
-                    insert = '<div class="col-md-6 attendees" id="u'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+                    insert = '<div class="col-md-6 attendees" id="'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
                     $('#selected_minuters').append(insert);
                     $(this).val("");
                     return false;
@@ -72,14 +75,14 @@ $(document).ready(function($)
             source: "/user/search",
             minLength: 2,
             select: function( event, ui ) {
-                if($("#u" + ui.item.userId).length != 0)
+                if($("#" + ui.item.userId).length != 0)
                 {
                   alert('User already exist!');
                   return false;
                 }
                 else
                 {
-                    insert = '<div class="col-md-6 attendees" id="u'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
+                    insert = '<div class="col-md-6 attendees" id="'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
                     $('#selected_attendees').append(insert);
                     $(this).val("");
                     return false;

@@ -74,7 +74,7 @@ class TaskController extends Controller {
 		}
 		if($records || $ideasArr)
 		{	
-			$minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first();
+			$minute = Minutes::whereId($mid)->where('lock_flag','=',Auth::id())->first();
 			if($ideasArr)
 			{
 				DB::transaction(function() use ($minute,$ideasArr)
@@ -102,19 +102,19 @@ class TaskController extends Controller {
 			return json_encode($output);
 		}
 	}
-	public function viewTask($id)
+	public function viewTask($mid,$id)
 	{
-		$task = MinuteTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 		return view('jobs.task',['task'=>$task]);
 	}
-	public function viewFollowup($id)
+	public function viewFollowup($mid,$id)
 	{
-		$task = MinuteTasks::where('id','=',$id)->where('assigner','=',Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
 		return view('jobs.followupTask',['task'=>$task]);
 	}
-	public function acceptTask($id)
+	public function acceptTask($mid,$id)
 	{
-		$task = MinuteTasks::where('id','=',$id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
 		$task->status = 'open';
 		$task->reason = NULL;
 		if($task->save())
@@ -130,12 +130,13 @@ class TaskController extends Controller {
 			}
 		return view('jobs.task',['task'=>$task]);
 	}
-	public function rejectTask($id)
+	public function rejectTask($mid,$id)
 	{
 		$input = Request::only('reason');
 		if($input['reason'])
 		{
-			$task = MinuteTasks::where('id','=',$id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
+			$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
+			echo "vrever"; die;
 			$task->status = 'rejected';
 			$task->reason = nl2br($input['reason']);
 			if($task->save())
@@ -158,9 +159,9 @@ class TaskController extends Controller {
 		}
 		
 	}
-	public function markComplete($id)
+	public function markComplete($mid,$id)
 	{
-		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Open')->whereAssignee(Auth::id())->first();
 		if($task)
 		{
 			$task->status = 'Completed';
@@ -174,9 +175,9 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
-	public function acceptCompletion($id)
+	public function acceptCompletion($mid,$id)
 	{
-			$task = MinuteTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
 			if($task)
 			{
 				$task->status = 'Closed';
@@ -190,9 +191,9 @@ class TaskController extends Controller {
 				abort('403');
 			}
 	}
-	public function rejectCompletion($id)
+	public function rejectCompletion($mid,$id)
 	{
-			$task = MinuteTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
 			if($task)
 			{
 				$task->status = 'Open';
@@ -206,7 +207,7 @@ class TaskController extends Controller {
 				abort('403');
 			}
 	}
-	public function taskComment($id)
+	public function taskComment($mid,$id)
 	{
 		$input = Request::only('description');
 		$validator = MinuteTaskComments::validation($input);
@@ -214,7 +215,7 @@ class TaskController extends Controller {
 		{
 			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
 		}
-		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 		if($task)
 		{
 			$input['created_by'] = $input['updated_by'] = Auth::id();
@@ -230,7 +231,7 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
-	public function followupComment($id)
+	public function followupComment($mid,$id)
 	{
 		$input = Request::only('description');
 		$validator = MinuteTaskComments::validation($input);
@@ -238,7 +239,7 @@ class TaskController extends Controller {
 		{
 			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
 		}
-		$task = MinuteTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
 		if($task)
 		{
 			$input['created_by'] = $input['updated_by'] = Auth::id();

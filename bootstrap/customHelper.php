@@ -38,6 +38,17 @@ function generateUserId($customerId,$id)
 {
     return $customerId.'u'.dechex($id);
 }
+function getOrgId()
+{
+    if(starts_with(Auth::user()->userId, 'GEN'))
+    {
+        return false;
+    }
+    else
+    {
+        return substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u'));
+    }
+}
 // function getProfile($userId=NULL)
 // {
 //     if(Auth::check())
@@ -53,21 +64,21 @@ function generateUserId($customerId,$id)
 //         return false;
 //     }
 // }
-// function getUser($email=NULL)
-// {
-//     if(Auth::check())
-//     {
-//         if(!$email)
-//         {
-//              return Auth::user();
-//         }
-//         return App\User::whereEmail($email)->first();
-//     }
-//     else
-//     {
-//         return false;
-//     }
-// }
+function getUser($where=NULL)
+{
+    if(Auth::check())
+    {
+        if(!$where)
+        {
+             return Auth::user();
+        }
+        return App\User::where($where)->first();
+    }
+    else
+    {
+        return false;
+    }
+}
 function isEmail($str)
 {
     if(filter_var($str, FILTER_VALIDATE_EMAIL))

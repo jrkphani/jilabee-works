@@ -49,7 +49,7 @@ $(document).ready(function($)
                         });
                     $('.meetingMenu.active').click();
                     //top bar notification
-                    $.notify('Sent',
+                    $.notify('Request Sent Successfully',
                     {
                        className:'success',
                        globalPosition:'top center'

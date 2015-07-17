@@ -2,11 +2,11 @@
 <?php 
 	if($task->minuteId)
 	{
-		$parentAttr = 'mtask';
+		$mid = "mid=$task->minuteId";
 	}
 	else
 	{
-		$parentAttr = 'task';
+		$mid='';
 	}
 ?>
 <div class="row">
@@ -33,26 +33,25 @@
 		</div>
 	@endif
 	@if($task->status == 'Sent')
-		{!! Form::open(['id'=>$parentAttr."Form".$task->id]) !!}
+		{!! Form::open(['id'=>"Form".$task->id]) !!}
 		{!! Form::textarea('reason', '','') !!}
 		@if(isset($reason_err))
 			<div class="error">{{$reason_err}}</div>
 		@endif
 		{!! Form::close() !!}
-		<button {{$parentAttr}}="{{$task->id}}" id="accept" class="btn btn-primary">Accept</button>
-		<button {{$parentAttr}}="{{$task->id}}" id="reject" class="btn btn-primary">Reject</button>
+		<button {{$mid}} tid="{{$task->id}}" id="accept" class="btn btn-primary">Accept</button>
+		<button {{$mid}} tid="{{$task->id}}" id="reject" class="btn btn-primary">Reject</button>
 	@elseif($task->status == 'Rejected')
 		Refused Reason : {!! $task->reason !!}
 	@else
 		@if($task->status != 'Completed')
-		<button type="submit" id="markComplete" {{$parentAttr}}="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
+		<button type="submit" id="markComplete" {{$mid}} tid="{{$task->id}}" class="btn btn-primary pull-right">Mark as Completed</button>
 		@endif
 		{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
 		{!! Form::textarea('description', '','') !!}
 		{!! $errors->first('description','<div class="error">:message</div>') !!}
 		{!! Form::close() !!}
-		<button {{$parentAttr}}="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button>
+		<button {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button>
 	@endif
-	
 </div>
 @endif

@@ -7,7 +7,7 @@ use DB;
 use Auth;
 use Validator;
 use Activity;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Contracts\Auth\Registrar;
 class UserController extends Controller {
 
@@ -24,11 +24,10 @@ class UserController extends Controller {
 	{
 		return view('admin.addUser');
 	}
-	public function postAdd(Request $request)
+	public function postAdd()
 	{
-		$input = $request->all();
-		$input['dbconnection'] = $request->session()->get('database');
-		$validator = $this->registrar->validator($request->all());
+		$input = Request::all();
+		$validator = $this->registrar->validator($input);
 
 		if ($validator->fails())
 		{
@@ -36,46 +35,47 @@ class UserController extends Controller {
 		}
 		try
 		 {
-		 	DB::connection('jotterBase')->beginTransaction();
-		    $user = new User();
-			//$user->setConnection('jotterBase');
-			$user->email = $input['email'];
-			$user->active ='1';
-			$user->userId = "dumy".date('His');
-			$user->password = bcrypt($input['password']);
-			if($user->save())
-			{
-				DB::connection('jotterBase')->commit();
-				$userId = generateUserId($input['dbconnection'],$user->id);
-				$user->update(['userId'=>$userId]);
-				$profile = new Profile();
-				$profile->setConnection($input['dbconnection']);
-				$profile->userId = $user->id;
-				$profile->name = ucwords(strtolower($input['name']));
-				$profile->dob = $input['dob'];
-				$profile->gender = $input['gender'];
-				$profile->phone = $input['phone'];
-				$profile->created_by = Auth::id();
-				$profile->updated_by = Auth::id();
-				if(!$profile->save())
+		 	DB::transaction(function() use ($input)
+		 	{
+		 		$user = new User();
+				$user->email = $input['email'];
+				$user->active ='1';
+				$user->userId = "dumy".date('His');
+				$user->password = bcrypt($input['password']);
+				if($user->save())
 				{
-					DB::connection('jotterBase')->rollback();
+					if($orgId = getOrgId())
+					{
+						$userId = generateUserId($orgId,$user->id);	
+						$user->update(['userId'=>$userId]);
+						$profile = new Profile();
+						$profile->userId = $user->id;
+						$profile->name = ucwords(strtolower($input['name']));
+						$profile->dob = $input['dob'];
+						$profile->gender = $input['gender'];
+						$profile->phone = $input['phone'];
+						$profile->created_by = Auth::id();
+						$profile->updated_by = Auth::id();
+						if($user->profile()->save($profile))
+						{
+							Activity::log([
+							'userId'	=> Auth::id(),
+							'contentId'   => $user->id,
+						    'contentType' => 'Add Organizations User',
+						    'action'      => 'Create',
+						    //'description' => 'Add Organizations User',
+						    'details'     => 'Name:'.$input['name'].'Email:'.$input['email']
+						]);
+						}
+					}
 				}
-				Activity::log([
-					'userId'	=> Auth::id(),
-					'contentId'   => $user->id,
-				    'contentType' => 'Add Organizations User',
-				    'action'      => 'Create',
-				    //'description' => 'Add Organizations User',
-				    'details'     => 'Name:'.$input['name'].'Email:'.$input['email']
-				]);
-				return redirect('/admin/user/add')->with('message','Success');
-			}
+		 	});
+			return redirect('/admin/user/add')->with('message','User Added Successfuly');
 		 }
 		 catch (Exception $e)
 		 {
 	        //error
-	        DB::connection('jotterBase')->rollback();
+	        //DB::connection('jotterBase')->rollback();
     	}	
 	}
 	public function userList()

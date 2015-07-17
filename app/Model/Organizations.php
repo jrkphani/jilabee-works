@@ -24,12 +24,15 @@ class Organizations extends Model{
 
         $rule = array('customerId'=>'unique:organizations',
             'name'=>'required',
+            'adminname'=>'required',
             'domain'=>'required|min:3|unique:organizations',
             'email' => 'required|email|max:255|unique:users',
             'secondEmail' => 'email|max:255',
             'password' => 'required|confirmed|min:6',
             'phone' =>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
-            'phone1' =>'Regex:/^([0-9\s\-\+\(\)]*)$/');
+            'phone1' =>'Regex:/^([0-9\s\-\+\(\)]*)$/',
+            'dob' =>'required|date|date_format:Y-m-d|before:-15y',
+            'gender' =>'required|in:M,F,O',);
         $validator = Validator::make($data,$rule);
         //$validator->setPresenceVerifier($verifier);
         return $validator;

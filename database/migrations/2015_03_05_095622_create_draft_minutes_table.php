@@ -17,7 +17,7 @@ class CreateDraftMinutesTable extends Migration {
 			$table->integer('minuteId')->unsigned()->nullable();
 			$table->string('title','64')->nullable();
 			$table->text('description')->nullable();
-			$table->integer('assignee')->nullable();;
+			$table->string('assignee','64')->nullable();;
 			$table->integer('assigner')->nullable();
 			$table->string('orginator','64')->nullabel();
 			$table->enum('type', array('task','idea'))->default('task');

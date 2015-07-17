@@ -58,6 +58,7 @@
 							<div class="col-md-6">
 								{!!Form::radio('gender', 'M') !!} Male 
 								{!!Form::radio('gender', 'F') !!} Female
+								{!!Form::radio('gender', 'O') !!} Others
 								{!! $errors->first('gender','<div class="error">:message</div>') !!}
 							</div>
 						</div>

@@ -5,12 +5,10 @@ use App\Model\JobTasks;
 use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
-use App\Model\OtherTaskComments;
 use Auth;
 use Validator;
 use Session;
 use App\Model\JobDraft;
-use App\Model\OtherTasks;
 class TaskController extends Controller {
 
 	/**
@@ -36,11 +34,6 @@ class TaskController extends Controller {
 		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
 		return view('jobs.task',['task'=>$task]);
 	}
-	public function viewOtherTask($id)
-	{
-		$task = OtherTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
-		return view('jobs.otherTask',['task'=>$task]);
-	}
 	public function viewfollowup($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
@@ -53,29 +46,6 @@ class TaskController extends Controller {
 		$task->updated_by = Auth::id();
 		$task->save();
 		return view('jobs.task',['task'=>$task]);
-	}
-	public function acceptOtherTask($id)
-	{
-		$otherTask = OtherTasks::whereType('task')->whereId($id)->whereStatus('Sent')->whereAssignee(Auth::id())->first();
-		if($otherTask)
-		{
-			configureConnection($otherTask->org);
-			$jobtask = new JobTasks;
-			$task = $jobtask->setConnection($otherTask->org)->whereId($otherTask->taskId)->first();
-			$task->status = 'Open';
-			//$task->updated_by = Auth::id();
-			if($task->save())
-			{
-				$otherTask->status = 'Open';
-				$otherTask->updated_by = Auth::id();
-				$otherTask->save();
-			}
-			return view('jobs.otherTask',['task'=>$task]);
-		}
-		else
-		{
-			abort('403');
-		}
 	}
 	public function rejectTask($id)
 	{
@@ -95,44 +65,11 @@ class TaskController extends Controller {
 			return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
 		}
 	}
-	public function rejectOtherTask($id)
-	{
-		$input = Request::only('reason');
-		$otherTask = OtherTasks::whereType('task')->whereId($id)->whereStatus('Sent')->whereAssignee(Auth::id())->first();
-		if($input['reason'])
-		{
-			if($otherTask)
-			{
-				configureConnection($otherTask->org);
-				$jobtask = new JobTasks;
-				$task = $jobtask->setConnection($otherTask->org)->whereId($otherTask->taskId)->first();
-				$task->status = 'Rejected';
-				//$task->updated_by = Auth::id();
-				$task->reason = $input['reason'];
-				if($task->save())
-				{
-					$otherTask->status = 'Rejected';
-					$otherTask->updated_by = Auth::id();
-					$otherTask->reason = $input['reason'];
-					$otherTask->save();
-				}
-				return view('jobs.otherTask',['task'=>$task]);
-			}
-			else
-			{
-				abort('403');
-			}
-		}
-		else
-		{
-			return view('jobs.otherTask',['task'=>$otherTask,'reason_err'=>'Reason for rejection is require']);
-		}
-	}
 	public function followups()
 	{
 		$tasks = Tasks::whereAssigner(Auth::id())
 					->where('status','!=','Closed')->orderBy('dueDate')->get();
-		$drafts = JobDraft::where('assigner','=',Auth::id())->get();
+		$drafts = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
 		return view('jobs.followups',['tasks'=>$tasks,'drafts'=>$drafts]);
 	}
 	public function history()
@@ -143,11 +80,25 @@ class TaskController extends Controller {
 	}
 	public function draft()
 	{
-		$input = Request::only('title','description','assignee','assigneeEmail','notes','dueDate');
+		$input = Request::only('title','description','assignee','notes','dueDate');
 		$input['created_by'] = $input['assigner'] = Auth::id();
-		if(!$input['assignee'])
+		if(isEmail($input['assignee']))
 			{
-				$input['assignee'] = $input['assigneeEmail'];
+				if($assignee = getUser(['email'=>$input['assignee']]))
+				{
+					$input['assignee'] = $assignee->id;
+				}
+			}
+			else
+			{
+				if($assignee = getUser(['userId'=>$input['assignee']]))
+				{
+					$input['assignee'] = $assignee->id;
+				}
+				else
+				{
+					$input['assignee'] = NULL;	
+				}
 			}
 		if(Request::input('id'))
 		{
@@ -177,12 +128,7 @@ class TaskController extends Controller {
 	}
 	public function createTask()
 	{
-		$input = Request::only('title','description','assignee','assigner','assigneeEmail','notes','dueDate');
-		$otherUser = 0;
-		if(!$input['assignee'])
-			{
-				$input['assignee'] = $input['assigneeEmail'];
-			}
+		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
 		$output['success'] = 'yes';
 		$validator = JobTasks::validation($input);
 		if ($validator->fails())
@@ -199,27 +145,23 @@ class TaskController extends Controller {
 			}
 			if(isEmail($input['assignee']))
 			{
-				if($assignee = getUser($input['assigneeEmail']))
+				if($assignee = getUser(['email'=>$input['assignee']]))
 				{
-					if(starts_with(Auth::user()->userId, 'GEN'))
-					{
-						$userDB = env('GEN_DATABASE');
-					}
-					else
-					{
-						$userDB = substr($assignee->userId, 0, strrpos($assignee->userId, 'u'));
-					}
-					if(Session::get('database') == $userDB)
-						{
-							//same organiztion
-							//alert to org admin
-							$input['assignee'] = $assignee->id;
-						}
-						else
-						{
-							$otherUser = 1;
-							//create task link to assinee user
-						}
+					$input['assignee'] = $assignee->id;
+				}
+			}
+			else
+			{
+				if($assignee = getUser(['userId'=>$input['assignee']]))
+				{
+					$input['assignee'] = $assignee->id;
+				}
+				else
+				{
+					$validator->errors()->add('assignee', 'Invalid assignee!');
+					$output['success'] = 'no';
+					$output['validator'] = $validator->messages()->toArray();
+					return json_encode($output);
 				}
 			}
 			$input['description'] = nl2br($input['description']);
@@ -227,27 +169,8 @@ class TaskController extends Controller {
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
 			if($task = JobTasks::create($input))
 			{
-				if($otherUser)
-				{
-
-					//other ORG database user
-					configureConnection($userDB);
-					$otherTasks = new OtherTasks();
-					$otherTasks->setConnection($userDB);
-					$otherTasks->taskId = $task->id;
-					$otherTasks->type = 'task';
-					$otherTasks->title = $input['title'];
-					$otherTasks->description = $input['description'];
-					$otherTasks->dueDate = $input['dueDate'];
-					$otherTasks->assignee = $assignee->id;
-					$otherTasks->assigner = Auth::user()->email;
-					$otherTasks->org = Session::get('database');
-					$otherTasks->created_by = Auth::id();
-					$otherTasks->updated_by = Auth::id();
-					$otherTasks->save();
-				}
+				return json_encode($output);
 			}
-			return json_encode($output);
 		}
 	}
 	public function markComplete($id)
@@ -322,43 +245,6 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
-	public function otherTaskComment($id)
-	{
-		$input = Request::only('description');
-		$validator = OtherTaskComments::validation($input);
-		$otherTask = OtherTasks::whereId($id)->whereAssignee(Auth::id())->first();
-		if ($validator->fails())
-		{
-			return view('jobs.otherTask',['task'=>$otherTask])->withErrors($validator)->withInput($input);
-		}
-		if($otherTask)
-		{
-			configureConnection($otherTask->org);
-			$jobtask = new JobTasks;
-			$task = $jobtask->setConnection($otherTask->org)->whereId($otherTask->taskId)->first();
-			if($task)
-				{
-					//update orinal comment table
-					$jobTaskComments = new JobTaskComments();
-					$jobTaskComments->setConnection($otherTask->org);
-					$jobTaskComments->description = $input['description'];
-					$jobTaskComments->created_by = 2;
-					$jobTaskComments->updated_by = 2;
-					if($task->comments()->save($jobTaskComments))
-					{
-						//update clone comment table
-						$input['created_by'] = $input['updated_by'] = Auth::id();
-						$otherTaskComments = new otherTaskComments($input);
-						$otherTask->comments()->save($otherTaskComments);
-						return view('jobs.otherTask',['task'=>$otherTask]);
-					}
-				}
-		}
-		else
-		{
-			abort('403');
-		}
-	}
 	public function followupComment($id)
 	{
 		$input = Request::only('description');
@@ -375,34 +261,7 @@ class TaskController extends Controller {
 			$comment = new JobTaskComments($input);
 			if($task->comments()->save($comment))
 			{
-				if(isEmail($task->assignee))
-				{
-					if($assignee = getUser($task->assignee))
-					{
-						if(starts_with(Auth::user()->userId, 'GEN'))
-						{
-							$userDB = env('GEN_DATABASE');
-						}
-						else
-						{
-							$userDB = substr($assignee->userId, 0, strrpos($assignee->userId, 'u'));
-						}
-						//echo $userDB; die;
-						configureConnection($userDB);
-						$otherTasks = new OtherTasks;
-						$otherTask = $otherTasks->setConnection($userDB)->whereType('task')->where('taskId',$id)->whereCreated_by(Auth::id())->first();
-						if($otherTask)
-						{
-							$otherTaskComments = new OtherTaskComments();
-							$otherTaskComments->setConnection($userDB);
-							$otherTaskComments->description = $input['description'];
-							$otherTaskComments->created_by = Auth::id();
-							$otherTaskComments->updated_by = Auth::id();
-							$otherTask->comments()->save($otherTaskComments);
-						}
-					}
-				}
-				return view('jobs.followupTask',['task'=>$task]);
+				return view('jobs.followupTask',['task'=>$task]);				
 			}
 		}
 		else

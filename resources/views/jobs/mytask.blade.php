@@ -9,11 +9,7 @@
 			@if($tasks->count())
 			<ul>
 				@foreach($tasks as $task)
-					@if($task->type == 'ominute')
-						<li otid="{{$task->id}}" mid="{{$task->minuteId}}" class="task">{{$task->title}}</li>
-					@elseif($task->type == 'otask')
-						<li otid="{{$task->id}}" class="task">{{$task->title}}</li>	
-					@elseif($task->type == 'minute')
+					@if($task->type == 'minute')
 						<li tid="{{$task->id}}" mid="{{$task->minuteId}}" class="task">{{$task->title}}</li>
 					@else
 						<li tid="{{$task->id}}" class="task">{{$task->title}}</li>	

@@ -66,7 +66,7 @@ class AuthController extends Controller {
 						{
 							$userId = generateUserId($customerId,$user->id);
 							$user->update(['userId'=>$userId]);
-							$profile = new Profile(['phone'=>$input['phone']]);
+							$profile = new Profile(['phone'=>$input['phone'],'dob'=>$input['dob'],'gender'=>$input['gender'],'name'=>$input['adminname']]);
 						    $user->profile()->save($profile);
 						    Activity::log([
 							    'contentType' => 'Organizations',

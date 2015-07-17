@@ -5,6 +5,7 @@ use App\Model\JobTasks;
 use App\Model\TempMeetings;
 use App\Model\Meetings;
 use App\Model\Profile;
+use App\User;
 use Auth;
 class MeetingsController extends Controller {
 
@@ -48,8 +49,13 @@ class MeetingsController extends Controller {
 		else
 		{
 			$input['created_by'] = $input['updated_by'] = Auth::id();
-			$input['minuters'] = implode(',',$input['minuters']);
-			$input['attendees'] = implode(',',$input['attendees']);
+			$getMinutersId = User::whereIn('userId',$input['minuters'])->lists('id');
+			$input['minuters'] = implode(',',$getMinutersId);
+			if($input['attendees'])
+			{
+				$getAttendeesId = User::whereIn('userId',$input['attendees'])->lists('id');
+				$input['attendees'] = implode(',',$getAttendeesId);
+			}
 			$input['description'] = nl2br($input['description']);
 			if(Auth::user()->isAdmin)
 			{
