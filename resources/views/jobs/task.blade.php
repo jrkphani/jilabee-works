@@ -2,7 +2,7 @@
 <?php 
 	if($task->minuteId)
 	{
-		$mid = "mid=$task->minuteId";
+		$mid = "mid=".$task->minuteId;
 	}
 	else
 	{

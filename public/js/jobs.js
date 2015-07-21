@@ -154,69 +154,70 @@ $(document).ready(function($)
 
     $('#listLeft').on('click', '#taskComment', function(event) {
         event.preventDefault();
-        if($(this).attr('mtask'))
+        tid = $(this).attr('tid');
+        form = 'CommentForm'+tid;
+        if($(this).attr('mid'))
         {
-            form = 'CommentForm'+$(this).attr('mtask');
-            path = 'minute/task/'+$(this).attr('mtask')+'/taskComment';
+            path = 'minute/'+$(this).attr('mid')+'/task/'+tid+'/taskComment';
         }
         else
         {
-            form = 'CommentForm'+$(this).attr('task');
-            path = 'jobs/task/'+$(this).attr('task')+'/taskComment';
+            path = 'jobs/task/'+tid+'/taskComment';
         }
         rightContentAjaxPost(path,form);
     });
     $('#listLeft').on('click', '#followupComment', function(event) {
         event.preventDefault();
-        if($(this).attr('mtask'))
+        tid = $(this).attr('tid');
+        form = 'CommentForm'+tid;
+        if($(this).attr('mid'))
         {
-            form = 'CommentForm'+$(this).attr('mtask');
-            path = 'minute/task/'+$(this).attr('mtask')+'/followupComment';
+            path = 'minute/'+$(this).attr('mid')+'/task/'+tid+'/followupComment';
         }
         else
         {
-            form = 'CommentForm'+$(this).attr('task');
-            path = 'jobs/task/'+$(this).attr('task')+'/followupComment';
+            path = 'jobs/task/'+tid+'/followupComment';
         }
         rightContentAjaxPost(path,form);
     });
     $('#listLeft').on('click', '#acceptCompletion', function(event) {
         event.preventDefault();
-        if($(this).attr('mtask'))
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
         {
-            path = '/minute/acceptCompletion/'+$(this).attr('mtask');
+            path = '/minute/'+$(this).attr('mid')+'/acceptCompletion/'+tid;
         }
         else
         {
-            path = '/jobs/acceptCompletion/'+$(this).attr('task');
+            path = '/jobs/acceptCompletion/'+tid;
         }
         rightContentAjaxGet(path);
         
     });
     $('#listLeft').on('click', '#rejectCompletion', function(event) {
         event.preventDefault();
-        if($(this).attr('mtask'))
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
         {
-            path = '/minute/rejectCompletion/'+$(this).attr('mtask');
+            path = '/minute/'+mid+'/rejectCompletion/'+tid;
         }
         else
         {
-            path = '/jobs/rejectCompletion/'+$(this).attr('task');
+            path = '/jobs/rejectCompletion/'+tid;
         }
         rightContentAjaxGet(path);
         
     });
     $('#listLeft').on('click', '#markComplete', function(event) {
         event.preventDefault();
-        if($(this).attr('mtask'))
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
         {
-            tid = $(this).attr('mtask');
-            path = '/minute/markComplete/'+tid;
+            path = '/minute/'+$(this).attr('mid')+'/markComplete/'+tid;
         }
         else
         {
-            tid = $(this).attr('task');
-            path = '/job/markComplete/'+tid;
+            path = '/jobs/markComplete/'+tid;
         }
         rightContentAjaxGet(path);
     });
