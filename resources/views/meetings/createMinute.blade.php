@@ -13,6 +13,10 @@
 </div>
 <div class="col-md-12"><strong>Absentees</strong></div>
 <div class="col-md-12" Id="absentees"></div>
+<div class="col-md-12">
+	Add email
+	<input type="text" name="attendees[]">
+</div>
 {!! Form::close() !!}
 <button id="createMinute" mid="{{$meeting->id}}" type="button" class="btn btn-primary">
 	Proceed

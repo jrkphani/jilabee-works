@@ -82,7 +82,7 @@ class TaskController extends Controller {
 	}
 	public function history()
 	{
-		$tasks = JobTasks::where('assignee','=',Auth::id())
+		$tasks = Tasks::where('assignee','=',Auth::id())
 					->orWhere('assigner','=',Auth::id())->get();
 		return view('jobs.history',['tasks'=>$tasks]);
 	}

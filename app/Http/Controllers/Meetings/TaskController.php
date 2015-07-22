@@ -112,6 +112,14 @@ class TaskController extends Controller {
 		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
 		return view('jobs.followupTask',['task'=>$task]);
 	}
+	public function viewHistory($mid,$id)
+	{
+		$task = MinuteTasks::whereId($id)->where('minuteId',$mid)->where(function($query)
+			{
+				$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
+			})->first();
+		return view('jobs.historyTask',['task'=>$task]);
+	}
 	public function acceptTask($mid,$id)
 	{
 		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
