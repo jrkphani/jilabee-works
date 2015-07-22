@@ -25,19 +25,27 @@ class TaskController extends Controller {
 	}
 	public function mytask()
 	{
-		$tasks = Tasks::where('assignee','=',Auth::id())
+		$tasks = Tasks::whereAssignee(Auth::id())
 					->where('status','!=','Closed')->get();
 		return view('jobs.mytask',['tasks'=>$tasks]);
 	}
 	public function viewTask($id)
 	{
-		$task = JobTasks::where('id','=',$id)->where('assignee','=',Auth::id())->first();
+		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
 		return view('jobs.task',['task'=>$task]);
 	}
-	public function viewfollowup($id)
+	public function viewFollowup($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
 		return view('jobs.followupTask',['task'=>$task]);
+	}
+	public function viewHistory($id)
+	{
+		$task = JobTasks::whereId($id)->where(function($query)
+			{
+				$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
+			})->first();
+		return view('jobs.historyTask',['task'=>$task]);
 	}
 	public function acceptTask($id)
 	{
@@ -74,9 +82,9 @@ class TaskController extends Controller {
 	}
 	public function history()
 	{
-		$history = JobTasks::where('assignee','=',Auth::id())
+		$tasks = JobTasks::where('assignee','=',Auth::id())
 					->orWhere('assigner','=',Auth::id())->get();
-		return view('jobs.history',['history'=>$history]);
+		return view('jobs.history',['tasks'=>$tasks]);
 	}
 	public function draft()
 	{

@@ -11,7 +11,19 @@
 |
 */
 
-/*Route::get('/', 'WelcomeController@index');*/
+Route::get('/testemail', function(){
+	Mail::send(
+  'emails.password',
+  array( 'token' => 'testing' ),
+  function( $message ) {
+    $message->from( 'mani.r@mtlabs.in', 'Code Chewing' );
+    $message->to(
+      'manimani1014@gmail.com',
+      'name'
+    )->subject( 'Welcome to Code Chewing!' );
+  }
+);
+});
 Route::group(['prefix' => 'admin'], function()
 {
 	Route::group(['middleware' => 'adminOnly'], function()
@@ -68,6 +80,7 @@ Route::group(['prefix' => 'admin'], function()
 				Route::get('mytask', 'Jobs\TaskController@mytask');
 				Route::get('followups', 'Jobs\TaskController@followups');
 				Route::get('history', 'Jobs\TaskController@history');
+				Route::get('history/{taskid}', 'Jobs\TaskController@viewHistory')->where('taskid', '[0-9]+');
 				Route::post('createTask','Jobs\TaskController@createTask');
 			});
 			Route::group(['prefix' => 'meetings'], function()
@@ -96,6 +109,7 @@ Route::group(['prefix' => 'admin'], function()
 				Route::post('{minuteId}/update', 'Meetings\MinuteController@update')->where('minueId', '[0-9]+');
 				Route::post('{minuteId}/draft', 'Meetings\MinuteController@draft')->where('minueId', '[0-9]+');
 				Route::post('{minuteId}/task', 'Meetings\TaskController@createTask')->where('minueId', '[0-9]+');
+				Route::get('{minuteId}/history/{taskid}', 'Meetings\TaskController@viewHistory')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 			});
 		
 		//});

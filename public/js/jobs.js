@@ -134,7 +134,19 @@ $(document).ready(function($)
         rightContentAjaxGet(path);
         
     });
-
+    $('#listLeft').on('click', '.historyTask', function(event){
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
+        {
+            path = '/minute/'+$(this).attr('mid')+'/history/'+tid;
+        }
+        else
+        {
+            path = '/jobs/history/'+tid;
+        }
+        rightContentAjaxGet(path);
+        
+        });
 
     $('#listLeft').on('click', '#reject', function(event) {
         event.preventDefault();
@@ -326,6 +338,7 @@ $('#history').click(function(event)
     })
     .done(function(htmlData) {
     	$('#listLeft').html(htmlData);
+        $('#listLeft').find('.historyTask:first').click();
     })
     .fail(function(xhr) {
         checkStatus(xhr.status);

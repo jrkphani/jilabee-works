@@ -6,17 +6,27 @@
 	</div>
 	<div class="col-md-12">
 		<div class="col-md-3">
-			@if($history->count())
+			@if($tasks->count())
 			<ul>
-				@foreach($history as $job)
-				<li>{{$job->title}}</li>
+				@foreach($tasks as $task)
+				<?php 
+					if($task->minuteId)
+					{
+						$mid = "mid=".$task->minuteId;
+					}
+					else
+					{
+						$mid='';
+					}
+				?>
+				<li class="historyTask" tid="{{$task->id}}" {{$mid}}>{{$task->title}}</li>
 				@endforeach
 			</ul>
 			@else
 				No Tasks
 			@endif
 		</div>
-		<div class="col-md-9">
+		<div id="rightContent" class="col-md-9">
 			right content
 		</div>
 	</div>
