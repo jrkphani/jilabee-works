@@ -144,7 +144,6 @@ class TaskController extends Controller {
 		if($input['reason'])
 		{
 			$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
-			echo "vrever"; die;
 			$task->status = 'rejected';
 			$task->reason = nl2br($input['reason']);
 			if($task->save())

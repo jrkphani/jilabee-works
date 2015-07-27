@@ -37,8 +37,9 @@ class MeetingsController extends Controller {
 	}
 	public function createMeeting()
 	{
-		$input = Request::only('title','description','venue','attendees','minuters');
+		$input = Request::only('title','description','venue','attendees','minuters','emails');
 		$output['success'] = 'yes';
+		$emails=array();
 		$validator = TempMeetings::validation($input);
 		if ($validator->fails())
 		{
@@ -48,6 +49,27 @@ class MeetingsController extends Controller {
 		}
 		else
 		{
+			if($input['emails'])
+			{
+				$emails = explode(',', $input['emails']);
+				foreach ($emails as $key => $value)
+				{
+					if(!isEmail($value))
+					{
+						$validator->errors()->add('emails', 'Invalid email: '.$value);
+						$output['success'] = 'no';
+						$output['validator'] = $validator->messages()->toArray();
+						return json_encode($output);
+					}
+				}
+			}
+			if($emails)
+			{
+				foreach ($emails as $key => $value)
+				{
+					//array_push(array, var)
+				}
+			}
 			$input['created_by'] = $input['updated_by'] = Auth::id();
 			$getMinutersId = User::whereIn('userId',$input['minuters'])->lists('id');
 			$input['minuters'] = implode(',',$getMinutersId);

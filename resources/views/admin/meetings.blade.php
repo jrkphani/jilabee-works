@@ -110,7 +110,11 @@
 		        	
 		        	{!! Form::text('selectAttendees', '',['class'=>'form-control'])!!}
 		        	<div id="attendees_err" class="error"></div>
-
+		        	
+		        	{!! Form::label('emails', 'Emails',['class'=>'control-label']); !!}
+		        	{!! Form::text('emails', '',['class'=>'form-control'])!!}
+		        	<div id="emails_err" class="error"></div>
+		        	
 		        	{!! Form::label('venue', 'Venue',['class'=>'control-label']); !!}
 		        	{!! Form::text('venue', '',['class'=>'form-control'])!!}
 		        	<div id="venue_err" class="error"></div>

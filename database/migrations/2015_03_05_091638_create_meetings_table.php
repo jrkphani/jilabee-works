@@ -20,6 +20,7 @@ class CreateMeetingsTable extends Migration {
 			$table->string('venue','64')->nullable();
 			$table->string('attendees','64')->nullable();
 			$table->string('minuters','64');
+			$table->string('emails','64')->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
