@@ -148,7 +148,7 @@
 					$formId = "Form$task->id";
 				}
 				?>
-				@if($task->status == 'Sent')
+				@if($task->status == 'Sent' || $task->status == 'Rejected')
 					<div class="box">
 						<span class="boxNumber boxNumberBlue">1</span>
 						<div class="boxInner">
@@ -161,7 +161,9 @@
 							@endif
 							{!! Form::close() !!}
 							<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
+							@if($task->status != 'Rejected')
 							<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
+							@endif
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
@@ -192,10 +194,10 @@
 						<div class="boxInner">
 							<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-							{!! Form::open(['id'=>$formId]) !!}
+							{{-- {!! Form::open(['id'=>$formId]) !!}
 							{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
 							{!! Form::close() !!}
-							<button {{$mid}} tid="{{$task->id}}" class="btn btn-primary">Update</button>
+							<button {{$mid}} tid="{{$task->id}}" class="btn btn-primary">Update</button> --}}
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>

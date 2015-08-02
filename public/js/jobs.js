@@ -160,8 +160,32 @@ $(document).ready(function($)
             path = 'jobs/rejectTask/'+tid;
              form = 'Form'+tid;
         }
-        rightContentAjaxPost(path,form);
-        
+        $.ajax({
+            url: path,
+            type: 'POST',
+            dataType: 'json',
+            data: $('#'+form).serialize()
+        })
+        .done(function(jsonData) {
+            if(jsonData.success == 'yes')
+            {
+                $('#accept, #reject').remove();
+            }
+            else if(jsonData.success == 'no')
+            {
+                alert(jsonData.msg);
+            }
+            else
+            {
+                //oops
+            }
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
     });
 
     $('#jobspage').on('click', '#taskComment', function(event) {
@@ -248,6 +272,7 @@ $(document).ready(function($)
     });
 
 });
+
 function popupContentAjaxPost(path,form)
 {
     $.ajax({
@@ -266,6 +291,25 @@ function popupContentAjaxPost(path,form)
             checkStatus(xhr.status);
         });
 }
+function rightContentAjaxGet(path)
+{
+    $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#jobspage').html(htmlData);
+            //toggle_visibility('popup1');
+
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
 function popupContentAjaxGet(path)
 {
     $.ajax({
@@ -274,8 +318,9 @@ function popupContentAjaxGet(path)
             dataType: 'html',
         })
         .done(function(htmlData) {
-            $('#popup1').html(htmlData);
-            toggle_visibility('popup1');
+            $('#popup1').html(htmlData).show();
+            //toggle_visibility('popup1');
+
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

@@ -21,7 +21,7 @@
 			<!-- =================== Job details ====================  -->
 			<div class="popupContentTitle">
 				<h4>{{$task->title}}</h4><br/>
-				<p>{{$task->id}}</p>
+				<p>T{{$task->id}}</p>
 				<p>Created on: 25th jan 2015</p>
 				<p>DUE: {{$task->dueDate}}</p>
 			</div>

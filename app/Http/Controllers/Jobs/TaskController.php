@@ -9,6 +9,7 @@ use Auth;
 use Validator;
 use Session;
 use App\Model\JobDraft;
+use Activity;
 class TaskController extends Controller {
 
 	/**
@@ -53,25 +54,39 @@ class TaskController extends Controller {
 		$task->status = 'Open';
 		$task->updated_by = Auth::id();
 		$task->save();
-		return view('jobs.task',['task'=>$task]);
+		//return view('jobs.task',['task'=>$task]);
+		return redirect('jobs/mytask');
 	}
 	public function rejectTask($id)
 	{
 		$input = Request::only('reason');
+		$output['success'] = 'no';
 		if($input['reason'])
 		{
 			$task = JobTasks::whereId($id)->where('status','=','Sent')->where('assignee','=',Auth::id())->first();
 			$task->status = 'Rejected';
 			$task->reason = $input['reason'];
 			$task->updated_by = Auth::id();
-			$task->save();
-			return view('jobs.task',['task'=>$task]);
+			if($task->save())
+			{
+				Activity::log([
+					'userId'	=> Auth::id(),
+					'contentId'   => $task->id,
+				    'contentType' => 'Task',
+				    'action'      => 'Rejected',
+				    //'description' => 'Add Organizations User',
+				    'details'     => 'Rejected Reason: '.$input['reason']
+				]);
+			}
+			$output['success'] = 'yes';
 		}
 		else
 		{
-			$task = JobTasks::find($id);
-			return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
+			$output['msg'] = 'Reason required';
+			//$task = JobTasks::find($id);
+			//return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
 		}
+		return json_encode($output);
 	}
 	public function followups()
 	{

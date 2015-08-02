@@ -14,10 +14,14 @@ function toggle_visibility(id) {
        else
           e.style.display = 'block';
     }
-function checkStatus (headerStatus) {
+function checkStatus(headerStatus) {
 	if(headerStatus == '401')
 	{
 		//alert('not logged in');
 		location.reload();
 	}
+	// else if((headerStatus != '200') || (headerStatus != '300'))
+	// {
+	// 	alert("something went wrong");
+	// }
 }

@@ -123,24 +123,34 @@ class TaskController extends Controller {
 	public function acceptTask($mid,$id)
 	{
 		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
-		$task->status = 'open';
-		$task->reason = NULL;
-		if($task->save())
-			{
-				Activity::log([
-					'userId'	=> Auth::id(),
-					'contentId'   => $task->id,
-				    'contentType' => 'Minute Task',
-				    'action'      => 'Accepted',
-				    //'description' => 'Add Organizations User',
-				    //'details'     => 'Rejected Reason: '.$input['reason']
-				]);
-			}
-		return view('jobs.task',['task'=>$task]);
+		$output['success'] = 'no';
+		if($task)
+		{
+			$task->status = 'open';
+			$task->reason = NULL;
+			if($task->save())
+				{
+					$output['success'] = 'yes';
+					Activity::log([
+						'userId'	=> Auth::id(),
+						'contentId'   => $task->id,
+					    'contentType' => 'Minute Task',
+					    'action'      => 'Accepted',
+					    //'description' => 'Add Organizations User',
+					    //'details'     => 'Rejected Reason: '.$input['reason']
+					]);
+					return redirect('jobs/mytask');
+				}
+		}
+		else
+		{
+			return abort('403');
+		}		
 	}
 	public function rejectTask($mid,$id)
 	{
 		$input = Request::only('reason');
+		$output['success'] = 'no';
 		if($input['reason'])
 		{
 			$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
@@ -157,13 +167,16 @@ class TaskController extends Controller {
 				    'details'     => 'Rejected Reason: '.$input['reason']
 				]);
 			}
-			return view('jobs.task',['task'=>$task]);		
+			$output['success'] = 'yes';
+			//return view('jobs.task',['task'=>$task]);		
 		}
 		else
 		{
-			$task = MinuteTasks::find($id);
-			return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
+			$output['msg'] = 'Reason required';
+			//$task = MinuteTasks::find($id);
+			//return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
 		}
+		return json_encode($output);
 		
 	}
 	public function markComplete($mid,$id)
