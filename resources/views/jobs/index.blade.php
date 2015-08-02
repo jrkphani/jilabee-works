@@ -4,15 +4,7 @@
 <link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 @stop
 @section('content')
-<ul class="nav nav-tabs">
-  <li id="mytask" class="jobsMenu"><a href="#mytask">My Task</a></li>
-  <li id="followups" class="jobsMenu"><a href="#followups">Follow ups</a></li>
-  <li id="history" class="jobsMenu"><a href="#history">History</a></li>
-</ul>
-<div class="row">
-	<div id="listLeft" class="col-md-12">
-		loading...
-	</div>
+<div id="jobspage">
 </div>
 @endsection
 @section('javascript')

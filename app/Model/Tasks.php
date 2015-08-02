@@ -13,4 +13,8 @@ class Tasks extends Model{
 	 *
 	 * @var array
 	 */
+	public function assignerDetail()
+    {   
+        return $this->hasOne('App\Model\Profile', 'userId','assigner');
+    }
 }

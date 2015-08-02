@@ -9,10 +9,96 @@
 		$mid='';
 	}
 ?>
-<div class="row">
+<div class="popupWindow">
+	<div class="popupHeader">
+		<h2><a href="">Jobs</a> / <a href="">Pending Tasks</a></h2>
+		<button onclick="toggle_visibility('popup1');" class="popupClose"></button>
+		<div class="clearboth"></div>
+	</div>	
+	<div class="popupContent">
+		<!--======================== Popup content starts here ===============================-->
+		<div class="popupContentLeft">
+			<!-- =================== Job details ====================  -->
+			<div class="popupContentTitle">
+				<h4>{{$task->title}}</h4><br/>
+				<p>{{$task->id}}</p>
+				<p>Created on: 25th jan 2015</p>
+				<p>DUE: {{$task->dueDate}}</p>
+			</div>
+			<div class="popupContentSubTitle">
+				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
+			</div>
+			<div class="popupContentText">
+				{{$task->description}}
+			</div>
+			
+			
+			<!-- ================= Updates ====================  -->
+			<!-- ================= Update item each ====================  -->
+			<div class="updateItem">
+				<h6> update: 16/08/2015</h6>
+				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
+			</div>
+			<!-- ================= Update item each ====================  -->
+			<div class="updateItem">
+				<h6> update: 16/08/2015</h6>
+				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
+			</div>
+		</div>
+		<!-- =================== Popup right ====================  -->
+		<div class="popupContentRight">
+			<div class="popupSearchSection">
+				
+			</div>
+			<!-- ================= Comment/chat section ====================  -->
+			<div class="chatSection">
+				<div class="chatContent">
+					<div class="chatLeft">
+						<span>Mr.John Smith</span>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique. </p>
+					</div>
+					<div class="chatLeft">
+						<span>Mr.John Smith</span>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique.</p>
+					</div>
+					@if($task->comments()->first())
+							@foreach($task->comments()->get() as $comment)
+							<div class="chatRight">
+								<span>{{$comment->createdby->name}} - {{$comment->updated_at}}</span>
+								<div class="clearboth"></div>
+								<p>{!! $comment->description !!}</p>
+							</div>
+							@endforeach
+					@endif
+					<div class="clearboth"></div>
+				</div>
+				<!-- ================= Chat input area fixed to bottom  ====================  -->
+				<div class="chatInput">
+					<textarea name="" id=""  rows="3" placeholder="Type comment here"></textarea>
+					<input type="button" value="Submit">
+				</div>
+			</div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+======
+{{-- <div class="row">
 	<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
 	<div class="col-md-12">Status: {{$task->status}}</div>
-	{{-- <div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div> --}}
+	<div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div>
 	<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
 	<div class="col-md-12">
 		<strong>{{$task->title}}</strong>
@@ -53,5 +139,5 @@
 		{!! Form::close() !!}
 		<button {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button>
 	@endif
-</div>
+</div> --}}
 @endif

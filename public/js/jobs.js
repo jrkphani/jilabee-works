@@ -4,7 +4,7 @@ $(document).ready(function($)
         var url = document.location.toString();
         if (url.match('#'))
         {
-            if(url.split('#')[1] == 'mytask')
+            if(url.split('#')[1] == 'jobs')
             {
                 $('#mytask').click();
             }
@@ -90,7 +90,7 @@ $(document).ready(function($)
             $('#selectAssignee').val('');
             $('#selectAssignee').show();
         });
-    $('#listLeft').on('click', '.task', function(event){
+    $('#jobspage').on('click', '.task', function(event){
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
@@ -101,6 +101,7 @@ $(document).ready(function($)
             path = '/jobs/task/'+tid;
         }
         rightContentAjaxGet(path);
+        popupContentAjaxGet(path);
         });
     $('#listLeft').on('click', '.followup', function(event){
         tid = $(this).attr('tid');
@@ -119,7 +120,20 @@ $(document).ready(function($)
         event.preventDefault();
         $('.jobsMenu.active').click();
     });
-    $('#listLeft').on('click', '#accept', function(event) {
+    $('#listLeft').on('click', '.historyTask', function(event){
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
+        {
+            path = '/minute/'+$(this).attr('mid')+'/history/'+tid;
+        }
+        else
+        {
+            path = '/jobs/history/'+tid;
+        }
+        rightContentAjaxGet(path);
+        
+        });
+    $('#jobspage').on('click', '#accept', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         form = 'Form'+tid;
@@ -134,37 +148,24 @@ $(document).ready(function($)
         rightContentAjaxGet(path);
         
     });
-    $('#listLeft').on('click', '.historyTask', function(event){
-        tid = $(this).attr('tid');
-        if($(this).attr('mid'))
-        {
-            path = '/minute/'+$(this).attr('mid')+'/history/'+tid;
-        }
-        else
-        {
-            path = '/jobs/history/'+tid;
-        }
-        rightContentAjaxGet(path);
-        
-        });
-
-    $('#listLeft').on('click', '#reject', function(event) {
+    $('#jobspage').on('click', '#reject', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
-        form = 'Form'+tid;
         if($(this).attr('mid'))
         {
             path = 'minute/'+$(this).attr('mid')+'/rejectTask/'+tid;
+             form = 'Form'+$(this).attr('mid')+tid;
         }
         else
         {            
             path = 'jobs/rejectTask/'+tid;
+             form = 'Form'+tid;
         }
         rightContentAjaxPost(path,form);
         
     });
 
-    $('#listLeft').on('click', '#taskComment', function(event) {
+    $('#jobspage').on('click', '#taskComment', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         form = 'CommentForm'+tid;
@@ -283,10 +284,26 @@ function rightContentAjaxGet(path)
             checkStatus(xhr.status);
         });
 }
+function popupContentAjaxGet(path)
+{
+    $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#popup1').html(htmlData);
+            toggle_visibility('popup1');
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
 $('#mytask').click(function(event)
 {
-	$('.jobsMenu').removeClass('active');
-    $(this).addClass('active');
     $.ajax({
     	url: 'jobs/mytask',
     	type: 'GET',
@@ -294,8 +311,8 @@ $('#mytask').click(function(event)
     	//data: {param1: 'value1'},
     })
     .done(function(htmlData) {
-    	$('#listLeft').html(htmlData);
-        $('#listLeft').find('.task:first').click();
+    	$('#jobspage').html(htmlData);
+        //$('#listLeft').find('.task:first').click();
     })
     .fail(function(xhr) {
         checkStatus(xhr.status);
