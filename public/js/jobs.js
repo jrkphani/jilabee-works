@@ -100,7 +100,6 @@ $(document).ready(function($)
         {
             path = '/jobs/task/'+tid;
         }
-        rightContentAjaxGet(path);
         popupContentAjaxGet(path);
         });
     $('#listLeft').on('click', '.followup', function(event){
@@ -177,7 +176,7 @@ $(document).ready(function($)
         {
             path = 'jobs/task/'+tid+'/taskComment';
         }
-        rightContentAjaxPost(path,form);
+        popupContentAjaxPost(path,form);
     });
     $('#listLeft').on('click', '#followupComment', function(event) {
         event.preventDefault();
@@ -249,7 +248,7 @@ $(document).ready(function($)
     });
 
 });
-function rightContentAjaxPost(path,form)
+function popupContentAjaxPost(path,form)
 {
     $.ajax({
             url: path,
@@ -258,24 +257,7 @@ function rightContentAjaxPost(path,form)
             data: $('#'+form).serialize()
         })
         .done(function(htmlData) {
-            $('#rightContent').html(htmlData);
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-}
-function rightContentAjaxGet(path)
-{
-    $.ajax({
-            url: path,
-            type: 'GET',
-            dataType: 'html',
-        })
-        .done(function(htmlData) {
-            $('#rightContent').html(htmlData);
+            $('#popup1').html(htmlData);
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

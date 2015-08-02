@@ -218,11 +218,12 @@ class TaskController extends Controller {
 	{
 		$input = Request::only('description');
 		$validator = MinuteTaskComments::validation($input);
+		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 		if ($validator->fails())
 		{
 			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
 		}
-		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
+		
 		if($task)
 		{
 			$input['created_by'] = $input['updated_by'] = Auth::id();

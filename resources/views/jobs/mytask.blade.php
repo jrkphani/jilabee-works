@@ -160,8 +160,8 @@
 								<div class="error">{{$reason_err}}</div>
 							@endif
 							{!! Form::close() !!}
-							<button {{$mid}} tid="{{$task->id}}" id="accept" class="btn btn-primary">Accept</button>
-							<button {{$mid}} tid="{{$task->id}}" id="reject" class="btn btn-primary">Reject</button>
+							<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
+							<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
@@ -193,8 +193,9 @@
 							<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
 							{!! Form::open(['id'=>$formId]) !!}
-							{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
+							{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
 							{!! Form::close() !!}
+							<button {{$mid}} tid="{{$task->id}}" class="btn btn-primary">Update</button>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
@@ -247,99 +248,4 @@
 <div class="clearboth"></div>
 <!--========================================= POP UP 1 ===================================================-->
 	<div class="popupOverlay" id="popup1" >
-		<div class="popupWindow">
-			<div class="popupHeader">
-				<h2><a href="">Jobs</a> / <a href="">Pending Tasks</a></h2>
-				<button onclick="toggle_visibility('popup1');" class="popupClose"></button>
-				<div class="clearboth"></div>
-			</div>	
-			<div class="popupContent">
-				<!--======================== Popup content starts here ===============================-->
-				<div class="popupContentLeft">
-					<!-- =================== Job details ====================  -->
-					<div class="popupContentTitle">
-						<h4>Lorem ipsum doler sit amet</h4><br/>
-						<p>TSJ52Q</p>
-						<p>Created on: 25th jan 2015</p>
-						<p>DUE: 20th March 2015</p>
-					</div>
-					<div class="popupContentSubTitle">
-						<p> Assigned by: Mr. John K, updates: 3, revisions: nil</p>
-					</div>
-					<div class="popupContentText">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique. Ut porta posuere risus, quis dapibus enim porttitor vitae. Cras vel mi ornare nunc tincidunt vulputate. Nullam vitae justo a arcu aliquet aliquam. Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.<br/><br/>
-						Proin eu faucibus metus. Donec in purus lectus. Duis volutpat justo in varius venenatis. Aliquam pulvinar nec sem id hendrerit. Morbi facilisis convallis massa sed vestibulum. Curabitur ut nisi consequat, feugiat enim quis, blandit mauris. Etiam congue tellus ut odio ultricies, vel dictum odio consequat. 
-						Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.<br/><br/>
-						Proin eu faucibus metus. Donec in purus lectus. Duis volutpat justo in varius venenatis. Aliquam pulvinar nec sem id hendrerit. Morbi facilisis convallis massa sed vestibulum. Curabitur ut nisi consequat, feugiat enim quis, blandit mauris. Etiam congue tellus ut odio ultricies, vel dictum odio consequat.</p>
-					</div>
-					
-					
-					<!-- ================= Updates ====================  -->
-					<!-- ================= Update item each ====================  -->
-					<div class="updateItem">
-						<h6> update: 16/08/2015</h6>
-						<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-					</div>
-					<!-- ================= Update item each ====================  -->
-					<div class="updateItem">
-						<h6> update: 16/08/2015</h6>
-						<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-					</div>
-				</div>
-				<!-- =================== Popup right ====================  -->
-				<div class="popupContentRight">
-					<div class="popupSearchSection">
-						
-					</div>
-					<!-- ================= Comment/chat section ====================  -->
-					<div class="chatSection">
-						<div class="chatContent">
-							<div class="chatLeft">
-								<span>Mr.John Smith</span>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique. </p>
-							</div>
-							<div class="chatLeft">
-								<span>Mr.John Smith</span>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam est orci, semper quis nulla in, finibus laoreet mi. Ut facilisis tortor eget semper tristique.</p>
-							</div>
-							<div class="chatRight">
-								<span>Me</span>
-								<div class="clearboth"></div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.  </p>
-							</div>
-							<div class="chatRight">
-								<span>Me</span>
-								<div class="clearboth"></div>
-								<p>OK done !  </p>
-							</div>
-							<div class="chatLeft">
-								<span>Mr.John Smith</span>
-								<p>Blah blah blah!</p>
-							</div>
-							<div class="chatRight">
-								<span>Me</span>
-								<div class="clearboth"></div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.  </p>
-							</div>
-							<div class="chatRight">
-								<span>Me</span>
-								<div class="clearboth"></div>
-								<p>OK done !  </p>
-							</div>
-							<div class="chatLeft">
-								<span>Mr.John Smith</span>
-								<p>Blah blah blah!</p>
-							</div>
-							<div class="clearboth"></div>
-						</div>
-						<!-- ================= Chat input area fixed to bottom  ====================  -->
-						<div class="chatInput">
-							<textarea name="" id=""  rows="3" placeholder="Type comment here"></textarea>
-							<input type="button" value="Submit">
-						</div>
-					</div>
-				</div>
-				<div class="clearboth"></div>
-			</div>
-		</div>
 	</div>
