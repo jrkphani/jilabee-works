@@ -22,23 +22,14 @@ class TaskController extends Controller {
 	}*/
 	public function index()
 	{
-		return view('jobs.index');
-	}
-	public function mytask()
-	{
 		$tasks = Tasks::whereAssignee(Auth::id())
 					->where('status','!=','Closed')->get();
-		return view('jobs.mytask',['tasks'=>$tasks]);
+		return view('jobs.index',['tasks'=>$tasks]);
 	}
 	public function viewTask($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
 		return view('jobs.task',['task'=>$task]);
-	}
-	public function viewFollowup($id)
-	{
-		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
-		return view('jobs.followupTask',['task'=>$task]);
 	}
 	public function viewHistory($id)
 	{
@@ -88,13 +79,6 @@ class TaskController extends Controller {
 		}
 		return json_encode($output);
 	}
-	public function followups()
-	{
-		$tasks = Tasks::whereAssigner(Auth::id())
-					->where('status','!=','Closed')->orderBy('dueDate')->get();
-		$drafts = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
-		return view('jobs.followups',['tasks'=>$tasks,'drafts'=>$drafts]);
-	}
 	public function history()
 	{
 		$tasks = Tasks::where('assignee','=',Auth::id())
@@ -127,26 +111,26 @@ class TaskController extends Controller {
 		{
 			$task = JobDraft::whereId(Request::input('id'))->first();
 			$task->update($input);
-			return view('jobs.taskform',['task'=>$task]);
+			return view('jobs.draftform',['task'=>$task]);
 		}
 		else if($task = JobDraft::create($input))
 		{
-			return view('jobs.taskform',['task'=>$task]);
+			return view('jobs.draftform',['task'=>$task]);
 		}
 		else
 		{
 			abort('404','Insertion failed');
 		}
 	}
-	public function taskform($id=null)
+	public function draftform($id=null)
 	{
 		if($id)
 		{
-			return view('jobs.taskform',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
+			return view('jobs.draftform',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
 		}
 		else
 		{
-			return view('jobs.taskform',['task'=>null]);
+			return view('jobs.draftform',['task'=>null]);
 		}
 	}
 	public function createTask()
@@ -261,30 +245,6 @@ class TaskController extends Controller {
 			if($task->comments()->save($comment))
 			{
 				return view('jobs.task',['task'=>$task]);
-			}
-		}
-		else
-		{
-			abort('403');
-		}
-	}
-	public function followupComment($id)
-	{
-		$input = Request::only('description');
-		$validator = JobTaskComments::validation($input);
-		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
-		if ($validator->fails())
-		{
-			return view('jobs.followupTask',['task'=>$task])->withErrors($validator)->withInput($input);
-		}
-		if($task)
-		{
-			$input['created_by'] = $input['updated_by'] = Auth::id();
-			$input['description'] = nl2br($input['description']);
-			$comment = new JobTaskComments($input);
-			if($task->comments()->save($comment))
-			{
-				return view('jobs.followupTask',['task'=>$task]);				
 			}
 		}
 		else

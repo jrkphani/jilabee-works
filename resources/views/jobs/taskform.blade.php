@@ -1,4 +1,4 @@
-{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
+{!! Form::open(array('id' => 'createTaskForm')) !!}
 @if($task)
 {!! Form::hidden('id', $task->id) !!}
 <div class="col-md-8 form-group">
@@ -52,8 +52,8 @@
 	{!! Form::label('notes', 'notes',['class'=>'control-label']); !!}
 	{!! Form::textarea('notes', '',['class'=>'form-control'])!!}
 	<div id="notes_err" class="error"></div>
-	</div>
-	<div class="col-md-4">
+</div>
+<div class="col-md-4">
 	{!! Form::label('selectAssignee', 'select Assignee',['class'=>'control-label']) !!}
 	<div id="selected_Assignee"></div>
 	{!! Form::text('assignee','',['class'=>'form-control','id'=>'selectAssignee','placeholder'=>'search user']) !!}
@@ -63,6 +63,10 @@
 	<div id="dueDate_err" class="error"></div>
 </div>
 @endif
+{!! Form::close() !!}
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<button id="createTaskSave" type="button" class="btn btn-primary">Save Draft</button>
+<button id="createTaskSubmit" type="button" class="btn btn-primary">Send</button>
 <script type="text/javascript">
  $( "#selectAssignee" ).autocomplete({
             source: "/user/search",

@@ -314,3 +314,7 @@ header nav{margin-left: 40px;}
 @media (max-width: 480px) { 
 	
 }
+
+.ui-front {
+	z-index: 9002 !important;
+}

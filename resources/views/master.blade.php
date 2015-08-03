@@ -9,6 +9,7 @@
 	<meta name="keywords" content="Jotter">
 	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
+	@yield('css')
 </head>
 <body>
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
@@ -16,14 +17,14 @@
 		<h1>Jotter</h1>
 			<nav>
 				@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
-					<a class="navHightlight" id="mytask">Jobs</a>
+					<a class="navHightlight" id="jobs">Jobs</a>
 				@else
-					<a href="{{ url('jobs') }}" id="mytask">Jobs</a>
+					<a href="{{ url('jobs') }}" id="jobs">Jobs</a>
 				@endif
 				@if(Request::segment(1) == 'followups')
 					<a class="navHightlight">Followups</a>
 				@else
-					<a href="{{ url('jobs') }}">Follow Ups</a>
+					<a href="{{ url('followups') }}">Follow Ups</a>
 				@endif
 				@if(Request::segment(1) == 'meetings')
 					<a class="navHightlight">Meetings</a>
@@ -84,9 +85,6 @@
 		<div class="footerColumn">
 			<a href="">Help</a>
 			<a href="">FAQs</a>
-		</div>
-		<div class="footerColumn">
-			<button onclick="toggle_visibility('popup1');">Popup1</button>
 		</div>
 		<div class="clearboth"></div>
 	</footer>

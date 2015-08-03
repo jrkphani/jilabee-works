@@ -107,11 +107,6 @@ class TaskController extends Controller {
 		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 		return view('jobs.task',['task'=>$task]);
 	}
-	public function viewFollowup($mid,$id)
-	{
-		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
-		return view('jobs.followupTask',['task'=>$task]);
-	}
 	public function viewHistory($mid,$id)
 	{
 		$task = MinuteTasks::whereId($id)->where('minuteId',$mid)->where(function($query)
@@ -245,30 +240,6 @@ class TaskController extends Controller {
 			if($task->comments()->save($comment))
 			{
 				return view('jobs.task',['task'=>$task]);
-			}
-		}
-		else
-		{
-			abort('403');
-		}
-	}
-	public function followupComment($mid,$id)
-	{
-		$input = Request::only('description');
-		$validator = MinuteTaskComments::validation($input);
-		if ($validator->fails())
-		{
-			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
-		}
-		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
-		if($task)
-		{
-			$input['created_by'] = $input['updated_by'] = Auth::id();
-			$input['description'] = nl2br($input['description']);
-			$comment = new MinuteTaskComments($input);
-			if($task->comments()->save($comment))
-			{
-				return view('jobs.followupTask',['task'=>$task]);
 			}
 		}
 		else
