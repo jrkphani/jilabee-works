@@ -94,6 +94,6 @@
 <script>
 	$(document).ready(function($)
 		{
-			 $('.dateInput').datepicker({format: "yyyy-mm-dd",endDate: "-15y",startView: 2,autoclose: true});
+			 $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "-15y",autoclose: true});
     	});
 </script>

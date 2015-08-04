@@ -54,12 +54,9 @@
 			</div>
 			<div class="clearboth"></div>
 	</header>
-
-	<div class="centralViewer">
-		<div class="centralContainer" id="centralContainer">
+		<div class="adminContent" id="adminContent">
 			@yield('content')
 		</div>
-	</div>
 	<footer>
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>
@@ -94,6 +91,7 @@
 	</footer>
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="{{ asset('/js/notify.min.js') }}"></script>
+	<script src="{{ asset('/js/main.js') }}"></script>
 	<script type="text/javascript">
 	$(document).ready(function($) {
 		$.notify("{!! Session::get('message')!!}",

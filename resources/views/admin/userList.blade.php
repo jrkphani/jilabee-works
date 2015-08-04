@@ -15,7 +15,7 @@
 				<div class="adminUsersList">
 					<ul>
 						@foreach($users as $user)
-						<li class="listHighlight1 user"><p>{{$user->name}}</p></li>
+						<li class="listHighlight1 user" uid="{{$user->userId}}"><p>{{$user->name}}</p></li>
 						@endforeach
 					</ul>
 				</div>
@@ -27,3 +27,6 @@
 	</div>
 	<button class="addBtn"> </button>
 @endsection
+@section('javascript')
+<script src="{{ asset('/js/adminUser.js') }}"></script>
+@stop

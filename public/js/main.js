@@ -56,5 +56,5 @@ function popupContentAjaxPost(path,form)
 }
 function dateInput()
 {
-    $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
+    $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "1d",autoclose: true});
 }

@@ -8,6 +8,7 @@ use Auth;
 use Validator;
 use Activity;
 use Request;
+use Session;
 use Illuminate\Contracts\Auth\Registrar;
 class UserController extends Controller {
 
@@ -80,7 +81,16 @@ class UserController extends Controller {
 	}
 	public function userList()
 	{
-		$users = Profile::all();
+		$users = Profile::select('profiles.*','users.userId')->join('users','profiles.userId','=','users.id')->where('users.userId','LIKE',Session::get('database').'%')->get();
 		return view('admin.userList',['users'=>$users]);
+	}
+	public function getUser($userId)
+	{
+		//only view user inside same org
+		if (strpos(Auth::user()->userId,Session::get('database')) !== false)
+		{
+    		$user = Profile::join('users','profiles.userId','=','users.id')->where('users.userId','=',$userId)->first();
+			return view('admin.viewUser',['user'=>$user]);
+		}
 	}
 }

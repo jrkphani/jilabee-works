@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('user/list', 'Admin\UserController@userList');
 			Route::get('user/add', 'Admin\UserController@getAdd');
 			Route::post('user/add', 'Admin\UserController@postAdd');
+			Route::get('user/view/{userId}', 'Admin\UserController@getUser');
 			Route::get('meetings', 'Admin\MeetingsController@index');
 			Route::post('meetings/approve', 'Admin\MeetingsController@approve');
 			Route::post('meetings/disapprove', 'Admin\MeetingsController@disapprove');

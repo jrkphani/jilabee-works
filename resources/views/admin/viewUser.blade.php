@@ -1,9 +1,9 @@
 @if($user)
 	<div class="inner2">
-		<h4>John Smith</h4>
+		<h4>{{$user->name}}</h4>
 		<div class="userDetailItem">
 			<p>Username</p>
-			<span>jsmith99@gmail.com</span>
+			<span>{{$user->userId}}</span>
 			<div class="clearboth"></div>
 		</div>
 		<div class="userDetailItem">
@@ -15,24 +15,25 @@
 			<div class="userDetailItemX">
 				<div class="userDetailItem">
 					<p>DOB</p>
-					<span>25/12/1999</span>
+					<span>{{$user->dob}}</span>
 					<div class="clearboth"></div>
 				</div>
 				<div class="userDetailItem">
 					<p>Email</p>
-					<span>jsmith99@gmail.com</span>
+					<span>{{$user->email}}</span>
 					<div class="clearboth"></div>
 				</div>
 			</div>
 			<div class="userDetailItemX">
 				<div class="userDetailItem">
 					<p>Sex</p>
-					<span>Male</span>
+					<?php $gender = ['M'=>'Male','F'=>'Female','O'=>'Others']; ?>
+					<span>{{$gender[$user->gender]}}</span>
 					<div class="clearboth"></div>
 				</div >
 				<div class="userDetailItem">
 					<p>Phone</p>
-					<span>9876543210</span>
+					<span>{{$user->phone}}</span>
 					<div class="clearboth"></div>
 				</div>
 			</div>
@@ -79,7 +80,6 @@
 		<div class="adminUsersBtns">
 			<div class="adminUsersBtnsLeft">
 				<button>Edit Account</button>
-				<a href="admin_users_edit.html">Open edit page</a>
 			</div>
 			
 			<div class="adminUsersBtnsRight">

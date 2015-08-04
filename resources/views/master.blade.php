@@ -43,8 +43,8 @@
 			<div class="headerRight">
 				@if (Auth::guest())
 				@else
-				<button class="notificationBtn"  onclick="toggle_visibility('notifs');">2</button>
-				<button class="usernameBtn"  onclick="toggle_visibility('nameMenu');"> {{Auth::user()->profile()->first()->name}}<span></span></button>
+				<button class="notificationBtn"  onclick="">2</button>
+				<button class="usernameBtn"  onclick="$('#nameMenu').toggle();"> {{Auth::user()->profile()->first()->name}}<span></span></button>
 				<div class="nameMenu" id="nameMenu">
 					<a href="{{ url('profile') }}">My Profile</a>
 					@if(Auth::user()->isAdmin)

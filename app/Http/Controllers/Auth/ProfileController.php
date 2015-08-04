@@ -55,11 +55,17 @@ class ProfileController extends Controller {
 				->get();
 		return response()->json($list);
 	}
-	public function userlist()
-	{	 
-		$users = User::where('id','!=',Auth::id())->paginate(10);;
-		return view('user.list',['users'=>$users]);
-	}
+	// public function userlist()
+	// {	 
+	// 	echo Session::get('database'); die;
+	// 	if(Auth::user()->isAdmin)
+	// 	{
+	// 		//$userId
+	// 		$users = User::where('userId')->where('id','!=',Auth::id())->paginate(10);;
+	// 		return view('user.list',['users'=>$users]);
+	// 	}
+	// 	return abort('403');
+	// }
 	public function getedit()
 	{
 		return view('user.selfedit',['user'=>Auth::user()]);	
