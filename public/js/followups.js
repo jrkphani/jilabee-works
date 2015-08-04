@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	 $('#maincontent').on('click', '.followup', function(event){
+	 $('#centralContainer').on('click', '.followup', function(event){
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
@@ -12,7 +12,7 @@ $(document).ready(function() {
         popupContentAjaxGet(path);
         
         });
-	 $('#maincontent').on('click', '#followupComment', function(event) {
+	 $('#centralContainer').on('click', '#followupComment', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         form = 'CommentForm'+tid;
@@ -26,7 +26,7 @@ $(document).ready(function() {
         }
         popupContentAjaxPost(path,form);
     });
-	 $('#maincontent').on('click', '#createTask', function(event) {
+	 $('#centralContainer').on('click', '#createTask', function(event) {
         event.preventDefault();
         $('#popup').html('loading...');
         $('#popup').load('jobs/draftform',function( response, status, xhr ) {
@@ -34,7 +34,7 @@ $(document).ready(function() {
             });
         $('#popup').show();
     });
-    $('#maincontent').on('click', '.followupDraft', function(event) {
+    $('#centralContainer').on('click', '.followupDraft', function(event) {
         event.preventDefault();
         $('#popup').html('loading...');
         $('#popup').load('jobs/draftform/'+$(this).attr('tid'),function( response, status, xhr ) {
@@ -42,7 +42,7 @@ $(document).ready(function() {
             });
         $('#popup').show();
     });
-    $('#maincontent').on('click', '#acceptCompletion', function(event) {
+    $('#centralContainer').on('click', '#acceptCompletion', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -56,7 +56,7 @@ $(document).ready(function() {
         rightContentAjaxGet(path);
         
     });
-    $('#maincontent').on('click', '#rejectCompletion', function(event) {
+    $('#centralContainer').on('click', '#rejectCompletion', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -70,7 +70,7 @@ $(document).ready(function() {
         rightContentAjaxGet(path);
         
     });
-    $('#maincontent').on('click', '#createTaskSave', function(event) {
+    $('#centralContainer').on('click', '#createTaskSave', function(event) {
             event.preventDefault();
             $.ajax({
                 url: '/jobs/draft',
@@ -94,7 +94,7 @@ $(document).ready(function() {
             });
             
         });
-        $('#maincontent').on('click', '#createTaskSubmit', function(event) {
+        $('#centralContainer').on('click', '#createTaskSubmit', function(event) {
         	event.preventDefault();
         	$.ajax({
         		url: '/jobs/createTask',
@@ -128,7 +128,7 @@ $(document).ready(function() {
             });
         	
         });
- $('#maincontent').on('click', '.removeParent', function(event) {
+ $('#centralContainer').on('click', '.removeParent', function(event) {
             $(this).parent( ".assignee" ).remove();
             $('#selectAssignee').val('');
             $('#selectAssignee').show();

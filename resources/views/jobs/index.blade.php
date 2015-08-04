@@ -4,7 +4,7 @@
 <link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 @stop
 @section('content')
-<div id="maincontent">
+
 	<!--=================================== contentLeft - History section ================================-->
 	{{-- <div class="contentLeft">
 		<div class="mainListFilter">
@@ -258,7 +258,6 @@
 	<!--========================================= POP UP 1 ===================================================-->
 	<div class="popupOverlay" id="popup" >
 	</div>
-</div>
 @endsection
 @section('javascript')
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>

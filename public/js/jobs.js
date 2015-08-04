@@ -6,7 +6,7 @@ $(document).ready(function($)
             $('#selectAssignee').val('');
             $('#selectAssignee').show();
         });
-    $('#maincontent').on('click', '.task', function(event){
+    $('#centralContainer').on('click', '.task', function(event){
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
@@ -32,7 +32,7 @@ $(document).ready(function($)
         rightContentAjaxGet(path);
         
         });
-    $('#maincontent').on('click', '#accept', function(event) {
+    $('#centralContainer').on('click', '#accept', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         form = 'Form'+tid;
@@ -47,7 +47,7 @@ $(document).ready(function($)
         rightContentAjaxGet(path);
         
     });
-    $('#maincontent').on('click', '#reject', function(event) {
+    $('#centralContainer').on('click', '#reject', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -88,7 +88,7 @@ $(document).ready(function($)
         });
     });
 
-    $('#maincontent').on('click', '#taskComment', function(event) {
+    $('#centralContainer').on('click', '#taskComment', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         form = 'CommentForm'+tid;
@@ -129,7 +129,7 @@ function rightContentAjaxGet(path)
             dataType: 'html',
         })
         .done(function(htmlData) {
-            $('#maincontent').html(htmlData);
+            $('#centralContainer').html(htmlData);
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

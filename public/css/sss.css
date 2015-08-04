@@ -97,6 +97,11 @@ background: #e86e60; border:solid 1px #d05142;}
 .popupAddBtn:hover{background: url(../images/button_add_blue.png) no-repeat left top; border: none;  width: 54px; height: 57px; text-indent: -999em; }
 
 
+.addMoreBtn{background: url(../images/button_add_blue.png) no-repeat left top; width: 35px; height: 35px; background-size: contain; border: none;}
+.addMoreBtn:hover{background: url(../images/button_add_blue.png) no-repeat left top; width: 35px; height: 35px; background-size: contain; border: none;}
+.removeMoreBtn{background: url(../images/button_minus_blue.png) no-repeat left top; width: 35px; height: 35px; background-size: contain; border: none;}
+.removeMoreBtn:hover{background: url(../images/button_minus_blue.png) no-repeat left top; width: 35px; height: 35px; background-size: contain; border: none;}
+
 .boxTitle{height: 50px; line-height: 50px; margin-bottom: 10px; }
 .boxTitle p{font-size: 1.5em; float: left; margin-left: 10px;}
 .boxTitle span{width: 50px; height: 50px;  display: inline-block; text-align: center; color: #fff; font-size: 1.3em; border-radius: 3px; float: left; }
@@ -202,6 +207,47 @@ border-bottom:solid 1px #cdcdcd;}
 /*Class to hightlight header main menu*/
 .navHightlight{ background: #ebebeb; border-top-left-radius:5px; border-top-right-radius: 5px; color: #4d7dc5; cursor: default; margin-top: 1px;}
 
+/*========================================- Admin -==================================================*/
+
+.adminContent{margin-top: 100px;}
+.adminUsersLeft{width: 30%; float: left;}
+.inner1{margin: 10px; margin-left: 50px;}
+.inner2{margin: 20px;}
+.filterSet1 input{ height: 35px; padding-left: 5px; border-radius: 4px; border:solid 1px #cdcdcd;}
+.filterSet1 select{height: 35px; font-size: .9em;}
+.listHighlight1{background: #4d7dc5; color: #fff; padding-left: 10px; border-bottom: solid 1px #4d7dc5;}
+.adminUsersRight{width: 70%; float: left; }
+.adminUsersList ul {width: 300px; margin-top: 40px;}
+.adminUsersList ul li p{height: 40px; line-height: 40px;}
+.adminUsersList ul li{cursor: pointer;  border-bottom: solid 1px #cdcdcd;	}
+.adminUsersList ul li:hover{background: #4d7dc5; color: #fff; padding-left: 10px; border-bottom: solid 1px #4d7dc5;}
+.adminUsersRight h4{font-size: 1.6em; color:#4d7dc5; }
+.userDetailItem{margin-top: 20px;}
+.userDetailItem p{width: 150px; float: left; color: #626262; font-size: 1em;}
+.userDetailItem span{width: 300px; float: left; color: #232323;  font-size: 1.1em; font-weight: bold; margin-left: 10px;}
+.userDetailItemX{float: left;}
+
+.adminUsersRight{width: 60%;}
+.meetingSettingsTitle{ background: #4d7dc5; margin-top: 20px; }
+.meetingSettingsTitle h5{color: #fff;font-size: 1em; float: left; padding:15px 0 15px 15px; box-sizing:border-box;}
+.meetingSettingsTitle h5:nth-child(1){width: 450px;}
+.meetingSettingITem { background: #fff; border-bottom: solid 1px #cdcdcd;}
+.meetingSettingITem p{color: #232323;  font-size: 1.1em; float: left; width: 450px;  padding:15px 0 15px 15px; box-sizing:border-box;}
+.meetingSettingITem span{color: #232323;  font-size: 1.1em; float: left; padding:15px 0 15px 15px; box-sizing:border-box;}
+.adminUsersBtnsRight{ float: right; margin-top: 20px;}
+.adminUsersBtnsLeft{float: left; margin-top: 20px;	}
+.userDetailDesc{line-height: 1.4em; font-size: 1.1em;}
+.adminUsersEdit input{height: 30px; padding-left: 5px;}
+.adminUsersEdit1{float: left; margin-left: 10px;}
+.adminUsersEdit1 input{ margin-top: 5px;}
+
+.adminUsersEdit .userDetailItem p{text-align: left; margin-left: 10px; vertical-align: middle; }
+.adminUsersEdit select{ height: 35px; display: inline-block; margin-top: -10px; float: left; margin-right: 10px; }
+.userDetailItem .addMoreBtn{float: left; margin-top: -10px; margin-left: 10px;}
+
+.meetingSettingITem .removeMoreBtn{margin-left: 20px; margin-top: 7px; float: left;}
+.meetingSettingITem .addMoreBtn{margin-left: 20px; margin-top: 7px; margin-bottom: 7px; float: left;}
+
 
 
 
@@ -246,6 +292,9 @@ header nav{margin-left: 40px;}
 	.meetingsPage .arrowBtn span img{margin-left: 5px;}
 	.meetingsPage .arrowBtnRight span img{margin-left: 10px;}
 	.meetingsPage .arrowBtn p{font-size: .7em;}
+	.inner1{margin-left: 5px;}
+	.meetingSettingsTitle h5:nth-child(1){width: 350px;}
+	.meetingSettingITem p{width: 350px;}
 }
 
 @media (max-width: 1024px) { 
@@ -264,6 +313,10 @@ header nav{margin-left: 40px;}
 	.meetingsAddBtn {    left: 202px;    top: 187px;}
 	.popupMinutes .paper{margin: 30px;}
 		.popupDateBtn{font-size: .9em;}
+	.adminUsersLeft{width: 30%;}
+	.adminUsersList ul{width: 100%;}
+
+
 }
 
 
@@ -282,6 +335,11 @@ header nav{margin-left: 40px;}
 		.popupButtons button{margin-left: 5px;}
 		.chatInput{height: 160px;}
 		.popupMinutes .paper{margin: 30px;}
+		.filterSet1 input{width: 100px;}
+	.userDetailItem span{width: 200px;}
+	.meetingSettingsTitle h5:nth-child(1){width: 200px;}
+	.meetingSettingITem p{width: 200px;}
+	.userDetailItem p{width: 100px;}
 
 }
 
@@ -313,8 +371,4 @@ header nav{margin-left: 40px;}
 
 @media (max-width: 480px) { 
 	
-}
-
-.ui-front {
-	z-index: 9002 !important;
 }

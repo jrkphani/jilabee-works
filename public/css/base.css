@@ -63,6 +63,6 @@ button:hover{background: #77bad9; height: 35px; color: #fff; font-weight: bold; 
 select{height: 50px; font-size: 1em; cursor: pointer; border-radius: 3px;}
 
 /*=====================================All transitions==========================================*/
-a, input{-webkit-transition: all 0.4s ease;-moz-transition: all 0.4s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;}
+a, input, ul li{-webkit-transition: all 0.4s ease;-moz-transition: all 0.4s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;}
 
 
