@@ -20,7 +20,7 @@
 			<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
 		</div>
 		@endif
-		<button onclick="toggle_visibility('popup');" class="popupClose"></button>
+		<button onclick="$('#popup').hide();" class="popupClose"></button>
 		<div class="clearboth"></div>
 	</div>	
 	<div class="popupContent">
