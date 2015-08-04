@@ -1,97 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
 	<title>Jotter</title>
-	
-	<link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('/css/sticky-footer-navbar.css') }}" rel="stylesheet">
-	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
+	<meta name="author" content="Jotter">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta name="description" content="">
+	<meta name="keywords" content="Jotter">
+	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
+	<style type="text/css">
+	.ui-front
+	{
+		z-index: 9002 !important;
+ 	}
+	</style>
 	@yield('css')
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle Navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				 
-				{{-- <a href="/"><img src="{{ asset('/img/jotter.jpg') }}" class="img-circle" alt="Cinque Terre" width="100" height="50"></a> --}}
-				<a class="navbar-brand" id="logo" href="/"><strong>Jotter</strong></a>
+	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
+	<header>
+		<h1>Jotter</h1>
+			<nav>
+				@if(Request::segment(2) == 'admin')
+					<a href="{{url('admin')}}" class="navHightlight">Notifications</a>
+				@else
+					<a href="{{url('admin')}}">Notifications</a>
+				@endif
+				@if(Request::segment(2) == 'user')
+					<a href="{{url('admin/user/list')}}" class="navHightlight">Users</a>
+				@else
+					<a href="{{url('admin/user/list')}}">Users</a>
+				@endif
+				@if(Request::segment(2) == 'meetings')
+					<a href="{{url('admin/meetings')}}" class="navHightlight">Meetings</a>
+				@else
+					<a href="{{url('admin/meetings')}}">Meetings</a>
+				@endif				
+				<div class="clearboth"></div>
+			</nav>
+		
+			<div class="headerRight">
+				@if(Auth::guest())
+				@else
+				<button class="notificationBtn"  onclick="">2</button>
+				<button class="usernameBtn"  onclick="$('#nameMenu').toggle();"> {{Auth::user()->profile()->first()->name}}<span></span></button>
+				<div class="nameMenu" id="nameMenu">
+					<a href="{{ url('/profile') }}">My Profile</a>
+					<a href="{{ url('/jobs') }}">My Jobs</a>
+					<a href="{{ url('auth/logout') }}">Logout</a>
+				</div>
+				@endif
 			</div>
+			<div class="clearboth"></div>
+	</header>
 
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				{{-- <ul class="nav navbar-nav">
-					<li><a href="{{ base_url() }}">Home</a></li>
-				</ul> --}}
-
-				{{-- <ul class="nav navbar-nav">
-					<li><a href="{{ base_url() }}">Link1</a></li>
-				</ul>
-				<ul class="nav navbar-nav">
-					<li><a href="{{ base_url() }}">Link2</a></li>
-				</ul> --}}
-				<ul class="nav navbar-nav navbar-right">
-					@if (Auth::guest())
-						{{-- <li><a href="{{ app_url('/auth/login') }}">Login</a></li> --}}
-					@else
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->profile()->first()->name}}<span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('profile') }}">My Profile</a></li>
-								<li><a href="{{ url('/') }}">My Tasks</a></li>
-								<li><a href="{{ url('auth/logout') }}">Logout</a></li>
-							</ul>
-						</li>
-					@endif
-				</ul>
-			</div>
+	<div class="centralViewer">
+		<div class="centralContainer" id="centralContainer">
+			@yield('content')
 		</div>
-	</nav>
-	<div class="container">
-	@yield('content')
 	</div>
-	<footer class="footer">
-      <div class="container">
-      	<div class="row">
-      		<div class="col-md-6">
-		        <p class="text-muted">
-		        	<span class="glyphicon glyphicon-copyright-mark"></span>{{date('Y')}}
-		        	<span class="border_left">Jotter</span>
-		        	<span class="border_left">All Rights Reserved</span>
-		        </p>
-		    </div>
-		    <div class="col-md-6">
-		        <p class="text-muted text-right">
-		        	<span>About Us</span>
-		        	<span class="border_left">Private Policy</span>
-		        </p>
-		    </div>
-    	</div>
-      </div>
+	<footer>
+		<div class="footerColumn fcFirst">
+			<a href="">Jobs</a>
+			<a href="">My Taks</a>
+			<a href="">Follow ups</a>
+		</div>
+		<div class="footerColumn">
+			<a href="">Minutes</a>
+			<a href="">Meetings</a>
+		</div>
+		<div class="footerColumn">
+			<a href="">Plan</a>
+			<a href="">Projects</a>
+		</div>
+		<div class="footerColumn">
+			<a href="">Terms</a>
+			<a href="">Pivacy policy</a>
+			<a href="">Usage rights</a>
+			<a href="">Service level</a>
+		</div>
+		<div class="footerColumn">
+			<a href="">Contact</a>
+			<a href="">Location</a>
+			<a href="">Mail us</a>
+			<a href="">Cal us</a>
+		</div>
+		<div class="footerColumn">
+			<a href="">Help</a>
+			<a href="">FAQs</a>
+		</div>
+		<div class="clearboth"></div>
 	</footer>
-	
-	<!-- Scripts -->
-	<script type="text/javascript">
-	$_token = "{{ csrf_token() }}";
-	</script>
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="{{ asset('/js/notify.min.js') }}"></script>
 	<script type="text/javascript">
 	$(document).ready(function($) {
@@ -99,10 +100,9 @@
     			{
 				   className:'success',
 				   globalPosition:'top center'
-				});	
-	});
+				});
+		});
 	</script>
 	@yield('javascript')
 </body>
-
 </html>

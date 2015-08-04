@@ -1,123 +1,99 @@
-@extends('admin')
-@section('content')
-<div class="container">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
-				<div class="panel-body">
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/register') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Organization Name</label>
-							<div class="col-md-6">
-								<input type="text" autocomplete="off" class="form-control" name="name" value="{{ old('name') }}">
-								{!! $errors->first('name','<div class="error">:message</div>') !!}
-							</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Jotter</title>
+	<meta name="author" content="Dexel Designs">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta name="description" content="">
+	<meta name="keywords" content="Anabond, Jotter, ">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+</head>
+<body>
+	<header>
+		<h1>Jotter</h1>
+	</header>
+	<div class="adminContent">
+			<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/register') }}">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<div class="userDetailItem">
+							<p>Organization Name</p>
+							<input type="text" autocomplete="off" name="name" value="{{ old('name') }}">
+							{!! $errors->first('name','<div class="error">:message</div>')!!}
 						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Domain</label>
-							<div class="col-md-6">
-								<input type="text" autocomplete="off" class="form-control" name="domain" value="{{ old('domain') }}">
-								{!! $errors->first('domain','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Phone</label>
-							<div class="col-md-6">
-								<input type="text" autocomplete="off" class="form-control" name="phone" value="{{ old('phone') }}">
-								{!! $errors->first('phone','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Phone1</label>
-							<div class="col-md-6">
-								<input type="text" autocomplete="off" class="form-control" name="phone1" value="{{ old('phone1') }}">
-								{!! $errors->first('phone1','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="col-md-12">Admin User Details</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Admin Name</label>
-							<div class="col-md-6">
-								<input type="text" autocomplete="off" class="form-control" name="adminname" value="{{ old('name') }}">
-								{!! $errors->first('adminname','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" autocomplete="off" class="form-control" name="email" value="{{ old('email') }}">
-								{!! $errors->first('email','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Secondary E-Mail</label>
-							<div class="col-md-6">
-								<input type="email" autocomplete="off" class="form-control" name="secondEmail" value="{{ old('secondEmail') }}">
-								{!! $errors->first('secondEmail','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" autocomplete="off" class="form-control" name="password">
-								{!! $errors->first('password','<div class="error">:message</div>') !!}
-							</div>
+						<div class="userDetailItem">
+							<p>Domain</p>
+							<input type="text" autocomplete="off" name="domain" value="{{ old('domain') }}">
+							{!! $errors->first('domain','<div class="error">:message</div>') !!}
 						</div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" autocomplete="off" class="form-control" name="password_confirmation">
-							</div>
+						<div class="userDetailItem">
+							<p>Phone</p>
+							<input type="text" autocomplete="off"  name="phone" value="{{ old('phone') }}">
+							{!! $errors->first('phone','<div class="error">:message</div>') !!}
+						</div>
+						
+						<div class="userDetailItem">
+						<p>Phone1</p>
+						<input type="text" autocomplete="off"  name="phone1" value="{{ old('phone1') }}">
+						{!! $errors->first('phone1','<div class="error">:message</div>') !!}
+						</div>
+						<p>Admin User Details</p>
+						<div class="userDetailItem">
+							<p>Admin Name</p>
+							<input type="text" autocomplete="off"  name="adminname" value="{{ old('name') }}">
+							{!! $errors->first('adminname','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem">
+							<p>E-Mail Address</p>
+							<input type="email" autocomplete="off"  name="email" value="{{ old('email') }}">
+							{!! $errors->first('email','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem">
+							<p>Secondary E-Mail</p>
+							<input type="email" autocomplete="off"  name="secondEmail" value="{{ old('secondEmail') }}">
+							{!! $errors->first('secondEmail','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem">
+							<p>Password</p>
+							<input type="password" autocomplete="off"  name="password">
+							{!! $errors->first('password','<div class="error">:message</div>') !!}
 						</div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">DOB</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control dateInput" name="dob" value="{{ old('dob') }}">
-								{!! $errors->first('dob','<div class="error">:message</div>') !!}
-							</div>
+						<div class="userDetailItem">
+							<p>Confirm Password</p>
+							<input type="password" autocomplete="off"  name="password_confirmation">
 						</div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Gender</label>
-							<div class="col-md-6">
-								{!!Form::radio('gender', 'M') !!} Male 
-								{!!Form::radio('gender', 'F') !!} Female
-								{!!Form::radio('gender', 'O') !!} Others
-								{!! $errors->first('gender','<div class="error">:message</div>') !!}
-							</div>
+						<div class="userDetailItem">
+							<p>DOB</p>
+							<input type="text" class="dateInput" name="dob" value="{{ old('dob') }}">
+							{!! $errors->first('dob','<div class="error">:message</div>') !!}
 						</div>
 
-						<div class="form-group">
-							<div class="col-md-3 col-md-offset-3">
-                           		<a class="btn btn-primary" href="{{url('/admin')}}">Back</a> 
-                        	</div>
-							<div class="col-md-3 col-md-offset-3">
-								<button type="submit" class="btn btn-primary">
-									Register
-								</button>
-							</div>
+						<div class="userDetailItem">
+							<p>Gender</p>
+							{!!Form::radio('gender', 'M') !!} Male 
+							{!!Form::radio('gender', 'F') !!} Female
+							{!!Form::radio('gender', 'O') !!} Others
+							{!! $errors->first('gender','<div class="error">:message</div>') !!}
+						</div>
+
+						<div class="userDetailItem">
+                           		<a class="btn btn-primary" href="{{url('/auth/login')}}">Back</a> 
+								<input type="submit" value="Register">
 						</div>
 					</form>
-				</div>
-			</div>
-		</div>
 	</div>
-@endsection
-@section('javascript')
-<script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
-    <script>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
 	$(document).ready(function($)
 		{
 			 $('.dateInput').datepicker({format: "yyyy-mm-dd",endDate: "-15y",startView: 2,autoclose: true});
     	});
-	</script>
-@stop
-@section('css')
-	<link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-@stop
+</script>

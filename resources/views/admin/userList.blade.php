@@ -1,29 +1,29 @@
 @extends('admin')
 @section('content')
-	<div class="row">
-		<div class="col-md-12">
-			<a href="{{url('/admin/user/add')}}" class="pull-right">Add User</a>
+	<div class="adminContent">
+		<div class="adminUsersLeft">
+			<div class="inner1">
+				<div class="filterSet1">
+					<input type="text" placeholder="Search...">
+					<select>
+					  <option value="0">Sort by</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+				</div>
+				<div class="adminUsersList">
+					<ul>
+						@foreach($users as $user)
+						<li class="listHighlight1 user"><p>{{$user->name}}</p></li>
+						@endforeach
+					</ul>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-12">
-			<table class="table">
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Email</th>
-				</tr>
-				@foreach($users as $user)
-					<tr>
-						<td>{{$user->user()->first()->userId}}</td>
-						<td>{{$user->name}}</td>
-						<td>{{$user->user()->first()->email}}</td>
-					</tr>
-				@endforeach
-			</table>
+		<div id="adminUsersRight" class="adminUsersRight">
 		</div>
-		<div class="form-group">
-			<div class="col-md-12">
-           		<a class="btn btn-primary" href="{{url('admin')}}">Back</a> 
-        	</div>
-		</div>
+		<div class="clearboth"></div>
 	</div>
+	<button class="addBtn"> </button>
 @endsection
