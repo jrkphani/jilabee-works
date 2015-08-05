@@ -1,7 +1,7 @@
 $(document).ready(function($)
 {
     $('.meeting:first').click();
-    $('body').on('click', '#createMeetingSubmit', function(event) {
+    $('#adminContent').on('click', '#createMeetingSubmit', function(event) {
         event.preventDefault();
         $.ajax({
             url: '/meetings/create',
@@ -23,17 +23,7 @@ $(document).ready(function($)
             }
             else if(jsonData.success == 'yes')
             {
-                $('.error').html('');
-                $('#createMeetingModal').modal('hide');
-                $('#selected_attendees , #selected_minuters').html('');
-                $('#createMeetingForm').find(':input').each(function()
-                    {
-                        if($(this).attr('name') != '_token')
-                        {
-                            $(this).val('');
-                        }
-                    });
-                //top bar notification
+                $('#popup').hide();
                 $.notify('Meeting Created Successfully',
                 {
                    className:'success',
@@ -53,44 +43,7 @@ $(document).ready(function($)
     $('body').on('click', '.removeParent', function(event) {
         $(this).parent( ".attendees" ).remove();
     });
-	 $( "#selectMinuters" ).autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                if($("#" + ui.item.userId).length != 0)
-                {
-                  alert('User already exist!');
-                  return false;
-                }
-                else
-                {
-                    insert = '<div class="col-md-6 attendees" id="'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
-                    $('#selected_minuters').append(insert);
-                    $(this).val("");
-                    return false;
-                }
-                
-            }
-            });
- $( "#selectAttendees" ).autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                if($("#" + ui.item.userId).length != 0)
-                {
-                  alert('User already exist!');
-                  return false;
-                }
-                else
-                {
-                    insert = '<div class="col-md-6 attendees" id="'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
-                    $('#selected_attendees').append(insert);
-                    $(this).val("");
-                    return false;
-                }
-                
-            }
-            });
+	 
 
             $('.selectMinuters').autocomplete({
             source: "/user/search",
@@ -230,7 +183,7 @@ $('#adminContent').on('click', '#addMeeting', function(event)
 {
     event.preventDefault();
     $.ajax({
-        url: '/meetings/create/',
+        url: '/meetings/create',
         type: 'GET',
         dataType: 'html',
     })

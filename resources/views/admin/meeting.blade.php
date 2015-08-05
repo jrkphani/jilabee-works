@@ -56,7 +56,7 @@
 				//echo $minuter->value;
 				echo '<div class="meetingSettingITem">
 						<p>'.$attendee->name.'</p>
-						<span>minutes taker</span>
+						<span>attendee</span>
 						<div class="clearboth"></div>
 					</div>';
 			}

@@ -23,17 +23,17 @@
 		<h1>Jotter</h1>
 			<nav>
 				@if(Request::segment(2) == 'admin')
-					<a href="{{url('admin')}}" class="navHightlight">Notifications</a>
+					<a class="navHightlight">Notifications</a>
 				@else
 					<a href="{{url('admin')}}">Notifications</a>
 				@endif
 				@if(Request::segment(2) == 'user')
-					<a href="{{url('admin/user/list')}}" class="navHightlight">Users</a>
+					<a class="navHightlight">Users</a>
 				@else
 					<a href="{{url('admin/user/list')}}">Users</a>
 				@endif
 				@if(Request::segment(2) == 'meetings')
-					<a href="{{url('admin/meetings')}}" class="navHightlight">Meetings</a>
+					<a class="navHightlight">Meetings</a>
 				@else
 					<a href="{{url('admin/meetings')}}">Meetings</a>
 				@endif				
