@@ -56,5 +56,12 @@ function popupContentAjaxPost(path,form)
 }
 function dateInput()
 {
-    $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "1d",autoclose: true});
+    $('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
+}
+function errorNotification(message){
+    $.notify('Some thing went wrong',
+            {
+               className:'error',
+               globalPosition:'top center'
+            });
 }

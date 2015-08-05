@@ -1,7 +1,7 @@
 <div class="popupWindow">
 	<div class="popupHeader">
 		<h2><a href="">Jobs</a> / <a href="">New Tasks</a></h2>
-		<button  onclick="toggle_visibility('popup');" class="popupClose"></button>
+		<button  onclick="$('#popup').hide();" class="popupClose"></button>
 		<div class="clearboth"></div>
 	</div>	
 	<div class="popupContent">

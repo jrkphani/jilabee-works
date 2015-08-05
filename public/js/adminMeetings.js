@@ -1,5 +1,6 @@
 $(document).ready(function($)
 {
+    $('.meeting:first').click();
     $('body').on('click', '#createMeetingSubmit', function(event) {
         event.preventDefault();
         $.ajax({
@@ -133,7 +134,7 @@ $(document).ready(function($)
                 
             }
             });
-    $('.approve').click(function(event) {
+    /*$('.approve').click(function(event) {
        var mid = $(this).attr('mid');
        $.ajax({
            url: '/admin/meetings/approve',
@@ -147,7 +148,7 @@ $(document).ready(function($)
                     //console.log("sa");
                     if(jsonData.hasOwnProperty('validator'))
                     {
-                        $$('#m'+mid).find('.error').html('');
+                        $('#m'+mid).find('.error').html('');
                         $.each(jsonData.validator, function(index, val) {
                             //console.log(index);
                              $('#m'+mid).find('.'+index+'_err').html(val);
@@ -205,5 +206,42 @@ $('.disapprove').click(function(event) {
         .always(function() {
            //console.log("complete");
         });   
+    });*/
+});
+$('#adminContent').on('click', '.meeting', function(event) {
+        event.preventDefault();
+        mid = $(this).attr('mid');
+        $.ajax({
+            url: '/admin/meeting/view/'+mid,
+            type: 'GET',
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#adminUsersRight').html(htmlData);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+    });
+$('#adminContent').on('click', '#addMeeting', function(event)
+{
+    event.preventDefault();
+    $.ajax({
+        url: '/meetings/create/',
+        type: 'GET',
+        dataType: 'html',
+    })
+    .done(function(htmlData) {
+        $('#popup').html(htmlData);
+        $('#popup').show();
+    })
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
+    })
+    .always(function(xhr) {
+        checkStatus(xhr.status);
     });
 });

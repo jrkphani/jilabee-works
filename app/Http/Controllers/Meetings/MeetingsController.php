@@ -35,6 +35,10 @@ class MeetingsController extends Controller {
 		$meetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->orderBy('updated_at','desc')->get();
 		return view('meetings.history',['meetings'=>$meetings]);
 	}
+	public function meetingForm()
+	{
+		return view('meetings.form');
+	}
 	public function createMeeting()
 	{
 		$input = Request::only('title','description','venue','attendees','minuters','emails');

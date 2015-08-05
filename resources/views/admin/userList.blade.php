@@ -25,8 +25,13 @@
 		</div>
 		<div class="clearboth"></div>
 	</div>
-	<button class="addBtn"> </button>
+	<button class="addBtn" id="addUser"> </button>
+	<div class="popupOverlay" id="popup" ></div>
 @endsection
 @section('javascript')
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/adminUser.js') }}"></script>
-@stop
+@endsection
+@section('css')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+@endsection

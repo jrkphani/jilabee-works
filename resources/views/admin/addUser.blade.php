@@ -1,99 +1,53 @@
-@extends('admin')
-
-@section('content')
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Add User</div>
-				<div class="panel-body">
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/user/add') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Name</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-								{!! $errors->first('name','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-								{!! $errors->first('email','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-								{!! $errors->first('password','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Phone</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
-								{!! $errors->first('phone','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">DOB</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control dateInput" name="dob" value="{{ old('dob') }}">
-								{!! $errors->first('dob','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Gender</label>
-							<div class="col-md-6">
-								{!!Form::radio('gender', 'M') !!} Male 
-								{!!Form::radio('gender', 'F') !!} Female
-								{!! $errors->first('gender','<div class="error">:message</div>') !!}
-							</div>
-						</div>
-						{{-- <div class="form-group">
-							<label class="col-md-4 control-label">Role</label>
-							<div class="col-md-6">
-								{!!Form::select('role',array('1'=>'user','999'=>'admin')) !!}
-								{!! $errors->first('role','<div class="error">:message</div>') !!}
-							</div>
-						</div> --}}
-						<div class="form-group">
-							<div class="col-md-3 col-md-offset-3">
-                           		<a class="btn btn-primary" href="{{url('admin/user/list')}}">Back</a> 
-                        	</div>
-							<div class="col-md-3 col-md-offset-3">
-								<button type="submit" class="btn btn-primary">
-									Register
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
+<div class="popupWindow">
+	<div class="popupHeader">
+		<h2><a href="">User</a> / <a href="">Add</a></h2>
+		<button onclick="$('#popup').hide();" class="popupClose"></button>
+		<div class="clearboth"></div>
+	</div>	
+	<div class="popupContent">
+		{!!Form::open(['id'=>'addUserForm'])!!}
+		<div class="popupContentLeft">
+			<p>Name <input type="text" name="name">
+			<div class="error" id="name_err"></div></p>
+			<p>Email <input type="email" name="email">
+			<div class="error" id="email_err"></div></p>
+			<p>Password <input type="password" name="password">
+			<div class="error" id="password_err"></div></p>
+			<p>Confirm Password<input type="password" name="password_confirmation"></p>
+			<p>Phone<input type="text" name="phone">
+			<div class="error" id="phone_err"></div></p>
+			<p>DOB<input type="text" class="dateInput" name="dob" >
+			<div class="error" id="dateInput_err"></div></p>
+			<p>Gender {!!Form::radio('gender', 'M') !!} Male 
+				{!!Form::radio('gender', 'F') !!} Female
+				{!!Form::radio('others', 'O') !!} Others
+				<div class="error" id="gender_err"></div></p>
+		</div>
+		<div class="popupContentRight">
+			<h4>Meeting Settings</h4>
+			<div class="meetingSettingITem">
+				<p>Delivery performance review</p>
+				<span>attendee</span>
+				<div class="clearboth"></div>
+			</div>
+			<div class="meetingSettingITem">
+				<p>Delivery performance review</p>
+				<span>attendee</span>
+				<div class="clearboth"></div>
+			</div>
+			<div class="meetingSettingITem">
+				<p>Delivery performance review</p>
+				<span>attendee</span>
+				<div class="clearboth"></div>
 			</div>
 		</div>
+		{!!Form::close()!!}
 	</div>
-@endsection
-
-@section('javascript')
-<script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
+	<button id="addUserSubmit" type="submit">Register</button>
+</div>
     <script>
 	$(document).ready(function($)
 		{
-			 $('.dateInput').datepicker({format: "yyyy-mm-dd",endDate: "-15y",startView: 2,autoclose: true});
+			 $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "-15y",changeMonth: true,changeYear: true});
     	});
 	</script>
-@stop
-@section('css')
-	<link href="{{ asset('/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-@stop

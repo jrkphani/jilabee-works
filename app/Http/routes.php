@@ -38,6 +38,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::post('user/add', 'Admin\UserController@postAdd');
 			Route::get('user/view/{userId}', 'Admin\UserController@getUser');
 			Route::get('meetings', 'Admin\MeetingsController@index');
+			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
 			Route::post('meetings/approve', 'Admin\MeetingsController@approve');
 			Route::post('meetings/disapprove', 'Admin\MeetingsController@disapprove');
 		//});
@@ -68,7 +69,7 @@ Route::group(['prefix' => 'admin'], function()
 			{
 				Route::get('/', 'Jobs\TaskController@index');
 				Route::post('draft', 'Jobs\TaskController@draft');
-				Route::get('draftform/{taskid?}', 'Jobs\TaskController@draftform')->where('taskid', '[0-9]+');;
+				Route::get('draftform/{taskid?}', 'Jobs\TaskController@draftform')->where('taskid', '[0-9]+');
 				Route::get('acceptTask/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
 				Route::post('rejectTask/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
 				Route::post('comment/{taskid}', 'Jobs\TaskController@taskComment')->where('taskid', '[0-9]+');
@@ -98,6 +99,7 @@ Route::group(['prefix' => 'admin'], function()
 				Route::get('/', 'Meetings\MeetingsController@index');
 				Route::get('myminutes', 'Meetings\MeetingsController@myminutes');
 				Route::get('history', 'Meetings\MeetingsController@history');
+				Route::get('create','Meetings\MeetingsController@meetingForm');
 				Route::post('create','Meetings\MeetingsController@createMeeting');
 				Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting')->where('id', '[0-9]+');
 				Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting')->where('id', '[0-9]+');

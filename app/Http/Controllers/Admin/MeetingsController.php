@@ -17,8 +17,13 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
-		$meetings = TempMeetings::all();
+		$meetings = Meetings::all();
 		return view('admin.meetings',['meetings'=>$meetings]);
+	}
+	public function view($id)
+	{
+		$meeting = Meetings::find($id);
+		return view('admin.meeting',['meeting'=>$meeting]);
 	}
 	public function approve(Request $request)
 	{

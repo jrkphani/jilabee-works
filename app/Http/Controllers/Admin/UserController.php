@@ -29,10 +29,12 @@ class UserController extends Controller {
 	{
 		$input = Request::all();
 		$validator = $this->registrar->validator($input);
-
+		$output['success'] = 'yes';
 		if ($validator->fails())
 		{
-			return redirect('/admin/user/add')->withInput($input)->withErrors($validator);
+			$output['success'] = 'no';
+			$output['validator'] = $validator->messages()->toArray();
+			return json_encode($output);
 		}
 		try
 		 {
@@ -71,7 +73,7 @@ class UserController extends Controller {
 					}
 				}
 		 	});
-			return redirect('/admin/user/add')->with('message','User Added Successfuly');
+			return json_encode($output);
 		 }
 		 catch (Exception $e)
 		 {

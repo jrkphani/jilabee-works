@@ -64,9 +64,9 @@
 </div>
 @endif
 {!! Form::close() !!}
-<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-<button id="createTaskSave" type="button" class="btn btn-primary">Save Draft</button>
-<button id="createTaskSubmit" type="button" class="btn btn-primary">Send</button>
+<button type="button">Close</button>
+<button id="createTaskSave" type="button">Save Draft</button>
+<button id="createTaskSubmit" type="button" >Send</button>
 <script type="text/javascript">
  $( "#selectAssignee" ).autocomplete({
             source: "/user/search",
