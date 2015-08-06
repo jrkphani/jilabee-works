@@ -5,6 +5,8 @@ $(document).ready(function()
 $('#adminContent').on('click', '.user', function(event)
 {
 	event.preventDefault();
+	$('.user').removeClass('listHighlight1');
+	$(this).addClass('listHighlight1');
 	uid = $(this).attr('uid');
 	$.ajax({
 		url: '/admin/user/view/'+uid,

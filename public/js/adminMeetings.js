@@ -164,12 +164,14 @@ $('.disapprove').click(function(event) {
 $('#adminContent').on('click', '.meeting', function(event) {
         event.preventDefault();
         mid = $(this).attr('mid');
+        $('.meeting').removeClass('listHighlight1');
+        $(this).addClass('listHighlight1');
         $.ajax({
             url: '/admin/meeting/view/'+mid,
             type: 'GET',
             dataType: 'html',
         })
-        .done(function(htmlData) {
+        .done(function(htmlData){
             $('#adminUsersRight').html(htmlData);
         })
         .fail(function(xhr) {

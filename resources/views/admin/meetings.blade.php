@@ -15,7 +15,7 @@
 				<div class="adminUsersList">
 					<ul>
 						@foreach($meetings as $meeting)
-						<li class="listHighlight1 meeting" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
+						<li class="meeting" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
 						@endforeach
 					</ul>
 				</div>
