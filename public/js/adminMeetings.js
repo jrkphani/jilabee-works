@@ -200,3 +200,40 @@ $('#adminContent').on('click', '#addMeeting', function(event)
         checkStatus(xhr.status);
     });
 });
+$('#adminContent').on('keyup', '#selectAttendees', function(event) {
+    event.preventDefault();
+    if($(this).val().length)
+    {
+        if((event.which == 188) || (event.which == 13))
+        {
+            emailArr = $(this).val().split(",");
+            if(emailArr.length)
+            {
+                $.each(emailArr, function(index, val)
+                {   
+                    if($("#"+val.replace('@', '_')).length != 0)
+                    {
+
+                    }
+                    else
+                    {
+                        if(isEmail(val))
+                        {
+                            if($("#" +val.replace('@', '_')).length != 0)
+                            {
+                              //User already exist
+                            }
+                            else
+                            {
+                                insert = '<div class="col-md-6 attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
+                                $('#selected_attendees').prepend(insert);
+                                $('#selectAttendees').val('');
+                            }
+                        }
+                    }
+                });
+                return false;
+            }
+        }
+    }
+});

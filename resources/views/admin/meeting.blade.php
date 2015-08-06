@@ -50,15 +50,40 @@
 	@endif
 	@if($meeting->attendees)
 		<?php
-			$attendees = App\Model\Profile::select('userId','name')->whereIn('userId',explode(',', $meeting->attendees))->get();
-			foreach ($attendees as $attendee)
+		$attendeesEmail = $attendees = array();
+			foreach (explode(',',$meeting->attendees) as $key => $value)
 			{
-				//echo $minuter->value;
-				echo '<div class="meetingSettingITem">
-						<p>'.$attendee->name.'</p>
-						<span>attendee</span>
-						<div class="clearboth"></div>
-					</div>';
+				if(isEmail($value))
+				{
+					$attendeesEmail[] = $value;
+				}
+				else
+				{
+					$attendees[] = $value;
+				}
+			}
+			if(count($attendees))
+			{
+				$attendeesList = App\Model\Profile::select('userId','name')->whereIn('userId',$attendees)->get();
+				foreach ($attendeesList as $attendee)
+				{
+					echo '<div class="meetingSettingITem">
+							<p>'.$attendee->name.'</p>
+							<span>attendee</span>
+							<div class="clearboth"></div>
+						</div>';
+				}
+			}
+			if(count($attendeesEmail))
+			{
+				foreach ($attendeesEmail as $attendee)
+				{
+					echo '<div class="meetingSettingITem">
+							<p>'.$attendee.'</p>
+							<span>attendee</span>
+							<div class="clearboth"></div>
+						</div>';
+				}
 			}
 		?>
 	@endif

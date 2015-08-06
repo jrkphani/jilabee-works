@@ -83,16 +83,23 @@ class UserController extends Controller {
 	}
 	public function userList()
 	{
-		$users = Profile::select('profiles.*','users.userId')->join('users','profiles.userId','=','users.id')->where('users.userId','LIKE',Session::get('database').'%')->get();
-		return view('admin.userList',['users'=>$users]);
+		//only view user inside same org
+		if($orgId = getOrgId())
+		{
+			$users = Profile::select('profiles.*','users.userId')->join('users','profiles.userId','=','users.id')->where('users.userId','LIKE',$orgId.'%')->get();
+			return view('admin.userList',['users'=>$users]);
+		}
 	}
 	public function getUser($userId)
 	{
 		//only view user inside same org
-		if (strpos(Auth::user()->userId,Session::get('database')) !== false)
+		if($orgId = getOrgId())
 		{
-    		$user = Profile::join('users','profiles.userId','=','users.id')->where('users.userId','=',$userId)->first();
-			return view('admin.viewUser',['user'=>$user]);
+			if (strpos(Auth::user()->userId,$orgId) !== false)
+			{
+	    		$user = Profile::join('users','profiles.userId','=','users.id')->where('users.userId','=',$userId)->first();
+				return view('admin.viewUser',['user'=>$user]);
+			}
 		}
 	}
 }

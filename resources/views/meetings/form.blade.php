@@ -16,15 +16,15 @@
         	<div id="description_err" class="error"></div>
 
         	{!! Form::label('selectMinuters', 'Expected Minuters',['class'=>'control-label']); !!}
-        	<div id="selected_minuters"></div>
-        	
-        	{!! Form::text('selectMinuters', '',['class'=>'form-control'])!!}
+        	<div id="selected_minuters">
+                {!! Form::text('selectMinuters', '',['class'=>'form-control'])!!}
+            </div>
         	<div id="minuters_err" class="error"></div>
 
         	{!! Form::label('selectAttendees', 'Expected Attendees',['class'=>'control-label']); !!}
-        	<div id="selected_attendees" class="form-group"></div>
-        	
-        	{!! Form::text('selectAttendees', '',['class'=>'form-control'])!!}
+        	<div id="selected_attendees" class="form-group">
+                {!! Form::text('selectAttendees', '',['class'=>'form-control'])!!}
+            </div>
         	<div id="attendees_err" class="error"></div>
 
         	{!! Form::label('venue', 'Venue',['class'=>'control-label']); !!}
@@ -50,7 +50,7 @@ $( "#selectMinuters" ).autocomplete({
                 else
                 {
                     insert = '<div class="col-md-6 attendees" id="'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent"> remove</span></div>';
-                    $('#selected_minuters').append(insert);
+                    $('#selected_minuters').prepend(insert);
                     $(this).val("");
                     return false;
                 }
@@ -69,7 +69,7 @@ $( "#selectMinuters" ).autocomplete({
                 else
                 {
                     insert = '<div class="col-md-6 attendees" id="'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent"> remove</span></div>';
-                    $('#selected_attendees').append(insert);
+                    $('#selected_attendees').prepend(insert);
                     $(this).val("");
                     return false;
                 }

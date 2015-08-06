@@ -43,7 +43,7 @@ class MeetingsController extends Controller {
 	{
 		$input = Request::only('title','description','venue','attendees','minuters','emails');
 		$output['success'] = 'yes';
-		$emails=array();
+		$attendeesEmail=array();
 		$validator = TempMeetings::validation($input);
 		if ($validator->fails())
 		{
@@ -53,34 +53,38 @@ class MeetingsController extends Controller {
 		}
 		else
 		{
-			if($input['emails'])
+			if($input['attendees'])
 			{
-				$emails = explode(',', $input['emails']);
-				foreach ($emails as $key => $value)
+				foreach ($input['attendees'] as $key => $value)
 				{
-					if(!isEmail($value))
+					if(isEmail($value))
 					{
-						$validator->errors()->add('emails', 'Invalid email: '.$value);
-						$output['success'] = 'no';
-						$output['validator'] = $validator->messages()->toArray();
-						return json_encode($output);
+						$attendeesEmail[] = $value;
 					}
-				}
-			}
-			if($emails)
-			{
-				foreach ($emails as $key => $value)
-				{
-					//array_push(array, var)
+					else
+					{
+						$attendees[] = $value;
+					}
 				}
 			}
 			$input['created_by'] = $input['updated_by'] = Auth::id();
 			$getMinutersId = User::whereIn('userId',$input['minuters'])->lists('id');
 			$input['minuters'] = implode(',',$getMinutersId);
-			if($input['attendees'])
+			if(count($attendees))
 			{
-				$getAttendeesId = User::whereIn('userId',$input['attendees'])->lists('id');
-				$input['attendees'] = implode(',',$getAttendeesId);
+				$getAttendeesId = User::whereIn('userId',$attendees)->lists('id');
+			}
+			if(count($attendeesEmail))
+			{
+				if($getAttendeesId)
+				{
+					$attendees = array_merge($getAttendeesId,$attendeesEmail);
+				}
+				else
+				{
+					$attendees = $attendeesEmail;
+				}
+				$input['attendees'] = implode(',',$attendees);
 			}
 			$input['description'] = nl2br($input['description']);
 			if(Auth::user()->isAdmin)
