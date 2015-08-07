@@ -1,23 +1,5 @@
 $(document).ready(function($)
 {
-    // Javascript to enable link to tab
-        var url = document.location.toString();
-        if (url.match('#'))
-        {
-            if(url.split('#')[1] == 'minutes')
-            {
-                $('#minutes').click();
-            }
-            else if(url.split('#')[1] == 'history')
-            {
-                $('#history').click();
-            }
-        }
-        else
-        {
-            $('#minutes').click();
-        }
-
         $('#listLeft').on('click', '#createMeetingSubmit', function(event) {
             event.preventDefault();
             $.ajax({
@@ -106,7 +88,7 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             $('#loadMeetingModal').addClass('in');
             $('#loadMeetingModal').show();
          });
-            $('#listLeft').on('click', '.minute', function(event) {
+            $('#centralContainer').on('click', '.minute', function(event) {
                 //alert($(this).find('.minute').length);
                 //return false;
                 event.preventDefault();
@@ -429,9 +411,9 @@ function loadMinute(mid)
         dataType: 'html',
         //data: {param1: 'value1'},
     })
-    .done(function(htmlData) {
-        //console.log("success");
-        $('#rightContent').html(htmlData);
+    .done(function(htmlData)
+    {
+        $('#contentMeetingsRight').html(htmlData);
     })
     .fail(function(xhr) {
         checkStatus(xhr.status);

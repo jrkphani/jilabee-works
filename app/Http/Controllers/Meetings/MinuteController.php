@@ -17,7 +17,15 @@ class MinuteController extends Controller {
 	/*public function __construct()
 	{
 	}*/
-	public function index($meetingId,$minuteId=NULL)
+	public function index($minuteId)
+	{
+		$minute = Minutes::whereId($minuteId)->whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->first();
+		if($minute)
+		{
+			return view('meetings.minute',['minute'=>$minute]);	
+		}
+	}
+	/*public function index($meetingId,$minuteId=NULL)
 	{
 		//need to secure the link by check the user has permission and particpated in the meeting
 		//echo  $meetingId; echo $minuteID; die;
@@ -32,7 +40,7 @@ class MinuteController extends Controller {
 			//$ideas = $minute->ideas()->get();
 		}
 		return view('meetings.minute',['meeting'=>$meeting,'minute'=>$minute]);
-	}
+	}*/
 	public function create($mid)
 	{
 		if($meeting = Meetings::find($mid)->isMinuter())

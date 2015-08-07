@@ -20,7 +20,7 @@
 <body>
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
-		<h1>Jotter</h1>
+		<h1><a href="/">Jotter</a></h1>
 			<nav>
 				@if(Request::segment(2) == 'admin')
 					<a class="navHightlight">Notifications</a>

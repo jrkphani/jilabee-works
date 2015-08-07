@@ -20,15 +20,18 @@
 <body>
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
-		<h1>Jotter</h1>
+		<h1><a href="/">Jotter</a></h1>
 			<nav>
+				<?php $colorClass = ''; ?>
 				@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
 					<a class="navHightlight" id="jobs">Jobs</a>
+					<?php $colorClass = 'jobsColor'; ?>
 				@else
 					<a href="{{ url('jobs') }}" id="jobs">Jobs</a>
 				@endif
 				@if(Request::segment(1) == 'followups')
 					<a class="navHightlight">Followups</a>
+					<?php $colorClass = 'followUpsColor'; ?>
 				@else
 					<a href="{{ url('followups') }}">Follow Ups</a>
 				@endif
@@ -57,40 +60,42 @@
 			<div class="clearboth"></div>
 	</header>
 
-	<div class="centralViewer">
+	<div class="centralViewer {{$colorClass}}">
 		<div class="centralContainer" id="centralContainer">
 			@yield('content')
 		</div>
 	</div>
+	<div class="breadcrumbs">
+		<a href="">Home</a> &nbsp;/&nbsp;
+		<a href="">Jobs</a>
+	</div>
+	<div class="pagination">
+		<button></button>
+		<button></button>
+		<button></button>
+	</div>
+	<div class="clearboth"></div>
 	<footer>
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>
-			<a href="">My Taks</a>
-			<a href="">Follow ups</a>
+			<a href="">History</a>
+			<a href="">Current</a>
 		</div>
 		<div class="footerColumn">
-			<a href="">Minutes</a>
+			<a href="">Follow Ups</a>
+			<a href="">History</a>
+			<a href="">Current</a>
+		</div>
+		<div class="footerColumn">
 			<a href="">Meetings</a>
+			<a href="">History</a>
+			<a href="">Current</a>
 		</div>
 		<div class="footerColumn">
-			<a href="">Plan</a>
-			<a href="">Projects</a>
-		</div>
-		<div class="footerColumn">
-			<a href="">Terms</a>
-			<a href="">Pivacy policy</a>
-			<a href="">Usage rights</a>
-			<a href="">Service level</a>
-		</div>
-		<div class="footerColumn">
-			<a href="">Contact</a>
-			<a href="">Location</a>
-			<a href="">Mail us</a>
-			<a href="">Cal us</a>
-		</div>
-		<div class="footerColumn">
-			<a href="">Help</a>
-			<a href="">FAQs</a>
+			<a href="">Misc</a>
+			<a href="">New Task</a>
+			<a href="">New Meeting </a>
+			<a href="">FAQ </a>
 		</div>
 		<div class="clearboth"></div>
 	</footer>

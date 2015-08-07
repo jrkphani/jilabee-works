@@ -1,11 +1,17 @@
 $(document).ready(function($) 
 {
-		if($(window).width() > 719)
-		{
-			var width = $(window).width() * 2;
-			var string = "width:" + width + "px";
-			$('#centralContainer').attr("style",string);
-		}
+	var width = $(window).width() * 2;
+	var string = "width:" + width + "px";
+	$('#centralContainer').attr("style",string);
+    $(document).keydown(function(e)
+    {
+        if (e.keyCode == 27) {
+            if($('#popup').length)
+            {
+                $('#popup').hide();
+            }
+        }
+    });
 });
 function checkStatus(headerStatus) {
 	if(headerStatus == '401')

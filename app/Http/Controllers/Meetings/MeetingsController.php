@@ -4,6 +4,7 @@ use Request;
 use App\Model\JobTasks;
 use App\Model\TempMeetings;
 use App\Model\Meetings;
+use App\Model\Minutes;
 use App\Model\Profile;
 use App\User;
 use Auth;
@@ -19,21 +20,8 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
-		return view('meetings.index');
-	}
-	public function myminutes()
-	{
-		$tempMeetings = TempMeetings::where('created_by','=',Auth::id())->get();
-		$mymeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->orderBy('updated_at','desc')->get();
-		//$myminutes = Meetings::whereRaw('FIND_IN_SET("'.$userId.'",attendees)')->orWhereRaw('FIND_IN_SET("'.$userId.'",minuters)')->get();
-		$mytask = JobTasks::where('assignee','=',Auth::id())
-					->where('status','!=','Closed')->get();
-		return view('meetings.myminutes',['mymeetings'=>$mymeetings,'tempMeetings'=>$tempMeetings]);
-	}
-	public function history()
-	{
-		$meetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orWhereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')->orderBy('updated_at','desc')->get();
-		return view('meetings.history',['meetings'=>$meetings]);
+		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
+		return view('meetings.index',['minutes'=>$minutes]);
 	}
 	public function meetingForm()
 	{
