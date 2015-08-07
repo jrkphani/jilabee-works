@@ -1,13 +1,18 @@
 /*-===CSS INFO Author:Balajisp/CITW, Last updated: 19-07-2015;*/
 header{	height: 65px; width:100%; background: #4d7dc5; position: fixed; top: 0px; z-index: 8999; border-bottom: solid 1px #3763a6; -webkit-box-shadow: 0 0 4px #a2a2a2;        box-shadow: 0 0 4px #a2a2a2;}
-header h1{color: #fff; font-size: 2em;height: 65px; line-height: 65px; margin-left: 10px; float: left; font-family: 'Grand Hotel'; cursor: default;}
+header h1 a{color: #fff; font-size: 2em;height: 65px; line-height: 65px; margin-left: 10px; float: left; font-family: 'Grand Hotel'; cursor: default;
+text-decoration: none; cursor: pointer;}
 header nav{float: left; margin-left:85px; display: block; height: 55px; margin-top: 10px;}
-header nav a{float: left; font-size: 1.2em; color: #fff; font-weight: bold; text-decoration: none; padding: 0 30px 0 30px; line-height:55px;}
+header nav a{float: left; font-size: 1.2em; color: #fff; font-weight: bold; text-decoration: none; padding: 0 30px 0 30px; line-height:58px;}
 header nav a:hover{ background: #ebebeb; border-top-left-radius:5px; border-top-right-radius: 5px; color: #4d7dc5; margin-top: 1px;}
 body{background: #ebebeb;}
 
 
 .centralViewer{width: 100%; overflow-x:scroll;}
+.jobsColor{background: #d4e1f5 !important;}
+.followUpsColor{background: #f7f6dc !important;}
+.jobsHeaderColor{background: #d4e1f5 !important;}
+.followUpsHeaderColor{background: #f7f6dc !important;}
 .centralContainer{width:3798px; }
 
 .contentLeft{width: 50%; float: left; position: relative;}
@@ -24,6 +29,8 @@ body{background: #ebebeb;}
 .paperTitleLeft p, .paperTitleRight p{ color: #828282;  } 
 .paperTitleLeft{ float: left;  margin-top: 40px;  } 
 .paperTitleRight{float: right;  margin-top: 40px;}
+.paperTitleReduceTop{margin-top: 10px !important;}
+
 .paperSubTitle{margin-top: 20px;}
 .paperSubTitle span{font-weight: bold;}
 .paperBorder h4{margin-top: 20px; font-weight: bold; font-size: 1.3em; border-top:solid 1px #d2d2d2; box-sizing:border-box; padding-top: 20px;}
@@ -35,6 +42,12 @@ body{background: #ebebeb;}
 .minuteItemRight h6{margin-top: 20px; font-weight: bold; font-size: 1.3em; color: #9a9a9a;}
 
 
+.roleTable{border-bottom:solid 1px #cdcdcd; margin-bottom: 30px;}
+.roleTableTitle{width: 100%;}
+.roleTableTitle h5{width: 20%; text-align: center; float: left;}
+.roleTableContent{width: 100%; }
+.roleTableContent p{width: 20%; text-align: center; float: left; line-height: 60px;}
+.roleTableContent input[type="radio"]{width: 20%; text-align: center; margin-top: 26px; float: left; }
 
 
 
@@ -52,6 +65,25 @@ body{background: #ebebeb;}
 .boxList{width: 500px; float: left; margin-left: 50px;}
 .box{width: 450px; min-height: 90px; background: #fff; border: solid 1px #cdcdcd; margin-bottom: 20px; 	
 	border-radius: 3px; color: #232323; position: relative; cursor: pointer;}
+.box:hover{background: #ffeeec; -webkit-box-shadow: 0 6px 6px -6px #777;
+       -moz-box-shadow: 0 6px 6px -6px #777;
+            box-shadow: 0 6px 6px -6px #777;}
+
+
+.boxActionShadow{
+	-webkit-box-shadow: 0 6px 6px -6px #777;
+       -moz-box-shadow: 0 6px 6px -6px #777;
+            box-shadow: 0 6px 6px -6px #777;}
+
+.boxActionRed{background: #ffeeec; }
+
+.boxActionBlue{background: #dbf7ef; }
+
+.boxActionGreen{background: #e0eafa; }
+
+.boxActionGrey{background: #f9f9f9; }
+
+
 	.box h4{font-size: 1.3em; line-height: 1.1em;}
 .box p{ color: #626262; font-size: 1.1em; margin-top: 10px; margin-bottom: 15px;}
 .boxInner h6{font-size: 1em; font-weight: bold; color: #424242; margin-top: 10px;}
@@ -69,15 +101,15 @@ background: url(../images/arrow_right_medium.png) no-repeat center center;}
 
 
 .mainList{margin-left: 100px; margin-top: 20px; padding-bottom: 50px;}
-.mainListFilter{margin-top: 90px; margin-bottom: 10px; height: 50px; line-height: 50px; margin-left: 150px;}
+.mainListFilter{margin-top: 90px; margin-bottom: 30px; height: 50px; line-height: 50px; margin-left: 150px;}
 .mainListFilter input{height: 40px; width: 300px;  font-size: 1em; padding-left: 5px; border-radius: 3px; border:solid 1px #b2b2b2;}
-.mainListFilter select{margin-left: 5px; height: 45px;}
-
+.mainListFilter select{margin-left: 5px; height: 44px;}
+.mainListFilter button{height: 43px; margin-left: 5px;}
 
 .arrowBtn{top: 160px; position: absolute; font-size: 1.4em; color: #25b681;}
 .arrowBtn p{ margin-top: 5px; margin-left: 5px;}
-.arrowBtn span{width: 90px; height: 90px; border: solid 1px #19986a;  background: #25b681; display: block; border-top-right-radius: 4px; border-bottom-right-radius: 4px; margin-top: 40px; cursor: pointer;}
-.arrowBtn span img{margin-top: 20px; margin-left: 25px;}
+.arrowBtn span{width: 60px; height: 60px; border: solid 1px #19986a;  background: #25b681; display: block; border-top-right-radius: 4px; border-bottom-right-radius: 4px; margin-top: 40px; cursor: pointer;}
+.arrowBtn span img{margin-top: 9px; margin-left: 18px;}
 
 .arrowBtnRight{right: 0; color: #e86e60;}
 .arrowBtnRight span{border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-top-left-radius: 4px; border-bottom-left-radius: 4px;
@@ -137,9 +169,9 @@ footer{background: #323232; border-top: solid 1px #383838; padding-top: 20px; pa
 .popupClose{background:#4d7dc5 url(../images/close_45.png)no-repeat left top; border: none; cursor: pointer; width: 45px; height: 45px; float: right;}
 .popupClose:hover{background:#4d7dc5 url(../images/close_45.png)no-repeat left top; border: none; cursor: pointer; width: 45px; height: 45px; float: right;}
 .outerClose{margin-top: -50px;}
-.popupContent{width: 100%; height: 100%;}
-.popupContentLeft{width: 60%; height: 90%; background: #fff; float: left;  box-sizing:border-box; border-right: solid 1px #c1c1c1;  }
-.popupContentRight{width: 40%; height: 90%; background: #eeeeee; float: left;  }
+.popupContent{width: 100%; }
+.popupContentLeft{width: 60%; background: #fff; float: left;  box-sizing:border-box; border-right: solid 1px #c1c1c1;  }
+.popupContentRight{width: 40%;  background: #eeeeee; float: left;  }
 .popupContentLeft h4{color: #4d7dc5; font-size: 1.6em;}
 .popupContentText{font-size: 1.1em; line-height: 1.3em; box-sizing:border-box; padding: 20px;}
 .popupContentTitle{box-sizing:border-box; padding: 20px; background: #323232;}
@@ -157,14 +189,14 @@ footer{background: #323232; border-top: solid 1px #383838; padding-top: 20px; pa
 .taskNo{font-size: 1.2em; margin-bottom: 10px;}
 
 
-.popupDateList{ width: 15%; background: #f4f4f4; color: #fff; float: left; padding-top:30px;  }
+.popupDateList{ width: 15%; height: 100%; background: #f9f9f9; color: #fff; float: left; padding-top:30px;  }
 .popupDateList .proceedBtn{width: 100%; text-align: center; border-radius: 0px;}
 .popupDateList h4{font-size: 1.1em; text-align: center; color: #232323; margin-top: 20px; margin-bottom: 10px;}
 .popupMinutes{width: 85%; float: left;}
-.popupDateBtn{width: 100%; background: transparent; border:none; border-bottom: solid 1px #d2d2d2; height: 50px; font-size: 1.2em; font-weight: normal; line-height: 50px; color: #232323;}
-.popupDateBtn:hover{width: 100%;  border:none; height: 50px; line-height: 50px; border-bottom-left-radius: 0px; border-top-left-radius: 0px;}
+.popupDateBtn{width: 100%; background: transparent; border:none; border-bottom: solid 1px #d2d2d2; height: 50px; font-size: 1.1em; font-weight: normal; line-height: 50px; color: #727272; box-sizing:border-box;}
+.popupDateBtn:hover{width: 100%; background:#fff;   border:none; height: 50px; line-height: 50px; border-bottom-left-radius: 0px; border-top-left-radius: 0px;color: #727272; font-size: 1.2em; font-weight: normal; border-bottom: solid 1px #d2d2d2;}
 .popupContent .paper{width: 90%;}
-
+.popup3Title{font-size: 2.2em; margin-top: 30px; border-bottom: solid 1px #828282; padding-bottom: 20px;}
 
 
 
@@ -247,13 +279,28 @@ border-bottom:solid 1px #cdcdcd;}
 
 .meetingSettingITem .removeMoreBtn{margin-left: 20px; margin-top: 7px; float: left;}
 .meetingSettingITem .addMoreBtn{margin-left: 20px; margin-top: 7px; margin-bottom: 7px; float: left;}
+.userRoleInput{margin-top: 5px;}
 
+
+.showHeaderMenu{background:url(../images/icon_menu.png) no-repeat left top; width: 50px; height: 50px; border: none;}
+.showHeaderMenu:hover{background:url(../images/icon_menu.png) no-repeat left top; width: 50px; height: 50px; border: none;}
+.showHeaderMenu{display: none;}
+
+.pagination{     width: 100px;    margin: 0 auto; margin-top: 20px; float: right;    margin-bottom: 20px;}
+.pagination button{width: 10px; height: 15px; border-radius: 10px; background:#828282; border:solid 1px #232323; margin-left: 5px;}
+.pagination button:hover{width: 10px; height: 15px; border-radius: 10px; background:#424242; border:solid 1px #232323;}
+
+
+.breadcrumbs{margin-top: 20px; margin-left: 20px; float: left; }
+.breadcrumbs a{color:#4d7dc5; cursor: pointer; text-decoration: none;}
+.breadcrumbs a:hover{color:#232323; cursor: pointer; text-decoration: none;}
 
 
 
 /*Media querries*/
 @media (max-width: 1366px) { 
 .box{width: 360px;}
+
 .boxList{width: 360px; margin-left: 20px; }
 .boxTitle{ height: 40px; line-height: 40px;}
 .boxTitle span{width: 40px; height: 40px; font-size: 1.1em;}
@@ -274,9 +321,11 @@ border-bottom:solid 1px #cdcdcd;}
 .paper{width: 620px;}
 .contentMeetingsLeft{padding-left: 35px;}
 header nav{margin-left: 40px;}
-.meetingsAddBtn{left: 441px; top: 94px;}
+.meetingsAddBtn{left: 431px; top: 94px;}
 .meetingsAddBtn:hover{left: 441px; top: 94px;}
-
+	.meetingsPage .arrowBtn span{width: 40px;}
+	.meetingsPage .arrowBtn span img    {margin-top: 9px;
+    margin-left: 10px;} 
 }
 
 @media (max-width: 1280px) { 
@@ -315,8 +364,9 @@ header nav{margin-left: 40px;}
 		.popupDateBtn{font-size: .9em;}
 	.adminUsersLeft{width: 30%;}
 	.adminUsersList ul{width: 100%;}
-
-
+	.contentMeetingsLeft .boxList{margin-top: 77px;}
+	.userRoleInput{width: 100px;}
+	.meetingSettingITem p{width: 300px;}
 }
 
 
@@ -330,7 +380,7 @@ header nav{margin-left: 40px;}
 		.paperBorder h5{font-size: 1em;}
 		.minuteItemRight h6{font-size: 1.1em;}
 		.paperBorder h4{font-size: 1.1em;}
-		.contentMeetingsLeft .mainListFilter {    margin-left: 12px;}
+/*		.contentMeetingsLeft .mainListFilter {    margin-left: 12px;}*/
 		.chatInput input[type="button"]{width: 60px;}
 		.popupButtons button{margin-left: 5px;}
 		.chatInput{height: 160px;}
@@ -340,6 +390,8 @@ header nav{margin-left: 40px;}
 	.meetingSettingsTitle h5:nth-child(1){width: 200px;}
 	.meetingSettingITem p{width: 200px;}
 	.userDetailItem p{width: 100px;}
+		.mainListFilter{margin-left: 60px;}
+	.mainList{margin-left: 40px;}
 
 }
 
@@ -357,18 +409,186 @@ header nav{margin-left: 40px;}
 	.minuteItemRight h6{font-size: 1em;}
 	.meetingsPage .box{ width: 180px;}
 	.meetingsPage .boxList{width: 180px; margin-left: 10px; }
-	.meetingsPage .box .boxRight{width: 20px;}
+	.meetingsPage .box .boxRight{width: 30px;}
 	.popupDateBtn{font-size: .9em;}
 	.proceedBtn{height: 60px;}
+	.proceedBtn:hover{height: 60px;}
 	.popupMinutes .paper{margin: 20px;}
+
 }
 
 @media (max-width: 720px) { 
 	
 	.paper {    width: 400px;}
-	
+	header{height: 50px;}
+	header h1 a{height: 50px; line-height: 50px;}
+	.headerRight{padding-top: 8px;}
+	.headerNav{display: none; float: none;position: fixed; top: 50px; width: 100%; border-top:solid 1px #2a4a7b; margin-top: 0px; margin-left: 0px; }
+	.headerNav a{width: 100%; background: #3966a8; color: #fff; border-radius: 0px; border-bottom:solid 1px #2a4a7b; margin-top: 0px; margin-left: 0px;}
+	.headerNav a:hover{color: #fff; background:#3460a2;}
+		
+	.showHeaderMenu{display: block; float: left; margin-left: 30px;}
+	.notification{top: 60px;}
+	.nameMenu{top: 60px;}
+	.mainListFilter{margin-left: 50px;}
+	.mainList{margin-left: 50px;}
+	.boxList{margin-left: 0px;}
+	.jobsHeaderColor, .followUpsHeaderColor{ background: #3966a8 !important;}
+	.popupContentRight{width: 100%;}
+	.popupContentLeft{width: 100%;}
+	.popupContentLeft textarea{width: 90%;}
+	.popupButtons button{margin-top: 10px;}
+	.popup3Title{font-size: 1.8em;}
+	.meetingSettingITem .removeMoreBtn{margin-left: 5px;}
+
+
+		.meetingSettingsTitle h5{width: 100px;}
+	.meetingSettingITem .removeMoreBtn{margin-left: 5px;}
+	.meetingSettingITem p{width: 161px; font-size: .9em;}
+	.userRoleInput{width: 90px; margin-top: 5px;}
+	.meetingSettingITem p{padding-left: 5px;}
+	.meetingSettingITem .addMoreBtn{margin-left: 5px;}
+	.adminUsersBtnsLeft button{margin-top: 5px;}
+	.mainList {margin-top: 50px;}
+	.mainListFilter{line-height: 44px; margin-top: 70px; margin-left: 0px;}
+		.mainListFilter input{height: 28px; font-size: .9em; margin-left: 5px;}
+	.mainListFilter select{height: 30px; font-size: .9em;}
+	.mainListFilter button{height: 30px; font-size: .9em;}
+	.meetingsPage .boxList{margin-left: 20px;}
+	.contentMeetingsLeft .mainListFilter input{margin-left: 0px;}
+	.paperBorder p{font-size: .8em;}
 }
 
 @media (max-width: 480px) { 
+	.showHeaderMenu{display: block; float: left; margin-left: 20px;}
+	.headerRight{padding-right: 10px;}
+	.mainList{margin-top: 70px;}
+	.popupWindow{width: 90%;}
+	.popupDateList{width: 20%;}
+	.popupMinutes{width: 80%;}
+	.popupDateBtn{font-size: .7em; padding-left: 4px; padding-right: 4px;}
+		.popupDateBtn:hover{font-size: .7em; padding-left: 4px; padding-right: 4px;}
+	.popupMinutes .paper{margin: 10px;}
+	.contentMeetingsLeft{width: 100%; }
+	.contentMeetingsRight{display: none;}
+	.meetingsPage .boxList{width: 75%;}
+	.meetingsPage .box{width: 100%;}
+	.meetingsPage .box .boxRight{width: 30px;}
+	.arrowBtn span{margin-top: 10px;}
+	.arrowBtn{top: 180px;}
+	.meetingsAddBtn{left: 80%;}
+	.contentMeetingsLeft .boxList {    margin-top: 21px;}
+	.paperBorder p{font-size: .8em;}
+	.paperBorder h3{line-height: 1em;}
+	.minuteItemNumber{width: 30px;}
+	.mainListFilter input{height: 28px; font-size: .9em; margin-left: 5px;}
+	.mainListFilter select{height: 30px; font-size: .9em;}
+	.mainListFilter button{height: 30px; font-size: .9em;}
+	.mainListFilter{line-height: 44px; margin-top: 70px;}
+	.mainList{margin-top: 50px; margin-left: 30px;}
+	.mainListFilter{margin-left: 25px;}
+	.headerNav a{height: 40px; line-height: 40px;}
+	.popupContentTitle p{font-size: .9em; line-height: 1.1em;}
+	.popupContentText p{font-size: 1em;}
+	.contentMeetingsLeft .mainListFilter{margin-left: 10px;}
+	.contentMeetingsLeft .mainListFilter input{margin-left: 0px;}
+	.contentRight .mainListFilter{ margin-left: 50px;}
+	.contentRight .mainList{ margin-left: 50px;}
+	.contentMeetingsLeft .mainListFilter{margin-left: 20px;}
+.meetingsAddBtn{top: 120px;}
+
+	/*Admin*/
+	.adminUsersList ul li p{line-height: 1em;height: auto; padding-top: 10px; padding-bottom: 10px;}
+	.inner2{margin: 10px;}
+	.userDetailItem p{width: 80px; }
+	.adminUsersRight{width: 69%;}
+
+	.meetingSettingsTitle h5{width: 100px;}
+	.meetingSettingITem .removeMoreBtn{margin-left: 5px;}
+	.adminUsersBtnsRight{float: left; margin-left: 5px;}
+	.adminUsersBtnsRight button{margin-top: 5px;}
+
+	.meetingSettingITem p{width: 161px; font-size: .9em;}
+	.userRoleInput{width: 90px; margin-top: 5px;}
+	.meetingSettingITem p{padding-left: 5px;}
+	.meetingSettingITem .addMoreBtn{margin-left: 5px;}
+	.adminUsersBtnsLeft button{margin-top: 5px;}
 	
+	.userDetailItemY{float: left; width: 180px;}
+.adminUsersEdit select{margin-top: 0px;}
+.userDetailItemY select:nth-child(2){margin-top: 10px;}
+.userDetailItemY .addMoreBtn{margin-top: 10px;}
+.meetingSettingsTitle h5:nth-child(1) {    width: 165px;}
+
+}
+
+@media (max-width: 340px) { 
+		.mainListFilter{margin-left: 10px;}
+		.mainList{margin-left: 15px;}
+	.mainListFilter input{height: 25px; font-size: .8em; margin-left: 5px;}
+	.mainListFilter select{height: 25px; font-size: .8em;}
+	.mainListFilter button{height: 25px; font-size: .8em;}
+	.mainListFilter{line-height: 32px;}
+	.boxList{width: 85%;}
+	.box{width: 100%;	}
+	.arrowBtn{top: 189px;}
+	.boxTitle span{width: 30px; height: 30px; line-height: 30px;}
+	.boxTitle p{font-size: 1em; line-height: 30px;}
+	.boxNumber{width: 30px; font-size: .9em; padding-top: 10px;}
+	.boxInner{margin-left: 35px; margin-right: 35px;}
+	.boxRight{width: 30px;}
+	.popupContentTitle p{font-size: .8em; line-height: 1.2em;}
+	.popupContentText p{font-size: .9em;}
+	.contentMeetingsLeft{padding-left: 15px;}
+	.contentMeetingsLeft .boxList{margin-left: 0px;}
+	.contentMeetingsLeft .mainListFilter input{margin-left: 0px;}
+	.contentMeetingsLeft .mainListFilter{margin-left: 0px;}
+	.contentRight .mainListFilter{margin-left: 50px;}
+	.contentRight .mainList{margin-left: 50px;}
+	.boxInner textarea{width: 90%;}
+	.arrowBtn p{font-size: .6em;margin-left: 3px;}
+	.addBtn{top: 140px;}
+	.contentRight .contentMeetingsLeft .boxList{margin-left: 40px;}
+	.contentRight .contentMeetingsLeft .mainListFilter{margin-left: 40px;}
+	.paperBorder h5 {   font-size: .8em;}
+	.roleTableTitle h5{width: 25%;}
+	.roleTableContent p{width: 25%;}
+	.popup3Title{font-size: 1.2em;}
+	.paperBorder h3{font-size: 1em;}
+	.paperBorder{margin: 10px;}
+	.minuteItemNumber{width: 20px;}
+	.minuteItemRight{width: 92%; text-align: left;}
+	.minuteItemLeft{width: 70%;}
+	.popupWindow{width: 100%;}
+	.paperBorder{margin: 5px;}
+	.popupDateList h4{font-size: .9em;}
+.meetingsAddBtn{top: 150px !important;}
+
+	/*admin*/
+
+	.inner1{margin:0px;  margin-left: 5px;}
+	.adminUsersList ul li p{font-size: .9em;}
+	.userDetailItem span{margin-left: 0px; font-size: .9em; color: #424242;}
+	.filterSet1{width: 320px;}
+	.filterSet1 input{width: 150px;}
+	.adminUsersRight h4{margin-top: 75px;}
+	.adminUsersRight .addBtn{top: 100px;}
+	.userDetailItem{margin-top: 10px;}
+	.adminUsersRight{margin-top: 70px;}
+	.adminUsersRight h4{margin-top: 10px; font-size: 1.1em;}
+	.meetingSettingITem p{padding: 5px;}
+	.meetingSettingITem span{padding: 5px; float: right; }
+	.meetingSettingsTitle h5:nth-child(2){padding: 5px; float: right; width: 74px;}
+	.adminUsersBtnsRight{margin-left: 0px;}
+	.adminUsersEdit .userDetailItem p{margin-left: 0px;}
+	.adminUsersEdit1{margin-left: 0px;}
+	.userDetailItemY select:nth-child(1){margin-top: 10px;}
+	.meetingSettingITem p{width: 140px;}
+	.userRoleInput{height: 25px !important; margin-bottom: 5px !important; margin-right:5px !important;width: 70px !important; float: right !important;}
+	.addBtn{top: 100px;}
+	.userDetailItem p{}
+	.adminUsersEdit input{width: 169px; float: left; margin-top: 5px;}
+	.adminUsersBtnsLeft button{font-size: .7em; width: 70px; }
+	.adminUsersBtnsRight button{font-size: .7em; width: 70px;}
+	.userDetailDesc{font-size: .9em; line-height: 1.1em;}
 }
