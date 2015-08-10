@@ -108,7 +108,7 @@
 			<!--================ Buttons for now sections ======================-->
 		<div class="arrowBtn">
 			<p>History</p>
-			<span><img src="images/arrow_left.png"> </span>
+			<span id="moveleft"><img src="images/arrow_left.png"> </span>
 		</div>
 		<button id="createTask" class="addBtn"> </button>
 	</div>

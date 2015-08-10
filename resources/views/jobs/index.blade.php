@@ -120,7 +120,7 @@
 			<!--================ Buttons for now sections ======================-->
 	<div class="arrowBtn arrowBtnRight">
 		<p>Now</p>
-		<span><img src="images/arrow_right.png" id="moveright"> </span>
+		<span id="moveright"><img src="images/arrow_right.png"> </span>
 	</div>
 	</div>
 	<!--=================================== contentRight - Main/default section ================================-->
@@ -249,7 +249,7 @@
 			<!--================ Buttons for now sections ======================-->
 		<div class="arrowBtn">
 			<p>History</p>
-			<span><img src="images/arrow_left.png" id="moveleft"> </span>
+			<span id="moveleft"><img src="images/arrow_left.png"> </span>
 		</div>
 		<button class="addBtn"> </button>
 		@endif

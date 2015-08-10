@@ -180,6 +180,52 @@ class TaskController extends Controller {
 			}
 		}
 	}
+	public function taskForm($id)
+	{
+		return view('jobs.taskform',['task'=>JobTasks::whereId($id)->whereAssigner(Auth::id())->first()]);
+	}
+	public function updateTask($id)
+	{
+		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
+		$output['success'] = 'yes';
+		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		$validator = JobTasks::validation($input);
+		if ($validator->fails())
+		{
+			$output['success'] = 'no';
+			$output['validator'] = $validator->messages()->toArray();
+			return json_encode($output);
+		}
+		else
+		{
+			if(isEmail($input['assignee']))
+			{
+				if($assignee = getUser(['email'=>$input['assignee']]))
+				{
+					$input['assignee'] = $assignee->id;
+				}
+			}
+			else
+			{
+				if($assignee = getUser(['userId'=>$input['assignee']]))
+				{
+					$input['assignee'] = $assignee->id;
+				}
+				else
+				{
+					$validator->errors()->add('assignee', 'Invalid assignee!');
+					$output['success'] = 'no';
+					$output['validator'] = $validator->messages()->toArray();
+					return json_encode($output);
+				}
+			}
+			$input['description'] = nl2br($input['description']);
+			$input['notes'] = nl2br($input['notes']);
+			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
+			$task->update($input);
+			return view('followups.task',['task'=>$task]);
+		}
+	}
 	public function markComplete($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();

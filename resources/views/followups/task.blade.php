@@ -53,9 +53,9 @@
 				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
 			</div>
 			<div class="popupButtons">
-				<button>Edit Task</button>
-				<button>Cancel Task</button>
-				<button>Remove Task</button>
+				<button id="editTask" {{$mid}} tid="{{$task->id}}">Edit Task</button>
+				<button {{$mid}} tid="{{$task->id}}">Cancel Task</button>
+				<button {{$mid}} tid="{{$task->id}}">Remove Task</button>
 			</div>
 		</div>
 		<!-- =================== Popup right ====================  -->

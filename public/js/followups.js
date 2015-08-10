@@ -133,4 +133,31 @@ $(document).ready(function() {
             $('#selectAssignee').val('');
             $('#selectAssignee').show();
         });
+ $('#centralContainer').on('click', '#editTask', function(event) {
+    event.preventDefault();
+    tid = $(this).attr('tid');
+        if($(this).attr('mid'))
+        {
+            path = 'minute/'+$(this).attr('mid')+'/task/edit/'+tid;
+        }
+        else
+        {
+            path = 'jobs/task/edit/'+tid;
+        }
+    popupContentAjaxGet(path);
+ });
+ $('#centralContainer').on('click', '#updateTaskSubmit', function(event) {
+    event.preventDefault();
+    tid = $(this).attr('tid');
+    form = 'updateTaskForm';
+    if($(this).attr('mid'))
+    {
+        path = 'minute/'+$(this).attr('mid')+'/task/update/'+tid;
+    }
+    else
+    {
+        path = 'jobs/task/update/'+tid;
+    }
+    popupContentAjaxPost(path,form);
+ });
 });

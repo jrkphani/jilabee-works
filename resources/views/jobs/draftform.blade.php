@@ -67,8 +67,8 @@
 				{!! Form::textarea('notes', '',['rows'=>'10','cols'=>'30'])!!}
 				<div class="error" id="notes_err"></div>
 			</div>
-			{!! Form::close() !!}
 			@endif
+			{!! Form::close() !!}
 			<div class="popupButtons">
 				<button id="createTaskSave" type="button" class="btn btn-primary">Save Draft</button>
 				<button id="createTaskSubmit" type="button" class="btn btn-primary">Send</button>
