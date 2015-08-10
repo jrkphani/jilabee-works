@@ -13,7 +13,7 @@
 </head>
 <body>
 	<header>
-		<h1>Jotter</h1>
+		<h1><a href="/">Jotter</a></h1>
 	</header>
 	<div class="adminContent">
 			<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/register') }}">

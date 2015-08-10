@@ -72,8 +72,8 @@ class MeetingsController extends Controller {
 				{
 					$attendees = $attendeesEmail;
 				}
-				$input['attendees'] = implode(',',$attendees);
 			}
+			$input['attendees'] = implode(',',$attendees);
 			$input['description'] = nl2br($input['description']);
 			if(Auth::user()->isAdmin)
 			{
