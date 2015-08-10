@@ -31,7 +31,7 @@ class MeetingsController extends Controller {
 	{
 		$input = Request::only('title','description','venue','attendees','minuters');
 		$output['success'] = 'yes';
-		$attendeesEmail=array();
+		$attendeesEmail=$attendees=array();
 		$validator = TempMeetings::validation($input);
 		if ($validator->fails())
 		{
@@ -60,13 +60,13 @@ class MeetingsController extends Controller {
 			$input['minuters'] = implode(',',$getMinutersId);
 			if(count($attendees))
 			{
-				$getAttendeesId = User::whereIn('userId',$attendees)->lists('id');
+				$attendees = User::whereIn('userId',$attendees)->lists('id');
 			}
 			if(count($attendeesEmail))
 			{
-				if($getAttendeesId)
+				if($attendees)
 				{
-					$attendees = array_merge($getAttendeesId,$attendeesEmail);
+					$attendees = array_merge($attendees,$attendeesEmail);
 				}
 				else
 				{
