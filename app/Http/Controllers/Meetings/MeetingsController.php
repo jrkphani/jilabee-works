@@ -29,7 +29,7 @@ class MeetingsController extends Controller {
 	}
 	public function createMeeting()
 	{
-		$input = Request::only('title','description','venue','attendees','minuters','emails');
+		$input = Request::only('title','description','venue','attendees','minuters');
 		$output['success'] = 'yes';
 		$attendeesEmail=array();
 		$validator = TempMeetings::validation($input);
