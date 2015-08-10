@@ -37,7 +37,7 @@
 				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
 			</div>
 			<div class="popupContentText">
-				{{$task->description}}
+				{!!$task->description!!}
 			</div>
 			
 			
