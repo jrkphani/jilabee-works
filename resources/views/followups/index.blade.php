@@ -4,7 +4,6 @@
 @stop
 @section('content')
 	<div class="contentRight">
-		@if($tasks->count())
 		<div class="mainListFilter">
 			<input type="text" placeholder="Search...">
 			<select>
@@ -112,7 +111,6 @@
 			<span><img src="images/arrow_left.png"> </span>
 		</div>
 		<button id="createTask" class="addBtn"> </button>
-		@endif
 	</div>
 	<div class="clearboth"></div>
 	<!--========================================= POP UP 1 ===================================================-->
