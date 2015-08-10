@@ -3,6 +3,15 @@ $(document).ready(function($)
 	var width = $(window).width() * 2;
 	var string = "width:" + width + "px";
 	$('#centralContainer').attr("style",string);
+    $('#centralViewer').show();
+    moveright();
+    $('#moveright').click(function(event) {
+        moveright();
+    });
+    $('#moveleft').click(function(event) {
+        //alert("vf");
+        moveleft();
+    });
     $(document).keydown(function(e)
     {
         if (e.keyCode == 27) {
@@ -13,6 +22,15 @@ $(document).ready(function($)
         }
     });
 });
+function moveright()
+{
+    $("#centralViewer").scrollLeft($('#contentRight').width());
+}
+function moveleft()
+{
+    $("#centralViewer").scrollLeft('-'+$('#contentLeft').width());
+}
+
 function checkStatus(headerStatus) {
 	if(headerStatus == '401')
 	{

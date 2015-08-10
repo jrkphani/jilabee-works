@@ -60,7 +60,7 @@
 			<div class="clearboth"></div>
 	</header>
 
-	<div class="centralViewer {{$colorClass}}">
+	<div id="centralViewer" class="centralViewer {{$colorClass}}" style="display:none;">
 		<div class="centralContainer" id="centralContainer">
 			@yield('content')
 		</div>

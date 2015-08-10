@@ -6,7 +6,7 @@
 @section('content')
 
 	<!--=================================== contentLeft - History section ================================-->
-	{{-- <div class="contentLeft">
+	<div class="contentLeft" id="contentLeft">
 		<div class="mainListFilter">
 			<input type="text" placeholder="Search...">
 			<select>
@@ -120,11 +120,11 @@
 			<!--================ Buttons for now sections ======================-->
 	<div class="arrowBtn arrowBtnRight">
 		<p>Now</p>
-		<span><img src="images/arrow_right.png"> </span>
+		<span><img src="images/arrow_right.png" id="moveright"> </span>
 	</div>
-	</div> --}}
+	</div>
 	<!--=================================== contentRight - Main/default section ================================-->
-	<div class="contentRight">
+	<div id="contentRight" class="contentRight">
 		@if($tasks->count())
 		<div class="mainListFilter">
 			<input type="text" placeholder="Search...">
@@ -249,7 +249,7 @@
 			<!--================ Buttons for now sections ======================-->
 		<div class="arrowBtn">
 			<p>History</p>
-			<span><img src="images/arrow_left.png"> </span>
+			<span><img src="images/arrow_left.png" id="moveleft"> </span>
 		</div>
 		<button class="addBtn"> </button>
 		@endif
