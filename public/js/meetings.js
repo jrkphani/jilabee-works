@@ -436,3 +436,7 @@ $('#centralContainer').on('click', '.minuteDiv', function(event) {
         var mid = $(this).attr('mid');
         loadMinute(mid,'minuteDiv');
     });
+$("#centralContainer").on('click', '#nextMinute', function(event) {
+    event.preventDefault();
+    alert('here');
+});

@@ -24,13 +24,13 @@
 			<nav>
 				<?php $colorClass = ''; ?>
 				@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
-					<a class="navHightlight" id="jobs">Jobs</a>
+					<a class="navHightlight jobsHeaderColor" id="jobs">Jobs</a>
 					<?php $colorClass = 'jobsColor'; ?>
 				@else
 					<a href="{{ url('jobs') }}" id="jobs">Jobs</a>
 				@endif
 				@if(Request::segment(1) == 'followups')
-					<a class="navHightlight">Followups</a>
+					<a class="navHightlight followUpsHeaderColor">Followups</a>
 					<?php $colorClass = 'followUpsColor'; ?>
 				@else
 					<a href="{{ url('followups') }}">Follow Ups</a>
