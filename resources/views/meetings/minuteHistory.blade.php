@@ -6,7 +6,9 @@
 	</div>	
 	<div class="popupContent">
 		<div class="popupDateList">
+			@if($minute->meeting->isMinuter())
 			<button class="proceedBtn">Proceed to next meeting</button>
+			@endif
 			<h4>Previous Meetings</h4>
 			<button class="popupDateBtn" mid="{{$minute->id}}">{{$minute->minuteDate}}</button>
 			@foreach($minutes as $row)
