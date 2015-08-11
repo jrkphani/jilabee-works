@@ -1,85 +1,5 @@
-$(document).ready(function($)
+/*$(document).ready(function($)
 {
-        $('#listLeft').on('click', '#createMeetingSubmit', function(event) {
-            event.preventDefault();
-            $.ajax({
-                url: '/meetings/create',
-                type: 'POST',
-                dataType: 'json',
-                data: $('#createMeetingForm').serialize(),
-            })
-            .done(function(jsonData) {
-
-                if(jsonData.success == 'no')
-                {
-                    if(jsonData.hasOwnProperty('validator'))
-                    {
-                        $('.error').html('');
-                        $.each(jsonData.validator, function(index, val) {
-                             $('#'+index+'_err').html(val);
-                        });
-                    }
-                }
-                else if(jsonData.success == 'yes')
-                {
-                    $('.error').html('');
-                    $('#createMeetingModal').modal('hide');
-                    $('#selected_attendees , #selected_minuters').html('');
-                    $('#createMeetingForm').find(':input').each(function()
-                        {
-                            $(this).val('');
-                        });
-                    $('.meetingMenu.active').click();
-                    //top bar notification
-                    $.notify('Request Sent Successfully',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
-                }
-                ////console.log("success");
-            })
-            .fail(function(xhr) {
-                checkStatus(xhr.status);
-            })
-            .always(function(xhr) {
-                checkStatus(xhr.status);
-            });
-            
-        });
-$('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
-            event.preventDefault();
-            mid = $(this).attr('mid');
-            $.ajax({
-                url: '/meetings/update/'+mid,
-                type: 'POST',
-                dataType: 'html',
-                data: $('#loadMeetingForm').serialize(),
-            })
-            .done(function(htmlData) {
-                if(htmlData == 'success')
-                {
-                    $('#loadMeetingModal').modal('hide');
-                    $('#loadMeetingModal').html('');
-                     $.notify('Sent',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
-                }
-                else
-                {
-                   $('#loadMeetingModal').html(htmlData) 
-                }
-            })
-            .fail(function(xhr) {
-                checkStatus(xhr.status);
-            })
-            .always(function(xhr) {
-                checkStatus(xhr.status);
-            });
-            
-        });
         $('#listLeft').on('click', '.removeParent', function(event) {
             $(this).parent(".attendees" ).remove();
         });
@@ -88,13 +8,7 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             $('#loadMeetingModal').addClass('in');
             $('#loadMeetingModal').show();
          });
-            $('#centralContainer').on('click', '.minute', function(event) {
-                //alert($(this).find('.minute').length);
-                //return false;
-                event.preventDefault();
-                var mid = $(this).attr('mid');
-                loadMinute(mid)          
-            });
+            
             $('#listLeft').on('click', '.minutePopup', function(event) {
                 event.preventDefault();
                 var mid = $(this).attr('mid');
@@ -349,7 +263,7 @@ $('#listLeft').on('click', '#loadMeetingSubmit', function(event) {
             taskBlock.find('.taskinput').hide();
         }
     });
-});
+});*/
 $('#minutes').click(function(event)
 {
 	$('.meetingMenu').removeClass('active');
@@ -403,7 +317,7 @@ function dateInput()
 {
     $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
 }
-function loadMinute(mid)
+function loadMinute(mid,divId)
 {
     $.ajax({
         url: '/minute/'+mid,
@@ -413,7 +327,7 @@ function loadMinute(mid)
     })
     .done(function(htmlData)
     {
-        $('#contentMeetingsRight').html(htmlData);
+        $('#'+divId).html(htmlData);
     })
     .fail(function(xhr) {
         checkStatus(xhr.status);
@@ -422,3 +336,103 @@ function loadMinute(mid)
         checkStatus(xhr.status);
     });
 }
+$('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/meetings/create',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#createMeetingForm').serialize(),
+        })
+        .done(function(jsonData) {
+
+            if(jsonData.success == 'no')
+            {
+                if(jsonData.hasOwnProperty('validator'))
+                {
+                    $('.error').html('');
+                    $.each(jsonData.validator, function(index, val) {
+                         $('#'+index+'_err').html(val);
+                    });
+                }
+            }
+            else if(jsonData.success == 'yes')
+            {
+                $('#popup').hide();
+                $.notify('Meeting Created Successfully',
+                {
+                   className:'success',
+                   globalPosition:'top center'
+                });
+            }
+            //////console.log("success");
+        })
+        .fail(function() {
+            ////console.log("error");
+        })
+        .always(function() {
+            ////console.log("complete");
+        });
+        
+    });
+$('#centralContainer').on('click', '#addMeeting', function(event)
+{
+    event.preventDefault();
+    popupContentAjaxGet('/meetings/create');
+});
+$('#centralContainer').on('keyup', '#selectAttendees', function(event) {
+    event.preventDefault();
+    if($(this).val().length)
+    {
+        if((event.which == 188) || (event.which == 13))
+        {
+            emailArr = $(this).val().split(",");
+            if(emailArr.length)
+            {
+                $.each(emailArr, function(index, val)
+                {   
+                    if($("#"+val.replace('@', '_')).length != 0)
+                    {
+
+                    }
+                    else
+                    {
+                        if(isEmail(val))
+                        {
+                            if($("#" +val.replace('@', '_')).length != 0)
+                            {
+                              //User already exist
+                            }
+                            else
+                            {
+                                insert = '<div class="col-md-6 attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
+                                $('#selected_attendees').prepend(insert);
+                                $('#selectAttendees').val('');
+                            }
+                        }
+                    }
+                });
+                return false;
+            }
+        }
+    }
+});
+$('#centralContainer').on('click', '.minute', function(event) {
+        //alert($(this).find('.minute').length);
+        //return false;
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        loadMinute(mid,'contentMeetingsRight')          
+    });
+$('#centralContainer').on('click', '.minute_history', function(event) {
+    event.preventDefault();
+    var mid = $(this).attr('mid');
+    popupContentAjaxGet('/minute/view/'+mid);
+});
+$('#centralContainer').on('click', '.minuteDiv', function(event) {
+        //alert($(this).find('.minute').length);
+        //return false;
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        loadMinute(mid,'minuteDiv');
+    });

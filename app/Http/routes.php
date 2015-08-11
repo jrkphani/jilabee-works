@@ -99,7 +99,7 @@ Route::group(['prefix' => 'admin'], function()
 			{
 				Route::get('/', 'Meetings\MeetingsController@index');
 				//Route::get('myminutes', 'Meetings\MeetingsController@myminutes');
-				Route::get('history', 'Meetings\MeetingsController@history');
+				//Route::get('history', 'Meetings\MeetingsController@history');
 				Route::get('create','Meetings\MeetingsController@meetingForm');
 				Route::post('create','Meetings\MeetingsController@createMeeting');
 				Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting')->where('id', '[0-9]+');

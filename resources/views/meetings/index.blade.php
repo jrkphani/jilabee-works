@@ -52,7 +52,7 @@
 			@foreach($minutes as $minute)
 				<div class="box">
 					<span class="boxNumber boxNumberRed">1</span>
-					<div class="boxInner">
+					<div class="boxInner minute_history" mid="{{$minute->id}}">
 						<h4>{{$minute->meeting->title}}</h4>
 						<p>{{$minute->minuteDate}}</p>
 					</div>
@@ -162,7 +162,8 @@
 		<p>History</p>
 		<span><img src="images/arrow_left.png"> </span>
 	</div>
-	<button class="addBtn meetingsAddBtn"> </button>
+	<button id="addMeeting" class="addBtn meetingsAddBtn"> </button>
+	<div class="popupOverlay" id="popup" ></div>
 
 </div>
 @endsection

@@ -172,7 +172,10 @@ class MinuteController extends Controller {
 	}
 	public function viewMinute($id)
 	{
-		$tasks = MinuteTasks::where('minuteId','=',$id)->get();
-		return view('meetings.tasks',['tasks'=>$tasks]);
+		if($minute = Minutes::whereId($id)->first())
+		{
+			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->get();
+			return view('meetings.minuteHistory',['minute'=>$minute,'minutes'=>$minutes]);
+		}
 	}
 }

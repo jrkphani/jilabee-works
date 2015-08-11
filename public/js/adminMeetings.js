@@ -40,7 +40,7 @@ $(document).ready(function($)
         });
         
     });
-    $('body').on('click', '.removeParent', function(event) {
+    $('#adminContent').on('click', '.removeParent', function(event) {
         $(this).parent( ".attendees" ).remove();
     });
 	 
@@ -184,21 +184,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
 $('#adminContent').on('click', '#addMeeting', function(event)
 {
     event.preventDefault();
-    $.ajax({
-        url: '/meetings/create',
-        type: 'GET',
-        dataType: 'html',
-    })
-    .done(function(htmlData) {
-        $('#popup').html(htmlData);
-        $('#popup').show();
-    })
-    .fail(function(xhr) {
-        checkStatus(xhr.status);
-    })
-    .always(function(xhr) {
-        checkStatus(xhr.status);
-    });
+    popupContentAjaxGet('/meetings/create');
 });
 $('#adminContent').on('keyup', '#selectAttendees', function(event) {
     event.preventDefault();

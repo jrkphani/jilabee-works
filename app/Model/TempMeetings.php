@@ -14,7 +14,7 @@ class TempMeetings extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','description','venue','attendees','minuters','emails','status','reason','created_by','updated_by'];	
+	protected $fillable = ['title','description','venue','attendees','minuters','status','reason','created_by','updated_by'];	
 	public static function validation($data)
     {
 
