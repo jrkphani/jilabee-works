@@ -1,10 +1,11 @@
 $(document).ready(function($) 
 {
 	var width = $(window).width() * 2;
-	var string = "width:" + width + "px";
-	$('#centralContainer').attr("style",string);
+    var string = "width:" + width + "px";
+    $('#centralContainer').attr("style",string);
     $('#centralViewer').show();
-    moveright();
+    $("#centralViewer").scrollLeft($('#contentRight').width());
+    //moveright();
     $('#moveright').click(function(event) {
         moveright();
     });
@@ -24,11 +25,13 @@ $(document).ready(function($)
 });
 function moveright()
 {
-    $("#centralViewer").scrollLeft($('#contentRight').width());
+    //$("#centralViewer").scrollLeft($('#contentRight').width());
+    $("#centralViewer").animate({scrollLeft:'+='+$('#contentLeft').width()}, 1000);
 }
 function moveleft()
 {
-    $("#centralViewer").scrollLeft('-'+$('#contentLeft').width());
+    //$("#centralViewer").scrollLeft('-'+$('#contentLeft').width());
+    $("#centralViewer").animate({scrollLeft:'-='+$('#contentLeft').width()}, 1000);
 }
 
 function checkStatus(headerStatus) {
@@ -82,10 +85,10 @@ function dateInput()
 {
     $('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
 }
-function errorNotification(message){
-    $.notify('Some thing went wrong',
+function notification(status,message){
+    $.notify(message,
             {
-               className:'error',
+               className:status,
                globalPosition:'top center'
             });
 }

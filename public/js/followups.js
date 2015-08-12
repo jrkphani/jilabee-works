@@ -15,7 +15,7 @@ $(document).ready(function() {
 	 $('#centralContainer').on('click', '#followupComment', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
-        form = 'CommentForm'+tid;
+        form = 'CommentForm';
         if($(this).attr('mid'))
         {
             path = 'followups/'+$(this).attr('mid')+'/comment/'+tid;
@@ -53,7 +53,7 @@ $(document).ready(function() {
         {
             path = '/jobs/acceptCompletion/'+tid;
         }
-        rightContentAjaxGet(path);
+        popupContentAjaxGet(path);
         
     });
     $('#centralContainer').on('click', '#rejectCompletion', function(event) {
@@ -67,7 +67,7 @@ $(document).ready(function() {
         {
             path = '/jobs/rejectCompletion/'+tid;
         }
-        rightContentAjaxGet(path);
+        popupContentAjaxGet(path);
         
     });
     $('#centralContainer').on('click', '#createTaskSave', function(event) {
@@ -136,14 +136,7 @@ $(document).ready(function() {
  $('#centralContainer').on('click', '#editTask', function(event) {
     event.preventDefault();
     tid = $(this).attr('tid');
-        if($(this).attr('mid'))
-        {
-            path = 'minute/'+$(this).attr('mid')+'/task/edit/'+tid;
-        }
-        else
-        {
-            path = 'jobs/task/edit/'+tid;
-        }
+      path = 'jobs/task/edit/'+tid;
     popupContentAjaxGet(path);
  });
  $('#centralContainer').on('click', '#updateTaskSubmit', function(event) {

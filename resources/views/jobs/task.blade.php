@@ -16,18 +16,16 @@
 		<div class="clearboth"></div>
 	</div>	
 	<div class="popupContent">
-		<!--======================== Popup content starts here ===============================-->
+		<div class="popupContentTitle">
+			<h4>{{$task->title}}</h4>
+			<p>T{{$task->id}} / Created on: 25th jan 2015 / DUE: {{$task->dueDate}}</p>
+			<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
+			{{$task->status}}
+			@if($task->status != 'Completed' && $task->status != 'Sent')
+			<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
+			@endif
+		</div>
 		<div class="popupContentLeft">
-			<!-- =================== Job details ====================  -->
-			<div class="popupContentTitle">
-				<h4>{{$task->title}}</h4><br/>
-				<p>T{{$task->id}}</p>
-				<p>Created on: 25th jan 2015</p>
-				<p>DUE: {{$task->dueDate}}</p>
-			</div>
-			<div class="popupContentSubTitle">
-				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
-			</div>
 			<div class="popupContentText">
 				{{$task->description}}
 			</div>

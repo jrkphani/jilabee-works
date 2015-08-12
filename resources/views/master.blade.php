@@ -65,16 +65,19 @@
 			@yield('content')
 		</div>
 	</div>
-	<div class="breadcrumbs">
-		<a href="">Home</a> &nbsp;/&nbsp;
-		<a href="">Jobs</a>
+	<div class="breadcrumbBar breadcrumbBarFix">
+		<div class="breadcrumbs">
+				<a href="">Home</a> &nbsp;/&nbsp;
+				<a href="">Jobs</a>
+			</div>
+			<div class="pagination">
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>
+			<div class="clearboth"></div>
 	</div>
-	<div class="pagination">
-		<button></button>
-		<button></button>
-		<button></button>
-	</div>
-	<div class="clearboth"></div>
+
 	<footer>
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>

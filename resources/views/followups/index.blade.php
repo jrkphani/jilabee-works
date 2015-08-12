@@ -70,7 +70,7 @@
 						$formId = "Form$task->id";
 					}
 					?>
-					@if($task->status == 'Open')
+					@if($task->status == 'Open' || $task->status == 'Completed')
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">1</span>
 							<div class="boxInner">

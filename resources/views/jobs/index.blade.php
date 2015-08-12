@@ -8,27 +8,28 @@
 	<!--=================================== contentLeft - History section ================================-->
 	<div class="contentLeft" id="contentLeft">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search...">
-			<select>
-			  <option value="0">Any origin</option>
-			  <option value="Option">Option 1</option>
-			  <option value="Option">Option 2</option>
-			  <option value="Option">Option 3</option>
-			</select>
-			<select>
-			  <option value="0">Any one</option>
-			  <option value="Option">Option 1</option>
-			  <option value="Option">Option 2</option>
-			  <option value="Option">Option 3</option>
-			</select>
-			<select>
-			  <option value="0">Any time</option>
-			  <option value="Option">Option 1</option>
-			  <option value="Option">Option 2</option>
-			  <option value="Option">Option 3</option>
-			</select>
-			<button>Reset all</button>
-		</div>
+					<input type="text" placeholder="Search...">
+					<select  class="dropdown">
+					  <option value="0">Any origin</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+					<select  class="dropdown">
+					  <option value="0">Any one</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+					    <select name="speed" class="dropdown">
+					      <option>Slower</option>
+					      <option>Slow</option>
+					      <option selected="selected">Medium</option>
+					      <option>Fast</option>
+					      <option>Faster</option>
+					    </select>
+					<button>Reset all</button>
+				</div>
 		<div class="mainList">
 			<!--=================================== List 1 ================================-->
 			<div class="boxList">
@@ -97,31 +98,33 @@
 					<span class="boxTitleNumber boxNumberGreen">2</span>
 					<p>Completed today</p>
 				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberGreen">1</span>
-					<div class="boxInner">
-						<h4>Prepare project report</h4>
-					</div>
-					<div class="boxRight">
-						
-					</div>
-				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberGreen">2</span>
-					<div class="boxInner">
-						<h4>Prepare project report</h4>
-					</div>
-					<div class="boxRight">
-						
-					</div>
-				</div>
+				@foreach($tasks as $task)
+				<?php if($task->type == 'minute')
+					{
+						$mid = "mid=$task->minuteId";
+					}
+					else
+					{
+						$mid='';
+					}
+				?>
+					@if($task->status == 'Completed')
+						<div class="box">
+							<span class="boxNumber boxNumberGreen">1</span>
+							<div class="boxInner">
+								<h4>{{$task->title}}</h4>
+							</div>
+							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
+						</div>
+					@endif
+				@endforeach
 			</div>
 		</div>
 			<!--================ Buttons for now sections ======================-->
 	<div class="arrowBtn arrowBtnRight">
-		<p>Now</p>
-		<span id="moveright"><img src="images/arrow_right.png"> </span>
-	</div>
+				<span id="moveright"><img src="{{asset('images/arrow_right.png')}}"> </span>
+				<p>Now</p>
+			</div>
 	</div>
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
@@ -163,9 +166,7 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
 								{!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
-								@if(isset($reason_err))
-									<div class="error">{{$reason_err}}</div>
-								@endif
+								<div class="error" id="err_{{$task->id}}"></div>
 								{!! Form::close() !!}
 								<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
 								@if($task->status != 'Rejected')
@@ -248,8 +249,8 @@
 		</div>
 			<!--================ Buttons for now sections ======================-->
 		<div class="arrowBtn">
+			<span id="moveleft"><img src="{{asset('images/arrow_left.png')}}"> </span>
 			<p>History</p>
-			<span id="moveleft"><img src="images/arrow_left.png"> </span>
 		</div>
 		<button class="addBtn"> </button>
 		@endif
@@ -263,4 +264,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('/js/jobs.js') }}"></script>
+<script type="text/javascript">
+$( ".dropdown" ).selectmenu();
+</script>
 @endsection

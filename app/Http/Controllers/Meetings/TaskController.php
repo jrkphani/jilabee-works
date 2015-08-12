@@ -107,6 +107,11 @@ class TaskController extends Controller {
 		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 		return view('jobs.task',['task'=>$task]);
 	}
+	public function taskForm($mid,$id)
+	{
+		return view('jobs.taskform',['task'=>MinuteTasks::whereId($id)->where('minuteId',$mid)
+			->whereAssigner(Auth::id())->first()]);
+	}
 	public function viewHistory($mid,$id)
 	{
 		$task = MinuteTasks::whereId($id)->where('minuteId',$mid)->where(function($query)
@@ -117,30 +122,25 @@ class TaskController extends Controller {
 	}
 	public function acceptTask($mid,$id)
 	{
-		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
-		$output['success'] = 'no';
-		if($task)
+		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->where('minuteId',$mid)
+		->where(function($query)
+			{
+				$query->whereStatus('Sent')->orWhere('status','=','Rejected');
+
+			})->first();
+		$task->status = 'Open';
+		$task->updated_by = Auth::id();
+		if($task->save())
 		{
-			$task->status = 'open';
-			$task->reason = NULL;
-			if($task->save())
-				{
-					$output['success'] = 'yes';
-					Activity::log([
-						'userId'	=> Auth::id(),
-						'contentId'   => $task->id,
-					    'contentType' => 'Minute Task',
-					    'action'      => 'Accepted',
-					    //'description' => 'Add Organizations User',
-					    //'details'     => 'Rejected Reason: '.$input['reason']
-					]);
-					return redirect('jobs/mytask');
-				}
+			Activity::log([
+				'userId'	=> Auth::id(),
+				'contentId'   => $task->id,
+				'contentType' => 'Minute Task',
+				'action'      => 'Accepted'
+				]);
+			$output['success'] = 'yes';
+			return json_encode($output);
 		}
-		else
-		{
-			return abort('403');
-		}		
 	}
 	public function rejectTask($mid,$id)
 	{
@@ -148,9 +148,11 @@ class TaskController extends Controller {
 		$output['success'] = 'no';
 		if($input['reason'])
 		{
-			$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Sent')->where('minuteId',$mid)->first();
-			$task->status = 'rejected';
-			$task->reason = nl2br($input['reason']);
+			$task = MinuteTasks::whereId($id)->where('status','=','Sent')->where('minuteId',$mid)
+			->where('assignee','=',Auth::id())->first();
+			$task->status = 'Rejected';
+			$task->reason = $input['reason'];
+			$task->updated_by = Auth::id();
 			if($task->save())
 			{
 				Activity::log([
@@ -161,28 +163,28 @@ class TaskController extends Controller {
 				    //'description' => 'Add Organizations User',
 				    'details'     => 'Rejected Reason: '.$input['reason']
 				]);
+				$output['success'] = 'yes';
 			}
-			$output['success'] = 'yes';
-			//return view('jobs.task',['task'=>$task]);		
+			
 		}
 		else
 		{
 			$output['msg'] = 'Reason required';
-			//$task = MinuteTasks::find($id);
-			//return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
+			
 		}
 		return json_encode($output);
-		
 	}
+	
 	public function markComplete($mid,$id)
 	{
-		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Open')->whereAssignee(Auth::id())->first();
+		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Open')->where('minuteId',$mid)->first();
 		if($task)
 		{
 			$task->status = 'Completed';
 			if($task->save())
 			{
-				return view('jobs.task',['task'=>$task]);
+				$output['success'] = 'yes';
+				return json_encode($output);
 			}
 		}
 		else
@@ -198,7 +200,7 @@ class TaskController extends Controller {
 				$task->status = 'Closed';
 				if($task->save())
 				{
-					return view('jobs.followupTask',['task'=>$task]);	
+					return view('followups.task',['task'=>$task]);
 				}
 			}
 			else
@@ -214,7 +216,7 @@ class TaskController extends Controller {
 				$task->status = 'Open';
 				if($task->save())
 				{
-					return view('jobs.followupTask',['task'=>$task]);	
+					return view('followups.task',['task'=>$task]);
 				}
 			}
 			else

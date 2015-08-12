@@ -44,7 +44,19 @@ $(document).ready(function($)
         {
             path = 'jobs/acceptTask/'+tid;
         }
-        rightContentAjaxGet(path);
+        $.ajax({
+            url: path,
+            type: 'GET',
+        })
+        .done(function() {
+            location.reload();
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
         
     });
     $('#centralContainer').on('click', '#reject', function(event) {
@@ -73,11 +85,13 @@ $(document).ready(function($)
             }
             else if(jsonData.success == 'no')
             {
-                alert(jsonData.msg);
+                $('.error').html('');
+                $('#err_'+tid).html(jsonData.msg);
+                $('#'+form).find('textarea').focus();
             }
             else
             {
-                //oops
+                //notification(status,message);
             }
         })
         .fail(function(xhr) {
@@ -104,7 +118,7 @@ $(document).ready(function($)
     });
     
     
-    $('#listLeft').on('click', '#markComplete', function(event) {
+    $('#centralContainer').on('click', '#markComplete', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -115,7 +129,19 @@ $(document).ready(function($)
         {
             path = '/jobs/markComplete/'+tid;
         }
-        rightContentAjaxGet(path);
+        $.ajax({
+            url: path,
+            type: 'GET',
+        })
+        .done(function() {
+            location.reload();
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
     });
 
 });

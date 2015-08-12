@@ -1,13 +1,3 @@
-<?php 
-	if($task->minuteId)
-	{
-		$mid = "mid=".$task->minuteId;
-	}
-	else
-	{
-		$mid='';
-	}
-?>
 <div class="popupWindow">
 	<div class="popupHeader">
 		<h2><a href="">Jobs</a> / <a href="">Edit Tasks</a></h2>
@@ -60,7 +50,7 @@
 			@endif
 			{!! Form::close() !!}
 			<div class="popupButtons">
-				<button id="updateTaskSubmit" tid="{{$task->id}}" {{$mid}} type="button" class="btn btn-primary">Send</button>
+				<button id="updateTaskSubmit" tid="{{$task->id}}" type="button" class="btn btn-primary">Send</button>
 			</div>
 		</div>
 		<!-- =================== Popup right ====================  -->

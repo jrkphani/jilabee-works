@@ -14,28 +14,16 @@
 <div class="popupWindow">
 	<div class="popupHeader">
 		<h2><a href="">Followups</a> / <a href="">Tasks</a></h2>
-		@if($task->status == 'Completed')
-		<div class="col-md-12">
-			<button class="btn btn-primary " id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</button>
-			<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
-		</div>
-		@endif
 		<button onclick="$('#popup').hide();" class="popupClose"></button>
 		<div class="clearboth"></div>
 	</div>	
 	<div class="popupContent">
-		<!--======================== Popup content starts here ===============================-->
-		<div class="popupContentLeft">
-			<!-- =================== Job details ====================  -->
-			<div class="popupContentTitle">
-				<h4>{{$task->title}}</h4><br/>
-				<p>T{{$task->id}}</p>
-				<p>Created on: 25th jan 2015</p>
-				<p>DUE: {{$task->dueDate}}</p>
-			</div>
-			<div class="popupContentSubTitle">
+		<div class="popupContentTitle">
+				<h4>{{$task->title}}</h4>
+				<p>T{{$task->id}} / Created on: 25th jan 2015  / DUE: {{$task->dueDate}}</p>
 				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
 			</div>
+		<div class="popupContentLeft">
 			<div class="popupContentText">
 				{!!$task->description!!}
 			</div>
@@ -53,7 +41,9 @@
 				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
 			</div>
 			<div class="popupButtons">
-				<button id="editTask" {{$mid}} tid="{{$task->id}}">Edit Task</button>
+				@if(!$task->minuteId)
+					<button id="editTask" tid="{{$task->id}}">Edit Task</button>
+				@endif
 				<button {{$mid}} tid="{{$task->id}}">Cancel Task</button>
 				<button {{$mid}} tid="{{$task->id}}">Remove Task</button>
 			</div>
@@ -84,11 +74,15 @@
 				</div>
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
 				<div class="chatInput">
-					{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
+					{!! Form::open(['id'=>"CommentForm"]) !!}
 					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
 					<button {{$mid}} tid="{{$task->id}}" id="followupComment" class="btn btn-primary ">Post</button>
+					@if($task->status == 'Completed')
+						<button class="btn btn-primary " id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</button>
+						<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
+					@endif
 				</div>
 			</div>
 		</div>

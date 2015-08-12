@@ -41,12 +41,18 @@ class TaskController extends Controller {
 	}
 	public function acceptTask($id)
 	{
-		$task = JobTasks::whereId($id)->whereStatus('Sent')->whereAssignee(Auth::id())->first();
+		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->where(function($query)
+			{
+				$query->whereStatus('Sent')->orWhere('status','=','Rejected');
+
+			})->first();
 		$task->status = 'Open';
 		$task->updated_by = Auth::id();
 		$task->save();
 		//return view('jobs.task',['task'=>$task]);
-		return redirect('jobs/mytask');
+		//return redirect('jobs/mytask');
+		$output['success'] = 'yes';
+		return json_encode($output);
 	}
 	public function rejectTask($id)
 	{
@@ -78,12 +84,6 @@ class TaskController extends Controller {
 			//return view('jobs.task',['task'=>$task,'reason_err'=>'Reason for rejection is require']);
 		}
 		return json_encode($output);
-	}
-	public function history()
-	{
-		$tasks = Tasks::where('assignee','=',Auth::id())
-					->orWhere('assigner','=',Auth::id())->get();
-		return view('jobs.history',['tasks'=>$tasks]);
 	}
 	public function draft()
 	{
@@ -234,7 +234,8 @@ class TaskController extends Controller {
 			$task->status = 'Completed';
 			if($task->save())
 			{
-				return view('jobs.task',['task'=>$task]);
+				$output['success'] = 'yes';
+				return json_encode($output);
 			}
 		}
 		else
@@ -250,7 +251,7 @@ class TaskController extends Controller {
 				$task->status = 'Closed';
 				if($task->save())
 				{
-					return view('jobs.followupTask',['task'=>$task]);	
+					return view('followups.task',['task'=>$task]);
 				}
 			}
 			else
@@ -266,7 +267,7 @@ class TaskController extends Controller {
 				$task->status = 'Open';
 				if($task->save())
 				{
-					return view('jobs.followupTask',['task'=>$task]);	
+					return view('followups.task',['task'=>$task]);
 				}
 			}
 			else
