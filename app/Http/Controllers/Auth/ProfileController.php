@@ -68,7 +68,7 @@ class ProfileController extends Controller {
 	// }
 	public function getedit()
 	{
-		return view('user.selfedit',['user'=>Auth::user()]);	
+		return view('auth.profileEdit',['profile'=>Profile::where('userId','=',Auth::id())->first()]);
 	}
 	public function postedit()
 	{
