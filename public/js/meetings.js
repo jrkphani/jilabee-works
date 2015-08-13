@@ -174,71 +174,8 @@
             $(this).parents('.taskBlock').remove();
         }
     });
-    $('#listLeft').on('click', '#save_changes', function(event) {
-        event.preventDefault();
-        var mid = $(this).attr('mid');
-        $.ajax({
-            url: '/minute/'+mid+'/draft',
-            type: 'POST',
-            dataType: 'html',
-            data: $('#tasksAddForm').serialize(),
-        })
-        .done(function() {
-            $.notify('Saved!',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-        
-    });
-    $('#listLeft').on('click', '#send_minute', function(event) {
-        event.preventDefault();
-        var mid = $(this).attr('mid');
-        $.ajax({
-            url: '/minute/'+mid+'/task',
-            type: 'POST',
-            dataType: 'json',
-            data: $('#tasksAddForm').serialize(),
-        })
-        .done(function(jsonData) {
-            if(jsonData.success == 'no')
-                {
-                    if(jsonData.hasOwnProperty('validator'))
-                    {
-                        errorList = '<ul>';
-                        $.each(jsonData.validator, function(index, val) {
-                            errorList += '<li class="error">'+val+'</li>';
-                        });
-                        errorList += '</ul>';
-                        $('#createTaskError').html(errorList);
-                    }
-                }
-            else if(jsonData.success == 'yes')
-                {
-                    $.notify('Sent',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
-                    //$('#rightContent').load('/minute/'+$('#meetingId').val());
-                    $('.meetingMenu.active').click();
-                }
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-        
-    });
+    
+    
     $('#listLeft').on('click', '#nextMinute', function(event) {
         event.preventDefault();
         $('#minuteBlock').toggle();
@@ -313,10 +250,10 @@ $('#history').click(function(event)
         checkStatus(xhr.status);
     });
 });
-function dateInput()
-{
-    $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
-}
+// function dateInput()
+// {
+//     $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
+// }
 function loadMinute(mid,divId)
 {
     $.ajax({
@@ -408,7 +345,15 @@ $('#centralContainer').on('keyup', '#selectAttendees', function(event) {
                                 insert = '<div class="col-md-6 attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
                                 $('#selected_attendees').prepend(insert);
                                 $('#selectAttendees').val('');
-                            }
+        $('#listLeft').on('click', '#add_more', function(event) {
+        event.preventDefault();
+        taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
+        taskBlock.find(".form-control").val("");
+        taskBlock.find(".type").val("task");
+        taskBlock.find(".ideainput").hide();
+        taskBlock.find(".taskinput").show();
+        dateInput();
+    });                    }
                         }
                     }
                 });
@@ -438,5 +383,112 @@ $('#centralContainer').on('click', '.minuteDiv', function(event) {
     });
 $("#centralContainer").on('click', '#nextMinute', function(event) {
     event.preventDefault();
-    alert('here');
+    meetingId = $(this).attr('mid');
+    $.ajax({
+        url: '/minute/'+meetingId+'/next',
+        type: 'GET',
+        dataType: 'html',
+    })
+    .done(function(htmlData)
+    {
+        $('#minuteDiv').html(htmlData);
+    })
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
+    })
+    .always(function(xhr) {
+        checkStatus(xhr.status);
+    });
 });
+$('#centralContainer').on('click', '#updateMinute', function(event) {
+    event.preventDefault();
+    $.ajax({
+        url: '/minute/'+meetingId+'/next',
+        type: 'POST',
+        dataType: 'html',
+         data: $('#MinuteForm').serialize(),
+    })
+    .done(function(htmlData)
+    {
+        $('#minuteDiv').html(htmlData);
+    })
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
+    })
+    .always(function(xhr) {
+        checkStatus(xhr.status);
+    });
+});
+$('#centralContainer').on('click', '#add_more', function(event) {
+    event.preventDefault();
+    taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
+        taskBlock.find(".form-control").val("");
+        taskBlock.find(".type").val("task");
+        taskBlock.find(".ideainput").hide();
+        taskBlock.find(".taskinput").show();
+        dateInput();
+});
+$('#centralContainer').on('click', '#save_changes', function(event) {
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        $.ajax({
+            url: '/minute/'+mid+'/draft',
+            type: 'POST',
+            dataType: 'html',
+            data: $('#tasksAddForm').serialize(),
+        })
+        .done(function() {
+            $.notify('Saved!',
+                {
+                   className:'success',
+                   globalPosition:'top center'
+                });
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+        
+    });
+    $('#centralContainer').on('click', '#send_minute', function(event) {
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        $.ajax({
+            url: '/minute/'+mid+'/task',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#tasksAddForm').serialize(),
+        })
+        .done(function(jsonData) {
+            if(jsonData.success == 'no')
+                {
+                    if(jsonData.hasOwnProperty('validator'))
+                    {
+                        errorList = '<ul>';
+                        $.each(jsonData.validator, function(index, val) {
+                            errorList += '<li class="error">'+val+'</li>';
+                        });
+                        errorList += '</ul>';
+                        $('#createTaskError').html(errorList);
+                    }
+                }
+            else if(jsonData.success == 'yes')
+                {
+                    $.notify('Sent',
+                    {
+                       className:'success',
+                       globalPosition:'top center'
+                    });
+                    $('#minuteDiv').load('/minute/'+mid);
+                }
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+        
+    });

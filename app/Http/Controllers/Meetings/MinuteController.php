@@ -5,6 +5,7 @@ use App\Model\JobTasks;
 use App\Model\Meetings;
 use App\Model\MinuteTasks;
 use App\Model\Minutes;
+use App\Model\Profile;
 use App\Model\MinuteDraft;
 use Auth;
 class MinuteController extends Controller {
@@ -41,40 +42,100 @@ class MinuteController extends Controller {
 		}
 		return view('meetings.minute',['meeting'=>$meeting,'minute'=>$minute]);
 	}*/
+	public function nextMinute($meetingId)
+	{
+		if($meeting = Meetings::find($meetingId)->isMinuter())
+		{
+			$minute = $meeting->minutes()->whereNotNull('lock_flag');
+			if($minute->count())
+			{
+				if($minute->first()->lock_flag != Auth::id())
+				{
+					abort('403');
+				}
+				$minute = $minute->first();
+				$participants = array_merge(explode(',',$minute->attendees),explode(',',$minute->absentees));
+				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
+			}
+			else
+			{
+				$minute = NULL;
+				if($meeting->minuters)
+				{
+					$participants = explode(',',$meeting->minuters);
+				}
+				if($meeting->attendees)
+				{
+					foreach(explode(',',$meeting->attendees) as $attendees)
+					{
+						array_push($participants, $attendees);
+					}
+				}
+				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
+			}
+			
+			//print_r($users); die;
+			//return view('meetings.createTask',['meeting'=>$meeting,'usersList'=>$users]);
+			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'minute'=>$minute]);
+		}
+	}
 	public function create($mid)
 	{
 		if($meeting = Meetings::find($mid)->isMinuter())
 		{
-			//echo $meeting->minutes()->first()->lock_flag; die;
-			if($meeting->minutes()->count() && ($meeting->minutes()->first()->lock_flag == Auth::id()))
-			{
-				$output['success'] = 'error';
-				$output['msg'] = 'More than one minute';
-				return json_encode($output);
-			}
 			$input = Request::only('venue','minuteDate','attendees');
 			//print_r($input); die;
 			$validator = Minutes::validation($input);
 			if ($validator->fails())
 			{
-				$output['success'] = 'no';
-				$output['validator'] = $validator->messages()->toArray();
+				return redirect('minute/'.$mid.'/next')->withErrors($validator);
+			}
+			$emails=$attendees=array();
+			foreach ($input['attendees'] as $value)
+			 	{
+			 		if(isEmail($value))
+			 		{
+			 			$emails[]=$value;
+			 		}
+			 		else
+			 		{
+			 			$attendees[]=$value;
+			 		}
+			 	}
+			$attendees = array_merge($attendees,$emails);
+			$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
+			$input['attendees'] = array_unique($attendees);
+			$absentees = array_diff($attendeesList, $input['attendees']);
+			$input['attendees'] = implode(',', $input['attendees']);
+			$input['absentees'] = implode(',', $absentees);
+			if($minuteId = Request::get('minuteId'))
+			{
+				//update
+				$minute = Minutes::where('id','=',$minuteId)->where('lock_flag',Auth::id())->first();
+				if(!$minute)
+				{
+					abort('403');
+				}
+				$input['updated_by'] = $input['lock_flag'] = Auth::id();
+				$minute->update($input);
 			}
 			else
 			{
-				$output['success'] = 'yes';
-				$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
-				$input['attendees'][] = Auth::user()->id;
-				$input['attendees'] = array_unique($input['attendees']);
-				$absentees = array_diff($attendeesList, $input['attendees']);
-				$input['attendees'] = implode(',', $input['attendees']);
-				$input['absentees'] = implode(',', $absentees);
+				//create new
+				$minute = $meeting->minutes()->whereNotNull('lock_flag');
+				if($minute->count())
+				{
+					abort('403');
+				}
+				else
+				{
+					$minute = NULL;
+				}
 				$input['created_by'] = $input['updated_by'] = $input['lock_flag'] = Auth::id();
 				$minute = New Minutes($input);
 				$meeting->minutes()->save($minute);
-				$output['mid'] = $mid.'/'.$minute->id;
 			}
-			return json_encode($output);
+			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>NULL,'minute'=>$minute]);
 		}
 		else
 		{
@@ -82,43 +143,43 @@ class MinuteController extends Controller {
 		}
 		
 	}
-	public function update($mid)
-	{
-		if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
-		{
-			if(!$minute->meeting->isMinuter())
-			{
-				abort('403');
-			}
-			$input = Request::only('venue','minuteDate','attendees');
-			$validator = Minutes::validation($input);
-			if ($validator->fails())
-			{
-				$output['success'] = 'no';
-				$output['validator'] = $validator->messages()->toArray();
-			}
-			else
-			{
-				$output['success'] = 'yes';
-				$attendeesList =  array_filter(array_merge(explode(',', $minute->attendees),explode(',', $minute->minuters)));
-				$input['attendees'][] = Auth::user()->id;
-				$input['attendees'] = array_unique($input['attendees']);
-				$absentees = array_diff($attendeesList, $input['attendees']);
-				$input['attendees'] = implode(',', $input['attendees']);
-				$input['absentees'] = implode(',', $absentees);
-				$input['updated_by'] = $input['lock_flag'] = Auth::id();
-				/*print_r($attendeesList);
-				print_r($input); die;*/
-				$minute->update($input);
-			}
-			return json_encode($output);
-		}
-		else
-		{
-			abort('403');
-		}
+	// public function update($mid)
+	// {
+	// 	if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
+	// 	{
+	// 		if(!$minute->meeting->isMinuter())
+	// 		{
+	// 			abort('403');
+	// 		}
+	// 		$input = Request::only('venue','minuteDate','attendees');
+	// 		$validator = Minutes::validation($input);
+	// 		if ($validator->fails())
+	// 		{
+	// 			$output['success'] = 'no';
+	// 			$output['validator'] = $validator->messages()->toArray();
+	// 		}
+	// 		else
+	// 		{
+	// 			$output['success'] = 'yes';
+	// 			$attendeesList =  array_filter(array_merge(explode(',', $minute->attendees),explode(',', $minute->minuters)));
+	// 			$input['attendees'][] = Auth::user()->id;
+	// 			$input['attendees'] = array_unique($input['attendees']);
+	// 			$absentees = array_diff($attendeesList, $input['attendees']);
+	// 			$input['attendees'] = implode(',', $input['attendees']);
+	// 			$input['absentees'] = implode(',', $absentees);
+	// 			$input['updated_by'] = $input['lock_flag'] = Auth::id();
+	// 			/*print_r($attendeesList);
+	// 			print_r($input); die;*/
+	// 			$minute->update($input);
+	// 		}
+	// 		return json_encode($output);
+	// 	}
+	// 	else
+	// 	{
+	// 		abort('403');
+	// 	}
 		
-	}
+	// }
 	public function draft($mid)
 	{
 		if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
@@ -174,7 +235,7 @@ class MinuteController extends Controller {
 	{
 		if($minute = Minutes::whereId($id)->first())
 		{
-			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->where('id','!=',$id)->get();
+			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->orderBy('minuteDate','desc')->get();
 			return view('meetings.minuteHistory',['minute'=>$minute,'minutes'=>$minutes]);
 		}
 	}

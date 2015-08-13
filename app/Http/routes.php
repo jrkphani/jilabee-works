@@ -108,20 +108,22 @@ Route::group(['prefix' => 'admin'], function()
 			Route::group(['prefix' => 'minute'], function()
 			{
 				Route::get('{minuteId}', 'Meetings\MinuteController@index')->where('minuteId', '[0-9]+');
-				//Route::get('{meetingId}/followup/{taskid}', 'Meetings\TaskController@viewFollowup')->where('minueId', '[0-9]+')->where('taskid', '[0-9]+');
-				Route::get('view/{minuteId}', 'Meetings\MinuteController@viewMinute')->where('minueId', '[0-9]+');
+				//Route::get('{meetingId}/followup/{taskid}', 'Meetings\TaskController@viewFollowup')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+				Route::get('view/{minuteId}', 'Meetings\MinuteController@viewMinute')->where('minuteId', '[0-9]+');
 				Route::get('{minuteId}/acceptTask/{taskid}', 'Meetings\TaskController@acceptTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 				Route::post('{minuteId}/rejectTask/{taskid}', 'Meetings\TaskController@rejectTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 				Route::post('{minuteId}/comment/{taskid}', 'Meetings\TaskController@taskComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-				Route::get('{minuteId}/task/edit/{taskid}', 'Meetings\TaskController@taskForm')->where('taskid', '[0-9]+');
+				//Route::get('{minuteId}/task/edit/{taskid}', 'Meetings\TaskController@taskForm')->where('taskid', '[0-9]+');
 				Route::get('{minuteId}/task/{taskid}', 'Meetings\TaskController@viewTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 				Route::get('{minuteId}/markComplete/{taskid}', 'Meetings\TaskController@markComplete')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 				Route::get('{minuteId}/acceptCompletion/{taskid}', 'Meetings\TaskController@acceptCompletion')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 				Route::get('{minuteId}/rejectCompletion/{taskid}', 'Meetings\TaskController@rejectCompletion')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-				Route::post('{meetingId}', 'Meetings\MinuteController@create')->where('meetingId', '[0-9]+');
-				Route::post('{minuteId}/update', 'Meetings\MinuteController@update')->where('minueId', '[0-9]+');
-				Route::post('{minuteId}/draft', 'Meetings\MinuteController@draft')->where('minueId', '[0-9]+');
-				Route::post('{minuteId}/task', 'Meetings\TaskController@createTask')->where('minueId', '[0-9]+');
+				//Route::post('{meetingId}', 'Meetings\MinuteController@create')->where('meetingId', '[0-9]+');
+				//Route::post('{minuteId}/update', 'Meetings\MinuteController@update')->where('minuteId', '[0-9]+');
+				Route::post('{minuteId}/draft', 'Meetings\MinuteController@draft')->where('minuteId', '[0-9]+');
+				Route::post('{minuteId}/task', 'Meetings\TaskController@createTask')->where('minuteId', '[0-9]+');
+				Route::get('{meetingId}/next', 'Meetings\MinuteController@nextMinute')->where('minuteId', '[0-9]+');
+				Route::post('{meetingId}/next', 'Meetings\MinuteController@create')->where('minuteId', '[0-9]+');
 				Route::get('{minuteId}/history/{taskid}', 'Meetings\TaskController@viewHistory')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 			});
 		

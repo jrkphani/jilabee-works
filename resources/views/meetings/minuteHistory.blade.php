@@ -4,15 +4,18 @@
 		<button  onclick="$('#popup').hide();" class="popupClose"></button>
 		<div class="clearboth"></div>
 	</div>	
-	<div class="popupContent">
+	<div class="popupContent popUpBg1">
 		<div class="popupDateList">
 			@if($minute->meeting->isMinuter())
-			<button id="nextMinute" class="proceedBtn">Proceed to next meeting</button>
+			<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to next meeting</button>
 			@endif
 			<h4>Previous Meetings</h4>
-			<button class="popupDateBtn" mid="{{$minute->id}}">{{$minute->minuteDate}}</button>
 			@foreach($minutes as $row)
-			<button class="popupDateBtn minuteDiv" mid="{{$row->id}}">{{$row->minuteDate}}</button>
+				@if($row->id == $minute->id)
+					<button class="popupDateBtn minuteDiv active" mid="{{$row->id}}">{{$row->minuteDate}}</button>
+				@else
+					<button class="popupDateBtn minuteDiv" mid="{{$row->id}}">{{$row->minuteDate}}</button>
+				@endif
 			@endforeach
 		</div>
 		
