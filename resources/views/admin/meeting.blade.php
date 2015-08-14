@@ -89,7 +89,7 @@
 	@endif
 	<div class="adminUsersBtns">
 		<div class="adminUsersBtnsLeft">
-			<button>Edit Meeting</button>
+			<button id="editMeeting" mid="{{$meeting->id}}">Edit Meeting</button>
 		</div>
 		
 		<div class="adminUsersBtnsRight">

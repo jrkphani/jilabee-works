@@ -23,9 +23,17 @@ class MeetingsController extends Controller {
 		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
 		return view('meetings.index',['minutes'=>$minutes]);
 	}
-	public function meetingForm()
+	public function meetingForm($mid=NULL)
 	{
-		return view('meetings.form');
+		if($mid)
+		{
+			$meeting = Meetings::find($mid);
+		}
+		else
+		{
+			$meeting = NULL;
+		}
+		return view('meetings.form',['meeting'=>$meeting]);
 	}
 	public function createMeeting()
 	{
@@ -77,7 +85,16 @@ class MeetingsController extends Controller {
 			$input['description'] = nl2br($input['description']);
 			if(Auth::user()->isAdmin)
 			{
-				Meetings::create($input);
+				if($mid = Request::get('id'))
+				{
+					$meeting = Meetings::whereId($mid)->first();
+					$meeting->update($input);
+				}
+				else
+				{
+					Meetings::create($input);
+				}
+				
 			}
 			else
 			{
@@ -100,30 +117,30 @@ class MeetingsController extends Controller {
 			abort('404');
 		}	
 	}
-	public function updateMeeting()
-	{
-		$input = Request::all();
-		$mid = $input['mid'];
-		unset($input['mid']);
-		unset($input['_token']);
-		unset($input['selectMinuters']);
-		unset($input['selectAttendees']);
-		$validator = TempMeetings::validation($input);
-		if ($validator->fails())
-		{
-			$tempMeetings = TempMeetings::where('id','=',$mid)
-				->where('created_by','=',Auth::id())->first();
-			return view('meetings.tempMeeting',['tempMeetings'=>$tempMeetings])->withErrors($validator);
-		}
-		else
-		{
-			$input['status'] = 'Sent';
-			$input['updated_by'] = Auth::id();
-			$input['minuters'] = implode(',',$input['minuters']);
-			$input['attendees'] = implode(',',$input['attendees']);
-			//$input['requested_by'] = Profile::where('userId','=',Auth::user()->userId)->first()->name;
-			TempMeetings::where('id','=',$mid)->update($input);
-			return 'success';
-		}
-	}
+	// public function updateMeeting()
+	// {
+	// 	$input = Request::all();
+	// 	$mid = $input['mid'];
+	// 	unset($input['mid']);
+	// 	unset($input['_token']);
+	// 	unset($input['selectMinuters']);
+	// 	unset($input['selectAttendees']);
+	// 	$validator = TempMeetings::validation($input);
+	// 	if ($validator->fails())
+	// 	{
+	// 		$tempMeetings = TempMeetings::where('id','=',$mid)
+	// 			->where('created_by','=',Auth::id())->first();
+	// 		return view('meetings.tempMeeting',['tempMeetings'=>$tempMeetings])->withErrors($validator);
+	// 	}
+	// 	else
+	// 	{
+	// 		$input['status'] = 'Sent';
+	// 		$input['updated_by'] = Auth::id();
+	// 		$input['minuters'] = implode(',',$input['minuters']);
+	// 		$input['attendees'] = implode(',',$input['attendees']);
+	// 		//$input['requested_by'] = Profile::where('userId','=',Auth::user()->userId)->first()->name;
+	// 		TempMeetings::where('id','=',$mid)->update($input);
+	// 		return 'success';
+	// 	}
+	// }
 }

@@ -29,7 +29,7 @@
 			</form>
 			<center><a href="{{ url('/password/email') }}">Forgot Your Password?</a></center>
 			<center><h4>Don't have a login?</h4></center>
-    	 <center><a href="{{ url('/auth/register') }}">Single Signup</a></center>
+    	 {{-- <center><a href="{{ url('/auth/register') }}">Single Signup</a></center> --}}
     	 <center><a href="{{ url('admin/auth/register') }}">Org Signup</a></center>
 		</div>
 	</div>

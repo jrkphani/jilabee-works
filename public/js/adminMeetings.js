@@ -223,3 +223,7 @@ $('#adminContent').on('keyup', '#selectAttendees', function(event) {
         }
     }
 });
+$('#adminContent').on('click', '#editMeeting', function(event) {
+    event.preventDefault();
+    popupContentAjaxGet('/admin/meetings/edit/'+$(this).attr('mid'));
+});

@@ -40,10 +40,12 @@ class AuthController extends Controller {
 	}
 	public function getRegister()
 	{
+		die;
 		return view('auth.register');
 	}
 	public function postRegister(Request $request)
 	{
+		die;
 		$validator = $this->registrar->validator($request->all());
 
 		if ($validator->fails())
