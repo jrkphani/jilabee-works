@@ -92,6 +92,8 @@ class MeetingsController extends Controller {
 				}
 				else
 				{
+					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
+					$input['requested_by'] = Auth::id();
 					Meetings::create($input);
 				}
 				

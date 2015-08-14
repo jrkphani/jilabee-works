@@ -22,6 +22,7 @@ class CreateMeetingsTable extends Migration {
 			$table->string('minuters','64');
 			$table->integer('requested_by')->unsigned();
 			$table->enum('active',array('0','1'))->default('0');
+			$table->integer('oid')->unsigned()->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
@@ -32,6 +33,7 @@ class CreateMeetingsTable extends Migration {
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('requested_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			$table->foreign('oid')->references('id')->on('organizations')->onDelete('restrict')->onUpdate('cascade');
 		});
 		
 	}

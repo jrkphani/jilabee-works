@@ -8,7 +8,7 @@
 	</div>
 	<div class="userDetailItem">
 		<p>creation request by</p>
-		<span>Aravind Kumar</span>
+		<span>{{$meeting->requestedby->name}}</span>
 		<div class="clearboth"></div>
 	</div>
 	

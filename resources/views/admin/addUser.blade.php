@@ -24,22 +24,7 @@
 				<div class="error" id="gender_err"></div></p>
 		</div>
 		<div class="popupContentRight">
-			<h4>Meeting Settings</h4>
-			<div class="meetingSettingITem">
-				<p>Delivery performance review</p>
-				<span>attendee</span>
-				<div class="clearboth"></div>
-			</div>
-			<div class="meetingSettingITem">
-				<p>Delivery performance review</p>
-				<span>attendee</span>
-				<div class="clearboth"></div>
-			</div>
-			<div class="meetingSettingITem">
-				<p>Delivery performance review</p>
-				<span>attendee</span>
-				<div class="clearboth"></div>
-			</div>
+			@include('admin.meetingsetting')
 		</div>
 		{!!Form::close()!!}
 	</div>

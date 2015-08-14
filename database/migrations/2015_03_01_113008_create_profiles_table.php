@@ -21,6 +21,7 @@ class CreateProfilesTable extends Migration {
             $table->string('phone',16);
             $table->date('dob');
             $table->enum('gender', array('M','F','O'));
+            $table->string('roles',16);
             $table->string('notification',16);
             $table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();

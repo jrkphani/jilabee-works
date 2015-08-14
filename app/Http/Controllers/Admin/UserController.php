@@ -9,6 +9,7 @@ use Validator;
 use Activity;
 use Request;
 use Session;
+use App\Model\Meetings;
 use Illuminate\Contracts\Auth\Registrar;
 class UserController extends Controller {
 
@@ -23,7 +24,9 @@ class UserController extends Controller {
 	}
 	public function getAdd()
 	{
-		return view('admin.addUser');
+		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
+					->where('organizations.customerId','=',getOrgId())->get();
+		return view('admin.addUser',['meetings'=>$meetings]);
 	}
 	public function postAdd()
 	{

@@ -15,7 +15,7 @@ class Meetings extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','description','venue','attendees','minuters','created_by','updated_by'];
+	protected $fillable = ['title','description','venue','attendees','minuters','requested_by','created_by','updated_by'];
 	
 	public function minutes()
     {
@@ -27,6 +27,10 @@ class Meetings extends Model{
     }
     public function updatedby()
     {	
+        return $this->hasOne('App\Model\Profile', 'userId','updated_by');
+    }
+    public function requestedby()
+    {   
         return $this->hasOne('App\Model\Profile', 'userId','updated_by');
     }
 	public function isMinuter()

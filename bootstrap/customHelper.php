@@ -94,4 +94,8 @@ function getDomainFromEmail($email)
 	 
 	    return $domain;
 	}
+function roles()
+    {
+        return App\Model\Roles::all()->toArray();
+    }
 ?>
