@@ -71,7 +71,26 @@ class UserController extends Controller {
 						    'action'      => 'Create',
 						    //'description' => 'Add Organizations User',
 						    'details'     => 'Name:'.$input['name'].'Email:'.$input['email']
-						]);
+							]);
+							if(count($input['meetings']) == count($input['roles']))
+							{
+								foreach ($input['meetings'] as $key=>$value)
+								{
+									if($meeting = Meetings::find($value))
+									{
+										if($input['roles'][$key] == 1)
+										{
+											$meeting->attendees = $meeting->attendees.','.$user->id;
+										}
+										else if($input['roles'][$key] == 2)
+										{
+											$meeting->minuters = $meeting->minuters.','.$user->id;
+										}
+										$meeting->save();
+									}
+								}
+							}
+
 						}
 					}
 				}

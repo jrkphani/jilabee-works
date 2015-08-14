@@ -83,5 +83,5 @@ $('#adminContent').on('click', '#addUserSubmit', function(event) {
 $('#adminContent').on('click', '#addmeeting', function(event) {
 	event.preventDefault();
 	htmlcontent = '<div class="meetingSettingITem">'+$('#meetingList').find('.meetingSettingITem:first').html()+'</div>'
-	$('#meetingList').append();
+	$('#meetingList').append(htmlcontent);
 });

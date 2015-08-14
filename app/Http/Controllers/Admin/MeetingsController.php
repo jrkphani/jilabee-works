@@ -17,7 +17,8 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
-		$meetings = Meetings::all();
+		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
+					->where('organizations.customerId','=',getOrgId())->get();
 		return view('admin.meetings',['meetings'=>$meetings]);
 	}
 	public function view($id)

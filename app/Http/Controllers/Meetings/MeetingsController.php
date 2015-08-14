@@ -5,6 +5,7 @@ use App\Model\JobTasks;
 use App\Model\TempMeetings;
 use App\Model\Meetings;
 use App\Model\Minutes;
+use App\Model\Organizations;
 use App\Model\Profile;
 use App\User;
 use Auth;
@@ -20,6 +21,7 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
+		//$newmeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
 		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
 		return view('meetings.index',['minutes'=>$minutes]);
 	}
