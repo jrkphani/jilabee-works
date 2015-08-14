@@ -184,7 +184,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
 $('#adminContent').on('click', '#addMeeting', function(event)
 {
     event.preventDefault();
-    popupContentAjaxGet('/meetings/create');
+    rightContentAjaxGet('/meetings/create');
 });
 $('#adminContent').on('keyup', '#selectAttendees', function(event) {
     event.preventDefault();
@@ -225,5 +225,5 @@ $('#adminContent').on('keyup', '#selectAttendees', function(event) {
 });
 $('#adminContent').on('click', '#editMeeting', function(event) {
     event.preventDefault();
-    popupContentAjaxGet('/admin/meetings/edit/'+$(this).attr('mid'));
+    rightContentAjaxGet('/admin/meetings/edit/'+$(this).attr('mid'));
 });

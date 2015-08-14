@@ -9,6 +9,7 @@ use App\Model\Organizations;
 use App\Model\Profile;
 use App\User;
 use Auth;
+use DB;
 class MeetingsController extends Controller {
 
 	/**
@@ -21,9 +22,31 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
-		//$newmeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
+		// $newmeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')
+		// 				->join('minutes',function($join)
+		// 				{
+		// 					$join->on('minutes.meetingId', '=', 'meetings.id')
+
+		// 					//->whereNull('minutes.meetingId')
+
+		// 					->whereRaw('HAVING COUNT(*) > 1');
+		// 				})->get();
+
+	//$newmeetings = DB::select( DB::raw("SELECT * FROM meetings"));
+	//$newmeetings = DB::select( DB::raw("SELECT meetingId FROM minutes"));
+	//$newmeetings = DB::select( DB::raw("SELECT * FROM meetings FIND_IN_SET(".Auth::id().",minuters) "));
+		$newmeetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
+					->where('organizations.customerId','=',getOrgId())->get();
+						//print_r($newmeetings); 
+						// foreach ($newmeetings as $key => $value) {
+						// 	echo "====";
+						// 	print_r($value->id);
+						// }
+						// die;
+
+		
 		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
-		return view('meetings.index',['minutes'=>$minutes]);
+		return view('meetings.index',['minutes'=>$minutes,'newmeetings'=>$newmeetings]);
 	}
 	public function meetingForm($mid=NULL)
 	{
@@ -35,7 +58,8 @@ class MeetingsController extends Controller {
 		{
 			$meeting = NULL;
 		}
-		return view('meetings.form',['meeting'=>$meeting]);
+		//return view('meetings.form',['meeting'=>$meeting]);
+		return view('admin.meetingForm',['meeting'=>$meeting]);
 	}
 	public function createMeeting()
 	{

@@ -59,6 +59,22 @@
 				</div>
 			@endforeach
 		</div>
+		<div class="boxList">
+			<div class="boxTitle">
+				<span class="boxTitleNumber boxNumberRed">2</span>
+				<p>New Meetings</p>
+				<div class="clearboth"></div>
+			</div>
+			@foreach($newmeetings as $meeting)
+				<div class="box">
+					<span class="boxNumber boxNumberRed">1</span>
+					<div class="boxInner" mid="{{$meeting->id}}">
+						<h4>{{$meeting->title}}</h4>
+					</div>
+					<div class="boxRight" mid="{{$meeting->id}}"></div>
+				</div>
+			@endforeach
+		</div>
 		
 	</div>
 	<div class="contentMeetingsRight" id="contentMeetingsRight">

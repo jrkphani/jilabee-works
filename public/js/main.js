@@ -63,6 +63,24 @@ function popupContentAjaxGet(path)
             checkStatus(xhr.status);
         });
 }
+function rightContentAjaxGet(path)
+{
+    $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#adminUsersRight').html(htmlData).show();
+
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
 function popupContentAjaxPost(path,form)
 {
     $.ajax({
