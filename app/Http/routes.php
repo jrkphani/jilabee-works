@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('user/add', 'Admin\UserController@getAdd');
 			Route::post('user/add', 'Admin\UserController@postAdd');
 			Route::get('user/view/{userId}', 'Admin\UserController@getUser');
+			Route::get('user/edit/{userId}', 'Admin\UserController@getAdd');
+			Route::post('user/edit/{userId}', 'Admin\UserController@editUser');
 			Route::get('meetings', 'Admin\MeetingsController@index');
 			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
 			Route::post('meetings/approve', 'Admin\MeetingsController@approve');

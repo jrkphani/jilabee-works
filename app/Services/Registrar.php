@@ -15,11 +15,24 @@ class Registrar implements RegistrarContract {
 	 * @param  array  $data
 	 * @return \Illuminate\Contracts\Validation\Validator
 	 */
-	public function validator(array $data)
+	public function validator(array $data,$userId=NULL)
 	{
 		//$verifier = App::make('validation.presence');
         //$verifier->setConnection('jotterBase');
-		$validator = Validator::make($data, [
+		if($userId)
+		{
+			$validator = Validator::make($data, [
+			'name' => 'required|max:255',
+			'email' => 'required|email|max:255|unique:users,email,'.$userId,
+			'password' => 'confirmed|min:6',
+			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
+			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
+			'gender' =>'required|in:M,F,O',
+		]);
+		}
+		else
+		{
+			$validator = Validator::make($data, [
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:6',
@@ -27,6 +40,7 @@ class Registrar implements RegistrarContract {
 			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
 			'gender' =>'required|in:M,F,O',
 		]);
+		}
         //$validator->setPresenceVerifier($verifier);
         return $validator;
 	}

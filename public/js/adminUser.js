@@ -33,8 +33,7 @@ $('#adminContent').on('click', '#addUser', function(event)
 		dataType: 'html',
 	})
 	.done(function(htmlData) {
-		$('#popup').html(htmlData);
-		$('#popup').show();
+		$('#adminUsersRight').html(htmlData);
 	})
 	.fail(function(xhr) {
         checkStatus(xhr.status);
@@ -82,6 +81,55 @@ $('#adminContent').on('click', '#addUserSubmit', function(event) {
 });
 $('#adminContent').on('click', '#addmeeting', function(event) {
 	event.preventDefault();
-	htmlcontent = '<div class="meetingSettingITem">'+$('#meetingList').find('.meetingSettingITem:first').html()+'</div>'
+	htmlcontent = '<div class="meetingItem">'+$('#meetingList').find('.meetingItem:first').html()+'<span class="removeMeeting"> Remove</span></div>'
 	$('#meetingList').append(htmlcontent);
+});
+$('#adminContent').on('click', '.removeMeeting', function(event) {
+    if($(this).attr('mid'))
+    {
+        $(this).parent('.meetingParent').html('<input name="removeMeetings[]" type="hidden" value="'+$(this).attr('mid')+'">');
+    }
+    else
+    {
+        $(this).parent('.meetingItem').remove();
+    }
+});
+$('#adminContent').on('click', '#editUser', function(event) {
+	$('#adminUsersRight').load('/admin/user/edit/'+$(this).attr('uid'));
+});
+$('#adminContent').on('click', '#editUserSubmit', function(event) {
+	uid = $(this).attr('uid');
+	event.preventDefault();
+	$.ajax({
+		url: '/admin/user/edit/'+uid,
+		type: 'POST',
+		dataType: 'json',
+		data: $('#addUserForm').serialize(),
+	})
+	.done(function(jsonData) {
+		if(jsonData.success == 'no')
+        {
+            if(jsonData.hasOwnProperty('validator'))
+            {
+                $.each(jsonData.validator, function(index, val) {
+                    //console.log(index);
+                     $('#'+index+'_err').html(val);
+                });
+            }
+        }
+        else if(jsonData.success == 'yes')
+        {
+        	$('#adminUsersRight').load('/admin/user/view/'+uid);
+        }
+        else
+        {
+        	notification('some this worng');
+        }
+	})
+	.fail(function(xhr) {
+        checkStatus(xhr.status);
+    })
+    .always(function(xhr) {
+        checkStatus(xhr.status);
+    });
 });

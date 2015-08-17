@@ -22,11 +22,28 @@ class UserController extends Controller {
 	{
 		$this->registrar = $registrar;
 	}
-	public function getAdd()
+	public function getAdd($userId=NULL)
 	{
 		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
-					->where('organizations.customerId','=',getOrgId())->get();
-		return view('admin.addUser',['meetings'=>$meetings]);
+					->where('organizations.customerId','=',getOrgId())->lists('title','id');
+		//print_r($meetings); die;
+		if($userId)
+		{
+			$user = Profile::join('users','profiles.userId','=','users.id')->where('users.userId','=',$userId)->first();
+			$attendees = Meetings::whereRaw('FIND_IN_SET("'.$user->id.'",meetings.attendees)')
+							//->join('organizations','meetings.oid','=','organizations.id')
+							//->where('organizations.customerId','=',getOrgId())
+							->lists('title','id');
+			$minuters = Meetings::whereRaw('FIND_IN_SET("'.$user->id.'",meetings.minuters)')
+							//->join('organizations','meetings.oid','=','organizations.id')
+							//->where('organizations.customerId','=',getOrgId())
+							->lists('title','id');
+		}
+		else
+		{
+			$user = $attendees = $minuters = NULL;
+		}
+		return view('admin.addUser',['meetings'=>$meetings,'user'=>$user,'attendees'=>$attendees,'minuters'=>$minuters]);
 	}
 	public function postAdd()
 	{
@@ -103,6 +120,79 @@ class UserController extends Controller {
 	        //DB::connection('jotterBase')->rollback();
     	}	
 	}
+	public function editUser($uid)
+	{
+		$user = User::where('userId','=',$uid)->first();
+		if($user)
+		{
+			$input = Request::all();
+			$input = array_filter($input);
+			$validator = $this->registrar->validator($input,$user->id);
+			$output['success'] = 'yes';
+			if ($validator->fails())
+			{
+				$output['success'] = 'no';
+				$output['validator'] = $validator->messages()->toArray();
+				return json_encode($output);
+			}
+			$user->email = $input['email'];
+			if(isset($input['password']))
+			{
+				$user->password = bcrypt($input['password']);
+			}
+			if($user->save())
+			{
+				$profile = $user->profile;
+				$profile->name = ucwords(strtolower($input['name']));
+				$profile->dob = $input['dob'];
+				$profile->gender = $input['gender'];
+				$profile->phone = $input['phone'];
+				$profile->updated_by = Auth::id();
+				if($profile->save())
+				{
+					if(isset($input['removeMeetings']))
+					{
+						foreach ($input['removeMeetings'] as $key=>$value)
+						{
+							if($meeting = Meetings::whereId($value)->first())
+							{
+								$minuters = explode(',',$meeting->minuters);
+								$index = array_search($user->id, $minuters);
+								unset($minuters[$index]);
+								$attendees = explode(',',$meeting->attendees);
+								$index = array_search($user->id, $attendees);
+								unset($attendees[$index]);
+								print_r($minuters);
+								$meeting->attendees = implode(',',$attendees);
+								$meeting->minuters = implode(',',$minuters);
+								$meeting->save();
+							}
+						}
+					}
+
+					if(count($input['meetings']) == count($input['roles']))
+					{
+						foreach ($input['meetings'] as $key=>$value)
+						{
+							if($meeting = Meetings::whereId($value)->first())
+							{
+								if($input['roles'][$key] == 1)
+								{
+									$meeting->attendees = $meeting->attendees.','.$user->id;
+								}
+								else if($input['roles'][$key] == 2)
+								{
+									$meeting->minuters = $meeting->minuters.','.$user->id;
+								}
+								$meeting->save();
+							}
+						}
+					}
+				}
+			}
+			return json_encode($output);
+		}
+	}
 	public function userList()
 	{
 		//only view user inside same org
@@ -117,10 +207,22 @@ class UserController extends Controller {
 		//only view user inside same org
 		if($orgId = getOrgId())
 		{
-			if (strpos(Auth::user()->userId,$orgId) !== false)
+			$user = Profile::join('users','profiles.userId','=','users.id')->where('users.userId','=',$userId)->first();
+			if (strpos($user->userId,$orgId) !== false)
 			{
-	    		$user = Profile::join('users','profiles.userId','=','users.id')->where('users.userId','=',$userId)->first();
-				return view('admin.viewUser',['user'=>$user]);
+				$attendees = Meetings::whereRaw('FIND_IN_SET("'.$user->id.'",meetings.attendees)')
+							//->join('organizations','meetings.oid','=','organizations.id')
+							//->where('organizations.customerId','=',getOrgId())
+							->lists('title','id');
+				$minuters = Meetings::whereRaw('FIND_IN_SET("'.$user->id.'",meetings.minuters)')
+							//->join('organizations','meetings.oid','=','organizations.id')
+							//->where('organizations.customerId','=',getOrgId())
+							->lists('title','id');
+				return view('admin.viewUser',['user'=>$user,'attendees'=>$attendees,'minuters'=>$minuters]);
+			}
+			else
+			{
+				abort("403");
 			}
 		}
 	}

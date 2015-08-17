@@ -52,34 +52,23 @@
 			<h5>Role in Meeting</h5>
 			<div class="clearboth"></div>	
 		</div>
-		<div class="meetingSettingITem">
-			<p>Delivery performance review</p>
-			<span>attendee</span>
-			<div class="clearboth"></div>
-		</div>
-		<div class="meetingSettingITem">
-			<p>Delivery performance review</p>
-			<span>attendee</span>
-			<div class="clearboth"></div>
-		</div>
-		<div class="meetingSettingITem">
-			<p>Delivery performance review</p>
-			<span>attendee</span>
-			<div class="clearboth"></div>
-		</div>
-		<div class="meetingSettingITem">
-			<p>Delivery performance review</p>
-			<span>attendee</span>
-			<div class="clearboth"></div>
-		</div>
-		<div class="meetingSettingITem">
-			<p>Delivery performance review</p>
-			<span>attendee</span>
-			<div class="clearboth"></div>
-		</div>
+		@foreach($attendees as $attendee)
+			<div class="meetingSettingITem">
+				<p>{{$attendee}}</p>
+				<span>Attendee</span>
+				<div class="clearboth"></div>
+			</div>
+		@endforeach
+		@foreach($minuters as $minuter)
+			<div class="meetingSettingITem">
+				<p>{{$minuter}}</p>
+				<span>Minuter</span>
+				<div class="clearboth"></div>
+			</div>
+		@endforeach
 		<div class="adminUsersBtns">
 			<div class="adminUsersBtnsLeft">
-				<button>Edit Account</button>
+				<button id="editUser" uid="{{$user->userId}}">Edit Account</button>
 			</div>
 			
 			<div class="adminUsersBtnsRight">
