@@ -71,7 +71,7 @@
 					<div class="boxInner" mid="{{$meeting->id}}">
 						<h4>{{$meeting->title}}</h4>
 					</div>
-					<div class="boxRight" mid="{{$meeting->id}}"></div>
+					<div class="boxRight firstMinute" mid="{{$meeting->id}}"></div>
 				</div>
 			@endforeach
 		</div>

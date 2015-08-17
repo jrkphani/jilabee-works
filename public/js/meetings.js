@@ -1,259 +1,6 @@
-/*$(document).ready(function($)
-{
-        $('#listLeft').on('click', '.removeParent', function(event) {
+$('#centralViewer').on('click', '.markabsent', function(event) {
             $(this).parent(".attendees" ).remove();
         });
-            $('#listLeft').on('click', '.tempMeeting', function(event) {
-            $('#loadMeetingModal').load('/meetings/load/'+$(this).attr('mid'));
-            $('#loadMeetingModal').addClass('in');
-            $('#loadMeetingModal').show();
-         });
-            
-            $('#listLeft').on('click', '.minutePopup', function(event) {
-                event.preventDefault();
-                var mid = $(this).attr('mid');
-                $('#loadTaskModal').load('/minute/view/'+mid);
-                $('#loadTaskModal').addClass('in');
-                $('#loadTaskModal').show();
-                //$('#loadTaskModal').modal('show') ;        
-            });
-            $('#listLeft').on('click', '.meetings', function(event) {
-                //alert($(this).find('.minute').length);
-                //return false;
-                event.preventDefault();
-                if($(this).find('.minute').length)
-                {
-                   // mid = $(this).find('.minute:first').attr('mid');
-                }
-                else
-                {
-                   loadMinute($(this).attr('mid'));
-                }          
-            });
-            $('#listLeft').on('click', '#createMinute', function(event) {
-                event.preventDefault();
-                //createMinuteForm
-                $('#createMinuteError').html('');
-                var mid = $(this).attr('mid');
-                $.ajax({
-                    url: '/minute/'+mid,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: $('#createMinuteForm').serialize(),
-                })
-                .done(function(jsonData) {
-                    if(jsonData.success == 'no')
-                    {
-                        if(jsonData.hasOwnProperty('validator'))
-                        {
-                            errorList = '<ul>';
-                            $.each(jsonData.validator, function(index, val) {
-                                errorList += '<li class="error">'+val+'</li>';
-                            });
-                            errorList += '</ul>';
-                            $('#createMinuteError').html(errorList);
-                        }
-                    }
-                    else if(jsonData.success == 'error')
-                    {
-                        $('#createMinuteError').html('<span class="error">'+jsonData.msg+'</span>');
-                    }
-                    else if(jsonData.success == 'yes')
-                    {
-                        //top bar notification
-                        $.notify('Session created',
-                        {
-                           className:'success',
-                           globalPosition:'top center'
-                        });
-                        //$('#nextMinute').remove();
-                        $('#rightContent').load('/minute/'+jsonData.mid);
-                        
-                    }
-                    //console.log("success");
-                })
-                .fail(function(xhr) {
-                    checkStatus(xhr.status);
-                })
-                .always(function(xhr) {
-                    checkStatus(xhr.status);
-                });
-                
-            });
-    $('#listLeft').on('click', '#editMinute', function(event) {
-        event.preventDefault();
-        $('.updateMinute').prop('disabled',false);
-        $('.removeAttendees , .removeAbsentees').show();
-        $('#updateMinute, #canleMinute').show();
-        $(this).hide();
-    });
-    $('#listLeft').on('click', '#updateMinute', function(event) {
-        event.preventDefault();
-        $('#updateMinuteError').html('');
-            var mid = $(this).attr('mid');
-            $.ajax({
-                url: '/minute/'+mid+'/update',
-                type: 'POST',
-                dataType: 'json',
-                data: $('#updateMinuteForm').serialize(),
-            })
-            .done(function(jsonData) {
-                if(jsonData.success == 'no')
-                {
-                    if(jsonData.hasOwnProperty('validator'))
-                    {
-                        errorList = '<ul>';
-                        $.each(jsonData.validator, function(index, val) {
-                            errorList += '<li class="error">'+val+'</li>';
-                        });
-                        errorList += '</ul>';
-                        $('#updateMinuteError').html(errorList);
-                    }
-                }
-                else if(jsonData.success == 'error')
-                {
-                    $('#updateMinuteError').html('<span class="error">'+jsonData.msg+'</span>');
-                }
-                else if(jsonData.success == 'yes')
-                {
-                    //top bar notification
-                    $.notify('Updated',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
-                    $('.updateMinute').prop('disabled',true);
-                    $('.removeAttendees , .removeAbsentees').hide();
-                    $('#editMinute').show();
-                    $('#updateMinute, #canleMinute').hide();
-                    
-                }
-            })
-            .fail(function(xhr) {
-                checkStatus(xhr.status);
-            })
-            .always(function(xhr) {
-                checkStatus(xhr.status);
-            });
-
-    });
-     $('#listLeft').on('click', '#canleMinute', function(event) { 
-        $('.updateMinute').prop('disabled',true);
-        $('.removeAttendees , .removeAbsentees').hide();
-        $('#editMinute').show();
-        $('#updateMinute, #canleMinute').hide();
-     });
-
-    $('#listLeft').on('click', '.removeAttendees', function(event) {
-            userName = $(this).parent(".attendees" ).text();
-            userId = $(this).parent(".attendees" ).attr('uid').match(/\d+/);
-            html = '<div uid="u'+userId+'" class="col-md-2 absentees"><input type="hidden" value="'+userId+'" name="absentees[]">'+userName+'<span style="" class="removeAbsentees btn glyphicon glyphicon-trash"></span></div>';
-            $('#absentees').append(html);
-            $(this).parent(".attendees" ).remove();
-        });
-    $('#listLeft').on('click', '.removeAbsentees', function(event) {
-        userName = $(this).parent(".absentees").text();
-        userId = $(this).parent(".absentees").attr('uid').match(/\d+/);
-        html = '<div uid="u'+userId+'  " class="col-md-2 attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<span style="" class="removeAttendees btn glyphicon glyphicon-trash"></span></div>';
-        $('#attendees').append(html);
-        $(this).parent( ".absentees" ).remove();
-        });
-    $('#listLeft').on('click', '#add_more', function(event) {
-        event.preventDefault();
-        taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
-        taskBlock.find(".form-control").val("");
-        taskBlock.find(".type").val("task");
-        taskBlock.find(".ideainput").hide();
-        taskBlock.find(".taskinput").show();
-        dateInput();
-    });
-    $('#listLeft').on('click', '.removeTaskFrom ', function(event) {
-        event.preventDefault();
-        if($('.taskBlock').length > 1)
-        {
-            $(this).parents('.taskBlock').remove();
-        }
-    });
-    
-    
-    $('#listLeft').on('click', '#nextMinute', function(event) {
-        event.preventDefault();
-        $('#minuteBlock').toggle();
-        //$('#createMinuteForm').find('input[name="venue"]').focus();
-         $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-    });
-    $('#listLeft').on('click', '#refresh', function(event) {
-        event.preventDefault();
-        $('.meetingMenu.active').click();
-    });
-    $('#listLeft').on('change', '.type', function(event) {
-        event.preventDefault();
-        taskBlock = $(this).parents('.taskBlock');
-        if($(this).val() == 'task')
-        {
-            taskBlock.find('.ideainput').hide();
-            taskBlock.find('.taskinput').show();
-        }
-        else if($(this).val() == 'idea')
-        {
-            taskBlock.find('.ideainput').show();
-            taskBlock.find('.taskinput').hide();
-        }
-    });
-});*/
-$('#minutes').click(function(event)
-{
-	$('.meetingMenu').removeClass('active');
-    $(this).addClass('active');
-    $.ajax({
-    	url: 'meetings/myminutes',
-    	type: 'GET',
-    	dataType: 'html',
-    	//data: {param1: 'value1'},
-    })
-    .done(function(htmlData) {
-    	$('#listLeft').html(htmlData);
-        if($('#listLeft').find('.minute').length)
-        {
-           $('#listLeft').find('.minute:first').click();
-        }
-        else
-        {
-           $('#listLeft').find('.meetings:first').click();
-        } 
-    })
-    .fail(function(xhr) {
-        checkStatus(xhr.status);
-    })
-    .always(function(xhr) {
-        checkStatus(xhr.status);
-    });
-    
-});
-$('#history').click(function(event)
-{
-	$('.meetingMenu').removeClass('active');
-    $(this).addClass('active');
-    $.ajax({
-    	url: 'meetings/history',
-    	type: 'GET',
-    	dataType: 'html',
-    	//data: {param1: 'value1'},
-    })
-    .done(function(htmlData) {
-    	$('#listLeft').html(htmlData);
-    })
-    .fail(function(xhr) {
-        checkStatus(xhr.status);
-    })
-    .always(function(xhr) {
-        checkStatus(xhr.status);
-    });
-});
-// function dateInput()
-// {
-//     $('.dateInput').datepicker({format: "yyyy-mm-dd",startDate: "1d",startView: 0,autoclose: true});
-// }
 function loadMinute(mid,divId)
 {
     $.ajax({
@@ -295,12 +42,12 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
             }
             else if(jsonData.success == 'yes')
             {
-                $('#popup').hide();
                 $.notify('Meeting Created Successfully',
                 {
                    className:'success',
                    globalPosition:'top center'
                 });
+                $('#popup').load('/minute/first/'+jsonData.meetingId);
             }
             //////console.log("success");
         })
@@ -345,15 +92,7 @@ $('#centralContainer').on('keyup', '#selectAttendees', function(event) {
                                 insert = '<div class="col-md-6 attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
                                 $('#selected_attendees').prepend(insert);
                                 $('#selectAttendees').val('');
-        $('#listLeft').on('click', '#add_more', function(event) {
-        event.preventDefault();
-        taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
-        taskBlock.find(".form-control").val("");
-        taskBlock.find(".type").val("task");
-        taskBlock.find(".ideainput").hide();
-        taskBlock.find(".taskinput").show();
-        dateInput();
-    });                    }
+                           }
                         }
                     }
                 });
@@ -392,6 +131,26 @@ $("#centralContainer").on('click', '#nextMinute', function(event) {
     .done(function(htmlData)
     {
         $('#minuteDiv').html(htmlData);
+    })
+    .fail(function(xhr) {
+        checkStatus(xhr.status);
+    })
+    .always(function(xhr) {
+        checkStatus(xhr.status);
+    });
+});
+$('#centralContainer').on('click', '.firstMinute', function(event) {
+    event.preventDefault();
+    meetingId = $(this).attr('mid');
+    $.ajax({
+        url: '/minute/first/'+meetingId,
+        type: 'GET',
+        dataType: 'html',
+    })
+    .done(function(htmlData)
+    {
+        $('#popup').html(htmlData);
+        $('#popup').show();
     })
     .fail(function(xhr) {
         checkStatus(xhr.status);

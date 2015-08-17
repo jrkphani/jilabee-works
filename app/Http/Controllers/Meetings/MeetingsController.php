@@ -22,27 +22,18 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
-		// $newmeetings = Meetings::whereRaw('FIND_IN_SET("'.Auth::id().'",minuters)')
-		// 				->join('minutes',function($join)
-		// 				{
-		// 					$join->on('minutes.meetingId', '=', 'meetings.id')
-
-		// 					//->whereNull('minutes.meetingId')
-
-		// 					->whereRaw('HAVING COUNT(*) > 1');
-		// 				})->get();
-
-	//$newmeetings = DB::select( DB::raw("SELECT * FROM meetings"));
-	//$newmeetings = DB::select( DB::raw("SELECT meetingId FROM minutes"));
-	//$newmeetings = DB::select( DB::raw("SELECT * FROM meetings FIND_IN_SET(".Auth::id().",minuters) "));
-		$newmeetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
-					->where('organizations.customerId','=',getOrgId())->get();
-						//print_r($newmeetings); 
-						// foreach ($newmeetings as $key => $value) {
-						// 	echo "====";
-						// 	print_r($value->id);
-						// }
-						// die;
+		$newmeetings = Meetings::select('meetings.*')
+						->join('organizations','meetings.oid','=','organizations.id')
+						->join('minutes','meetings.oid','=','organizations.id')
+						->where('organizations.customerId','=',getOrgId())
+						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
+						->whereNotExists(function($query)
+							{
+							$query->select(DB::raw(1))
+		                    		->from('minutes')
+		                      		->whereRaw('meetings.id = minutes.meetingId');
+								})
+						->get();
 
 		
 		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
@@ -58,8 +49,8 @@ class MeetingsController extends Controller {
 		{
 			$meeting = NULL;
 		}
-		//return view('meetings.form',['meeting'=>$meeting]);
-		return view('admin.meetingForm',['meeting'=>$meeting]);
+		return view('meetings.form',['meeting'=>$meeting]);
+		//return view('admin.meetingForm',['meeting'=>$meeting]);
 	}
 	public function createMeeting()
 	{
@@ -109,26 +100,26 @@ class MeetingsController extends Controller {
 			}
 			$input['attendees'] = implode(',',$attendees);
 			$input['description'] = nl2br($input['description']);
-			if(Auth::user()->isAdmin)
-			{
-				if($mid = Request::get('id'))
+			if($mid = Request::get('id'))
 				{
 					$meeting = Meetings::whereId($mid)->first();
+					if(Auth::user()->isAdmin)
+					{
+						$meeting->active = 1;
+					}
 					$meeting->update($input);
 				}
 				else
 				{
+					if(Auth::user()->isAdmin)
+					{
+						$input['active'] = 1;
+					}
 					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
 					$input['requested_by'] = Auth::id();
-					Meetings::create($input);
+					$meeting = Meetings::create($input);
 				}
-				
-			}
-			else
-			{
-				$input['requested_by'] = Profile::where('userId','=',Auth::id())->first()->name;
-				TempMeetings::create($input);
-			}
+				$output['meetingId'] = $meeting->id;
 			return json_encode($output);
 		}
 	}

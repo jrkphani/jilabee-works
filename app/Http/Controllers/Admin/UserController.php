@@ -136,7 +136,7 @@ class UserController extends Controller {
 				return json_encode($output);
 			}
 			$user->email = $input['email'];
-			if(isset($input['password']))
+			if(isset($input['password']) && ($input['password']))
 			{
 				$user->password = bcrypt($input['password']);
 			}

@@ -37,6 +37,7 @@
 				<div class="attendees" uid="u{{$key}}">
 					{!! Form::hidden('attendees[]',$key) !!}
 					{{$value}}
+					<span class="markabsent"> Remove</span>
 				</div>
 			@endforeach
 			@foreach ($emails as $key=>$value)
@@ -97,9 +98,10 @@
 		<strong>Attendees</strong>
 		<div id="attendees">
 			@foreach ($attendees as $key=>$value)
-				<div class="attendees" uid="u'.$user->userId.'">
+				<div class="attendees" uid="u{{$key}}">
 					{!! Form::hidden('attendees[]',$key) !!}
 					{{$value}}
+					<span class="markabsent"> Remove</span>
 				</div>
 			@endforeach
 		</div>

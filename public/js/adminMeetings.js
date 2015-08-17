@@ -23,7 +23,7 @@ $(document).ready(function($)
             }
             else if(jsonData.success == 'yes')
             {
-                $('#popup').hide();
+                location.reload();
                 $.notify('Meeting Created Successfully',
                 {
                    className:'success',
@@ -184,7 +184,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
 $('#adminContent').on('click', '#addMeeting', function(event)
 {
     event.preventDefault();
-    rightContentAjaxGet('/meetings/create');
+    rightContentAjaxGet('/admin/meeting/create');
 });
 $('#adminContent').on('keyup', '#selectAttendees', function(event) {
     event.preventDefault();

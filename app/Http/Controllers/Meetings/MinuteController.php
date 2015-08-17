@@ -239,4 +239,11 @@ class MinuteController extends Controller {
 			return view('meetings.minuteHistory',['minute'=>$minute,'minutes'=>$minutes]);
 		}
 	}
+	public function startMinute($id)
+	{
+		if($meeting = Meetings::whereId($id)->first())
+		{
+			return view('meetings.firstMinute',['meeting'=>$meeting]);
+		}
+	}
 }

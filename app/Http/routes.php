@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('user/edit/{userId}', 'Admin\UserController@getAdd');
 			Route::post('user/edit/{userId}', 'Admin\UserController@editUser');
 			Route::get('meetings', 'Admin\MeetingsController@index');
+			Route::get('meeting/create','Admin\MeetingsController@meetingForm');
 			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
 			Route::post('meetings/approve', 'Admin\MeetingsController@approve');
 			Route::post('meetings/disapprove', 'Admin\MeetingsController@disapprove');
@@ -115,6 +116,7 @@ Route::group(['prefix' => 'admin'], function()
 		Route::group(['prefix' => 'minute'], function()
 		{
 			Route::get('{minuteId}', 'Meetings\MinuteController@index')->where('minuteId', '[0-9]+');
+			Route::get('first/{meetingId}', 'Meetings\MinuteController@startMinute')->where('meetingId', '[0-9]+');
 			//Route::get('{meetingId}/followup/{taskid}', 'Meetings\TaskController@viewFollowup')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 			Route::get('view/{minuteId}', 'Meetings\MinuteController@viewMinute')->where('minuteId', '[0-9]+');
 			Route::get('{minuteId}/acceptTask/{taskid}', 'Meetings\TaskController@acceptTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');

@@ -26,6 +26,19 @@ class MeetingsController extends Controller {
 		$meeting = Meetings::find($id);
 		return view('admin.meeting',['meeting'=>$meeting]);
 	}
+	public function meetingForm($mid=NULL)
+	{
+		if($mid)
+		{
+			$meeting = Meetings::find($mid);
+		}
+		else
+		{
+			$meeting = NULL;
+		}
+		//return view('meetings.form',['meeting'=>$meeting]);
+		return view('admin.meetingForm',['meeting'=>$meeting]);
+	}
 	// public function approve(Request $request)
 	// {
 	// 	$input = $request->all();
