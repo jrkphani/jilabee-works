@@ -1,4 +1,14 @@
 <div class="popupContentTitle">
+{{-- Previous Minutes Will Be Here --}}
+@if($previousMinute = App\Model\Minutes::where('meetingId','=',$minute->meetingId)->where('id','!=',$minute->id)->orderBy('minuteDate', 'DESC')->limit(1)->first())
+	@if($previousMinute)
+	<br/><br/>
+		<div class ="row">
+			<p><strong>Previous Minutes</strong></p>
+			@include('meetings.previousMinute',['minute'=>$previousMinute])
+		</div>
+	@endif
+@endif
 <p><strong>Current Minutes</strong></p>
 {!! Form::open(['id'=>'MinuteForm']) !!}
 @if($minute)

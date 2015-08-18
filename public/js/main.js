@@ -18,7 +18,17 @@ $(document).ready(function($)
         if (e.keyCode == 27) {
             if($('#popup').length)
             {
-                $('#popup').hide();
+                if($('#popup').is(":visible"))
+                {
+                    $('#popup').hide();
+                }
+            }
+            if($('#nameMenu').length)
+            {
+                if($('#popup').is(":visible"))
+                {
+                    $('#nameMenu').hide();   
+                }
             }
         }
     });
