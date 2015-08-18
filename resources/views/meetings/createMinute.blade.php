@@ -1,6 +1,6 @@
 <div class="popupContentTitle">
 {{-- Previous Minutes Will Be Here --}}
-@if($previousMinute = App\Model\Minutes::where('meetingId','=',$minute->meetingId)->where('id','!=',$minute->id)->orderBy('minuteDate', 'DESC')->limit(1)->first())
+@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->whereNull('lock_flag')->orderBy('minuteDate', 'DESC')->limit(1)->first())
 	@if($previousMinute)
 	<br/><br/>
 		<div class ="row">

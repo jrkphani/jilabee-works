@@ -251,3 +251,10 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
         });
         
     });
+ $('#centralContainer').on('click', '.removeTaskFrom ', function(event) {
+        event.preventDefault();
+        if($('.taskBlock').length > 1)
+        {
+            $(this).parents('.taskBlock').remove();
+        }
+    });
