@@ -24,19 +24,18 @@ class MeetingsController extends Controller {
 	{
 		$newmeetings = Meetings::select('meetings.*')
 						->join('organizations','meetings.oid','=','organizations.id')
-						->join('minutes','meetings.oid','=','organizations.id')
+						//->join('minutes','meetings.id','=','minutes.meetingId')
 						->where('organizations.customerId','=',getOrgId())
 						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
-						->whereNotExists(function($query)
-							{
-							$query->select(DB::raw(1))
+						 ->whereNotExists(function($query)
+						 	{
+						 	$query->select(DB::raw(1))
 		                    		->from('minutes')
-		                      		->whereRaw('meetings.id = minutes.meetingId');
-								})
+		                       		->whereRaw('meetings.id = minutes.meetingId');
+						 		})
 						->get();
-
-		
-		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('minuteDate','desc')->get();
+						//print_r($newmeetings); die;
+		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('startDate','desc')->get();
 		return view('meetings.index',['minutes'=>$minutes,'newmeetings'=>$newmeetings]);
 	}
 	public function meetingForm($mid=NULL)

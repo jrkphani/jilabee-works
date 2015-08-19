@@ -77,6 +77,7 @@ class UserController extends Controller {
 						$profile->dob = $input['dob'];
 						$profile->gender = $input['gender'];
 						$profile->phone = $input['phone'];
+						$profile->roles = implode(',',array_unique(array_filter($input['roles'])));
 						$profile->created_by = Auth::id();
 						$profile->updated_by = Auth::id();
 						if($user->profile()->save($profile))
@@ -147,6 +148,7 @@ class UserController extends Controller {
 				$profile->dob = $input['dob'];
 				$profile->gender = $input['gender'];
 				$profile->phone = $input['phone'];
+				$profile->roles = implode(',',array_unique(array_filter($input['roles'])));
 				$profile->updated_by = Auth::id();
 				if($profile->save())
 				{

@@ -17,10 +17,12 @@ class CreateMinutesTable extends Migration {
 			$table->increments('id');
 			$table->integer('meetingId')->unsigned();
 			$table->string('venue','64')->nullable();
-			$table->dateTime('minuteDate');
+			$table->dateTime('startDate');
+			$table->dateTime('endDate');
 			$table->string('attendees','64');
 			$table->string('absentees','64')->nullable();
 			$table->integer('lock_flag')->nullable()->unsigned()->default(0);
+			$table->enum('field',['0','1'])->default(0);
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();

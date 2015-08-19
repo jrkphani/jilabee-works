@@ -5,8 +5,8 @@
 			<p> MT23SH meeting venue: {{$minute->venue}}</p>
 		</div>
 		<div class="paperTitleRight">
-			<h3>{{date('d-M-Y',strtotime($minute->minuteDate))}}</h3>
-			<p>{{date('H:s:i',strtotime($minute->minuteDate))}}</p>
+			<h3>{{date('d-M-Y',strtotime($minute->startDate))}}</h3>
+			<p>{{date('H:s:i',strtotime($minute->endDate))}}</p>
 		</div>
 		<div class="clearboth"></div>
 		<div class="paperSubTitle">

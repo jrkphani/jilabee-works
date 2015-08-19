@@ -1,11 +1,5 @@
 $(document).ready(function($)
 {
-        
-    $('#listLeft').on('click', '.removeParent', function(event) {
-            $(this).parent( ".assignee" ).remove();
-            $('#selectAssignee').val('');
-            $('#selectAssignee').show();
-        });
     $('#centralContainer').on('click', '.task', function(event){
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -19,19 +13,6 @@ $(document).ready(function($)
         popupContentAjaxGet(path);
         });
    
-    $('#listLeft').on('click', '.historyTask', function(event){
-        tid = $(this).attr('tid');
-        if($(this).attr('mid'))
-        {
-            path = '/minute/'+$(this).attr('mid')+'/history/'+tid;
-        }
-        else
-        {
-            path = '/jobs/history/'+tid;
-        }
-        rightContentAjaxGet(path);
-        
-        });
     $('#centralContainer').on('click', '#accept', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
@@ -49,7 +30,7 @@ $(document).ready(function($)
             type: 'GET',
         })
         .done(function() {
-            location.reload();
+            //location.reload();
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

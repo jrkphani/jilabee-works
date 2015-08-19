@@ -9,7 +9,7 @@ else
 	$absentees = NULL;
 }
 ?>
-<div class="col-md-12"><strong>Minutes of the Meeting on: {{$minute->minuteDate}}</strong></div>
+<div class="col-md-12"><strong>Minutes of the Meeting on: {{$minute->startDate}} - {{$minute->endDate}}</strong></div>
 <div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}</div>
 <div class="col-md-12">	
 	@if($minute->venue)

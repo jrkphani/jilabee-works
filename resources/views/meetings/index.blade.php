@@ -53,7 +53,7 @@
 					<span class="boxNumber boxNumberRed">1</span>
 					<div class="boxInner minute_history" mid="{{$minute->id}}">
 						<h4>{{$minute->meeting->title}}</h4>
-						<p>{{$minute->minuteDate}}</p>
+						<p>{{$minute->startDate}}</p>
 					</div>
 					<div class="boxRight minute" mid="{{$minute->id}}"></div>
 				</div>

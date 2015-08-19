@@ -8,7 +8,14 @@
 		</div>
 		<div class="userDetailItem">
 			<p>User rights</p>
-			<span>followups, minutes, tasker</span>
+			<span>
+				<?php $roles = explode(',',$user->roles); ?>
+				@foreach(roles() as $key=>$value)
+				@if(in_array($key, $roles))
+					{{$value}},
+				@endif
+				@endforeach
+			</span>
 			<div class="clearboth"></div>
 		</div>
 		<div>

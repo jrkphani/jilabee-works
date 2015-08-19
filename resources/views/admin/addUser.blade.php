@@ -46,6 +46,22 @@
 		<div class="error" id="gender_err"></div>
 		<div class="clearboth"></div>
 	</div>
+	<div class="userDetailItem">
+		<p>Roles</p>
+		<span> 
+			<?php $roles = explode(',',$user->roles); ?>
+			@foreach(roles() as $key=>$value)
+			@if(in_array($key, $roles))
+				<?php $flag='true'; ?>
+				@else
+				<?php $flag=''; ?>
+			@endif
+			{!! Form::checkbox('roles[]',$key,$flag)!!} {{$value}}
+			@endforeach
+		</span>
+		<div class="error" id="gender_err"></div>
+		<div class="clearboth"></div>
+	</div>
 	@else
 	<div class="userDetailItem">
 		<p>Name </p>
@@ -85,6 +101,16 @@
 	<div class="userDetailItem">
 		<p>Gender</p>
 		<span> {!! Form::select('gender', ['M'=>'Male','F'=>'Female','O'=>'Others'])!!}
+		</span>
+		<div class="error" id="gender_err"></div>
+		<div class="clearboth"></div>
+	</div>
+	<div class="userDetailItem">
+		<p>Roles</p>
+		<span> 
+			@foreach(roles() as $key=>$value)
+			{!! Form::checkbox('roles[]',$key)!!} {{$value}}
+			@endforeach
 		</span>
 		<div class="error" id="gender_err"></div>
 		<div class="clearboth"></div>

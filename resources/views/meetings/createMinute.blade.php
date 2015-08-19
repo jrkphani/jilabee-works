@@ -1,6 +1,6 @@
 <div class="popupContentTitle">
 {{-- Previous Minutes Will Be Here --}}
-@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->whereNull('lock_flag')->orderBy('minuteDate', 'DESC')->limit(1)->first())
+@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->whereNull('lock_flag')->orderBy('startDate', 'DESC')->limit(1)->first())
 	@if($previousMinute)
 	<br/><br/>
 		<div class ="row">
@@ -19,8 +19,10 @@
 <p>
 {!! Form::text('venue',$minute->venue,['placeholder'=>'venue']) !!}
 {{$errors->first('venue','<div class="error">:message</div>')}}
-{!! Form::text('minuteDate',$minute->minuteDate,['class'=>'dateInput','placeholder'=>'date']) !!}
-{!!$errors->first('minuteDate','<div class="error">:message</div>')!!}
+{!! Form::text('startDate',$minute->startDate,['class'=>'dateInput','placeholder'=>'date']) !!}
+{!!$errors->first('startDate','<div class="error">:message</div>')!!}
+{!! Form::text('endDate',$minute->endDate,['class'=>'dateInput','placeholder'=>'date']) !!}
+{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 </p>
 <p>
 		<strong>Attendees</strong>
@@ -101,8 +103,10 @@
 	<p>
 		{!! Form::text('venue','',['placeholder'=>'venue']) !!}
 		{!!$errors->first('venue','<div class="error">:message</div>')!!}
-		{!! Form::text('minuteDate','',['class'=>'dateInput','placeholder'=>'date']) !!}
-		{!!$errors->first('minuteDate','<div class="error">:message</div>')!!}
+		{!! Form::text('startDate','',['class'=>'dateInput','placeholder'=>'date']) !!}
+		{!!$errors->first('startDate','<div class="error">:message</div>')!!}
+		{!! Form::text('endDate','',['class'=>'dateInput','placeholder'=>'date']) !!}
+		{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 	</p>
 	<p>
 		<strong>Attendees</strong>
@@ -132,5 +136,6 @@
 @endif
 
 <script type="text/javascript">
-dateInput();
+//dateInput();
+$('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "today",changeMonth: true,changeYear: true});
 </script>

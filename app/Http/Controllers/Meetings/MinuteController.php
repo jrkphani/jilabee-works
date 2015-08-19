@@ -83,7 +83,7 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($mid)->isMinuter())
 		{
-			$input = Request::only('venue','minuteDate','attendees');
+			$input = Request::only('venue','startDate','endDate','attendees');
 			//print_r($input); die;
 			$validator = Minutes::validation($input);
 			if ($validator->fails())
@@ -143,43 +143,7 @@ class MinuteController extends Controller {
 		}
 		
 	}
-	// public function update($mid)
-	// {
-	// 	if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
-	// 	{
-	// 		if(!$minute->meeting->isMinuter())
-	// 		{
-	// 			abort('403');
-	// 		}
-	// 		$input = Request::only('venue','minuteDate','attendees');
-	// 		$validator = Minutes::validation($input);
-	// 		if ($validator->fails())
-	// 		{
-	// 			$output['success'] = 'no';
-	// 			$output['validator'] = $validator->messages()->toArray();
-	// 		}
-	// 		else
-	// 		{
-	// 			$output['success'] = 'yes';
-	// 			$attendeesList =  array_filter(array_merge(explode(',', $minute->attendees),explode(',', $minute->minuters)));
-	// 			$input['attendees'][] = Auth::user()->id;
-	// 			$input['attendees'] = array_unique($input['attendees']);
-	// 			$absentees = array_diff($attendeesList, $input['attendees']);
-	// 			$input['attendees'] = implode(',', $input['attendees']);
-	// 			$input['absentees'] = implode(',', $absentees);
-	// 			$input['updated_by'] = $input['lock_flag'] = Auth::id();
-	// 			/*print_r($attendeesList);
-	// 			print_r($input); die;*/
-	// 			$minute->update($input);
-	// 		}
-	// 		return json_encode($output);
-	// 	}
-	// 	else
-	// 	{
-	// 		abort('403');
-	// 	}
-		
-	// }
+
 	public function draft($mid)
 	{
 		if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
@@ -235,7 +199,7 @@ class MinuteController extends Controller {
 	{
 		if($minute = Minutes::whereId($id)->first())
 		{
-			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->orderBy('minuteDate','desc')->get();
+			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->orderBy('startDate','desc')->get();
 			return view('meetings.minuteHistory',['minute'=>$minute,'minutes'=>$minutes]);
 		}
 	}

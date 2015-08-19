@@ -15,7 +15,7 @@ class Minutes extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['venue','attendees','absentees','minuteDate','lock_flag','created_by','updated_by'];
+	protected $fillable = ['venue','attendees','absentees','endDate','startDate','lock_flag','created_by','updated_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\Model\Profile', 'userId', 'created_by');
@@ -44,7 +44,8 @@ class Minutes extends Model{
     {
         $rule = array('venue'=>'max:64',
             'attendees'=>'required|max:64',
-            'minuteDate'=>'required');
+            'startDate'=>'required|before:today',
+            'endDate'=>'required|after:startDate',);
         $validator = Validator::make($data,$rule);
         return $validator;
     }

@@ -7,6 +7,7 @@ use App\Model\Ideas;
 use App\Model\MinuteTaskComments;
 use Auth;
 use Activity;
+use FiledMeetings;
 use DB;
 use Validator;
 class TaskController extends Controller {
@@ -132,6 +133,7 @@ class TaskController extends Controller {
 		$task->updated_by = Auth::id();
 		if($task->save())
 		{
+			$this->fileMeeting($mid);
 			Activity::log([
 				'userId'	=> Auth::id(),
 				'contentId'   => $task->id,
@@ -247,6 +249,28 @@ class TaskController extends Controller {
 		else
 		{
 			abort('403');
+		}
+	}
+	public function fileMeeting($meetingId)
+	{
+		$notAccepted = MinuteTasks::where('meetingId',$meetingId)->where(function($query)
+				{
+					$query->where('status','=','Sent')
+					->orWhere('status','=','Rejected')
+					->orWhere('status','!=','Draft');
+					//->orWhere('status','!=','Draft')
+					//->orWhere('status','=','','Sent','Rejected','Open','Completed','Closed','Cancelled'')
+					//->orWhere('status','=','Rejected');
+				}
+				)->count();
+		if(!$notAccepted)
+		{
+			//file minutes
+			$tasks = MinuteTasks::where('minuteId',$minuteId)->all();
+			foreach ($tasks as $key => $value) {
+				# code...
+			}
+			FiledMeetings::acda;
 		}
 	}
 }

@@ -12,9 +12,9 @@
 			<h4>Previous Meetings</h4>
 			@foreach($minutes as $row)
 				@if($row->id == $minute->id)
-					<button class="popupDateBtn minuteDiv active" mid="{{$row->id}}">{{$row->minuteDate}}</button>
+					<button class="popupDateBtn minuteDiv active" mid="{{$row->id}}">{{$row->startDate}}</button>
 				@else
-					<button class="popupDateBtn minuteDiv" mid="{{$row->id}}">{{$row->minuteDate}}</button>
+					<button class="popupDateBtn minuteDiv" mid="{{$row->id}}">{{$row->startDate}}</button>
 				@endif
 			@endforeach
 		</div>

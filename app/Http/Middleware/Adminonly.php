@@ -32,7 +32,14 @@ class Adminonly {
 		}
 		else
 		{
-			return redirect('admin/auth/login');
+			if ($request->ajax())
+			{
+				return response('Unauthorized.', 401);
+			}
+			else
+			{
+				return redirect('admin/auth/login');
+			}
 		}
 
 		
