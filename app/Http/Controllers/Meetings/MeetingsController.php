@@ -116,7 +116,7 @@ class MeetingsController extends Controller {
 					$meeting = Meetings::whereId($mid)->first();
 					if(Auth::user()->isAdmin)
 					{
-						$meeting->active = 1;
+						$input['approved'] = 1;
 					}
 					$meeting->update($input);
 				}
@@ -124,7 +124,7 @@ class MeetingsController extends Controller {
 				{
 					if(Auth::user()->isAdmin)
 					{
-						$input['active'] = 1;
+						$input['approved'] = 1;
 					}
 					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
 					$input['requested_by'] = Auth::id();

@@ -18,13 +18,31 @@ class MeetingsController extends Controller {
 	public function index()
 	{
 		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
-					->where('organizations.customerId','=',getOrgId())->get();
+					->where('organizations.customerId','=',getOrgId())
+					->where('meetings.approved','=','1')
+					->get();
 		return view('admin.meetings',['meetings'=>$meetings]);
+	}
+	public function notification()
+	{
+		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
+					->where('organizations.customerId','=',getOrgId())
+					->where('meetings.approved','=','0')
+					->get();
+		return view('admin.notification',['meetings'=>$meetings]);
 	}
 	public function view($id)
 	{
 		$meeting = Meetings::find($id);
-		return view('admin.meeting',['meeting'=>$meeting]);
+		if($meeting->approved == '0')
+		{
+			//for pop view in meeting approve page
+			return view('admin.meetingPop',['meeting'=>$meeting]);
+		}
+		else
+		{
+			return view('admin.meeting',['meeting'=>$meeting]);
+		}
 	}
 	public function meetingForm($mid=NULL)
 	{

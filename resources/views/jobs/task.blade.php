@@ -80,4 +80,5 @@
 		<div class="clearboth"></div>
 	</div>
 </div>
+</div>
 @endif

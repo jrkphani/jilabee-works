@@ -30,9 +30,7 @@ Route::group(['prefix' => 'admin'], function()
 	{
 		//Route::group(['middleware' => 'checkDatabase'], function()
 		//{
-			Route::get('/', function(){
-				return view('admin.dashboard');
-			});
+			Route::get('/', 'Admin\MeetingsController@notification');
 			Route::get('user/list', 'Admin\UserController@userList');
 			Route::get('user/add', 'Admin\UserController@getAdd');
 			Route::post('user/add', 'Admin\UserController@postAdd');
