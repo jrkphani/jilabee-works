@@ -15,6 +15,7 @@ class CreateFiledMinutesTable extends Migration {
 		Schema::create('filedMinutes', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('taskId')->unsigned();
 			$table->integer('minuteId')->unsigned();
 			$table->string('title','64');
 			$table->text('description');
@@ -22,16 +23,13 @@ class CreateFiledMinutesTable extends Migration {
 			$table->integer('assigner')->nullable();
 			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Cancelled'))->default('Sent');
 			$table->dateTime('dueDate')->nullable();
-			$table->integer('created_by')->unsigned();
-			$table->integer('updated_by')->unsigned();
         	$table->timestamps();
         	$table->softDeletes();
 		});
 		Schema::table('filedMinutes', function(Blueprint $table)
 		{
+			$table->foreign('taskId')->references('id')->on('minuteTasks')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('minuteId')->references('id')->on('minutes')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

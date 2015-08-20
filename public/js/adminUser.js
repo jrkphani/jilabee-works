@@ -63,8 +63,7 @@ $('#adminContent').on('click', '#addUserSubmit', function(event) {
         }
         else if(jsonData.success == 'yes')
         {
-           $('#popup').html('');
-           $('#popup').hide();
+           location.reload();
         }
         else
         {

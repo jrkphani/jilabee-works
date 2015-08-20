@@ -30,7 +30,7 @@ $(document).ready(function($)
             type: 'GET',
         })
         .done(function() {
-            //location.reload();
+            location.reload();
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

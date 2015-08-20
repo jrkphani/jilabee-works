@@ -24,7 +24,23 @@
 			</p>
 		</div>
 		<h4>Previous Minutes</h4>
-		@foreach($minute->tasks as $task)
+		@if($minute->field == '0')
+			<?php 
+				$tasks = $minute->file;
+				$lastFieldMinute = App\Model\Minutes::where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				$tasks = App\Model\MinuteTasks::where('minuteId',$minute->id)
+							->orWhereIn('id',function($query) use ($lastFieldMinute){
+								$query->select('taskId')
+		                    		->from('filedMinutes')
+		                       		->where('filedMinutes.status','!=','Closed')
+		                       		->where('filedMinutes.status','!=','Cancelled')
+		                       		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
+							})->get();
+			?>
+		@else
+			<?php $tasks = $minute->file; ?>
+		@endif
+		@foreach( $tasks as $task)
 			<div class="minuteItem">
 				<div class="minuteItemNumber">
 					<p>1</p>
@@ -43,6 +59,7 @@
 						@endif
 					</p>
 					<p>14 March	</p>
+					<p>{{$task->status}}</p>
 				</div>
 				<div class="clearboth"></div>
 			</div>

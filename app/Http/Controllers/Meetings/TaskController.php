@@ -7,7 +7,7 @@ use App\Model\Ideas;
 use App\Model\MinuteTaskComments;
 use Auth;
 use Activity;
-use FiledMeetings;
+use App\Model\FiledMinutes;
 use DB;
 use Validator;
 class TaskController extends Controller {
@@ -123,6 +123,14 @@ class TaskController extends Controller {
 	}
 	public function acceptTask($mid,$id)
 	{
+		// $lastFieldMinute = Minutes::whereNull('lock_flag')->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+		// $test = MinuteTasks::whereIn('id',function($query) use ($lastFieldMinute){
+		// 						$query->select('taskId')
+		//                     		->from('filedMinutes')
+		//                        		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
+		// 					})->get()->toArray();
+		// print_r($test);
+		// die; //test
 		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->where('minuteId',$mid)
 		->where(function($query)
 			{
@@ -133,7 +141,7 @@ class TaskController extends Controller {
 		$task->updated_by = Auth::id();
 		if($task->save())
 		{
-			$this->fileMeeting($mid);
+			$this->fileMinute($task->minute->meetingId);
 			Activity::log([
 				'userId'	=> Auth::id(),
 				'contentId'   => $task->id,
@@ -251,26 +259,58 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
-	public function fileMeeting($meetingId)
+	public function fileMinute($meetingId)
 	{
-		$notAccepted = MinuteTasks::where('meetingId',$meetingId)->where(function($query)
+		//file meeting along with non closed task form previous minutes too.
+			$notAccepted = Minutes::select('minuteTasks.id')->where('minutes.meetingId',$meetingId)
+							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
+							->where(function($query)
+							{
+								$query->where('minuteTasks.status','=','Sent')
+								->orWhere('minuteTasks.status','=','Rejected');
+							})
+							->count();
+			if(!$notAccepted)
+			{
+				$currentMinute = Minutes::where('field','0')->first();
+				$lastFieldMinute = Minutes::where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				if($lastFieldMinute)
 				{
-					$query->where('status','=','Sent')
-					->orWhere('status','=','Rejected')
-					->orWhere('status','!=','Draft');
-					//->orWhere('status','!=','Draft')
-					//->orWhere('status','=','','Sent','Rejected','Open','Completed','Closed','Cancelled'')
-					//->orWhere('status','=','Rejected');
+					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId"),'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
+							//->where('minutes.meetingId',$meetingId)
+							->where('minutes.id',$currentMinute->id)
+							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
+							->orWhereIn('minuteTasks.id',function($query) use ($lastFieldMinute){
+								$query->select('taskId')
+		                    		->from('filedMinutes')
+		                       		->where('filedMinutes.status','!=','Closed')
+		                       		->where('filedMinutes.status','!=','Cancelled')
+		                       		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
+							})
+							->get()->toArray();
 				}
-				)->count();
-		if(!$notAccepted)
-		{
-			//file minutes
-			$tasks = MinuteTasks::where('minuteId',$minuteId)->all();
-			foreach ($tasks as $key => $value) {
-				# code...
+				else
+				{
+					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId"),'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
+							//->where('minutes.meetingId',$meetingId)
+							->where('minutes.id',$currentMinute->id)
+							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
+							->get()->toArray();	
+				}
+				
+				//print_r($tasks);
+				//foreach ($tasks as $task)
+				//{
+				//	echo $task['title'];
+				//	echo "<br>";
+				//}
+				//die;
+							//yet to add closed task form previous minutes in fieldminutes
+				if(FiledMinutes::insert($tasks))
+				{
+					$currentMinute->field='1';
+					$currentMinute->save();
+				}
 			}
-			FiledMeetings::acda;
-		}
 	}
 }

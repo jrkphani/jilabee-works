@@ -22,6 +22,7 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
+		$recentMinutes = $notfield = array();
 		$newmeetings = Meetings::select('meetings.*')
 						->join('organizations','meetings.oid','=','organizations.id')
 						//->join('minutes','meetings.id','=','minutes.meetingId')
@@ -36,7 +37,18 @@ class MeetingsController extends Controller {
 						->get();
 						//print_r($newmeetings); die;
 		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('startDate','desc')->get();
-		return view('meetings.index',['minutes'=>$minutes,'newmeetings'=>$newmeetings]);
+		foreach ($minutes as $row)
+		{
+			if($row->field == '0')
+			{
+				$notfield[] = $row;
+			}
+			else
+			{
+				$recentMinutes[] = $row;
+			}
+		}
+		return view('meetings.index',['notfield'=>$notfield,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings]);
 	}
 	public function meetingForm($mid=NULL)
 	{

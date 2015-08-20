@@ -17,38 +17,11 @@
 		</div>
 		<div class="boxList">
 			<div class="boxTitle">
-				<span class="boxTitleNumber boxNumberBlue">2</span>
-				<p>Draft</p>
-				<div class="clearboth"></div>
-			</div>
-			<div class="box">
-				<span class="boxNumber boxNumberBlue">1</span>
-				<div class="boxInner">
-					<h4>Project review</h4>
-					<p>27/3/2015 4.30pm</p>
-				</div>
-				<div class="boxRight">
-					
-				</div>
-			</div>
-			<div class="box">
-				<span class="boxNumber boxNumberBlue">2</span>
-				<div class="boxInner">
-					<h4>Marketing Planning</h4>
-					<p>27/3/2015 4.30pm</p>
-				</div>
-				<div class="boxRight">
-					
-				</div>
-			</div>
-		</div>
-		<div class="boxList">
-			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberRed">2</span>
-				<p>Recent Minutes</p>
+				<p>Not Field</p>
 				<div class="clearboth"></div>
 			</div>
-			@foreach($minutes as $minute)
+			@foreach($notfield as $minute)
 				<div class="box">
 					<span class="boxNumber boxNumberRed">1</span>
 					<div class="boxInner minute_history" mid="{{$minute->id}}">
@@ -61,13 +34,30 @@
 		</div>
 		<div class="boxList">
 			<div class="boxTitle">
-				<span class="boxTitleNumber boxNumberRed">2</span>
+				<span class="boxTitleNumber boxNumberBlue">2</span>
+				<p>Recent Minutes</p>
+				<div class="clearboth"></div>
+			</div>
+			@foreach($recentMinutes as $minute)
+				<div class="box">
+					<span class="boxNumber boxNumberBlue">1</span>
+					<div class="boxInner minute_history" mid="{{$minute->id}}">
+						<h4>{{$minute->meeting->title}}</h4>
+						<p>{{$minute->startDate}}</p>
+					</div>
+					<div class="boxRight minute" mid="{{$minute->id}}"></div>
+				</div>
+			@endforeach
+		</div>
+		<div class="boxList">
+			<div class="boxTitle">
+				<span class="boxTitleNumber boxNumberBlue">2</span>
 				<p>New Meetings</p>
 				<div class="clearboth"></div>
 			</div>
 			@foreach($newmeetings as $meeting)
 				<div class="box">
-					<span class="boxNumber boxNumberRed">1</span>
+					<span class="boxNumber boxNumberBlue">1</span>
 					<div class="boxInner" mid="{{$meeting->id}}">
 						<h4>{{$meeting->title}}</h4>
 					</div>

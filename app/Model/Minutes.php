@@ -36,6 +36,10 @@ class Minutes extends Model{
     {
         return $this->hasMany('App\Model\MinuteTasks','minuteId','id');
     }
+    public function file()
+    {
+        return $this->hasMany('App\Model\FiledMinutes','minuteId','id');
+    }
     public function ideas()
     {
         return $this->hasMany('App\Model\Ideas','minuteId','id');

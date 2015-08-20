@@ -56,6 +56,8 @@ class MinuteController extends Controller {
 				$minute = $minute->first();
 				$participants = array_merge(explode(',',$minute->attendees),explode(',',$minute->absentees));
 				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
+
+				//echo "here"; die;
 			}
 			else
 			{

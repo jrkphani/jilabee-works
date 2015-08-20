@@ -17,7 +17,7 @@ else
 	@endif
 </div>
 <div class="col-md-12">	
-	@foreach($minute->tasks()->get() as $task)
+	@foreach($minute->file()->get() as $task)
 		<div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}T{{$task->id}}</div>
 		<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
 		<div class="col-md-12">Status: {{$task->status}}</div>

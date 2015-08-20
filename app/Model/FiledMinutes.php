@@ -13,4 +13,14 @@ class FiledMinutes extends Model{
 	 *
 	 * @var array
 	 */
+	protected $fillable = ['taskId','minuteID','title','description','assignee','assigner','dueDate'];
+
+	public function assigneeDetail()
+    {   
+        return $this->hasOne('App\Model\Profile', 'userId', 'assignee');
+    }
+    public function assignerDetail()
+    {   
+        return $this->hasOne('App\Model\Profile', 'userId','assigner');
+    }
 }
