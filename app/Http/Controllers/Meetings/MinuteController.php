@@ -46,7 +46,7 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($meetingId)->isMinuter())
 		{
-			$minute = $meeting->minutes()->whereNotNull('lock_flag');
+			$minute = $meeting->minutes()->whereNotNull('lock_flag')->orWhere('field','=','0');
 			if($minute->count())
 			{
 				if($minute->first()->lock_flag != Auth::id())
