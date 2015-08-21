@@ -1,12 +1,14 @@
 <div class="popupContentTitle">
+@if($minute)
 {{-- Previous Minutes Will Be Here --}}
-@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
-	@if($previousMinute)
-	<br/><br/>
-		<div class ="row">
-			<p><strong>Previous Minutes</strong></p>
-			@include('meetings.previousMinute',['minute'=>$previousMinute])
-		</div>
+	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
+		@if($previousMinute)
+		<br/><br/>
+			<div class ="row">
+				<p><strong>Previous Minutes</strong></p>
+				@include('meetings.previousMinute',['minute'=>$previousMinute])
+			</div>
+		@endif
 	@endif
 @endif
 <p><strong>Current Minutes</strong></p>
@@ -96,16 +98,16 @@
 			@endforeach
 		</div>
 	</p>
-
+<button id="updateMinute">Update</button>
 @else
 
 	<h4>{{$meeting->title}}</h4>
 	<p>
-		{!! Form::text('venue','',['placeholder'=>'venue']) !!}
+		{!! Form::text('venue',$meeting->venue,['placeholder'=>'venue']) !!}
 		{!!$errors->first('venue','<div class="error">:message</div>')!!}
-		{!! Form::text('startDate','',['class'=>'dateInput','placeholder'=>'date']) !!}
+		{!! Form::text('startDate',date('Y-m-d'),['class'=>'dateInput','placeholder'=>'date']) !!}
 		{!!$errors->first('startDate','<div class="error">:message</div>')!!}
-		{!! Form::text('endDate','',['class'=>'dateInput','placeholder'=>'date']) !!}
+		{!! Form::text('endDate',date('Y-m-d'),['class'=>'dateInput','placeholder'=>'date']) !!}
 		{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 	</p>
 	<p>
@@ -126,10 +128,9 @@
 		<div class="col-md-12" id="absentees"></div>
 	</p>
 
-
+<button id="updateMinute">Proceed</button>
 @endif
 {!! Form::close() !!}
-<button id="updateMinute">Update</button>
 </div>
 @if($minute)
 @include('meetings.createTask')
@@ -138,4 +139,9 @@
 <script type="text/javascript">
 //dateInput();
 $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "today",changeMonth: true,changeYear: true});
+function dateInputNext()
+{
+	$('.dateInputNext').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
+}
+dateInputNext();
 </script>

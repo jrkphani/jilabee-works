@@ -28,7 +28,7 @@ class MeetingsController extends Controller {
 						//->join('minutes','meetings.id','=','minutes.meetingId')
 						->where('organizations.customerId','=',getOrgId())
 						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
-						 ->whereNotExists(function($query)
+						->whereNotExists(function($query)
 						 	{
 						 	$query->select(DB::raw(1))
 		                    		->from('minutes')
@@ -36,7 +36,16 @@ class MeetingsController extends Controller {
 						 		})
 						->get();
 						//print_r($newmeetings); die;
-		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",attendees)')->orderBy('startDate','desc')->get();
+		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.approved','=','1')
+					->orderBy('minutes.startDate','desc')->get();
+
+					//non approve meeting minutes
+		$pendingminutes = Minutes::select('minutes.*')->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.requested_by','=',Auth::id())
+					->where('meetings.approved','=','0')->get();
+					//print_r($pendingminutes); die;
 		foreach ($minutes as $row)
 		{
 			if($row->field == '0')
@@ -48,7 +57,7 @@ class MeetingsController extends Controller {
 				$recentMinutes[] = $row;
 			}
 		}
-		return view('meetings.index',['notfield'=>$notfield,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings]);
+		return view('meetings.index',['notfield'=>$notfield,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingminutes'=>$pendingminutes]);
 	}
 	public function meetingForm($mid=NULL)
 	{

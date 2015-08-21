@@ -17,6 +17,8 @@ else
 	@endif
 </div>
 <div class="col-md-12">	
+	{{-- not show closed/canceled task in last meeting --}}
+	{{-- @foreach($minute->file()->where('status','!=','Canceled')->where('status','!=','Closed')->get() as $task) --}}
 	@foreach($minute->file()->get() as $task)
 		<div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}T{{$task->id}}</div>
 		<div class="col-md-12">Due Date: {{$task->dueDate}}</div>

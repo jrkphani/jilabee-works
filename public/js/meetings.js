@@ -181,11 +181,25 @@ $('#centralContainer').on('click', '#updateMinute', function(event) {
 $('#centralContainer').on('click', '#add_more', function(event) {
     event.preventDefault();
     taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
-        taskBlock.find(".form-control").val("");
+        taskBlock.find(".clearVal").val("");
         taskBlock.find(".type").val("task");
         taskBlock.find(".ideainput").hide();
         taskBlock.find(".taskinput").show();
-        dateInput();
+        dateInputNext();
+});
+$('#centralContainer').on('change', '.type', function(event) {
+    event.preventDefault();
+        taskBlock = $(this).parents('.taskBlock');
+        if($(this).val() == 'task')
+        {
+            taskBlock.find('.ideainput').hide();
+            taskBlock.find('.taskinput').show();
+        }
+        else if($(this).val() == 'idea')
+        {
+            taskBlock.find('.ideainput').show();
+            taskBlock.find('.taskinput').hide();
+        }
 });
 $('#centralContainer').on('click', '#save_changes', function(event) {
         event.preventDefault();

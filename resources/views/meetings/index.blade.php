@@ -15,6 +15,25 @@
 			  <option value="Option">Option 3</option>
 			</select>
 		</div>
+
+		<div class="boxList">
+			<div class="boxTitle">
+				<span class="boxTitleNumber boxNumberBlue">2</span>
+				<p>Pending Meetings</p>
+				<div class="clearboth"></div>
+			</div>
+			@foreach($pendingminutes as $minute)
+				<div class="box">
+					<span class="boxNumber boxNumberBlue">1</span>
+					<div class="boxInner" mid="{{$minute->id}}">
+						<h4>{{$minute->meeting->title}}</h4>
+						<p>{{$minute->startDate}}</p>
+					</div>
+					<div class="boxRight minute" mid="{{$minute->id}}"></div>
+				</div>
+			@endforeach
+		</div>
+
 		<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberRed">2</span>
@@ -65,7 +84,6 @@
 				</div>
 			@endforeach
 		</div>
-		
 	</div>
 	<div class="contentMeetingsRight" id="contentMeetingsRight">
 		<div class="paper">

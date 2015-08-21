@@ -46,12 +46,17 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($meetingId)->isMinuter())
 		{
-			$minute = $meeting->minutes()->whereNotNull('lock_flag');
-			if($minute->count())
+			$minute = $meeting->minutes()->whereField('0')->first();
+			if($minute)
 			{
-				if($minute->first()->lock_flag != Auth::id())
+				if($minute->created_by != Auth::id())
 				{
 					abort('403');
+				}
+				if($minute->tasks->count())
+				{
+					//minute allready send yet not filed
+					echo "previous minute not filed <br>yet to finsh edit minute task"; die;
 				}
 				$minute = $minute->first();
 				$participants = array_merge(explode(',',$minute->attendees),explode(',',$minute->absentees));
@@ -75,9 +80,6 @@ class MinuteController extends Controller {
 				}
 				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
 			}
-			
-			//print_r($users); die;
-			//return view('meetings.createTask',['meeting'=>$meeting,'usersList'=>$users]);
 			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'minute'=>$minute]);
 		}
 	}
@@ -113,18 +115,18 @@ class MinuteController extends Controller {
 			if($minuteId = Request::get('minuteId'))
 			{
 				//update
-				$minute = Minutes::where('id','=',$minuteId)->where('lock_flag',Auth::id())->first();
+				$minute = Minutes::where('id','=',$minuteId)->whereField('0')->where('created_by',Auth::id())->first();
 				if(!$minute)
 				{
 					abort('403');
 				}
-				$input['updated_by'] = $input['lock_flag'] = Auth::id();
+				$input['updated_by'] = Auth::id();
 				$minute->update($input);
 			}
 			else
 			{
 				//create new
-				$minute = $meeting->minutes()->whereNotNull('lock_flag');
+				$minute = $meeting->minutes()->whereField('0');
 				if($minute->count())
 				{
 					abort('403');
@@ -133,7 +135,7 @@ class MinuteController extends Controller {
 				{
 					$minute = NULL;
 				}
-				$input['created_by'] = $input['updated_by'] = $input['lock_flag'] = Auth::id();
+				$input['created_by'] = $input['updated_by'] = Auth::id();
 				$minute = New Minutes($input);
 				$meeting->minutes()->save($minute);
 			}
@@ -148,7 +150,7 @@ class MinuteController extends Controller {
 
 	public function draft($mid)
 	{
-		if($minute = Minutes::where('id','=',$mid)->where('lock_flag','=',Auth::id())->first())
+		if($minute = Minutes::where('id','=',$mid)->whereField('0')->where('created_by','=',Auth::id())->first())
 		{
 			if(!$minute->meeting->isMinuter())
 			{

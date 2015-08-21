@@ -21,7 +21,7 @@ class CreateMinutesTable extends Migration {
 			$table->dateTime('endDate');
 			$table->string('attendees','64');
 			$table->string('absentees','64')->nullable();
-			$table->integer('lock_flag')->nullable()->unsigned()->default(0);
+			//$table->integer('lock_flag')->nullable()->unsigned()->default(0);
 			$table->enum('field',['0','1'])->default(0);
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
@@ -33,7 +33,7 @@ class CreateMinutesTable extends Migration {
 			$table->foreign('meetingId')->references('id')->on('meetings')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('created_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 			$table->foreign('updated_by')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
-			$table->foreign('lock_flag')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
+			//$table->foreign('lock_flag')->references('userId')->on('profiles')->onDelete('restrict')->onUpdate('cascade');
 		});
 	}
 

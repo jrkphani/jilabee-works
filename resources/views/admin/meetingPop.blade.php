@@ -9,6 +9,7 @@
 			<h4>{{$meeting->title}}</h4>
 			<p>Created on: {{$meeting->created_at}}</p>
 			<p> Creation request by: {{$meeting->requestedby->name}}</p>
+			<button class="completeBtn" id="approveMeeting" id="{{$meeting->id}}">Approve</button>
 		</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">

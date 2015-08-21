@@ -46,7 +46,7 @@ class TaskController extends Controller {
 					$tempArr['assignee'] = $input['assignee'][$i];
 					$tempArr['assigner'] = $input['assigner'][$i];
 					$tempArr['dueDate'] = $input['dueDate'][$i];
-					$tempArr['created_by'] = $tempArr['updated_by'] = Auth::id();
+					$tempArr['updated_by'] = Auth::id();
 					$validator = MinuteTasks::validation($tempArr);
 					if ($validator->fails())
 					{
@@ -55,7 +55,15 @@ class TaskController extends Controller {
 						return json_encode($output);
 					}
 					//if(($tempArr['title']) && ($tempArr['description']))
-					$records[] = new MinuteTasks(array_filter($tempArr));	
+					if(isset($input['tid'][$i]))
+					{
+						MinuteTasks::whereId($input['tid'][$i])->update($tempArr);
+					}
+					else
+					{
+						$tempArr['created_by'] = Auth::id();
+						$records[] = new MinuteTasks(array_filter($tempArr));
+					}	
 				}
 				elseif($input['type'][$i] == 'idea')
 				{
@@ -75,7 +83,7 @@ class TaskController extends Controller {
 		}
 		if($records || $ideasArr)
 		{	
-			$minute = Minutes::whereId($mid)->where('lock_flag','=',Auth::id())->first();
+			$minute = Minutes::whereId($mid)->whereField('0')->where('created_by','=',Auth::id())->first();
 			if($ideasArr)
 			{
 				DB::transaction(function() use ($minute,$ideasArr)
@@ -90,7 +98,6 @@ class TaskController extends Controller {
 					$minute->tasks()->saveMany($records);
 				});
 			}
-			$minute->update(array('lock_flag'=>null));
 			$minute->draft()->delete();
 			$output['meetingId'] = $minute->meetingId;
 			return json_encode($output);

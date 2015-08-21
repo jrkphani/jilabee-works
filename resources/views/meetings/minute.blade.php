@@ -23,12 +23,16 @@
 				@endforeach
 			</p>
 		</div>
-		<h4>Previous Minutes</h4>
-		@if($minute->field == '0')
+		<h4>Minutes</h4>
+		@if($minute->meeting->approved == '0')
+			<?php $tasks = $minute->tasks; ?>
+		@elseif($minute->field == '0')
 			<?php 
-				$tasks = $minute->file;
 				$lastFieldMinute = App\Model\Minutes::where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
-				$tasks = App\Model\MinuteTasks::where('minuteId',$minute->id)
+				if($lastFieldMinute)
+				{
+					//echo "here".$lastFieldMinute->id; die;
+					$tasks = App\Model\MinuteTasks::where('minuteId',$minute->id)
 							->orWhereIn('id',function($query) use ($lastFieldMinute){
 								$query->select('taskId')
 		                    		->from('filedMinutes')
@@ -36,6 +40,11 @@
 		                       		->where('filedMinutes.status','!=','Cancelled')
 		                       		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
 							})->get();
+				}
+				else
+				{
+					$tasks = $minute->tasks;
+				}
 			?>
 		@else
 			<?php $tasks = $minute->file; ?>
