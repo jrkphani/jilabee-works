@@ -16,7 +16,9 @@ class CreateTaskView extends Migration {
 		DB::statement( "CREATE OR REPLACE VIEW tasks AS 
 		(SELECT concat('task','','') as type,id,title,assigner,assignee,status,dueDate,concat(NULL,'',NULL) as minuteId from jobTasks)
 		UNION
-		(SELECT concat('minute','','') as type,id,title,assigner,assignee,status,dueDate,minuteId from minuteTasks)");
+		(SELECT concat('minute','','') as type,minuteTasks.id,minuteTasks.title,minuteTasks.assigner,minuteTasks.assignee,
+			minuteTasks.status,minuteTasks.dueDate,minuteTasks.minuteId from minuteTasks 
+			JOIN minutes on minuteTasks.minuteId = minutes.id JOIN meetings on minutes.meetingId = meetings.id where meetings.approved = '1')");
 	}
 
 	/**

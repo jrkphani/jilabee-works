@@ -61,7 +61,7 @@ $(document).ready(function() {
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
-            path = '/minute/'+mid+'/rejectCompletion/'+tid;
+            path = '/minute/'+$(this).attr('mid')+'/rejectCompletion/'+tid;
         }
         else
         {
