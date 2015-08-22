@@ -98,4 +98,21 @@ function roles()
     {
         return App\Model\Roles::all()->lists('name','id');
     }
+function sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
+    {
+        $mailArr['fromEmail'] = 'no-reply@anabon.com';
+        $mailArr['fromName'] = 'Jotter';
+        $mailArr['toEmail'] = $toEmail;
+        $mailArr['toName'] = $toName;
+        $mailArr['subject'] = $subject;
+        $view = 'emails.password';
+        Mail::send(
+          $view,$arrayToView,
+          function( $message ) use ($mailArr){
+            $message->from($mailArr['fromEmail'],$mailArr['fromName']);
+            $message->to($mailArr['toEmail'],$mailArr['toName']);
+            $message->subject($mailArr['subject']);
+          }
+        );
+    }
 ?>

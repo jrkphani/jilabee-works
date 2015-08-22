@@ -106,7 +106,7 @@ $('#centralContainer').on('click', '.minute', function(event) {
         //return false;
         event.preventDefault();
         var mid = $(this).attr('mid');
-        loadMinute(mid,'contentMeetingsRight')          
+        loadMinute(mid,'nowMeetingsRight')          
     });
 $('#centralContainer').on('click', '.minute_history', function(event) {
     event.preventDefault();

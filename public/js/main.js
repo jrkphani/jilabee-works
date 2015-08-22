@@ -45,7 +45,7 @@ $(document).ready(function($)
 function moveright()
 {
     //$("#centralViewer").scrollLeft($('#contentRight').width());
-    $("#centralViewer").animate({scrollLeft:'+='+$('#contentLeft').width()}, 1000);
+    $("#centralViewer").animate({scrollLeft:'+='+$('#contentRight').width()}, 1000);
 }
 function moveleft()
 {

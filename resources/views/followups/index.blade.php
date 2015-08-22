@@ -4,7 +4,7 @@
 @stop
 @section('content')
 {{-- content left--}}
-	<div class="contentLeft">
+	<div id="contentLeft" class="contentLeft">
 				<div class="mainListFilter">
 					<input type="text" placeholder="Search...">
 					<select>
@@ -157,7 +157,7 @@
 				</div>
 			</div>
 {{-- content right--}}
-	<div class="contentRight">
+	<div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
 			<input type="text" placeholder="Search...">
 			<select>

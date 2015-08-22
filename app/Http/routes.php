@@ -12,7 +12,8 @@
 */
 
 Route::get('/testemail', function(){
-	Mail::send(
+	//https://www.digitalocean.com/community/tutorials/how-to-install-and-setup-postfix-on-ubuntu-12-04
+	/*Mail::send(
   'emails.password',
   array( 'token' => 'testing' ),
   function( $message ) {
@@ -22,7 +23,9 @@ Route::get('/testemail', function(){
       'name'
     )->subject( 'Welcome to Code Chewing!' );
   }
-);
+);*/
+//sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
+sendEmail('manimani1014@gmail.com','Mani','Ha Ha Ha','emails.password',['token'=>'ssvsdvsdvsvs']);
 });
 Route::group(['prefix' => 'admin'], function()
 {
