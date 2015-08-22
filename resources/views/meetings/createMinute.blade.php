@@ -1,16 +1,4 @@
 <div class="popupContentTitle">
-@if($minute)
-{{-- Previous Minutes Will Be Here --}}
-	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
-		@if($previousMinute)
-		<br/><br/>
-			<div class ="row">
-				<p><strong>Previous Minutes</strong></p>
-				@include('meetings.previousMinute',['minute'=>$previousMinute])
-			</div>
-		@endif
-	@endif
-@endif
 <p><strong>Current Minutes</strong></p>
 {!! Form::open(['id'=>'MinuteForm']) !!}
 @if($minute)
@@ -51,13 +39,14 @@
 				<div class="attendees" uid="u{{$key}}">
 					{!! Form::hidden('attendees[]',$key) !!}
 					{{$value}}
-					<span class="markabsent"> Remove</span>
+					<div class="markabsent"></div>
 				</div>
 			@endforeach
 			@foreach ($emails as $key=>$value)
 				<div class="attendees" uid="u'.$value.'">
 					{!! Form::hidden('attendees[]',$value) !!}
 					{{$value}}
+					<div class="markabsent"></div>
 				</div>
 			@endforeach
 		</div>
@@ -88,12 +77,14 @@
 				<div class="absentees" uid="u{{$key}}">
 					{!! Form::hidden('absentees[]',$key) !!}
 					{{$value}}
+					<div class="removeabsent"></div>
 				</div>
 			@endforeach
 			@foreach ($emails as $key=>$value)
 				<div class="absentees" uid="u'.$value.'">
 					{!! Form::hidden('absentees[]',$value) !!}
 					{{$value}}
+					<div class="removeabsent"></div>
 				</div>
 			@endforeach
 		</div>

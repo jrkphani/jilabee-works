@@ -47,6 +47,7 @@ class MinuteController extends Controller {
 		if($meeting = Meetings::find($meetingId)->isMinuter())
 		{
 			$minute = $meeting->minutes()->whereField('0')->first();
+			//print_r($minute->meetingId); die;
 			if($minute)
 			{
 				if($minute->created_by != Auth::id())
@@ -55,12 +56,12 @@ class MinuteController extends Controller {
 					echo "Another user is taking minutes.";
 					return;
 				}
-				$minute = $minute->first();
-				if($minute->tasks->count())
-				{
-					//minute allready send yet not filed
-					echo "previous minute not filed <br>yet to finsh edit minute task"; die;
-				}
+				//$minute = $minute->first();
+				// if($minute->tasks->count())
+				// {
+				// 	//minute allready send yet not filed
+				// 	echo "previous minute not filed <br>yet to finsh edit minute task"; die;
+				// }
 				$participants = array_merge(explode(',',$minute->attendees),explode(',',$minute->absentees));
 				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
 
@@ -158,10 +159,15 @@ class MinuteController extends Controller {
 			{
 				abort('403');
 			}
-			$input = Request::only('title','description','assignee','assigner','orginator','dueDate','type');
+			$input = Request::only('tid','title','description','assignee','assigner','orginator','dueDate','type');
 			$records=array();
 			for ($i=0; $i < count($input['title']); $i++)
 			{
+				if($input['tid'][$i])
+				{
+					//skip the task of privious minutes
+					continue;
+				}
 				$tempArr=array();
 				$tempArr['title'] = trim($input['title'][$i]);
 				$tempArr['description'] = trim($input['description'][$i]);

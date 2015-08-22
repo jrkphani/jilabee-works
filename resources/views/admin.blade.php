@@ -9,12 +9,7 @@
 	<meta name="keywords" content="Jotter">
 	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
-	<style type="text/css">
-	.ui-front
-	{
-		z-index: 9002 !important;
- 	}
-	</style>
+	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
 	@yield('css')
 </head>
 <body>

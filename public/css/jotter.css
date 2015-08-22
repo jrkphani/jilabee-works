@@ -1,13 +1,23 @@
-#logo{
-  font-family: 'Grand Hotel', cursive,Helvetica, Arial, sans-serif;
-  font-size: 40px;
-  color: #777777;
-}
 .error
 {
 	color: red;
 }
+/*for autocomplete plugin*/
 .ui-autocomplete
 {
 	 z-index: 1041 !important;
+}
+/*for date plugin*/
+.ui-front
+{
+	z-index: 9002 !important;
+}
+.removeabsent,.markabsent
+{
+	background:#4d7dc5 url(../images/close_45.png)no-repeat left top; 
+	border: none;
+	cursor: pointer;
+	width: 45px; 
+	height: 45px;
+	float: right;
 }

@@ -1,10 +1,23 @@
 {!! Form::open(array('class'=>'form-horizontal','id'=>'tasksAddForm', 'method'=>'POST','role'=>'form')) !!}
 <div id="taskAddBlock">
 	@if($minute)
+
+{{-- Previous Minutes Will Be Here --}}
+	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
+		@if($previousMinute)
+			<div class ="row">
+				<p><strong>Previous Minutes</strong></p>
+				@include('meetings.previousMinute',['minute'=>$previousMinute])
+			</div>
+		@endif
+	@endif
+
+
+New Minutes
 		<?php
 		if($minute->tasks->count())
 		{
-			echo "yet to finsh edit minute task"; die;
+			//echo "yet to finsh edit minute task"; die;
 			foreach($minute->tasks()->get() as $task)
 			{ ?>
 			<div class="taskBlock">
@@ -91,8 +104,8 @@
 			Send minutes
 		@endif
 	</button>
-	@if(!$minute->tasks->count())
+	{{--@if(!$minute->tasks->count()) --}}
 	<button id="save_changes"  mid="{{$minute->id}}" type="submit" class="btn btn-primary">Save Draft</button>
-	@endif
+	{{--@endif --}}
 	<button id="add_more" mid="{{$minute->id}}" type="submit" class="btn btn-primary pull-right">Add more</button>
 </p>

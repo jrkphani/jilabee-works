@@ -193,13 +193,13 @@
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" >{{$task->title}}</h4>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-								{!! Form::open(['id'=>$formId]) !!}
+								{{-- {!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
 								@if(isset($reason_err))
 									<div class="error">{{$reason_err}}</div>
 								@endif
 								{!! Form::close() !!}
-								<button {{$mid}} tid="{{$task->id}}">update</button>
+								<button {{$mid}} tid="{{$task->id}}">update</button> --}}
 							</div>
 							<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
 						</div>

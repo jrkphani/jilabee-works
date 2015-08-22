@@ -27,11 +27,11 @@ class TaskController extends Controller {
 
 	public function createTask($mid)
 	{
-		$input = Request::only('title','description','assignee','assigner','orginator','dueDate','type');
+		$input = Request::only('tid','title','description','assignee','assigner','orginator','dueDate','type');
 		$output['success'] = 'yes';
 		$records= $ideasArr = array();
 		for ($i=0; $i < count($input['title']); $i++)
-		{ 
+		{
 			$tempArr= array();
 			$tempArr['title'] = trim($input['title'][$i]);
 			$tempArr['description'] = trim($input['description'][$i]);
@@ -55,7 +55,7 @@ class TaskController extends Controller {
 						return json_encode($output);
 					}
 					//if(($tempArr['title']) && ($tempArr['description']))
-					if(isset($input['tid'][$i]))
+					if($input['tid'][$i])
 					{
 						MinuteTasks::whereId($input['tid'][$i])->update($tempArr);
 					}

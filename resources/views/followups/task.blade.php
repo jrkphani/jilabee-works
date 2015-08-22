@@ -31,15 +31,15 @@
 			
 			<!-- ================= Updates ====================  -->
 			<!-- ================= Update item each ====================  -->
-			<div class="updateItem">
+			{{-- <div class="updateItem">
 				<h6> update: 16/08/2015</h6>
 				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
 			</div>
-			<!-- ================= Update item each ====================  -->
+			<!--================= Update item each ==================== --!>
 			<div class="updateItem">
 				<h6> update: 16/08/2015</h6>
 				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div>
+			</div> --}}
 			<div class="popupButtons">
 				@if(!$task->minuteId)
 					<button id="editTask" tid="{{$task->id}}">Edit Task</button>
