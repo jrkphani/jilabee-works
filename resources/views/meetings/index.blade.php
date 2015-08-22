@@ -25,7 +25,7 @@
 			@foreach($pendingminutes as $minute)
 				<div class="box">
 					<span class="boxNumber boxNumberBlue">1</span>
-					<div class="boxInner" mid="{{$minute->id}}">
+					<div class="boxInner  minute_history" mid="{{$minute->id}}">
 						<h4>{{$minute->meeting->title}}</h4>
 						<p>{{$minute->startDate}}</p>
 					</div>

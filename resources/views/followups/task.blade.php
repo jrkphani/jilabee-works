@@ -43,9 +43,9 @@
 			<div class="popupButtons">
 				@if(!$task->minuteId)
 					<button id="editTask" tid="{{$task->id}}">Edit Task</button>
+					<button {{$mid}} tid="{{$task->id}}" id="cancelTask">Cancel Task</button>
+					<button {{$mid}} tid="{{$task->id}}" id="deleteTask">Delete Task</button>
 				@endif
-				<button {{$mid}} tid="{{$task->id}}">Cancel Task</button>
-				<button {{$mid}} tid="{{$task->id}}">Remove Task</button>
 			</div>
 		</div>
 		<!-- =================== Popup right ====================  -->
@@ -80,7 +80,12 @@
 					{!! Form::close() !!}
 					<button {{$mid}} tid="{{$task->id}}" id="followupComment" class="btn btn-primary ">Post</button>
 					@if($task->status == 'Completed')
+						{{-- 
+						//has to complet in minutes only for the minute task as per phani instruct
+						--}}
+						@if(!$task->minuteId)
 						<button class="btn btn-primary " id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</button>
+						@endif
 						<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
 					@endif
 				</div>

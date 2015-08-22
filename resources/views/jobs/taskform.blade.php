@@ -40,7 +40,7 @@
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentText">
-				{!! Form::textarea('description', $task->description,['rows'=>'10','cols'=>'30'])!!}
+				{!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description),['rows'=>'10','cols'=>'30'])!!}
 				<div class="error" id="description_err"></div>
 			</div>
 			<div class="popupContentText">

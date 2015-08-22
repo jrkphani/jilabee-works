@@ -78,6 +78,8 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('draftform/{taskid?}', 'Jobs\TaskController@draftform')->where('taskid', '[0-9]+');
 			Route::get('acceptTask/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
 			Route::post('rejectTask/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
+			Route::get('cancelTask/{taskid}', 'Jobs\TaskController@cancelTask')->where('taskid', '[0-9]+');
+			Route::get('deleteTask/{taskid}', 'Jobs\TaskController@deleteTask')->where('taskid', '[0-9]+');
 			Route::post('comment/{taskid}', 'Jobs\TaskController@taskComment')->where('taskid', '[0-9]+');
 			//Route::post('task/{taskid}/followupComment', 'Jobs\TaskController@followupComment')->where('taskid', '[0-9]+');
 			Route::post('task/update/{taskid}', 'Jobs\TaskController@updateTask')->where('taskid', '[0-9]+');

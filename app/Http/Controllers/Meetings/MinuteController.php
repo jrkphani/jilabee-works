@@ -51,14 +51,16 @@ class MinuteController extends Controller {
 			{
 				if($minute->created_by != Auth::id())
 				{
-					abort('403');
+					//abort('403');
+					echo "Another user is taking minutes.";
+					return;
 				}
+				$minute = $minute->first();
 				if($minute->tasks->count())
 				{
 					//minute allready send yet not filed
 					echo "previous minute not filed <br>yet to finsh edit minute task"; die;
 				}
-				$minute = $minute->first();
 				$participants = array_merge(explode(',',$minute->attendees),explode(',',$minute->absentees));
 				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
 

@@ -25,12 +25,21 @@ $(document).ready(function($)
             }
             if($('#nameMenu').length)
             {
-                if($('#popup').is(":visible"))
+                if($('#nameMenu').is(":visible"))
                 {
                     $('#nameMenu').hide();   
                 }
             }
         }
+    });
+    $(document).click(function(event) {
+        // if($('#nameMenu').length)
+        //     {
+        //         if($('#nameMenu').is(":visible"))
+        //         {
+        //             $('#nameMenu').hide();   
+        //         }
+        //     }
     });
 });
 function moveright()

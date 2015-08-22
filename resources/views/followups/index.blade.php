@@ -3,6 +3,160 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 @stop
 @section('content')
+{{-- content left--}}
+	<div class="contentLeft">
+				<div class="mainListFilter">
+					<input type="text" placeholder="Search...">
+					<select>
+					  <option value="0">Any origin</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+					<select>
+					  <option value="0">Any one</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+					<select>
+					  <option value="0">Any time</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+					<select>
+					  <option value="0">Location</option>
+					  <option value="Option">Option 1</option>
+					  <option value="Option">Option 2</option>
+					  <option value="Option">Option 3</option>
+					</select>
+					<button>Reset all</button>
+				</div>
+				<div class="mainList">
+					<!--=================================== List 1 ================================-->
+					<div class="boxList">
+						<div class="boxTitle">
+							<span class="boxTitleNumber boxNumberRed">5</span>
+							<p>Recent Completions</p>
+							<div class="clearboth"></div>
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberRed">1</span>
+							<div class="boxInner">
+								<h4>Deliver samples to Axson. </h4>
+								<h6>Last Update - 6/7/2015</h6>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+							</div>
+							<div class="boxRight">
+								
+							</div>
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberRed">2</span>
+							<div class="boxInner">
+								<h4>Visit Machinery Manufacture Lorem ipsum dolor sit amet.</h4>
+								<h6>Last Update - 6/7/2015</h6>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+								
+								
+							</div>
+							<div class="boxRight">
+								
+							</div>
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberRed">3</span>
+							<div class="boxInner">
+								<h4>Prepare project report</h4>
+								<h6>Last Update - 6/7/2015</h6>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+							</div>	
+							<div class="boxRight">
+								
+							</div>	
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberRed">4</span>
+							<div class="boxInner">
+								<h4>Prepare project report</h4>
+							</div>	
+							<div class="boxRight">
+								
+							</div>
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberRed">5</span>
+							<div class="boxInner">
+								<h4>Prepare project report</h4>
+							</div>	
+							<div class="boxRight">
+								
+							</div>
+						</div>
+					</div>
+					<!--=================================== List 2 ================================-->
+					<div class="boxList">
+						<div class="boxTitle">
+							<span class="boxTitleNumber boxNumberGreen">2</span>
+							<p>Completed today</p>
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberGreen">1</span>
+							<div class="boxInner">
+								<h4>Prepare project report</h4>
+							</div>
+							<div class="boxRight">
+								
+							</div>
+						</div>
+						<div class="box">
+							<span class="boxNumber boxNumberGreen">2</span>
+							<div class="boxInner">
+								<h4>Prepare project report</h4>
+							</div>
+							<div class="boxRight">
+								
+							</div>
+						</div>
+					</div>
+					{{--list 3 --}}
+					<div class="boxList">
+						<div class="boxTitle">
+							<span class="boxTitleNumber boxNumberRed">2</span>
+							<p>Cancelled</p>
+						</div>
+						@foreach($tasks as $task)
+						<?php if($task->type == 'minute')
+							{
+								$mid = "mid=$task->minuteId";
+							}
+							else
+							{
+								$mid='';
+							}
+						?>
+							@if($task->status == 'Cancelled')
+								<div class="box">
+									<span class="boxNumber boxNumberRed">1</span>
+									<div class="boxInner">
+										<h4>{{$task->title}}</h4>
+									</div>
+									<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
+										
+									</div>
+							@endif
+						@endforeach
+					</div>
+				</div>
+					<!--================ Buttons for now sections ======================-->
+				<div class="arrowBtn arrowBtnRight">
+					
+					<span id="moveright"><img src="images/arrow_right.png"> </span>
+					<p>Now</p>
+				</div>
+			</div>
+{{-- content right--}}
 	<div class="contentRight">
 		<div class="mainListFilter">
 			<input type="text" placeholder="Search...">
@@ -107,8 +261,8 @@
 		</div>
 			<!--================ Buttons for now sections ======================-->
 		<div class="arrowBtn">
-			<p>History</p>
 			<span id="moveleft"><img src="images/arrow_left.png"> </span>
+			<p>History</p>
 		</div>
 		<button id="createTask" class="addBtn"> </button>
 	</div>

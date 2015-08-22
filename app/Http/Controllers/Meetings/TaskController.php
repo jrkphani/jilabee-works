@@ -209,22 +209,23 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
-	public function acceptCompletion($mid,$id)
-	{
-			$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
-			if($task)
-			{
-				$task->status = 'Closed';
-				if($task->save())
-				{
-					return view('followups.task',['task'=>$task]);
-				}
-			}
-			else
-			{
-				abort('403');
-			}
-	}
+	//has to complet in minutes only as per phani instruct
+	// public function acceptCompletion($mid,$id)
+	// {
+	// 		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
+	// 		if($task)
+	// 		{
+	// 			$task->status = 'Closed';
+	// 			if($task->save())
+	// 			{
+	// 				return view('followups.task',['task'=>$task]);
+	// 			}
+	// 		}
+	// 		else
+	// 		{
+	// 			abort('403');
+	// 		}
+	// }
 	public function rejectCompletion($mid,$id)
 	{
 			$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();

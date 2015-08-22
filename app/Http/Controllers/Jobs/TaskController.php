@@ -275,6 +275,40 @@ class TaskController extends Controller {
 				abort('403');
 			}
 	}
+	public function cancelTask($id)
+	{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			$output['success'] = 'no';
+			if($task)
+			{
+				$task->status = 'Cancelled';
+				if($task->save())
+				{
+					//return view('followups.task',['task'=>$task]);
+					$output['success'] = 'yes';
+				}
+			}
+			else
+			{
+				abort('403');
+			}
+			return json_encode($output);
+	}
+	public function deleteTask($id)
+	{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			$output['success'] = 'no';
+			if($task)
+			{
+				$task->delete();
+				$output['success'] = 'yes';
+			}
+			else
+			{
+				abort('403');
+			}
+			return json_encode($output);
+	}
 	public function taskComment($id)
 	{
 		$input = Request::only('description');

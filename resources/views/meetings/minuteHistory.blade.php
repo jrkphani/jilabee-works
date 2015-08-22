@@ -10,7 +10,7 @@
 				@if($minute->field == '1')
 					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to next meeting</button>
 				@elseif($minute->field == '0' && $minute->created_by == Auth::id())
-					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to non field meeting</button>
+					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to last meeting</button>
 					@endif
 			@endif
 			<h4>Previous Meetings</h4>

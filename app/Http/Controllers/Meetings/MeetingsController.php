@@ -36,11 +36,11 @@ class MeetingsController extends Controller {
 						 		})
 						->get();
 						//print_r($newmeetings); die;
-		$minutes = Minutes::whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+		$minutes = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.approved','=','1')
 					->orderBy('minutes.startDate','desc')->get();
-
+		//print_r($minutes); die;
 					//non approve meeting minutes
 		$pendingminutes = Minutes::select('minutes.*')->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.requested_by','=',Auth::id())

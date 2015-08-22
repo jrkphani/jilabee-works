@@ -61,13 +61,88 @@ $(document).ready(function() {
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
-            path = '/minute/'+$(this).attr('mid')+'/rejectCompletion/'+tid;
+            //has to be closed in minutes
+            //path = '/minute/'+$(this).attr('mid')+'/rejectCompletion/'+tid;
         }
         else
         {
             path = '/jobs/rejectCompletion/'+tid;
         }
         popupContentAjaxGet(path);
+        
+    });
+    $('#centralContainer').on('click', '#cancelTask', function(event) {
+        event.preventDefault();
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
+        {
+            //has to be cancelled in minutes
+        }
+        else
+        {
+            path = '/jobs/cancelTask/'+tid;
+        }
+        if (confirm('Are you sure to cancel task?'))
+        {
+            $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'json',
+            })
+            .done(function(jsonData){
+                if(jsonData.success == 'yes')
+                {
+                    location.reload();
+                }
+                else
+                {
+                 notification('error','Something went wrong');   
+                }
+            })
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
+            })
+            .always(function(xhr) {
+                checkStatus(xhr.status);
+            });
+        }
+        
+    });
+    $('#centralContainer').on('click', '#deleteTask', function(event) {
+        event.preventDefault();
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
+        {
+            //has to be deleted in minutes
+        }
+        else
+        {
+            path = '/jobs/deleteTask/'+tid;
+        }
+        if (confirm('Are you sure to delete task?'))
+        {
+            $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'json',
+            })
+            .done(function(jsonData){
+                if(jsonData.success == 'yes')
+                {
+                    location.reload();
+                }
+                else
+                {
+                 notification('error','Something went wrong');   
+                }
+            })
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
+            })
+            .always(function(xhr) {
+                checkStatus(xhr.status);
+            });
+        }
         
     });
     $('#centralContainer').on('click', '#createTaskSave', function(event) {
