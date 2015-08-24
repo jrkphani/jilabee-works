@@ -278,9 +278,11 @@ class TaskController extends Controller {
 								->orWhere('minuteTasks.status','=','Rejected');
 							})
 							->count();
+							//echo $notAccepted; die;
 			if(!$notAccepted)
 			{
-				$currentMinute = Minutes::where('field','0')->first();
+				$currentMinute = Minutes::where('meetingId',$meetingId)->where('field','0')->first();
+				//print_r($currentMinute->id); die;
 				$lastFieldMinute = Minutes::where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
 				if($lastFieldMinute)
 				{

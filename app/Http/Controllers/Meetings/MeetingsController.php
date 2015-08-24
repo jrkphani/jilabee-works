@@ -76,6 +76,10 @@ class MeetingsController extends Controller {
 	{
 		$input = Request::only('title','description','venue','attendees','minuters');
 		$output['success'] = 'yes';
+		if(!Auth::user()->isAdmin)
+		{
+			$input['minuters'][0] = Auth::user()->userId;
+		}
 		$attendeesEmail=$attendees=array();
 		$validator = TempMeetings::validation($input);
 		if ($validator->fails())

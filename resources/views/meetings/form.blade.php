@@ -21,25 +21,6 @@
                 {!! Form::textarea('description', $description,['class'=>'form-control'])!!}
                 <div id="description_err" class="error"></div>
 
-                {!! Form::label('selectMinuters', 'Expected Minuters',['class'=>'control-label']); !!}
-                <div id="selected_minuters">
-                 @if($meeting->minuters)
-                    <?php
-                        $minuters = App\Model\Profile::select('users.userId','profiles.name')
-                        ->join('users','profiles.userId','=','users.id')
-                        ->whereIn('users.id',explode(',',$meeting->minuters))->get();
-                    ?>
-                        @foreach($minuters as $minuter)
-                          <div id="{{$minuter->userId}}" class="attendees"><input type="hidden" value="{{$minuter->userId}}" name="minuters[]">{{$minuter->name}}
-                                <span class="removeParent"> remove</span>
-                            </div>
-                        @endforeach
-                    @endif
-                    
-                    {!! Form::text('selectMinuters', '',['class'=>'form-control'])!!}
-                </div>
-                <div id="minuters_err" class="error"></div>
-
                 {!! Form::label('selectAttendees', 'Expected Attendees',['class'=>'control-label']); !!}
                 <div id="selected_attendees" class="form-group">
                     @if($meeting->attendees)
@@ -94,13 +75,13 @@
             	{!! Form::label('description', 'Meeting description',['class'=>'control-label']); !!}
             	{!! Form::textarea('description', '',['class'=>'form-control'])!!}
             	<div id="description_err" class="error"></div>
-
+                {{--
             	{!! Form::label('selectMinuters', 'Expected Minuters',['class'=>'control-label']); !!}
             	<div id="selected_minuters">
                     {!! Form::text('selectMinuters', '',['class'=>'form-control'])!!}
                 </div>
             	<div id="minuters_err" class="error"></div>
-
+                --}}
             	{!! Form::label('selectAttendees', 'Expected Attendees',['class'=>'control-label']); !!}
             	<div id="selected_attendees" class="form-group">
                     {!! Form::text('selectAttendees', '',['class'=>'form-control'])!!}
