@@ -15,7 +15,7 @@ class Minutes extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['venue','attendees','absentees','endDate','startDate','field','created_by','updated_by'];
+	protected $fillable = ['venue','attendees','absentees','endDate','startDate','filed','created_by','updated_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\Model\Profile', 'userId', 'created_by');

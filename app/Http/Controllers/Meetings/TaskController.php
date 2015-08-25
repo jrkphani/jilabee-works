@@ -83,7 +83,7 @@ class TaskController extends Controller {
 		}
 		if($records || $ideasArr)
 		{	
-			$minute = Minutes::whereId($mid)->whereField('0')->where('created_by','=',Auth::id())->first();
+			$minute = Minutes::whereId($mid)->whereFiled('0')->where('created_by','=',Auth::id())->first();
 			if($ideasArr)
 			{
 				DB::transaction(function() use ($minute,$ideasArr)
@@ -130,14 +130,6 @@ class TaskController extends Controller {
 	}
 	public function acceptTask($mid,$id)
 	{
-		// $lastFieldMinute = Minutes::whereNull('lock_flag')->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
-		// $test = MinuteTasks::whereIn('id',function($query) use ($lastFieldMinute){
-		// 						$query->select('taskId')
-		//                     		->from('filedMinutes')
-		//                        		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
-		// 					})->get()->toArray();
-		// print_r($test);
-		// die; //test
 		$task = MinuteTasks::whereId($id)->whereAssignee(Auth::id())->where('minuteId',$mid)
 		->where(function($query)
 			{
@@ -281,21 +273,21 @@ class TaskController extends Controller {
 							//echo $notAccepted; die;
 			if(!$notAccepted)
 			{
-				$currentMinute = Minutes::where('meetingId',$meetingId)->where('field','0')->first();
+				$currentMinute = Minutes::where('meetingId',$meetingId)->where('filed','0')->first();
 				//print_r($currentMinute->id); die;
-				$lastFieldMinute = Minutes::where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
-				if($lastFieldMinute)
+				$lastFiledMinute = Minutes::where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				if($lastFiledMinute)
 				{
 					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId"),'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
 							//->where('minutes.meetingId',$meetingId)
 							->where('minutes.id',$currentMinute->id)
 							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
-							->orWhereIn('minuteTasks.id',function($query) use ($lastFieldMinute){
+							->orWhereIn('minuteTasks.id',function($query) use ($lastFiledMinute){
 								$query->select('taskId')
 		                    		->from('filedMinutes')
 		                       		->where('filedMinutes.status','!=','Closed')
 		                       		->where('filedMinutes.status','!=','Cancelled')
-		                       		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
+		                       		->where('filedMinutes.minuteId','=',$lastFiledMinute->id);
 							})
 							->get()->toArray();
 				}
@@ -315,10 +307,10 @@ class TaskController extends Controller {
 				//	echo "<br>";
 				//}
 				//die;
-							//yet to add closed task form previous minutes in fieldminutes
+							//yet to add closed task form previous minutes in filedminutes
 				if(FiledMinutes::insert($tasks))
 				{
-					$currentMinute->field='1';
+					$currentMinute->filed='1';
 					$currentMinute->save();
 				}
 			}

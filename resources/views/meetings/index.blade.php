@@ -124,10 +124,10 @@
 		<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberRed">2</span>
-				<p>Not Field</p>
+				<p>Not Filed</p>
 				<div class="clearboth"></div>
 			</div>
-			@foreach($notfield as $minute)
+			@foreach($notfiled as $minute)
 				<div class="box">
 					<span class="boxNumber boxNumberRed">1</span>
 					<div class="boxInner minute_history" mid="{{$minute->id}}">

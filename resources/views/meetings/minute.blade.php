@@ -26,19 +26,18 @@
 		<h4>Minutes</h4>
 		@if($minute->meeting->approved == '0')
 			<?php $tasks = $minute->tasks; ?>
-		@elseif($minute->field == '0')
+		@elseif($minute->filed == '0')
 			<?php 
-				$lastFieldMinute = App\Model\Minutes::where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
-				if($lastFieldMinute)
+				$lastFiledMinute = App\Model\Minutes::where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				if($lastFiledMinute)
 				{
-					//echo "here".$lastFieldMinute->id; die;
 					$tasks = App\Model\MinuteTasks::where('minuteId',$minute->id)
-							->orWhereIn('id',function($query) use ($lastFieldMinute){
+							->orWhereIn('id',function($query) use ($lastFiledMinute){
 								$query->select('taskId')
 		                    		->from('filedMinutes')
 		                       		->where('filedMinutes.status','!=','Closed')
 		                       		->where('filedMinutes.status','!=','Cancelled')
-		                       		->where('filedMinutes.minuteId','=',$lastFieldMinute->id);
+		                       		->where('filedMinutes.minuteId','=',$lastFiledMinute->id);
 							})->get();
 				}
 				else

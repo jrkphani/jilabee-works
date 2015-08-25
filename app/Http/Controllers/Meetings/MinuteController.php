@@ -46,7 +46,7 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($meetingId)->isMinuter())
 		{
-			$minute = $meeting->minutes()->whereField('0')->first();
+			$minute = $meeting->minutes()->whereFiled('0')->first();
 			//print_r($minute->meetingId); die;
 			if($minute)
 			{
@@ -118,7 +118,7 @@ class MinuteController extends Controller {
 			if($minuteId = Request::get('minuteId'))
 			{
 				//update
-				$minute = Minutes::where('id','=',$minuteId)->whereField('0')->where('created_by',Auth::id())->first();
+				$minute = Minutes::where('id','=',$minuteId)->whereFiled('0')->where('created_by',Auth::id())->first();
 				if(!$minute)
 				{
 					abort('403');
@@ -129,7 +129,7 @@ class MinuteController extends Controller {
 			else
 			{
 				//create new
-				$minute = $meeting->minutes()->whereField('0');
+				$minute = $meeting->minutes()->whereFiled('0');
 				if($minute->count())
 				{
 					abort('403');
@@ -153,7 +153,7 @@ class MinuteController extends Controller {
 
 	public function draft($mid)
 	{
-		if($minute = Minutes::where('id','=',$mid)->whereField('0')->where('created_by','=',Auth::id())->first())
+		if($minute = Minutes::where('id','=',$mid)->whereFiled('0')->where('created_by','=',Auth::id())->first())
 		{
 			if(!$minute->meeting->isMinuter())
 			{
