@@ -3,7 +3,7 @@
 	@if($minute)
 
 {{-- Previous Minutes Will Be Here --}}
-	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('field','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
+	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
 		@if($previousMinute)
 			<div class ="row">
 				<p><strong>Previous Minutes</strong></p>

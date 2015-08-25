@@ -164,7 +164,7 @@ class UserController extends Controller {
 								$attendees = explode(',',$meeting->attendees);
 								$index = array_search($user->id, $attendees);
 								unset($attendees[$index]);
-								print_r($minuters);
+								//print_r($minuters);
 								$meeting->attendees = implode(',',$attendees);
 								$meeting->minuters = implode(',',$minuters);
 								$meeting->save();
