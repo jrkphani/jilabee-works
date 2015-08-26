@@ -27,7 +27,13 @@
 			<div class="popupContentText">
 				{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description)!!}
 			</div>
-			
+			@if($task->minuteId)
+				{{-- need to get the changes from filedminuted --}}
+			@else
+			<div class="popupContentText">
+				{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes)!!}
+			</div>
+			@endif
 			
 			<!-- ================= Updates ====================  -->
 			<!-- ================= Update item each ====================  -->

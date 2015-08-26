@@ -6,15 +6,16 @@
 	</div>	
 	<div class="popupContent">
 		<!--======================== Popup content starts here ===============================-->
-		<div class="popupContentLeft">
-			<!-- =================== Job details ====================  -->
-			{!! Form::open(array('id' => 'createTaskForm')) !!}
+		{!! Form::open(array('id' => 'createTaskForm')) !!}
 				@if($task)
+
+			<!-- =================== Job details ====================  -->
+			
 				<div class="popupContentTitle">
 					{!! Form::hidden('id', $task->id) !!}
 					{!! Form::text('title', $task->title,['placeholder'=>'Task title']) !!}
 					<div class="error" id="title_err"></div>
-					<p>Assign to </p>
+					<label>Assign to </label>
 					<div id="selected_Assignee">
 						<?php $assignee = $task->assignee; ?>
 						@if($task->assignee)
@@ -36,44 +37,52 @@
 					</div>
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
 					<div class="error" id="assignee_err"></div>
-					<p>Choose deadline</p> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
+					<label>Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
-			<div class="popupContentText">
-				{!! Form::textarea('description', $task->description,['rows'=>'10','cols'=>'30'])!!}
-				<div class="error" id="description_err"></div>
-			</div>
-			<div class="popupContentText">
-				{!! Form::textarea('notes', $task->notes,['rows'=>'10','cols'=>'30'])!!}
-				<div class="error" id="notes_err"></div>
+			<div class="popupContentLeft">
+				<div class="popupContentText">
+					{!! Form::textarea('description', $task->description,['rows'=>'10','cols'=>'30'])!!}
+					<div class="error" id="description_err"></div>
+				</div>
+				<div class="popupContentText">
+					{!! Form::textarea('notes', $task->notes,['rows'=>'10','cols'=>'30'])!!}
+					<div class="error" id="notes_err"></div>
+				</div>
+				<div class="popupButtons popupButtonsFix">
+					<button id="createTaskSave" >Save Draft</button>
+					<button id="createTaskSubmit" >Send</button>
+					<button id="deleteDraft" tid="{{$task->id}}" >Discard Draft</button>
+				</div>
 			</div>
 			@else
 				<div class="popupContentTitle">
 					{!! Form::text('title', '',['placeholder'=>'Task title']) !!}
 					<div class="error" id="title_err"></div>
-					<p>Assign to </p>
+					<label>Assign to </label>
 					<div id="selected_Assignee">
 					</div>
 					{!! Form::text('assignee','',['id'=>'selectAssignee','placeholder'=>'search user']) !!}
 					<div class="error" id="assignee_err"></div>
-					<p>Choose deadline</p> {!! Form::text('dueDate','',['class'=>'dateInput']) !!}
+					<label>Choose deadline</label> {!! Form::text('dueDate','',['class'=>'dateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
-			<div class="popupContentText">
-				{!! Form::textarea('description', '',['rows'=>'10','cols'=>'30'])!!}
-				<div class="error" id="description_err"></div>
+			<div class="popupContentLeft">
+				<div class="popupContentText">
+					{!! Form::textarea('description', '',['rows'=>'10','cols'=>'30'])!!}
+					<div class="error" id="description_err"></div>
+				</div>
+				<div class="popupContentText">
+					{!! Form::textarea('notes', '',['rows'=>'10','cols'=>'30'])!!}
+					<div class="error" id="notes_err"></div>
+				</div>
+				<div class="popupButtons popupButtonsFix">
+					<button id="createTaskSave" >Save Draft</button>
+					<button id="createTaskSubmit" >Send</button>
+				</div>
 			</div>
-			<div class="popupContentText">
-				{!! Form::textarea('notes', '',['rows'=>'10','cols'=>'30'])!!}
-				<div class="error" id="notes_err"></div>
-			</div>
-			@endif
+		@endif
 			{!! Form::close() !!}
-			<div class="popupButtons">
-				<button id="createTaskSave" type="button" class="btn btn-primary">Save Draft</button>
-				<button id="createTaskSubmit" type="button" class="btn btn-primary">Send</button>
-			</div>
-		</div>
 		<!-- =================== Popup right ====================  -->
 		<div class="popupContentRight">
 			<div class="popupSearchSection">

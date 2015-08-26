@@ -86,4 +86,75 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
+	public function draft()
+	{
+		$input = Request::only('title','description','assignee','notes','dueDate');
+		$input = array_filter($input);
+		if($input)
+		{
+			$input['created_by'] = $input['assigner'] = Auth::id();
+			if(isEmail($input['assignee']))
+				{
+					if($assignee = getUser(['email'=>$input['assignee']]))
+					{
+						$input['assignee'] = $assignee->id;
+					}
+				}
+				else
+				{
+					if($assignee = getUser(['userId'=>$input['assignee']]))
+					{
+						$input['assignee'] = $assignee->id;
+					}
+					else
+					{
+						$input['assignee'] = NULL;	
+					}
+				}
+			if(Request::input('id'))
+			{
+				$task = JobDraft::whereId(Request::input('id'))->first();
+				$task->update($input);
+				return view('jobs.draftform',['task'=>$task]);
+			}
+			else if($task = JobDraft::create($input))
+			{
+				return view('jobs.draftform',['task'=>$task]);
+			}
+			else
+			{
+				abort('404','Insertion failed');
+			}
+		}
+		else
+		{
+			return view('jobs.draftform',['task'=>null]);
+		}
+	}
+	public function draftform($id=null)
+	{
+		if($id)
+		{
+			return view('jobs.draftform',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
+		}
+		else
+		{
+			return view('jobs.draftform',['task'=>null]);
+		}
+	}
+	public function deleteDraft($id)
+	{
+			$task = JobDraft::whereId($id)->whereAssigner(Auth::id())->first();
+			$output['success'] = 'no';
+			if($task)
+			{
+				$task->delete();
+				$output['success'] = 'yes';
+			}
+			else
+			{
+				abort('403');
+			}
+			return json_encode($output);
+	}
 }

@@ -29,7 +29,7 @@ $(document).ready(function() {
 	 $('#centralContainer').on('click', '#createTask', function(event) {
         event.preventDefault();
         $('#popup').html('loading...');
-        $('#popup').load('jobs/draftform',function( response, status, xhr ) {
+        $('#popup').load('followups/draftform',function( response, status, xhr ) {
             checkStatus(xhr.status);
             });
         $('#popup').show();
@@ -37,7 +37,7 @@ $(document).ready(function() {
     $('#centralContainer').on('click', '.followupDraft', function(event) {
         event.preventDefault();
         $('#popup').html('loading...');
-        $('#popup').load('jobs/draftform/'+$(this).attr('tid'),function( response, status, xhr ) {
+        $('#popup').load('followups/draftform/'+$(this).attr('tid'),function( response, status, xhr ) {
             checkStatus(xhr.status);
             });
         $('#popup').show();
@@ -145,10 +145,47 @@ $(document).ready(function() {
         }
         
     });
+    $('#centralContainer').on('click', '#deleteDraft', function(event) {
+        event.preventDefault();
+        tid = $(this).attr('tid');
+        if($(this).attr('mid'))
+        {
+            //has to be deleted in minutes
+        }
+        else
+        {
+            path = '/followups/deleteDraft/'+tid;
+        }
+        if (confirm('Are you sure to discard task?'))
+        {
+            $.ajax({
+            url: path,
+            type: 'GET',
+            dataType: 'json',
+            })
+            .done(function(jsonData){
+                if(jsonData.success == 'yes')
+                {
+                    location.reload();
+                }
+                else
+                {
+                 notification('error','Something went wrong');   
+                }
+            })
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
+            })
+            .always(function(xhr) {
+                checkStatus(xhr.status);
+            });
+        }
+        
+    });
     $('#centralContainer').on('click', '#createTaskSave', function(event) {
             event.preventDefault();
             $.ajax({
-                url: '/jobs/draft',
+                url: '/followups/draft',
                 type: 'POST',
                 dataType: 'html',
                 data: $('#createTaskForm').serialize(),
