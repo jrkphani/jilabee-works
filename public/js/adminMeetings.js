@@ -4,7 +4,7 @@ $(document).ready(function($)
     $('#adminContent').on('click', '#createMeetingSubmit', function(event) {
         event.preventDefault();
         $.ajax({
-            url: '/meetings/create',
+            url: '/admin/meeting/create',
             type: 'POST',
             dataType: 'json',
             data: $('#createMeetingForm').serialize(),
@@ -41,52 +41,18 @@ $(document).ready(function($)
         
     });
     $('#adminContent').on('click', '.removeParent', function(event) {
-        $(this).parent( ".attendees" ).remove();
+        $(this).parent( ".participant" ).remove();
     });
-	 
+    $('#adminContent').on('change', '.roles', function(event) {
+        event.preventDefault();
+        //alert($(this).parent('div.participant').attr('roles'));
+        role = $(this).parent('div.participant').attr('roles');
+        if(parseInt($(this).val()) > parseInt(role))
+        {
+            alert("over rule");
+        }
 
-            $('.selectMinuters').autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                var selected_minuters = $(this).prev(".selected_minuters");
-                //alert(selected_minuters.find( "div.attendees[uid=u"+ui.item.userId+"]").html());
-                if(selected_minuters.find( "div.attendees[uid=u"+ui.item.userId+"]").html())
-                {
-                    alert('User already exist!');
-                    return false;
-                }
-                else
-                {
-                    insert = '<div class="attendees" uid="u'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
-                    selected_minuters.append(insert);
-                    $(this).val("");
-                    return false;
-                }
-                
-            }
-            });
-            $('.selectAttendees').autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                var selected_minuters = $(this).prev(".selected_attendees");
-                //alert(selected_minuters.find( "div.attendees[uid=u"+ui.item.userId+"]").html());
-                if(selected_minuters.find( "div.attendees[uid=u"+ui.item.userId+"]").html())
-                {
-                    alert('User already exist!');
-                    return false;
-                }
-                else
-                {
-                    insert = '<div class="attendees" uid="u'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent btn glyphicon glyphicon-trash"></span></div>';
-                    selected_minuters.append(insert);
-                    $(this).val("");
-                    return false;
-                }
-                
-            }
-            });
+    });
     /*$('.approve').click(function(event) {
        var mid = $(this).attr('mid');
        $.ajax({
@@ -225,5 +191,5 @@ $('#adminContent').on('keyup', '#selectAttendees', function(event) {
 });
 $('#adminContent').on('click', '#editMeeting', function(event) {
     event.preventDefault();
-    rightContentAjaxGet('/admin/meetings/edit/'+$(this).attr('mid'));
+    rightContentAjaxGet('/admin/meeting/edit/'+$(this).attr('mid'));
 });

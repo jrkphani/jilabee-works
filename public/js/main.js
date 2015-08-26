@@ -32,6 +32,12 @@ $(document).ready(function($)
             }
         }
     });
+    $(document).on('click', '.backBtn', function(event) {
+        event.preventDefault();
+        url = $(this).attr('url');
+        divId = $(this).attr('divId');
+        $('#'+divId).load(url);
+    });
     $(document).click(function(event) {
         // if($('#nameMenu').length)
         //     {

@@ -9,12 +9,7 @@
 		<div class="userDetailItem">
 			<p>User rights</p>
 			<span>
-				<?php $roles = explode(',',$user->roles); ?>
-				@foreach(roles() as $key=>$value)
-				@if(in_array($key, $roles))
-					{{$value}},
-				@endif
-				@endforeach
+				{{$roles[$user->roles]}}
 			</span>
 			<div class="clearboth"></div>
 		</div>

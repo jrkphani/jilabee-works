@@ -42,4 +42,17 @@ class Meetings extends Model{
          }
          return FALSE;
     }
+    public static function validation($data)
+    {
+
+        $rule = array('title'=>'required|max:64',
+            'description'=>'required',
+            'venue'=>'max:64',
+            'participants' => 'required',
+            'roles' => 'required',
+            'approved' => 'in:0,1',
+            'reason' => 'max:64');
+        $validator = Validator::make($data,$rule);
+        return $validator;
+    }
 }

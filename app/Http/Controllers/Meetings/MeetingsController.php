@@ -74,14 +74,14 @@ class MeetingsController extends Controller {
 	}
 	public function createMeeting()
 	{
-		$input = Request::only('title','description','venue','attendees','minuters');
+		$input = Request::only('title','description','venue','participants');
 		$output['success'] = 'yes';
 		if(!Auth::user()->isAdmin)
 		{
 			$input['minuters'][0] = Auth::user()->userId;
 		}
 		$attendeesEmail=$attendees=array();
-		$validator = TempMeetings::validation($input);
+		$validator = Meetings::validation($input);
 		if ($validator->fails())
 		{
 			$output['success'] = 'no';
@@ -147,19 +147,19 @@ class MeetingsController extends Controller {
 			return json_encode($output);
 		}
 	}
-	public function loadMeeting($mid)
-	{
-		$tempMeetings = TempMeetings::where('id','=',$mid)
-				->where('created_by','=',Auth::id())->first();
-		if($tempMeetings)
-		{
-			return view('meetings.tempMeeting',['tempMeetings'=>$tempMeetings]);
-		}
-		else
-		{
-			abort('404');
-		}	
-	}
+	// public function loadMeeting($mid)
+	// {
+	// 	$tempMeetings = TempMeetings::where('id','=',$mid)
+	// 			->where('created_by','=',Auth::id())->first();
+	// 	if($tempMeetings)
+	// 	{
+	// 		return view('meetings.tempMeeting',['tempMeetings'=>$tempMeetings]);
+	// 	}
+	// 	else
+	// 	{
+	// 		abort('404');
+	// 	}	
+	// }
 	// public function updateMeeting()
 	// {
 	// 	$input = Request::all();

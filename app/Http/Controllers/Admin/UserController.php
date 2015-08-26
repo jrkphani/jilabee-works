@@ -43,7 +43,7 @@ class UserController extends Controller {
 		{
 			$user = $attendees = $minuters = NULL;
 		}
-		return view('admin.addUser',['meetings'=>$meetings,'user'=>$user,'attendees'=>$attendees,'minuters'=>$minuters]);
+		return view('admin.addUser',['meetings'=>$meetings,'user'=>$user,'attendees'=>$attendees,'minuters'=>$minuters,'roles'=>roles()]);
 	}
 	public function postAdd()
 	{
@@ -77,7 +77,7 @@ class UserController extends Controller {
 						$profile->dob = $input['dob'];
 						$profile->gender = $input['gender'];
 						$profile->phone = $input['phone'];
-						$profile->roles = implode(',',array_unique(array_filter($input['roles'])));
+						$profile->roles = $input['role'];
 						$profile->created_by = Auth::id();
 						$profile->updated_by = Auth::id();
 						if($user->profile()->save($profile))
@@ -148,7 +148,7 @@ class UserController extends Controller {
 				$profile->dob = $input['dob'];
 				$profile->gender = $input['gender'];
 				$profile->phone = $input['phone'];
-				$profile->roles = implode(',',array_unique(array_filter($input['roles'])));
+				$profile->roles = $input['role'];
 				$profile->updated_by = Auth::id();
 				if($profile->save())
 				{
@@ -168,6 +168,8 @@ class UserController extends Controller {
 								$meeting->attendees = implode(',',$attendees);
 								$meeting->minuters = implode(',',$minuters);
 								$meeting->save();
+								// $output['success'] = 'no';
+								// echo "Dvdf"; die;
 							}
 						}
 					}
@@ -178,6 +180,14 @@ class UserController extends Controller {
 						{
 							if($meeting = Meetings::whereId($value)->first())
 							{
+								$minuters = explode(',',$meeting->minuters);
+								$attendees = explode(',',$meeting->attendees);
+								if(in_array($user->id,$minuters) || in_array($user->id,$attendees))
+								{
+									//already user is there 
+									//skip
+									continue;
+								}
 								if($input['roles'][$key] == 1)
 								{
 									$meeting->attendees = $meeting->attendees.','.$user->id;
@@ -220,7 +230,7 @@ class UserController extends Controller {
 							//->join('organizations','meetings.oid','=','organizations.id')
 							//->where('organizations.customerId','=',getOrgId())
 							->lists('title','id');
-				return view('admin.viewUser',['user'=>$user,'attendees'=>$attendees,'minuters'=>$minuters]);
+				return view('admin.viewUser',['user'=>$user,'attendees'=>$attendees,'minuters'=>$minuters,'roles'=>roles()]);
 			}
 			else
 			{

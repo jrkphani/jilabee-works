@@ -49,7 +49,7 @@ class ProfileController extends Controller {
 	public function findUser()
 	{	 
 		$input = Request::only('term');
-		$list = Profile::select('users.userId','name as value')->join('users','profiles.userId','=','users.id')
+		$list = Profile::select('users.userId','profiles.name as value','profiles.roles')->join('users','profiles.userId','=','users.id')
 				->where('profiles.name','LIKE','%'.trim($input['term']).'%')
 				->orWhere('users.email','LIKE','%'.trim($input['term']).'%')
 				->get();

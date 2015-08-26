@@ -80,7 +80,7 @@ $('#adminContent').on('click', '#addUserSubmit', function(event) {
 });
 $('#adminContent').on('click', '#addmeeting', function(event) {
 	event.preventDefault();
-	htmlcontent = '<div class="meetingItem">'+$('#meetingList').find('.meetingItem:first').html()+'<span class="removeMeeting"> Remove</span></div>'
+	htmlcontent = '<div class="meetingSettingITem meetingItem">'+$('#meetingList').find('.meetingItem:first').html()+'</div>'
 	$('#meetingList').append(htmlcontent);
 });
 $('#adminContent').on('click', '.removeMeeting', function(event) {

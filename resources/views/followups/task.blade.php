@@ -25,7 +25,7 @@
 			</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
-				{!!$task->description!!}
+				{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description)!!}
 			</div>
 			
 			

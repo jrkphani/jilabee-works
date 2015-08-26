@@ -1,10 +1,13 @@
 <?php namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Request;
 use App\Model\JobTasks;
 use App\Model\TempMeetings;
 use App\Model\Meetings;
+use App\Model\Organizations;
 use Auth;
+use App\User;
+use Validator;
 class MeetingsController extends Controller {
 
 	/**
@@ -54,8 +57,95 @@ class MeetingsController extends Controller {
 		{
 			$meeting = NULL;
 		}
+		$roles = roles();
 		//return view('meetings.form',['meeting'=>$meeting]);
-		return view('admin.meetingForm',['meeting'=>$meeting]);
+		return view('admin.meetingForm',['meeting'=>$meeting,'roles'=>$roles]);
+	}
+	public function createMeeting()
+	{
+		$input = Request::only('title','description','venue','participants','roles');
+		$output['success'] = 'yes';
+		if(!Auth::user()->isAdmin)
+		{
+			$input['minuters'][0] = Auth::user()->userId;
+		}
+		$minuters=$attendees=array();
+		$validator = Meetings::validation($input);
+		if ($validator->fails())
+		{
+			$output['success'] = 'no';
+			$output['validator'] = $validator->messages()->toArray();
+			return json_encode($output);
+		}
+		else
+		{
+			if(count($input['participants']) != count($input['roles']))
+			{
+				$output['success'] = 'no';
+				$validator->errors()->add('participants','Something is wrong with this field!');
+				$output['validator'] = $validator->messages()->toArray();
+				return json_encode($output);
+			}
+
+				foreach ($input['participants'] as $key => $value)
+				{
+					if($input['roles'][$key] == '1')
+					{
+						//attendees
+						if(isEmail($value))
+						{
+							//$attendeesEmail[] = $value;
+						}
+						else
+						{
+							$attendees[] = $value;
+						}
+					}
+					elseif($input['roles'][$key] == '2')
+					{
+						$minuters[] = $value;
+					}
+				}
+				if(!count($minuters))
+				{
+					$output['success'] = 'no';
+					$validator->errors()->add('participants','Atleast one minuter is require!');
+					$output['validator'] = $validator->messages()->toArray();
+					return json_encode($output);
+				}
+			
+			$input['created_by'] = $input['updated_by'] = Auth::id();
+			$getMinutersId = User::whereIn('userId',$minuters)->lists('id');
+			$input['minuters'] = implode(',',$getMinutersId);
+			if(count($attendees))
+			{
+				$attendees = User::whereIn('userId',$attendees)->lists('id');
+			}
+
+			$input['attendees'] = implode(',',$attendees);
+			$input['description'] = nl2br($input['description']);
+			if($mid = Request::get('id'))
+				{
+					$meeting = Meetings::whereId($mid)->first();
+					if(Auth::user()->isAdmin)
+					{
+						$input['approved'] = 1;
+					}
+					$meeting->update($input);
+				}
+				else
+				{
+					if(Auth::user()->isAdmin)
+					{
+						$input['approved'] = 1;
+					}
+					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
+					$input['requested_by'] = Auth::id();
+					$meeting = Meetings::create($input);
+				}
+				$output['meetingId'] = $meeting->id;
+			return json_encode($output);
+		}
 	}
 	// public function approve(Request $request)
 	// {

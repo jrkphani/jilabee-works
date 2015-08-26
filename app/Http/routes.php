@@ -42,10 +42,11 @@ Route::group(['prefix' => 'admin'], function()
 			Route::post('user/edit/{userId}', 'Admin\UserController@editUser');
 			Route::get('meetings', 'Admin\MeetingsController@index');
 			Route::get('meeting/create','Admin\MeetingsController@meetingForm');
+			Route::post('meeting/create','Admin\MeetingsController@createMeeting');
 			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
-			Route::post('meetings/approve', 'Admin\MeetingsController@approve');
-			Route::post('meetings/disapprove', 'Admin\MeetingsController@disapprove');
-			Route::get('meetings/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
+			Route::post('meeting/approve', 'Admin\MeetingsController@approve');
+			Route::post('meeting/disapprove', 'Admin\MeetingsController@disapprove');
+			Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
 		//});
 	});
     Route::get('auth/register', 'Admin\AuthController@signupGet');
@@ -106,15 +107,15 @@ Route::group(['prefix' => 'admin'], function()
 			Route::post('comment/{taskid}', 'Followups\TaskController@taskComment')->where('taskid', '[0-9]+');
 			Route::post('{minuteId}/comment/{taskid}', 'Followups\TaskController@minuteComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 		});
-		Route::group(['prefix' => 'meetings'], function()
+		Route::group(['prefix' => 'meeting'], function()
 		{
 			Route::get('/', 'Meetings\MeetingsController@index');
 			//Route::get('myminutes', 'Meetings\MeetingsController@myminutes');
 			//Route::get('history', 'Meetings\MeetingsController@history');
 			Route::get('create','Meetings\MeetingsController@meetingForm');
 			Route::post('create','Meetings\MeetingsController@createMeeting');
-			Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting')->where('id', '[0-9]+');
-			Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting')->where('id', '[0-9]+');
+			// Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting')->where('id', '[0-9]+');
+			// Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting')->where('id', '[0-9]+');
 		});
 		Route::group(['prefix' => 'minute'], function()
 		{
