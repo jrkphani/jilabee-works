@@ -108,7 +108,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::post('comment/{taskid}', 'Followups\TaskController@taskComment')->where('taskid', '[0-9]+');
 			Route::post('{minuteId}/comment/{taskid}', 'Followups\TaskController@minuteComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 		});
-		Route::group(['prefix' => 'meeting'], function()
+		Route::group(['prefix' => 'meetings'], function()
 		{
 			Route::get('/', 'Meetings\MeetingsController@index');
 			//Route::get('myminutes', 'Meetings\MeetingsController@myminutes');
