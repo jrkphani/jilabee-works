@@ -13,8 +13,9 @@
 	{!! Form::text('endDate',$minute->endDate,['class'=>'dateInput','placeholder'=>'date']) !!}
 	{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 	</p>
-	<p>
-			<strong>Attendees</strong>
+	<div class="attendeesLable">
+			<h5>Attendees</h5>
+	</div>
 			<div id="attendees">
 				 <?php
 				 $emails = $attendees = array();
@@ -50,9 +51,10 @@
 				@endforeach
 			</div>
 			{!!$errors->first('attendees','<div class="error">:message</div>')!!}
-		</p>
-		<p>
-			<strong>Absentees</strong>
+			<div class="clearboth"></div>
+			<div class="absenteesLable">
+			<h5>Absentees</h5>
+			</div>
 			<div id="absentees">
 				<?php
 				 $emails = $absentees = array();
@@ -87,7 +89,7 @@
 					</div>
 				@endforeach
 			</div>
-		</p>
+			<div class="clearboth"></div>
 	<button id="updateMinute">Update</button>
 	@else
 

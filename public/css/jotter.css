@@ -14,12 +14,12 @@
 }
 .removeabsent,.markabsent
 {
-	background:#4d7dc5 url(../images/close_45.png)no-repeat left top; 
-	border: none;
-	cursor: pointer;
-	width: 45px; 
-	height: 45px;
-	float: right;
+	background: #4d7dc5 url("../images/close_45.png") no-repeat scroll left top / contain ;
+    border: medium none;
+    cursor: pointer;
+    display: inline-block;
+    height: 23px;
+    width: 23px;
 }
 .nextMinutePaper .removeMoreBtn
 {
@@ -27,7 +27,7 @@
     float: left;
     padding-top: 10px;
 }
-.dateInput
+.dateInput, .dateInputNext
 {
 	width: 114px;
 	height: 35px;
@@ -36,11 +36,40 @@
 {
 	margin: 5px 0 5px 0;
 }
+.nextMinutePaper input
+{
+	height: 35px;
+}
 .nextMinutePaper .minuteItemNumber
 {
 	margin-top: 0px !important;
 }
 .nextMinutePaper .minuteItemLeft h5
 {
-	margin-top: 0px !important;	
+	margin-top: 0px !important;
+	margin-bottom: 10px;
+	height: 32px;
+}
+.nextMinutePaper .minuteItemLeft h5 input
+{
+	height: 32px;
+}
+.taskDiv
+{
+	 border-top: 1px solid #cdcdcd;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    padding-top: 30px;
+}
+.attendees, .absentees
+{
+	height:30px;
+	width: 130px;
+	float:left;
+}
+.attendeesLable, .absenteesLable
+{
+	border-bottom: 1px solid #cdcdcd;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
 }

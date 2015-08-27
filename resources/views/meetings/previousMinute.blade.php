@@ -20,7 +20,7 @@ else
 	{{-- not show closed/canceled task in last meeting --}}
 	{{-- @foreach($minute->file()->where('status','!=','Canceled')->where('status','!=','Closed')->get() as $task) --}}
 	@foreach($minute->file()->get() as $task)
-		<div class="previousTaskBlock">
+		<div class="previousTaskBlock taskDiv">
 			{!! Form::hidden('tid[]', $task->id)!!}
 			{!! Form::hidden('type[]', 'task')!!}
 			<div>
@@ -42,7 +42,7 @@ else
 				<p>
 					{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 				</p>
-				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput dateInput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 				<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 			</div>
 			<div class="clearboth"></div>
