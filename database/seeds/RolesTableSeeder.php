@@ -6,7 +6,7 @@ class RolesTableSeeder extends Seeder {
 
   public function run()
   {
-    Roles::truncate();
+    //Roles::truncate();
     $roles = array(['name'=>'Attendee'],['name'=>'Minture']);
     Roles::insert($roles);
   }
