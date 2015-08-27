@@ -20,27 +20,30 @@ else
 	{{-- not show closed/canceled task in last meeting --}}
 	{{-- @foreach($minute->file()->where('status','!=','Canceled')->where('status','!=','Closed')->get() as $task) --}}
 	@foreach($minute->file()->get() as $task)
-		<div class="taskBlock">
+
+
+		<div class="previousTaskBlock">
 				{!! Form::hidden('tid[]', $task->id)!!}
 				{!! Form::hidden('type[]', 'task')!!}
-				<p>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}
-
-				{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
-				
-				<p>{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-			
-				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-
-				{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+				<div class="minuteItemNumber">
+					<p>1</p>
+				</div>
+				<div class="minuteItemLeft">
+					<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
+					<p>{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+				</div>
+				<div class="minuteItemRight">
+					<p>
+						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+					</p>
+					<p>
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+					</p>
+					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+				</div>
+				<div class="clearboth"></div>
 			</div>
-		{{-- <div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}T{{$task->id}}</div>
-		<div class="col-md-12">Due Date: {{$task->dueDate}}</div>
-		<div class="col-md-12">Status: {{$task->status}}</div>
-		<div class="col-md-12">Assignee: {{$task->assigneeDetail->name}}</div>
-		<div class="col-md-12">Assigner: @if($task->assigner){{$task->assignerDetail->name}} @endif</div>
-		<div class="col-md-12">{{$task->title}}</div>
-		<div class="col-md-12">{!!$task->description!!}</div>
-		<div class="col-md-12"><hr></div> --}}
 	@endforeach
 	@foreach($minute->ideas()->get() as $idea)
 		<div class="col-md-12">ID: {{$minute->meetingId}}M{{$minute->id}}D{{$idea->id}}</div>

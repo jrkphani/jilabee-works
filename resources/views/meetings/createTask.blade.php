@@ -1,5 +1,5 @@
 {!! Form::open(array('class'=>'form-horizontal','id'=>'tasksAddForm', 'method'=>'POST','role'=>'form')) !!}
-<div id="taskAddBlock">
+<div id="taskAddBlock" class="minuteItem">
 	@if($minute)
 
 {{-- Previous Minutes Will Be Here --}}
@@ -12,26 +12,35 @@
 		@endif
 	@endif
 
-
-New Minutes
 		<?php
 		if($minute->tasks->count())
 		{
 			//echo "yet to finsh edit minute task"; die;
 			foreach($minute->tasks()->get() as $task)
 			{ ?>
-			<div class="taskBlock">
+			Unfiled Minutes
+			<div class="notfiledTaskBlock">
 				{!! Form::hidden('tid[]', $task->id)!!}
 				{!! Form::hidden('type[]', 'task')!!}
-				<p>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}
-
-				{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
-				
-				<p>{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-			
-				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-
-				{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+				<span class="removeTaskFrom">Remove</span>
+				<div class="minuteItemNumber">
+					<p>1</p>
+				</div>
+				<div class="minuteItemLeft">
+					<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
+					<p>{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+				</div>
+				<div class="minuteItemRight">
+					<p>
+						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+					</p>
+					<p>
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+					</p>
+					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+				</div>
+				<div class="clearboth"></div>
 			</div>
 		<?php }
 		}
@@ -41,17 +50,20 @@ New Minutes
 			foreach($minute->draft()->get() as $draft)
 			{
 		?>
+			Draft Minutes
 			<div class="taskBlock">
 				{!! Form::hidden('tid[]', NULL)!!}
-				<div class="pull-right"><span class="removeTaskFrom">Remove</span></div>
-				<p>{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$draft->type,array('class'=>'type','autocomplete'=>'off')) !!}
-				Status
-				{!! Form::select('',[''=>'Draft'],'',array('disabled'=>'disabled')) !!}</p>
-
-				<p>{!! Form::text('title[]',$draft->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}
-
-				{!! Form::textarea('description[]',$draft->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
-				<?php if($draft->type == 'task')
+				<span class="removeTaskFrom">Remove</span>
+				<p>{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$draft->type,array('class'=>'type','autocomplete'=>'off')) !!}</p>
+				<div class="minuteItemNumber">
+					<p>1</p>
+				</div>
+				<div class="minuteItemLeft">
+					<h5>{!! Form::text('title[]',$draft->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
+					<p>{!! Form::textarea('description[]',$draft->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+				</div>
+				<div class="minuteItemRight">
+					<?php if($draft->type == 'task')
 						{
 							$display = 'display:none;';
 							$taskdisplay = '';
@@ -61,13 +73,18 @@ New Minutes
 							$display = '';
 							$taskdisplay = 'display:none;';
 						}
-				?>
-				<p>{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$draft->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
-			
-				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
-
-				{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}
-				{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
+					?>
+					<p>
+						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$draft->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
+					</p>
+					<p>
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
+					</p>
+					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
+					<p>Draft</p>
+				</div>
+				<div class="clearboth"></div>
 			</div>
 		<?php
 			}
@@ -76,22 +93,27 @@ New Minutes
 	@endif
 	<div class="taskBlock">
 		{!! Form::hidden('tid[]', NULL)!!}
-		<div class="pull-right"><span class="removeTaskFrom">Remove</span></div>
-		<p>{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}
-		Status
-		{!! Form::select('',[''=>'Draft'],'',array('disabled'=>'disabled')) !!}</p>
-
-		<p>{!! Form::text('title[]','',array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}
-
-		{!! Form::textarea('description[]','',array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
-
-		<p>{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-	
-		{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-
-		{!! Form::text('dueDate[]','',array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}
-
-		{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+		<span class="removeTaskFrom">Remove</span>
+		<p>{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}</p>
+		<div class="minuteItemNumber">
+			<p>1</p>
+		</div>
+		<div class="minuteItemLeft">
+			<h5>{!! Form::text('title[]','',array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
+			<p>{!! Form::textarea('description[]','',array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+		</div>
+		<div class="minuteItemRight">
+			<p>
+				{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+			</p>
+			<p>
+				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+			</p>
+			<p>{!! Form::text('dueDate[]','',array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+			<p>Draft</p>
+		</div>
+		<div class="clearboth"></div>
 	</div>
 </div>
 {!! Form::close() !!}
