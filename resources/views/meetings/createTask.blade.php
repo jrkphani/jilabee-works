@@ -4,11 +4,8 @@
 
 {{-- Previous Minutes Will Be Here --}}
 	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
-		@if($previousMinute)
-			<div class ="row">
-				<p><strong>Previous Minutes</strong></p>
+		@if($previousMinute)	
 				@include('meetings.previousMinute',['minute'=>$previousMinute])
-			</div>
 		@endif
 	@endif
 
@@ -22,7 +19,11 @@
 			<div class="notfiledTaskBlock">
 				{!! Form::hidden('tid[]', $task->id)!!}
 				{!! Form::hidden('type[]', 'task')!!}
-				<span class="removeTaskFrom">Remove</span>
+				<div>
+					<span class="removeTaskFrom removeMoreBtn"></span>
+					{!! Form::select('',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off','disabled')) !!}
+					<div class="clearboth"></div>
+				</div>
 				<div class="minuteItemNumber">
 					<p>1</p>
 				</div>
@@ -37,7 +38,7 @@
 					<p>
 						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>
-					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput dateInput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 				</div>
 				<div class="clearboth"></div>
@@ -53,8 +54,11 @@
 			Draft Minutes
 			<div class="taskBlock">
 				{!! Form::hidden('tid[]', NULL)!!}
-				<span class="removeTaskFrom">Remove</span>
-				<p>{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$draft->type,array('class'=>'type','autocomplete'=>'off')) !!}</p>
+				<div>
+					<span class="removeTaskFrom removeMoreBtn"></span>
+					{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}
+					<div class="clearboth"></div>
+				</div>
 				<div class="minuteItemNumber">
 					<p>1</p>
 				</div>
@@ -80,7 +84,7 @@
 					<p>
 						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
 					</p>
-					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
+					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"dateInputNext dateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
 					<p>Draft</p>
 				</div>
@@ -93,8 +97,11 @@
 	@endif
 	<div class="taskBlock">
 		{!! Form::hidden('tid[]', NULL)!!}
-		<span class="removeTaskFrom">Remove</span>
-		<p>{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}</p>
+		<div>
+			<span class="removeTaskFrom removeMoreBtn"></span>
+			{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}
+			<div class="clearboth"></div>
+		</div>
 		<div class="minuteItemNumber">
 			<p>1</p>
 		</div>
@@ -109,7 +116,7 @@
 			<p>
 				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 			</p>
-			<p>{!! Form::text('dueDate[]','',array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+			<p>{!! Form::text('dueDate[]','',array('class'=>"dateInputNext taskinput clearVal dateInput",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 			<p>Draft</p>
 		</div>

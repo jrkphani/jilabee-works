@@ -75,8 +75,8 @@
 		<div class="clearboth"></div>	
 	</div>
 	@else
-	<div class="adminUsersEdit1">
-		<label for="name">Name</label>
+	<div class="userDetailItem">
+		<p>Name</p>
 		<input type="text" name="name">
 	</div>
 	<div class="error" id="name_err"></div>
@@ -119,6 +119,7 @@
 				<div class="clearboth"></div>
 			</div>
 		</div>
+		<div class="clearboth"></div>
 		<div class="userDetailItemX">
 			<div class="userDetailItem">
 				<p>Password</p>

@@ -4,7 +4,7 @@
 		<div class="meetingSettingITem meetingParent">
 			<span class="removeMeeting removeMoreBtn" mid="{{$key}}"></span>
 			<p>{{$meetings[$key]}}</p>
-			{{$roles[1]}}
+			<span>{{$roles[1]}}</span>
 			<div class="clearboth"></div>
 		</div>
 	@endforeach
@@ -12,7 +12,7 @@
 		<div class="meetingSettingITem meetingParent">
 			<span class="removeMeeting removeMoreBtn" mid="{{$key}}"></span>
 			<p>{{$meetings[$key]}}</p>
-			{{$roles[2]}}
+			<span>{{$roles[2]}}</span>
 			<div class="clearboth"></div>
 		</div>
 	@endforeach
@@ -20,7 +20,7 @@
 	<div class="meetingSettingITem meetingItem">
 		<span class="removeMoreBtn removeMeeting"></span>
 		<p>{!! Form::select('meetings[]', [''=>'Select Meeting']+$meetings)!!}</p>
-		{!! Form::select('roles[]', [''=>'Select Role']+roles())!!}
+		<span>{!! Form::select('roles[]', [''=>'Select Role']+roles())!!}</span>
 		<div class="clearboth"></div>
 	</div>
 </div>
