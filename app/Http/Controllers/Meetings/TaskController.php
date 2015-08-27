@@ -275,7 +275,7 @@ class TaskController extends Controller {
 			{
 				$currentMinute = Minutes::where('meetingId',$meetingId)->where('filed','0')->first();
 				//print_r($currentMinute->id); die;
-				$lastFiledMinute = Minutes::where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				$lastFiledMinute = Minutes::where('meetingId',$meetingId)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
 				if($lastFiledMinute)
 				{
 					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId"),'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
