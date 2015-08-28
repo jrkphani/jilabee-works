@@ -8,9 +8,9 @@
 	<p>
 	{!! Form::text('venue',$minute->venue,['placeholder'=>'venue']) !!}
 	{{$errors->first('venue','<div class="error">:message</div>')}}
-	{!! Form::text('startDate',$minute->startDate,['class'=>'dateInput','placeholder'=>'date']) !!}
+	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'date']) !!}
 	{!!$errors->first('startDate','<div class="error">:message</div>')!!}
-	{!! Form::text('endDate',$minute->endDate,['class'=>'dateInput','placeholder'=>'date']) !!}
+	{!! Form::text('endDate',$minute->endDate,['id'=>'endSateInput','placeholder'=>'date']) !!}
 	{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 	</p>
 	<div class="attendeesLable">
@@ -130,11 +130,45 @@
 </div>
 
 <script type="text/javascript">
-//dateInput();
-$('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "today",changeMonth: true,changeYear: true});
-function dateInputNext()
-{
-	$('.dateInputNext').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
-}
-dateInputNext();
+
+$('#startDateInput').appendDtpicker(
+	{
+	"minDate": new Date(),
+	"autodateOnStart": false,
+    "closeOnSelected": true
+    });
+$('#endSateInput').appendDtpicker(
+	{
+    "minDate": new Date(),
+    "autodateOnStart": false,
+	"closeOnSelected": true
+    });
+//  $('#endSateInput').change(function()
+//  {
+//  	$('#startDateInput').handleDtpicker('destroy');
+//     $('#startDateInput').appendDtpicker(
+//     {
+// 	    "maxDate": new Date($('#endSateInput').val()),
+// 	    "autodateOnStart": false,
+//     	"closeOnSelected": true
+// 	});
+// });
+
+// $('#startDateInput').change(function()
+// {
+// 	t=Date.parseDate($('#startDateInput').val(), "Y-m-dTg:i a");
+// 	alert(t);
+// 	$('#endSateInput').handleDtpicker('destroy');
+//     $('#endSateInput').appendDtpicker(
+//     {
+// 	    "minDate": new Date($('#startDateInput').val()),
+// 	    "autodateOnStart": false,
+//     	"closeOnSelected": true
+//     });
+// });
+
+
+
+
+nextDateInput();
 </script>

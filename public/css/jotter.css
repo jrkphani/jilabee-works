@@ -27,7 +27,7 @@
     float: left;
     padding-top: 10px;
 }
-.dateInput, .dateInputNext
+#startDateInput, #endSateInput,.dateInput, .nextDateInput
 {
 	width: 114px;
 	height: 35px;

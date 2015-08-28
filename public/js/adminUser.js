@@ -134,22 +134,27 @@ $('#adminContent').on('click', '#editUserSubmit', function(event) {
 });
 $('#adminContent').on('change', '.roles', function(event) {
         event.preventDefault();
-        if($('#roles').length)
+        overrule = 0;
+        if($('#role').length)
         {
             //new user
-            if(parseInt($(this).val()) > parseInt($('#roles').val()))
+            if(parseInt($(this).val()) > parseInt($('#role').val()))
             {
                 $(this).val($('#roles').val());
-                alert("over rule");
+                overrule = 1;
             }
         }
-        if($('#preroles').length)
+        if($('#prerole').length)
         {
             //edit user
-            if(parseInt($(this).val()) > parseInt($('#preroles').val()))
+            if(parseInt($(this).val()) > parseInt($('#prerole').val()))
             {
-                //$(this).val($('#preroles').val());
-                //alert("over rule");
+                $(this).val($('#preroles').val());
+                overrule = 1;
             }
+        }
+        if(overrule)
+        {
+            alert("This user does not have this permision!");
         }
     });

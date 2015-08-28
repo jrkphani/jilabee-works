@@ -11,7 +11,7 @@
 		<p>User Rights</p>
 		<div class="userDetailItemY">
 			{!! Form::select('role',$roles,$user->role)!!}
-			{!! Form::hidden('preroles',$user->role,['id'=>'preroles'])!!}
+			{!! Form::hidden('prerole',$user->role,['id'=>'prerole'])!!}
 		</div>
 		<div class="error" id="role_err"></div>
 		<div class="clearboth"></div>
@@ -174,6 +174,13 @@
 <script>
 $(document).ready(function($)
 	{
-		 $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "-15y",changeMonth: true,changeYear: true});
+		 $('.dateInput').appendDtpicker(
+			    {
+			    "autodateOnStart": false,
+			    "maxDate":"-15y",
+			    "closeOnSelected": true,
+			    "dateOnly":true
+			    });
+		// / datepicker({dateFormat: "yy-mm-dd",maxDate: "-15y",changeMonth: true,changeYear: true});
 	});
 </script>

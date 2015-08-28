@@ -189,7 +189,7 @@ $('#centralContainer').on('click', '#add_more', function(event) {
         taskBlock.find(".type").val("task");
         taskBlock.find(".ideainput").hide();
         taskBlock.find(".taskinput").show();
-        dateInputNext();
+        nextDateInput();
 });
 $('#centralContainer').on('change', '.type', function(event) {
     event.preventDefault();

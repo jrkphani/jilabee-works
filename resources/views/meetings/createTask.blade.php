@@ -38,7 +38,7 @@
 					<p>
 						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>
-					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 				</div>
 				<div class="clearboth"></div>
@@ -84,7 +84,7 @@
 					<p>
 						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
 					</p>
-					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
+					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
 					<p>Draft</p>
 				</div>
@@ -116,7 +116,7 @@
 			<p>
 				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 			</p>
-			<p>{!! Form::text('dueDate[]','',array('class'=>"dateInputNext taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+			<p>{!! Form::text('dueDate[]','',array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 			<p>Draft</p>
 		</div>

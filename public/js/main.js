@@ -126,7 +126,24 @@ function popupContentAjaxPost(path,form)
 }
 function dateInput()
 {
-    $('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
+    var d = new Date();
+    $('.dateInput').appendDtpicker(
+    {
+    "autodateOnStart": false,
+    "closeOnSelected": true
+    });
+    //$('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
+}
+function nextDateInput()
+{
+    var d = new Date();
+    $('.nextDateInput').appendDtpicker(
+    {
+    "autodateOnStart": false,
+    "minDate": d,
+    "closeOnSelected": true
+    });
+    //$('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
 }
 function notification(status,message){
     $.notify(message,

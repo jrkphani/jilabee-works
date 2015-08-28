@@ -1,6 +1,7 @@
 @extends('master')
 @section('css')		
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
 @stop
 @section('content')
 {{-- content left--}}
@@ -273,5 +274,6 @@
 @endsection
 @section('javascript')
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
 <script src="{{ asset('/js/followups.js') }}"></script>
 @endsection

@@ -37,7 +37,7 @@
 					</div>
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
 					<div class="error" id="assignee_err"></div>
-					<label>Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
+					<label>Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'nextDateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentLeft">
@@ -64,7 +64,7 @@
 					</div>
 					{!! Form::text('assignee','',['id'=>'selectAssignee','placeholder'=>'search user']) !!}
 					<div class="error" id="assignee_err"></div>
-					<label>Choose deadline</label> {!! Form::text('dueDate','',['class'=>'dateInput']) !!}
+					<label>Choose deadline</label> {!! Form::text('dueDate','',['class'=>'nextDateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentLeft">
@@ -116,5 +116,5 @@
 	            return false;
             }
             });
-dateInput();
+nextDateInput();
 </script>

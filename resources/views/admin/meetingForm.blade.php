@@ -44,13 +44,13 @@
 	<?php
 		if($meeting->minuters)
 		{
-			$participantsUser = App\Model\Profile::select('users.userId','profiles.name','profiles.roles')
+			$participantsUser = App\Model\Profile::select('users.userId','profiles.name','profiles.role')
                         ->join('users','profiles.userId','=','users.id')
                         ->whereIn('users.id',explode(',',$meeting->minuters))->get();
 			foreach ($participantsUser as $user)
 			{
 			?>
-				<div class="meetingSettingITem participant" roles="{{$user->roles}}" uid="{{$user->userId}}">
+				<div class="meetingSettingITem participant" roles="{{$user->role}}" uid="{{$user->userId}}">
 					<span class="removeMoreBtn removeParent"></span>
 					<input type="hidden" name="participants[]" value="{{$user->userId}}">
 					<p>{{$user->name}}</p>
@@ -73,13 +73,13 @@
 		}
 	if($participants)
 	{
-		$participantsUser = App\Model\Profile::select('users.userId','profiles.name','profiles.roles')
+		$participantsUser = App\Model\Profile::select('users.userId','profiles.name','profiles.role')
                         ->join('users','profiles.userId','=','users.id')
                         ->whereIn('users.id',$participants)->get();
 		foreach ($participantsUser as $user)
 		{
 		?>
-			<div class="meetingSettingITem participant" roles="{{$user->roles}}" uid="{{$user->userId}}">
+			<div class="meetingSettingITem participant" roles="{{$user->role}}" uid="{{$user->userId}}">
 				<span class="removeMoreBtn removeParent"></span>
 				<input type="hidden" name="participants[]" value="{{$user->userId}}">
 				<p>{{$user->name}}</p>
@@ -188,7 +188,7 @@ $('#selectParticipant').autocomplete({
                 }
                 else
                 {
-                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.roles+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
+                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.role+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
                     selectedParticipant.append(insert);
                 }
                 $('#selectParticipant').val('');
