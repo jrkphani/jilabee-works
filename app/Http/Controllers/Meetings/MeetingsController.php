@@ -36,27 +36,26 @@ class MeetingsController extends Controller {
 						 		})
 						->get();
 						//print_r($newmeetings); die;
-		$minutes = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+		$recentMinutes = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.approved','=','1')
-					->orderBy('minutes.startDate','desc')->get();
+					->where('minutes.filed','=','1')
+					->groupBy('minutes.meetingId')
+					->orderBy('minutes.startDate','desc')
+					->get();
+		$notfiled = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.approved','=','1')
+					->where('minutes.filed','=','0')
+					->groupBy('minutes.meetingId')
+					->get();
 		//print_r($minutes); die;
 					//non approve meeting minutes
 		$pendingminutes = Minutes::select('minutes.*')->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.requested_by','=',Auth::id())
 					->where('meetings.approved','=','0')->get();
 					//print_r($pendingminutes); die;
-		foreach ($minutes as $row)
-		{
-			if($row->filed == '0')
-			{
-				$notfiled[] = $row;
-			}
-			else
-			{
-				$recentMinutes[] = $row;
-			}
-		}
+		
 		return view('meetings.index',['notfiled'=>$notfiled,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingminutes'=>$pendingminutes]);
 	}
 	public function meetingForm($mid=NULL)

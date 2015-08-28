@@ -3,7 +3,7 @@ $(document).ready(function($)
 	var width = $(window).width() * 2;
     var string = "width:" + width + "px";
     $('#centralContainer').attr("style",string);
-    $('#centralViewer').show();
+    //$('#centralViewer').show();
     $("#centralViewer").scrollLeft($('#contentRight').width());
     //moveright();
     $('#moveright').click(function(event) {

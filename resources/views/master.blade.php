@@ -16,8 +16,9 @@
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
 		<h1><a href="/">Jotter</a></h1>
-			<nav>
-				<?php $colorClass = ''; ?>
+		<button class="showHeaderMenu" id="showHeaderMenu" onclick="$('#headerNav').toggle();" ></button>	
+			<nav id="headerNav" class="headerNav">
+				<?php $colorClass = $addtionalClass =''; ?>
 				@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
 					<a class="navHightlight jobsHeaderColor" id="jobs">Jobs</a>
 					<?php $colorClass = 'jobsColor'; ?>
@@ -31,6 +32,7 @@
 					<a href="{{ url('followups') }}">Follow Ups</a>
 				@endif
 				@if(Request::segment(1) == 'meetings')
+				<?php $addtionalClass = 'meetingsPage'; ?>
 					<a class="navHightlight">Meetings</a>
 				@else
 					<a href="{{ url('meetings') }}">Meetings</a>
@@ -55,7 +57,7 @@
 			<div class="clearboth"></div>
 	</header>
 
-	<div id="centralViewer" class="centralViewer {{$colorClass}}" style="display:none;">
+	<div id="centralViewer" class="centralViewer {{$colorClass}} {{$addtionalClass}}">
 		<div class="centralContainer" id="centralContainer">
 			@yield('content')
 		</div>
