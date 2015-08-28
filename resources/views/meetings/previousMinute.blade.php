@@ -48,10 +48,4 @@ else
 			<div class="clearboth"></div>
 		</div>
 	@endforeach
-	@foreach($minute->ideas()->get() as $idea)
-		<div>ID: {{$minute->meetingId}}M{{$minute->id}}D{{$idea->id}}</div>
-		<div>Orginator: @if($idea->orginator){{$idea->orginatorDetail->name}} @endif</div>
-		<div>{{$idea->title}}</div>
-		<div>{!!$idea->description!!}</div>
-	@endforeach
 </div>

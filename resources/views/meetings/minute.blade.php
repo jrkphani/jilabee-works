@@ -2,7 +2,7 @@
 	<div class="paperBorder">
 		<div class="paperTitleLeft">
 			<h3>{{$minute->meeting->title}}</h3>
-			<p> MT23SH meeting venue: {{$minute->venue}}</p>
+			<p>meeting venue: {{$minute->venue}}</p>
 		</div>
 		<div class="paperTitleRight">
 			<h3>{{date('d-M-Y',strtotime($minute->startDate))}}</h3>
@@ -48,17 +48,18 @@
 		@else
 			<?php $tasks = $minute->file; ?>
 		@endif
+		<?php $count = 1; ?>
 		@foreach( $tasks as $task)
 			<div class="minuteItem">
 				<div class="minuteItemNumber">
-					<p>1</p>
+					<p>{{$count++}}</p>
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{{$task->title}}</h5>
 					<p>{{$task->description}}</p>
 				</div>
 				<div class="minuteItemRight">
-					<h6>MT{{$task->id}}</h6>
+					<h6>MINUTE{{$task->id}}</h6>
 					<p>
 						@if(isEmail($task->assignee))
 						{{$task->assignee}}
@@ -66,11 +67,33 @@
 						{{$task->assigneeDetail->name}}
 						@endif
 					</p>
-					<p>14 March	</p>
+					<p>{{$task->dueDate}}</p>
 					<p>{{$task->status}}</p>
 				</div>
 				<div class="clearboth"></div>
 			</div>
 		@endforeach
+
+		@if($minute->ideas()->count())
+			<h4>Ideas</h4>
+			@foreach($minute->ideas()->get() as $idea)
+				<div class="minuteItem">
+					<div class="minuteItemNumber">
+						<p>{{$count++}}</p>
+					</div>
+					<div class="minuteItemLeft">
+						<h5>{{$idea->title}}</h5>
+						<p>{{$idea->description}}</p>
+					</div>
+					<div class="minuteItemRight">
+						<h6>IDEA{{$idea->id}}</h6>
+						<p>
+							@if($idea->orginator){{$idea->orginatorDetail->name}} @endif
+						</p>
+					</div>
+					<div class="clearboth"></div>
+				</div>
+			@endforeach
+		@endif
 	</div>
 </div>
