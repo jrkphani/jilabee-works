@@ -51,10 +51,10 @@
 			{
 			?>
 				<div class="meetingSettingITem participant" roles="{{$user->roles}}" uid="{{$user->userId}}">
-					<button class="removeMoreBtn removeParent"></button>
+					<span class="removeMoreBtn removeParent"></span>
 					<input type="hidden" name="participants[]" value="{{$user->userId}}">
 					<p>{{$user->name}}</p>
-					{!! Form::select('roles[]', $roles,'2',["class"=>"roles"])!!}
+					<span>{!! Form::select('roles[]', $roles,'2',["class"=>"roles"])!!}</span>
 					<div class="clearboth"></div>
 				</div>
 		<?php
@@ -80,10 +80,10 @@
 		{
 		?>
 			<div class="meetingSettingITem participant" roles="{{$user->roles}}" uid="{{$user->userId}}">
-				<button class="removeMoreBtn removeParent"></button>
+				<span class="removeMoreBtn removeParent"></span>
 				<input type="hidden" name="participants[]" value="{{$user->userId}}">
 				<p>{{$user->name}}</p>
-				{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}
+				<span>{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}</span>
 				<div class="clearboth"></div>
 			</div>
 		<?php
@@ -188,7 +188,7 @@ $('#selectParticipant').autocomplete({
                 }
                 else
                 {
-                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.roles+'" class="meetingSettingITem participant"><button class="removeMoreBtn removeParent"></button> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} <div class="clearboth"></div></div>';
+                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.roles+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
                     selectedParticipant.append(insert);
                 }
                 $('#selectParticipant').val('');

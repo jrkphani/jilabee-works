@@ -1,6 +1,5 @@
 @extends('admin')
 @section('content')
-	<div class="adminContent">
 		<div class="adminUsersLeft">
 			<div class="inner1">
 				<div class="filterSet1">
@@ -21,11 +20,10 @@
 				</div>
 			</div>
 		</div>
-		<div id="adminUsersRight" class="adminUsersRight">
+		<div id="adminUsersRight" class="adminUsersRight adminUsersEdit">
 				Loading ....
 		</div>
 		<div class="clearboth"></div>
-	</div>
 	<button class="addBtn" id="addUser"> </button>
 	<div class="popupOverlay" id="popup" ></div>
 @endsection

@@ -132,3 +132,24 @@ $('#adminContent').on('click', '#editUserSubmit', function(event) {
         checkStatus(xhr.status);
     });
 });
+$('#adminContent').on('change', '.roles', function(event) {
+        event.preventDefault();
+        if($('#roles').length)
+        {
+            //new user
+            if(parseInt($(this).val()) > parseInt($('#roles').val()))
+            {
+                $(this).val($('#roles').val());
+                alert("over rule");
+            }
+        }
+        if($('#preroles').length)
+        {
+            //edit user
+            if(parseInt($(this).val()) > parseInt($('#preroles').val()))
+            {
+                $(this).val($('#preroles').val());
+                alert("over rule");
+            }
+        }
+    });

@@ -128,7 +128,6 @@
 	</div>
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
-		@if($tasks->count())
 		<div class="mainListFilter">
 			<input type="text" placeholder="Search...">
 			<select>
@@ -253,7 +252,6 @@
 			<p>History</p>
 		</div>
 		<button class="addBtn"> </button>
-		@endif
 	</div>
 	<div class="clearboth"></div>
 	<!--========================================= POP UP 1 ===================================================-->

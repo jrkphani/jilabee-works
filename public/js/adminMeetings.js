@@ -45,13 +45,12 @@ $(document).ready(function($)
     });
     $('#adminContent').on('change', '.roles', function(event) {
         event.preventDefault();
-        //alert($(this).parent('div.participant').attr('roles'));
-        role = $(this).parent('div.participant').attr('roles');
+        role = $(this).parents('div.participant').attr('roles');
         if(parseInt($(this).val()) > parseInt(role))
         {
+            $(this).val(role);
             alert("over rule");
         }
-
     });
     /*$('.approve').click(function(event) {
        var mid = $(this).attr('mid');

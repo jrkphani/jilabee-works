@@ -1,16 +1,17 @@
 <div class="inner2">
 	{!!Form::open(['id'=>'addUserForm'])!!}
 	@if($user)
-	<div class="adminUsersEdit1">
-		<label for="name">Name</label>
+	<div class="userDetailItem">
+		<p>Name</p>
 		<input type="text" name="name" value="{{$user->name}}">
+		<div class="error" id="name_err"></div>
+		<div class="clearboth"></div>
 	</div>
-	<div class="error" id="name_err"></div>
-	<div class="clearboth"></div>
 	<div class="userDetailItem">
 		<p>User Rights</p>
 		<div class="userDetailItemY">
 			{!! Form::select('role',$roles,$user->roles)!!}
+			{!! Form::hidden('preroles',$user->roles,['id'=>'preroles'])!!}
 		</div>
 		<div class="error" id="roles_err"></div>
 		<div class="clearboth"></div>
@@ -45,6 +46,7 @@
 				<div class="clearboth"></div>
 			</div>
 		</div>
+		<div class="clearboth"></div>
 		<div class="userDetailItemX">
 			<div class="userDetailItem">
 				<p>Password</p>
@@ -84,7 +86,7 @@
 	<div class="userDetailItem">
 		<p>User Rights</p>
 		<div class="userDetailItemY">
-			{!! Form::select('role',$roles)!!}
+			{!! Form::select('role',$roles,'1',['id'=>'roles'])!!}
 		</div>
 		<div class="error" id="roles_err"></div>
 		<div class="clearboth"></div>
