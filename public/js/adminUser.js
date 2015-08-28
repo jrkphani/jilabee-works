@@ -148,8 +148,8 @@ $('#adminContent').on('change', '.roles', function(event) {
             //edit user
             if(parseInt($(this).val()) > parseInt($('#preroles').val()))
             {
-                $(this).val($('#preroles').val());
-                alert("over rule");
+                //$(this).val($('#preroles').val());
+                //alert("over rule");
             }
         }
     });

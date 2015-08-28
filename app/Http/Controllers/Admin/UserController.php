@@ -77,7 +77,7 @@ class UserController extends Controller {
 						$profile->dob = $input['dob'];
 						$profile->gender = $input['gender'];
 						$profile->phone = $input['phone'];
-						$profile->roles = $input['role'];
+						$profile->role = $input['role'];
 						$profile->created_by = Auth::id();
 						$profile->updated_by = Auth::id();
 						if($user->profile()->save($profile))
@@ -96,6 +96,13 @@ class UserController extends Controller {
 								{
 									if($meeting = Meetings::find($value))
 									{
+										if($input['roles'][$key] > $profile->role)
+										{
+											/*to avoid invalid role on user creation
+											meeting role should be less then or equal to user role
+											can not throw validation error bcz the user record are creaetd*/
+											$input['roles'][$key] = $profile->role;
+										}
 										if($input['roles'][$key] == 1)
 										{
 											$meeting->attendees = $meeting->attendees.','.$user->id;
@@ -148,7 +155,7 @@ class UserController extends Controller {
 				$profile->dob = $input['dob'];
 				$profile->gender = $input['gender'];
 				$profile->phone = $input['phone'];
-				$profile->roles = $input['role'];
+				$profile->role = $input['role'];
 				$profile->updated_by = Auth::id();
 				if($profile->save())
 				{
@@ -178,25 +185,38 @@ class UserController extends Controller {
 					{
 						foreach ($input['meetings'] as $key=>$value)
 						{
-							if($meeting = Meetings::whereId($value)->first())
+							if($value)
 							{
-								$minuters = explode(',',$meeting->minuters);
-								$attendees = explode(',',$meeting->attendees);
-								if(in_array($user->id,$minuters) || in_array($user->id,$attendees))
+								foreach ($input['roles'] as $key=>$role)
 								{
-									//already user is there 
-									//skip
-									continue;
+									if($role > $profile->role)
+									{
+										$output['success'] = 'no';
+										$validator->errors()->add("roles","Inavalid role");
+										$output['validator'] = $validator->messages()->toArray();
+										return json_encode($output);
+									}
 								}
-								if($input['roles'][$key] == 1)
+								if($meeting = Meetings::whereId($value)->first())
 								{
-									$meeting->attendees = $meeting->attendees.','.$user->id;
+									$minuters = explode(',',$meeting->minuters);
+									$attendees = explode(',',$meeting->attendees);
+									if(in_array($user->id,$minuters) || in_array($user->id,$attendees))
+									{
+										//already user is there 
+										//skip
+										continue;
+									}
+									if($input['roles'][$key] == 1)
+									{
+										$meeting->attendees = $meeting->attendees.','.$user->id;
+									}
+									else if($input['roles'][$key] == 2)
+									{
+										$meeting->minuters = $meeting->minuters.','.$user->id;
+									}
+									$meeting->save();
 								}
-								else if($input['roles'][$key] == 2)
-								{
-									$meeting->minuters = $meeting->minuters.','.$user->id;
-								}
-								$meeting->save();
 							}
 						}
 					}

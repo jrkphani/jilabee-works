@@ -21,7 +21,7 @@ class CreateProfilesTable extends Migration {
             $table->string('phone',16);
             $table->date('dob');
             $table->enum('gender', array('M','F','O'));
-            $table->integer('roles')->default(1)->unsigned();
+            $table->integer('role')->default(1)->unsigned();
             $table->string('notification',16);
             $table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
@@ -32,7 +32,7 @@ class CreateProfilesTable extends Migration {
         {
             $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('roles')->references('id')->on('roles')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('role')->references('id')->on('roles')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

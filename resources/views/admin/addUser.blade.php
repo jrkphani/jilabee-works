@@ -10,10 +10,10 @@
 	<div class="userDetailItem">
 		<p>User Rights</p>
 		<div class="userDetailItemY">
-			{!! Form::select('role',$roles,$user->roles)!!}
-			{!! Form::hidden('preroles',$user->roles,['id'=>'preroles'])!!}
+			{!! Form::select('role',$roles,$user->role)!!}
+			{!! Form::hidden('preroles',$user->role,['id'=>'preroles'])!!}
 		</div>
-		<div class="error" id="roles_err"></div>
+		<div class="error" id="role_err"></div>
 		<div class="clearboth"></div>
 	</div>
 	
@@ -86,9 +86,9 @@
 	<div class="userDetailItem">
 		<p>User Rights</p>
 		<div class="userDetailItemY">
-			{!! Form::select('role',$roles,'1',['id'=>'roles'])!!}
+			{!! Form::select('role',$roles,'1',['id'=>'role'])!!}
 		</div>
-		<div class="error" id="roles_err"></div>
+		<div class="error" id="role_err"></div>
 		<div class="clearboth"></div>
 	</div>
 	

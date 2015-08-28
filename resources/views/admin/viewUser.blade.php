@@ -9,7 +9,7 @@
 		<div class="userDetailItem">
 			<p>User rights</p>
 			<span>
-				{{$roles[$user->roles]}}
+				{{$roles[$user->role]}}
 			</span>
 			<div class="clearboth"></div>
 		</div>
