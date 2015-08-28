@@ -9,7 +9,7 @@
 	<meta name="keywords" content="Anabond, Jotter, ">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
 </head>
 <body>
 	<header>
@@ -90,10 +90,16 @@
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
 <script>
 	$(document).ready(function($)
 		{
-			 $('.dateInput').datepicker({dateFormat: "yy-mm-dd",maxDate: "-15y",changeMonth: true,changeYear: true});
+			$('.dateInput').appendDtpicker(
+			    {
+			    "autodateOnStart": false,
+			    "maxDate":"-15y",
+			    "closeOnSelected": true,
+			    "dateOnly":true
+			    });
     	});
 </script>
