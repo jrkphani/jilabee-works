@@ -84,14 +84,15 @@
 			{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'date']) !!}
 			{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 		</p>
-		<p>
-			<strong>Attendees</strong>
+			<div class="attendeesLable">
+				<h5>Attendees</h5>
+			</div>
 			<div id="attendees">
 				@foreach ($attendees as $key=>$value)
 					<div class="attendees" uid="u{{$key}}">
 						{!! Form::hidden('attendees[]',$key) !!}
 						{{$value}}
-						<span class="markabsent"> Remove</span>
+						<span class="markabsent"></span>
 					</div>
 				@endforeach
 				@foreach ($attendeesEmail as $key=>$value)
@@ -103,11 +104,12 @@
 				@endforeach
 			</div>
 			{!!$errors->first('attendees','<div class="error">:message</div>')!!}
-		</p>
-		<p>
-			<div><strong>Absentees</strong></div>
+			<div class="clearboth"></div>
+			<div class="absenteesLable">
+				<h5>Absentees</h5>
+			</div>
 			<div id="absentees"></div>
-		</p>
+			<div class="clearboth"></div>
 
 	<button id="updateMinute">Proceed</button>
 	@endif
