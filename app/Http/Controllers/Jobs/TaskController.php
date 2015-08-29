@@ -24,7 +24,53 @@ class TaskController extends Controller {
 	{
 		$tasks = Tasks::whereAssignee(Auth::id())
 					->where('status','!=','Closed')->get();
-		return view('jobs.index',['tasks'=>$tasks]);
+		$taskToFinsh = $taskNotFiled = $taskCompleted = $taskClosed = array();
+		foreach($tasks as $task)
+		{
+			if($task->type == 'minute')
+			{
+				if($task->minute->filed == '1')
+				{
+					if($task->status == 'Completed')
+					{
+						$taskCompleted[] = $task;
+					}
+					else if($task->status == 'Open')
+					{
+						$taskToFinsh[] = $task;
+					}
+					else if($task->status == 'Closed')
+					{
+						$taskClosed[] = $task;
+					}
+				}
+				else
+				{
+					$taskNotFiled[] = $task;
+				}
+			}
+			else
+			{
+				if($task->status == "Sent")
+				{
+					$taskNotFiled[] = $task;
+				}
+				else if($task->status == 'Completed')
+				{
+					$taskCompleted[] = $task;
+				}
+				else if($task->status == 'Open')
+				{
+					$taskToFinsh[] = $task;
+				}
+				else if($task->status == 'Closed')
+				{
+					$taskClosed[] = $task;
+				}
+			}
+			
+		}
+		return view('jobs.index',['taskToFinsh'=>$taskToFinsh ,'taskNotFiled'=>$taskNotFiled,'taskCompleted'=>$taskCompleted,'taskClosed'=>$taskClosed]);
 	}
 	public function viewTask($id)
 	{
@@ -103,11 +149,17 @@ class TaskController extends Controller {
 			{
 				JobDraft::destroy(Request::input('id'));
 			}
+			$input['status'] = 'Sent';
 			if(isEmail($input['assignee']))
 			{
 				if($assignee = getUser(['email'=>$input['assignee']]))
 				{
 					$input['assignee'] = $assignee->id;
+				}
+				else
+				{
+					//mark the task as accepted for who do have an account
+					$input['status'] = 'Open';
 				}
 			}
 			else

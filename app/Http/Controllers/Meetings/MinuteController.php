@@ -56,34 +56,46 @@ class MinuteController extends Controller {
 					echo "Another user is taking minutes.";
 					return;
 				}
-				//$minute = $minute->first();
-				// if($minute->tasks->count())
-				// {
-				// 	//minute allready send yet not filed
-				// 	echo "previous minute not filed <br>yet to finsh edit minute task"; die;
-				// }
-				$participants = array_merge(explode(',',$minute->attendees),explode(',',$minute->absentees));
-				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
-
+				$participants = $attendeesEmail=array();
+				if($minute->attendees)
+				{
+					foreach(explode(',',$minute->attendees) as $value)
+					{
+						if(isEmail($value))
+						{
+							$attendeesEmail[$value] = $value;
+						}
+						else
+						{
+							$participants[]=$value;
+						}
+					}
+				}
 				//echo "here"; die;
 			}
 			else
 			{
 				$minute = NULL;
-				if($meeting->minuters)
-				{
-					$participants = explode(',',$meeting->minuters);
-				}
+				$participants = $attendees = $attendeesEmail=array();
 				if($meeting->attendees)
 				{
-					foreach(explode(',',$meeting->attendees) as $attendees)
+					foreach(explode(',',$meeting->attendees) as $value)
 					{
-						array_push($participants, $attendees);
+						if(isEmail($value))
+						{
+							$attendeesEmail[$value] = $value;
+						}
+						else
+						{
+							$attendees[]=$value;
+						}
 					}
+					$participants = array_merge(explode(',',$meeting->minuters),$attendees);
 				}
-				$users = Profile::whereIn('userId',$participants)->lists('name','userId');
 			}
-			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'minute'=>$minute]);
+			//print_r($attendeesEmail); die;
+			$users = Profile::whereIn('userId',$participants)->lists('name','userId');
+			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'attendeesEmail'=>$attendeesEmail,'minute'=>$minute]);
 		}
 	}
 	public function create($mid)
@@ -172,7 +184,8 @@ class MinuteController extends Controller {
 				$tempArr['title'] = trim($input['title'][$i]);
 				$tempArr['description'] = trim($input['description'][$i]);
 				$tempArr['assignee'] = $input['assignee'][$i];
-				$tempArr['assigner'] = $input['assigner'][$i];
+				//$tempArr['assigner'] = $input['assigner'][$i];
+				$tempArr['assigner'] = Auth::id();
 				$tempArr['orginator'] = $input['orginator'][$i];
 				$tempArr['dueDate'] = $input['dueDate'][$i];
 				if(!isset($input['type'][$i]))

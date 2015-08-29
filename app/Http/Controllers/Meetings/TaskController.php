@@ -20,95 +20,138 @@ class TaskController extends Controller {
 	/*public function __construct()
 	{
 	}*/
-	public function index()
-	{
-		//return view('jobs.index');
-	}
-
 	public function createTask($mid)
 	{
 		$input = Request::only('tid','title','description','assignee','assigner','orginator','dueDate','type');
 		$output['success'] = 'yes';
 		$records= $ideasArr = array();
-		for ($i=0; $i < count($input['title']); $i++)
+		$updatedFlag = 0;
+		$minute = Minutes::whereId($mid)->whereFiled('0')->where('created_by','=',Auth::id())->first();
+		if($minute)
 		{
-			$tempArr= array();
-			$tempArr['title'] = trim($input['title'][$i]);
-			$tempArr['description'] = trim($input['description'][$i]);
-			if(($tempArr['title']) && ($tempArr['description']))
+			//make sure only minute which is not filed can be edited
+			foreach (Request::get('removeTask',array()) as $taskId)
 			{
-				if(!isset($input['type'][$i]))
-				{
-					$input['type'][$i] = "task";
-				}
-				if($input['type'][$i] == 'task')
-				{
-					$tempArr['assignee'] = $input['assignee'][$i];
-					$tempArr['assigner'] = $input['assigner'][$i];
-					$tempArr['dueDate'] = $input['dueDate'][$i];
-					$tempArr['updated_by'] = Auth::id();
-					$validator = MinuteTasks::validation($tempArr);
-					if ($validator->fails())
-					{
-						$output['success'] = 'no';
-						$output['validator'] = $validator->messages()->toArray();
-						return json_encode($output);
-					}
-					//if(($tempArr['title']) && ($tempArr['description']))
-					if($input['tid'][$i])
-					{
-						MinuteTasks::whereId($input['tid'][$i])->update($tempArr);
-					}
-					else
-					{
-						$tempArr['created_by'] = Auth::id();
-						$records[] = new MinuteTasks(array_filter($tempArr));
-					}	
-				}
-				elseif($input['type'][$i] == 'idea')
-				{
-					$tempArr['orginator'] = $input['orginator'][$i];
-					$tempArr['created_by'] = $tempArr['updated_by'] = Auth::id();
-					$validator = Ideas::validation($tempArr);
-					if ($validator->fails())
-					{
-						$output['success'] = 'no';
-						$output['validator'] = $validator->messages()->toArray();
-						return json_encode($output);
-					}
-					$ideasArr[] = new Ideas(array_filter($tempArr));
-				}
+				//remove the task while the minute is not filed yet
+				$task = MinuteTasks::find($taskId);
+				$task->comments()->forceDelete();
+				$task->forceDelete();
+				//JobDraft::destroy(Request::input('id'));
 			}
-			
-		}
-		if($records || $ideasArr)
-		{	
-			$minute = Minutes::whereId($mid)->whereFiled('0')->where('created_by','=',Auth::id())->first();
-			if($ideasArr)
+			foreach (Request::get('removeIdea',array()) as $ideaId)
 			{
-				DB::transaction(function() use ($minute,$ideasArr)
-				{
-					$minute->ideas()->saveMany($ideasArr);
-				});
+				//remove the idea while the minute is not filed yet
+				$idea = Ideas::find($ideaId);
+				$idea->forceDelete();
 			}
-			if($records)
+			for ($i=0; $i < count($input['title']); $i++)
 			{
-				DB::transaction(function() use ($minute,$records)
+				$tempArr= array();
+				$tempArr['title'] = trim($input['title'][$i]);
+				$tempArr['description'] = trim($input['description'][$i]);
+				if(($tempArr['title']) && ($tempArr['description']))
 				{
-					$minute->tasks()->saveMany($records);
-				});
+					if($input['type'][$i] == 'task')
+					{
+						$tempArr['assignee'] = $input['assignee'][$i];
+						//$tempArr['assigner'] = $input['assigner'][$i];
+						$tempArr['assigner'] = Auth::id();
+						$tempArr['dueDate'] = $input['dueDate'][$i];
+						$tempArr['updated_by'] = Auth::id();
+						$tempArr['status'] = 'Sent';
+						$validator = MinuteTasks::validation($tempArr);
+						if ($validator->fails())
+						{
+							$output['success'] = 'no';
+							$output['validator'] = $validator->messages()->toArray();
+							return json_encode($output);
+						}
+						if($assignee = getUser(['email'=>$input['assignee'][$i]]))
+						{
+							//check user has an account
+							$input['assignee'][$i] = $assignee->id;
+						}
+						if(isEmail($input['assignee'][$i]))
+						{
+							//mark the task as accepted for who do have an account
+							$tempArr['status'] = 'Open';
+						}
+						if($input['tid'][$i])
+						{
+							$updatedFlag = 1;
+							MinuteTasks::whereId($input['tid'][$i])->update($tempArr);
+						}
+						else
+						{
+							$tempArr['created_by'] = Auth::id();
+							$records[] = new MinuteTasks(array_filter($tempArr));
+						}	
+					}
+					elseif($input['type'][$i] == 'idea')
+					{
+						$tempArr['orginator'] = $input['orginator'][$i];
+						$tempArr['updated_by'] = Auth::id();
+						$validator = Ideas::validation($tempArr);
+						if ($validator->fails())
+						{
+							$output['success'] = 'no';
+							$output['validator'] = $validator->messages()->toArray();
+							return json_encode($output);
+						}
+						if($input['tid'][$i])
+						{
+							$updatedFlag = 1;
+							Ideas::whereId($input['tid'][$i])->update($tempArr);
+						}
+						else
+						{
+							$tempArr['created_by'] = Auth::id();
+							$ideasArr[] = new Ideas(array_filter($tempArr));
+						}
+					}
+				}
+				
 			}
-			$minute->draft()->delete();
-			$output['meetingId'] = $minute->meetingId;
-			return json_encode($output);
+			if($records || $ideasArr)
+			{	
+				if($ideasArr)
+				{
+					DB::transaction(function() use ($minute,$ideasArr)
+					{
+						$minute->ideas()->saveMany($ideasArr);
+					});
+				}
+				if($records)
+				{
+					DB::transaction(function() use ($minute,$records)
+					{
+						$minute->tasks()->saveMany($records);
+					});
+				}
+				$minute->draft()->delete();
+				$output['meetingId'] = $mid;
+				return json_encode($output);
 
+			}
+			else
+			{
+				if($updatedFlag == 1)
+				{
+					$output['success'] = 'yes';
+					$output['meetingId'] = $mid;
+				}
+				else
+				{
+					$output['success'] = 'no';
+					$output['message'] = 'Empty fields';
+				}
+				return json_encode($output);
+			}
 		}
 		else
 		{
-			$output['success'] = 'no';
-			$output['message'] = 'Empty fields';
-			return json_encode($output);
-		}
+			abort('403');
+		}	
 	}
 	public function viewTask($mid,$id)
 	{
@@ -299,15 +342,6 @@ class TaskController extends Controller {
 							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
 							->get()->toArray();	
 				}
-				
-				//print_r($tasks);
-				//foreach ($tasks as $task)
-				//{
-				//	echo $task['title'];
-				//	echo "<br>";
-				//}
-				//die;
-							//yet to add closed task form previous minutes in filedminutes
 				if(FiledMinutes::insert($tasks))
 				{
 					$currentMinute->filed='1';

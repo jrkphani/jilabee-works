@@ -17,7 +17,7 @@
 	<header>
 		<h1><a href="/">Jotter</a></h1>
 			<nav>
-				@if(Request::segment(2) == 'admin')
+				@if(Request::segment(2) == '')
 					<a class="navHightlight">Notifications</a>
 				@else
 					<a href="{{url('admin')}}">Notifications</a>

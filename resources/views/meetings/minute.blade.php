@@ -88,7 +88,13 @@
 					<div class="minuteItemRight">
 						<h6>IDEA{{$idea->id}}</h6>
 						<p>
-							@if($idea->orginator){{$idea->orginatorDetail->name}} @endif
+							@if($idea->orginator)
+								@if(isEmail($idea->orginator))
+									{{$idea->orginator}}
+								@else
+									{{$idea->orginatorDetail->name}}
+								@endif
+							@endif
 						</p>
 					</div>
 					<div class="clearboth"></div>

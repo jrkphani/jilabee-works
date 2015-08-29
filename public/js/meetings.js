@@ -276,6 +276,19 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             $(this).parents('.taskBlock').remove();
         }
     });
+  $('#centralContainer').on('click', '.removeTask', function(event) {
+        event.preventDefault();
+        parentDiv = $(this).parents('.notfiledTaskBlock');
+        $('#tasksAddForm').prepend('<input type="hidden" name="removeTask[]" value="'+parentDiv.attr("tid")+'" >');
+        parentDiv.remove();
+    });
+  $('#centralContainer').on('click', '.removeIdea', function(event) {
+        event.preventDefault();
+        parentDiv = $(this).parents('.notfiledTaskBlock');
+        $('#tasksAddForm').prepend('<input type="hidden" name="removeIdea[]" value="'+parentDiv.attr("tid")+'" >');
+        parentDiv.remove();
+    });
+  
  $('#centralContainer').on('click', '.removeabsent', function(event) {
             userName = $(this).parent(".absentees" ).text();
             userId = $(this).parent(".absentees" ).attr('uid').match(/\d+/);

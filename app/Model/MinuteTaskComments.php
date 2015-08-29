@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Validator;
 class MinuteTaskComments extends Model{
 	/**
@@ -7,6 +8,7 @@ class MinuteTaskComments extends Model{
 	 *
 	 * @var string
 	 */
+    use SoftDeletes;
 	protected $table = 'minuteTaskComments';
 
 	/**

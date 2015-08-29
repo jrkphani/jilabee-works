@@ -31,7 +31,7 @@
 		<br/><br/>
 		<h4>Short Description</h4>
 		<p class="userDetailDesc">
-            {!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $meeting->description),['placeholder'=>'description'])!!}
+            {!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "", $meeting->description),['placeholder'=>'description'])!!}
 		</p>
 		<div id="description_err" class="error"></div>
 	<br/><br/>
@@ -94,10 +94,11 @@
 		foreach ($participantsEmail as $email)
 		{
 		?>
-			<div class="meetingSettingITem">
+			<div class="meetingSettingITem participant" roles="1" uid="{{$email}}">
+				<span class="removeMoreBtn removeParent"></span>
 				<input type="hidden" name="participants[]" value="{{$email}}">
 				<p>{{$email}}</p>
-				{!! Form::select('roles[]', $roles,'1')!!}
+				<span>{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}</span>
 				<div class="clearboth"></div>
 			</div>
 	<?php
@@ -114,12 +115,13 @@
 	
 	<div class="adminUsersBtns">
 		<div class="adminUsersBtnsLeft">
-			<button id="createMeetingSubmit">Update Meeting</button>
+			<span divid="adminUsersRight" class="button backBtn" url="{{url('admin/meeting/edit/'.$meeting->id)}}">Revert changes</span>
+			<span id="createMeetingSubmit" class="button">Update Meeting</span>
 		</div>
 		
 		<div class="adminUsersBtnsRight">
-			<button>Close Meeting</button>
-			<button>End Meeting</button>
+			<span divid="adminUsersRight" class="button backBtn" url="{{url('admin/meeting/view/'.$meeting->id)}}">Back</span>
+			<span class="button">End Meeting</span>
 		</div>
 		<div class="clearboth"></div>
 	</div>
@@ -164,17 +166,13 @@
 	
 	<div class="adminUsersBtns">
 		<div class="adminUsersBtnsLeft">
-			<button id="createMeetingSubmit">Update Meeting</button>
-		</div>
-		
-		<div class="adminUsersBtnsRight">
-			<button>Close Meeting</button>
-			<button>End Meeting</button>
+			<span id="createMeetingSubmit" class="button">Creat Meeting</span>
 		</div>
 		<div class="clearboth"></div>
 	</div>
 </div>
 @endif
+{!!Form::close()!!}
 <script type="text/javascript">
 $('#selectParticipant').autocomplete({
             source: "/user/search",
@@ -195,4 +193,43 @@ $('#selectParticipant').autocomplete({
                 return false;
             }
             });
+
+
+$('#adminContent').on('keyup', '#selectParticipant', function(event) {
+    event.preventDefault();
+    if($(this).val().length)
+    {
+        if((event.which == 188) || (event.which == 13))
+        {
+            emailArr = $(this).val().split(",");
+            if(emailArr.length)
+            {
+                $.each(emailArr, function(index, val)
+                {   
+                    if($("#"+val.replace('@', '_')).length != 0)
+                    {
+
+                    }
+                    else
+                    {
+                        if(isEmail(val))
+                        {
+                            if($("#" +val.replace('@', '_')).length != 0)
+                            {
+                              //User already exist
+                            }
+                            else
+                            {
+                                insert= '<div uid="'+val.replace('@', '_')+'" roles="1" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent"></span> <input type="hidden" value="'+val+'" name="participants[]"><p>'+val+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
+                                $('#selectedParticipant').append(insert);
+                            }
+                        }
+                    }
+                });
+                $('#selectParticipant').val('');
+                return false;
+            }
+        }
+    }
+});
 </script>

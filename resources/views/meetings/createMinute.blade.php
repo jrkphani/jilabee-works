@@ -17,24 +17,6 @@
 			<h5>Attendees</h5>
 	</div>
 			<div id="attendees">
-				 <?php
-				 $emails = $attendees = array();
-				 if($minute->attendees)
-				 {
-				 	foreach (explode(',',$minute->attendees) as $value)
-				 	{
-				 		if(isEmail($value))
-				 		{
-				 			$emails[]=$value;
-				 		}
-				 		else
-				 		{
-				 			$attendees[]=$value;
-				 		}
-				 	}
-				 }
-				 $attendees = App\Model\Profile::whereIn('userId',$attendees)->lists('name','userId');
-				 ?>
 				@foreach ($attendees as $key=>$value)
 					<div class="attendees" uid="u{{$key}}">
 						{!! Form::hidden('attendees[]',$key) !!}
@@ -42,7 +24,7 @@
 						<div class="markabsent"></div>
 					</div>
 				@endforeach
-				@foreach ($emails as $key=>$value)
+				@foreach ($attendeesEmail as $key=>$value)
 					<div class="attendees" uid="u'.$value.'">
 						{!! Form::hidden('attendees[]',$value) !!}
 						{{$value}}
@@ -97,9 +79,9 @@
 		<p>
 			{!! Form::text('venue',$meeting->venue,['placeholder'=>'venue']) !!}
 			{!!$errors->first('venue','<div class="error">:message</div>')!!}
-			{!! Form::text('startDate',date('Y-m-d'),['class'=>'dateInput','placeholder'=>'date']) !!}
+			{!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'date']) !!}
 			{!!$errors->first('startDate','<div class="error">:message</div>')!!}
-			{!! Form::text('endDate',date('Y-m-d'),['class'=>'dateInput','placeholder'=>'date']) !!}
+			{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'date']) !!}
 			{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 		</p>
 		<p>
@@ -110,6 +92,13 @@
 						{!! Form::hidden('attendees[]',$key) !!}
 						{{$value}}
 						<span class="markabsent"> Remove</span>
+					</div>
+				@endforeach
+				@foreach ($attendeesEmail as $key=>$value)
+					<div class="attendees" uid="u'.$value.'">
+						{!! Form::hidden('attendees[]',$value) !!}
+						{{$value}}
+						<div class="markabsent"></div>
 					</div>
 				@endforeach
 			</div>

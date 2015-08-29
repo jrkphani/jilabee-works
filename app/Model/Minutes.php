@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Validator;
 use Auth;
 class Minutes extends Model{
@@ -8,6 +9,7 @@ class Minutes extends Model{
 	 *
 	 * @var string
 	 */
+    use SoftDeletes;
 	protected $table = 'minutes';
 
 	/**

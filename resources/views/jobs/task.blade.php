@@ -6,7 +6,7 @@
 	}
 	else
 	{
-		$mid='';
+		$mid=NULL;
 	}
 ?>
 <div class="popupWindow">
@@ -22,7 +22,13 @@
 			<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
 			{{$task->status}}
 			@if($task->status != 'Completed' && $task->status != 'Sent')
-			<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
+				@if($mid)
+						@if($task->minute->filed == '1'))
+						<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
+						@endif
+				@else
+					<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
+				@endif
 			@endif
 		</div>
 		<div class="popupContentLeft">

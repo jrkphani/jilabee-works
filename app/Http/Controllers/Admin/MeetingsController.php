@@ -69,7 +69,7 @@ class MeetingsController extends Controller {
 		{
 			$input['minuters'][0] = Auth::user()->userId;
 		}
-		$minuters=$attendees=array();
+		$minuters=$attendees=$attendeesEmail=array();
 		$validator = Meetings::validation($input);
 		if ($validator->fails())
 		{
@@ -94,7 +94,14 @@ class MeetingsController extends Controller {
 						//attendees
 						if(isEmail($value))
 						{
-							//$attendeesEmail[] = $value;
+							if($assignee = getUser(['email'=>$value]))
+							{
+								$attendees[] = $assignee->id;
+							}
+							else
+							{
+								$attendeesEmail[] = $value;
+							}
 						}
 						else
 						{
@@ -121,7 +128,10 @@ class MeetingsController extends Controller {
 			{
 				$attendees = User::whereIn('userId',$attendees)->lists('id');
 			}
-
+			if(count($attendeesEmail))
+			{
+				$attendees = array_merge($attendees,$attendeesEmail);
+			}
 			$input['attendees'] = implode(',',$attendees);
 			$input['description'] = nl2br($input['description']);
 			if($mid = Request::get('id'))

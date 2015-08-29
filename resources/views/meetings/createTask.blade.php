@@ -12,16 +12,15 @@
 		<?php
 		if($minute->tasks->count())
 		{
-			//echo "yet to finsh edit minute task"; die;
-			foreach($minute->tasks()->get() as $task)
+			// unfiled minutes
+			foreach($minute->tasks as $task)
 			{ ?>
-			Unfiled Minutes
-			<div class="notfiledTaskBlock taskDiv">
+			<div class="notfiledTaskBlock taskDiv" tid="{{$task->id}}">
 				{!! Form::hidden('tid[]', $task->id)!!}
 				{!! Form::hidden('type[]', 'task')!!}
 				<div>
-					<span class="removeTaskFrom removeMoreBtn"></span>
-					{!! Form::select('',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off','disabled')) !!}
+					<span class="removeTask removeMoreBtn"></span>
+					{!! Form::select('',['task'=>'Task'],'',array('class'=>'type','autocomplete'=>'off','disabled')) !!}
 					<div class="clearboth"></div>
 				</div>
 				<div class="minuteItemNumber">
@@ -32,17 +31,48 @@
 					<p>{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
 				</div>
 				<div class="minuteItemRight">
-					<p>
+					{{--<p>
 						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-					</p>
+					</p>--}}
 					<p>
-						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>
 					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
-					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('style'=>'display:none;')) !!}</p>
 				</div>
 				<div class="clearboth"></div>
 			</div>
+
+		<?php }
+
+		// unfiled ideas
+			foreach($minute->ideas as $idea)
+			{ ?>
+			<div class="notfiledTaskBlock taskDiv" tid="{{$idea->id}}">
+				{!! Form::hidden('tid[]', $idea->id)!!}
+				{!! Form::hidden('type[]', 'idea')!!}
+				<div>
+					<span class="removeIdea removeMoreBtn"></span>
+					{!! Form::select('',['idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off','disabled')) !!}
+					<div class="clearboth"></div>
+				</div>
+				<div class="minuteItemNumber">
+					<p>1</p>
+				</div>
+				<div class="minuteItemLeft">
+					<h5>{!! Form::text('title[]',$idea->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
+					<p>{!! Form::textarea('description[]',$idea->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+				</div>
+				<div class="minuteItemRight">
+					<p>
+						{!! Form::select('assignee[]',array(''=>'Assinger'),'',array('style'=>'display:none;')) !!}
+					</p>
+					<p>{!! Form::text('dueDate[]','',array('style'=>'display:none;')) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail,$idea->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput')) !!}</p>
+				</div>
+				<div class="clearboth"></div>
+			</div>
+			
 		<?php }
 		}
 		else
@@ -78,14 +108,14 @@
 							$taskdisplay = 'display:none;';
 						}
 					?>
-					<p>
+					{{--<p>
 						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$draft->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
-					</p>
+					</p>--}}
 					<p>
-						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
 					</p>
 					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
-					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
 					<p>Draft</p>
 				</div>
 				<div class="clearboth"></div>
@@ -110,14 +140,14 @@
 			<p>{!! Form::textarea('description[]','',array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
 		</div>
 		<div class="minuteItemRight">
-			<p>
+			{{--<p>
 				{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-			</p>
+			</p>--}}
 			<p>
-				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 			</p>
 			<p>{!! Form::text('dueDate[]','',array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
-			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 			<p>Draft</p>
 		</div>
 		<div class="clearboth"></div>

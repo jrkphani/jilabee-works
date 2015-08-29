@@ -94,10 +94,11 @@
 			<!--=================================== List 2 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGreen">2</span>
-					<p>Completed today</p>
+					<span class="boxTitleNumber boxNumberGreen">{{count($taskNotFiled)}}</span>
+					<p>Closed</p>
 				</div>
-				@foreach($tasks as $task)
+				<?php $count =1; ?>
+				@foreach($taskClosed as $task)
 				<?php if($task->type == 'minute')
 					{
 						$mid = "mid=$task->minuteId";
@@ -107,15 +108,15 @@
 						$mid='';
 					}
 				?>
-					@if($task->status == 'Completed')
-						<div class="box">
-							<span class="boxNumber boxNumberGreen">1</span>
-							<div class="boxInner">
-								<h4>{{$task->title}}</h4>
-							</div>
-							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
+
+					<div class="box">
+						<span class="boxNumber boxNumberGreen">{{$count++}}</span>
+						<div class="boxInner">
+							<h4>{{$task->title}}</h4>
 						</div>
-					@endif
+						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
+					</div>
+
 				@endforeach
 			</div>
 		</div>
@@ -140,11 +141,12 @@
 		<!--=================================== List 1 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberBlue">{{$tasks->count()}}</span>
+					<span class="boxTitleNumber boxNumberBlue">{{count($taskNotFiled)}}</span>
 					<p>Newly Added</p>
 					<div class="clearboth"></div>
 				</div>
-				@foreach($tasks as $task)
+				<?php $count =1; ?>
+				@foreach($taskNotFiled as $task)
 					<?php if($task->type == 'minute')
 					{
 						$mid = "mid=$task->minuteId";
@@ -156,33 +158,32 @@
 						$formId = "Form$task->id";
 					}
 					?>
-					@if($task->status == 'Sent' || $task->status == 'Rejected')
 						<div class="box">
-							<span class="boxNumber boxNumberBlue">1</span>
+							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-								{!! Form::open(['id'=>$formId]) !!}
-								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
-								<div class="error" id="err_{{$task->id}}"></div>
-								{!! Form::close() !!}
-								<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
-								@if($task->status != 'Rejected')
-								<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
+								<p>{{$task->description}}</p>
+								@if($task->status == 'Sent')
+									{!! Form::open(['id'=>$formId]) !!}
+									{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
+									<div class="error" id="err_{{$task->id}}"></div>
+									{!! Form::close() !!}
+									<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
+									<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
 								@endif
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
-					@endif
 				@endforeach
 			</div>
 				<!--=================================== List 2 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberRed">2</span>
+					<span class="boxTitleNumber boxNumberRed">{{count($taskNotFiled)}}</span>
 					<p>Pending</p>
 				</div>
-				@foreach($tasks as $task)
+				<?php $count =1; ?>
+				@foreach($taskToFinsh as $task)
 					<?php if($task->type == 'minute')
 					{
 						$mid = "mid=$task->minuteId";
@@ -194,9 +195,8 @@
 						$formId = "Form$task->id";
 					}
 					?>
-					@if($task->status == 'Open')
 						<div class="box">
-							<span class="boxNumber boxNumberBlue">1</span>
+							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
@@ -207,16 +207,16 @@
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
-					@endif
 				@endforeach
 			</div>
 				<!--=================================== List 3 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGrey">5</span>
-					<p>Today</p>
+					<span class="boxTitleNumber boxNumberGrey">{{count($taskNotFiled)}}</span>
+					<p>Completed</p>
 				</div>
-				@foreach($tasks as $task)
+				<?php $count =1; ?>
+				@foreach($taskCompleted as $task)
 					<?php if($task->type == 'minute')
 					{
 						$mid = "mid=$task->minuteId";
@@ -228,9 +228,8 @@
 						$formId = "Form$task->id";
 					}
 					?>
-					@if($task->status == 'Closed')
 						<div class="box">
-							<span class="boxNumber boxNumberBlue">1</span>
+							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
@@ -240,7 +239,6 @@
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
-					@endif
 				@endforeach
 			</div>
 			<div class="clearboth"></div>
