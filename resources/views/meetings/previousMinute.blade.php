@@ -37,14 +37,14 @@ else
 				<p>{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
 			</div>
 			<div class="minuteItemRight">
-				<p>
+			{{-- 	<p>
 					{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
-				</p>
+				</p> --}}
 				<p>
-					{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+					{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 				</p>
-				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"dateInputNext taskinput dateInput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
-				<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput dateInput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+				<p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('style'=>'display:none;')) !!}</p>
 			</div>
 			<div class="clearboth"></div>
 		</div>
