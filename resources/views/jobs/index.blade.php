@@ -94,7 +94,7 @@
 			<!--=================================== List 2 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGreen">{{count($taskNotFiled)}}</span>
+					<span class="boxTitleNumber boxNumberGreen">{{count($taskClosed)}}</span>
 					<p>Closed</p>
 				</div>
 				<?php $count =1; ?>
@@ -172,14 +172,16 @@
 									<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
 								@endif
 							</div>
-							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
+							<div class="boxRight task" {{$mid}} tid="{{$task->id}}">
+								<p class="boxRightText">draft</p>
+							</div>
 						</div>
 				@endforeach
 			</div>
 				<!--=================================== List 2 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberRed">{{count($taskNotFiled)}}</span>
+					<span class="boxTitleNumber boxNumberRed">{{count($taskToFinsh)}}</span>
 					<p>Pending</p>
 				</div>
 				<?php $count =1; ?>
@@ -212,7 +214,7 @@
 				<!--=================================== List 3 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGrey">{{count($taskNotFiled)}}</span>
+					<span class="boxTitleNumber boxNumberGrey">{{count($taskCompleted)}}</span>
 					<p>Completed</p>
 				</div>
 				<?php $count =1; ?>

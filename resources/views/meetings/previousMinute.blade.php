@@ -1,26 +1,17 @@
 Review of old Minutes
 <?php
-$attendess = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->attendess))->get();
-if($minute->absentees)
-{
-	$absentees = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->absentees))->get();
-}
-else
-{
-	$absentees = NULL;
-}
+	$minutes = App\Model\MinuteTasks::select('minuteTasks.*')->WhereIn('minuteTasks.id',function($query) use ($lastFiledMinute){
+								$query->select('taskId')
+		                    		->from('filedMinutes')
+		                       		->where('filedMinutes.status','!=','Closed')
+		                       		->where('filedMinutes.status','!=','Cancelled')
+		                       		->where('filedMinutes.minuteId','=',$lastFiledMinute->id);
+							})->get();
 ?>
-{{--<div ><strong>Minutes of the Meeting on: {{$minute->startDate}} - {{$minute->endDate}}</strong></div>
-<div >ID: {{$minute->meetingId}}M{{$minute->id}}</div>
-<div >	
-	@if($minute->venue)
-		Venue : {{$minute->venue}}
-	@endif
-</div> --}}
 <div >	
 	{{-- not show closed/canceled task in last meeting --}}
 	{{-- @foreach($minute->file()->where('status','!=','Canceled')->where('status','!=','Closed')->get() as $task) --}}
-	@foreach($minute->file()->get() as $task)
+	@foreach($minutes as $task)
 		<div class="previousTaskBlock taskDiv">
 			{!! Form::hidden('tid[]', $task->id)!!}
 			{!! Form::hidden('type[]', 'task')!!}

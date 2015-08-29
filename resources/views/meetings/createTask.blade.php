@@ -3,9 +3,9 @@
 	@if($minute)
 
 {{-- Previous Minutes Will Be Here --}}
-	@if($previousMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
-		@if($previousMinute)	
-				@include('meetings.previousMinute',['minute'=>$previousMinute])
+	@if($lastFiledMinute = App\Model\Minutes::where('meetingId','=',$meeting->id)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
+		@if($lastFiledMinute)	
+				@include('meetings.previousMinute',['lastFiledMinute'=>$lastFiledMinute])
 		@endif
 	@endif
 	New Minutes

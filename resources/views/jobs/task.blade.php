@@ -36,7 +36,11 @@
 				{{$task->description}}
 			</div>
 			
-			
+			@if($mid)
+				@foreach($task->minute->file as $file)
+					sdvdsvsdv
+				@endforeach
+			@endif
 			<!-- ================= Updates ====================  -->
 			<!-- ================= Update item each ====================  -->
 			{{--<div class="updateItem">
