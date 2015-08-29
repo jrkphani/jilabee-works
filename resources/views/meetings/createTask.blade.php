@@ -8,7 +8,7 @@
 				@include('meetings.previousMinute',['minute'=>$previousMinute])
 		@endif
 	@endif
-
+	New Minutes
 		<?php
 		if($minute->tasks->count())
 		{
@@ -24,7 +24,7 @@
 					<div class="clearboth"></div>
 				</div>
 				<div class="minuteItemNumber">
-					<p>1</p>
+					
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
@@ -57,7 +57,7 @@
 					<div class="clearboth"></div>
 				</div>
 				<div class="minuteItemNumber">
-					<p>1</p>
+					
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{!! Form::text('title[]',$idea->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
@@ -90,7 +90,7 @@
 					<div class="clearboth"></div>
 				</div>
 				<div class="minuteItemNumber">
-					<p>1</p>
+					
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{!! Form::text('title[]',$draft->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
@@ -133,7 +133,7 @@
 			<div class="clearboth"></div>
 		</div>
 		<div class="minuteItemNumber">
-			<p>1</p>
+			
 		</div>
 		<div class="minuteItemLeft">
 			<h5>{!! Form::text('title[]','',array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>

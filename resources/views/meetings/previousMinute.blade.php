@@ -1,3 +1,4 @@
+Review of old Minutes
 <?php
 $attendess = App\Model\Profile::select('name')->whereIn('userId',explode(',',$minute->attendess))->get();
 if($minute->absentees)
@@ -9,13 +10,13 @@ else
 	$absentees = NULL;
 }
 ?>
-<div ><strong>Minutes of the Meeting on: {{$minute->startDate}} - {{$minute->endDate}}</strong></div>
+{{--<div ><strong>Minutes of the Meeting on: {{$minute->startDate}} - {{$minute->endDate}}</strong></div>
 <div >ID: {{$minute->meetingId}}M{{$minute->id}}</div>
 <div >	
 	@if($minute->venue)
 		Venue : {{$minute->venue}}
 	@endif
-</div>
+</div> --}}
 <div >	
 	{{-- not show closed/canceled task in last meeting --}}
 	{{-- @foreach($minute->file()->where('status','!=','Canceled')->where('status','!=','Closed')->get() as $task) --}}
@@ -29,7 +30,7 @@ else
 				<div class="clearboth"></div>
 			</div>
 			<div class="minuteItemNumber">
-				<p>1</p>
+		
 			</div>
 			<div class="minuteItemLeft">
 				<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>

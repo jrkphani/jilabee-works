@@ -47,7 +47,7 @@ class MinuteController extends Controller {
 		if($meeting = Meetings::find($meetingId)->isMinuter())
 		{
 			$minute = $meeting->minutes()->whereFiled('0')->first();
-			//print_r($minute->meetingId); die;
+			$participants =array();
 			if($minute)
 			{
 				if($minute->created_by != Auth::id())
@@ -56,7 +56,7 @@ class MinuteController extends Controller {
 					echo "Another user is taking minutes.";
 					return;
 				}
-				$participants = $attendeesEmail=array();
+				$attendeesEmail=array();
 				if($minute->attendees)
 				{
 					foreach(explode(',',$minute->attendees) as $value)
@@ -76,7 +76,7 @@ class MinuteController extends Controller {
 			else
 			{
 				$minute = NULL;
-				$participants = $attendees = $attendeesEmail=array();
+				$attendees = $attendeesEmail=array();
 				if($meeting->attendees)
 				{
 					foreach(explode(',',$meeting->attendees) as $value)
@@ -154,7 +154,8 @@ class MinuteController extends Controller {
 				$minute = New Minutes($input);
 				$meeting->minutes()->save($minute);
 			}
-			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>NULL,'minute'=>$minute]);
+			return redirect('minute/'.$meeting->id.'/next');
+			//return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>NULL,'minute'=>$minute]);
 		}
 		else
 		{
