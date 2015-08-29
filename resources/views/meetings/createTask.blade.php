@@ -156,7 +156,7 @@
 {!! Form::close() !!}
 <p>
 	<div id="createTaskError">	</div>
-	<button id="send_minute" mid="{{$minute->id}}" type="submit" class="btn btn-primary">
+	<button id="send_minute" mid="{{$minute->id}}" type="submit" class="">
 		@if($minute->tasks->count())
 			Update minutes
 		@else
@@ -164,7 +164,7 @@
 		@endif
 	</button>
 	{{--@if(!$minute->tasks->count()) --}}
-	<button id="save_changes"  mid="{{$minute->id}}" type="submit" class="btn btn-primary">Save Draft</button>
+	<button id="save_changes"  mid="{{$minute->id}}" type="submit">Save Draft</button>
 	{{--@endif --}}
-	<button id="add_more" mid="{{$minute->id}}" type="submit" class="btn btn-primary pull-right">Add more</button>
+	<button id="add_more" mid="{{$minute->id}}" type="submit">Add more</button>
 </p>

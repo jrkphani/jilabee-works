@@ -84,3 +84,13 @@
     height: 35px;
     padding: 0 10px;
 }
+.createMeeting .paperBorder
+{
+	height: 700px;
+    overflow-y: scroll;
+    position: relative;
+}
+.createMeeting .popupMinutes
+{
+	width: 100%;
+}

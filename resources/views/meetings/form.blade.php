@@ -1,145 +1,87 @@
 <div class="popupWindow">
-	<div class="popupHeader">
-		<h2><a href="">Meeting</a> / <a href="">Create</a></h2>
-		<button onclick="$('#popup').hide();" class="popupClose"></button>
-		<div class="clearboth"></div>
-	</div>
-	<div class="popupContent">
-		{!! Form::open(array('id' => 'createMeetingForm')) !!}
-		<div class="popupContentLeft">
-            @if($meeting)
-                {!! Form::hidden('id',$meeting->id)!!}
-                {!! Form::label('title', 'Meeting title',['class'=>'control-label']); !!}
-                {!! Form::text('title', $meeting->title,['class'=>'form-control'])!!}
-                <div id="title_err" class="error"></div>
-                
-                {!! Form::label('description', 'Meeting description',['class'=>'control-label']); !!}
-                <?php
-                    $breaks = array("<br />","<br>","<br/>");  
-                    $description = str_ireplace($breaks, "\r\n", $meeting->description); 
-                ?>
-                {!! Form::textarea('description', $description,['class'=>'form-control'])!!}
-                <div id="description_err" class="error"></div>
+    <div class="popupHeader">
+        <h2>Create Meeting</a></h2>
+        <button  onclick="$('#popup').hide();" class="popupClose"></button>
+        <div class="clearboth"></div>
+    </div>  
+    <div class="popupContent createMeeting">
+        <div class="popupMinutes">
+            <div class="paper">
+                <div class="paperBorder nextMinutePaper">
+                    {!! Form::open() !!}
+                    {{--meeting form --}}
+                    <div class="userDetailItem">
+                        <p>name of meeting </p>
+                         <span> {!! Form::text('title','',['placeholder'=>'title'])!!}</span>
+                        <div class="clearboth"></div>
+                        <div id="title_err" class="error"></div>
+                    </div>
+                    <h4>
+                       
+                    </h4>
+                    <div class="userDetailItem">
+                        <p>type of meeting </p>
+                         <span>{!! Form::text('meetingType','',['placeholder'=>'type'])!!}</span>
+                        <div class="clearboth"></div>
+                        <div id="meetingType_err" class="error"></div>
+                    </div>
 
-                {!! Form::label('selectAttendees', 'Expected Attendees',['class'=>'control-label']); !!}
-                <div id="selected_attendees" class="form-group">
-                    @if($meeting->attendees)
-                        <?php
-                        $attendeesEmail = $attendees = array();
-                            foreach (explode(',',$meeting->attendees) as $key => $value)
-                            {
-                                if(isEmail($value))
-                                {
-                                    $attendeesEmail[] = $value;
-                                }
-                                else
-                                {
-                                    $attendees[] = $value;
-                                }
-                            }
-                            if(count($attendees))
-                            {
-                                $attendeesList = App\Model\Profile::select('users.userId','profiles.name')
-                        ->join('users','profiles.userId','=','users.id')
-                        ->whereIn('users.id',$attendees)->get();
-                                foreach ($attendeesList as $attendee)
-                                {
-                                    echo '<div id="'.$attendee->userId.'" class="attendees"><input type="hidden" value="'.$attendee->userId.'" name="attendees[]">'.$attendee->name.'
-                                        <span class="removeParent"> remove</span>
-                                    </div>';
-                                }
-                            }
-                            if(count($attendeesEmail))
-                            {
-                                foreach ($attendeesEmail as $attendee)
-                                {
-                                    echo '<div id="'.$attendee.'" class="attendees"><input type="hidden" value="'.$attendee.'" name="attendees[]">'.$attendee.'
-                                        <span class="removeParent"> remove</span>
-                                    </div>';
-                                }
-                            }
-                        ?>
-                    @endif
-                    {!! Form::text('selectAttendees', '',['class'=>'form-control'])!!}
-                </div>
-                <div id="attendees_err" class="error"></div>
+                    <div class="userDetailItem">
+                        <p>purpose of meeting  </p>
+                        <span>{!! Form::textarea('purpose','',['placeholder'=>'purpose'])!!}</span>
+                        <div class="clearboth"></div>
+                         <div id="purpose_err" class="error"></div>
+                    </div>
+                    <div class="userDetailItem">
+                        <p>Short Description </p>
+                        <span>{!! Form::textarea('meetingDescription','',['placeholder'=>'description'])!!}</span>
+                        <div class="clearboth"></div>
+                         <div id="meetingDescription_err" class="error"></div>
+                    </div>                        
 
-                {!! Form::label('venue', 'Venue',['class'=>'control-label']); !!}
-                {!! Form::text('venue', '',['class'=>'form-control'])!!}
-                <div id="venue_err" class="error"></div>
-            @else
-    			{!! Form::label('title', 'Meeting title',['class'=>'control-label']); !!}
-            	{!! Form::text('title', '',['class'=>'form-control'])!!}
-            	<div id="title_err" class="error"></div>
-            	
-            	{!! Form::label('description', 'Meeting description',['class'=>'control-label']); !!}
-            	{!! Form::textarea('description', '',['class'=>'form-control'])!!}
-            	<div id="description_err" class="error"></div>
-                {{--
-            	{!! Form::label('selectMinuters', 'Expected Minuters',['class'=>'control-label']); !!}
-            	<div id="selected_minuters">
-                    {!! Form::text('selectMinuters', '',['class'=>'form-control'])!!}
+                    {!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'start date']) !!}
+                    {!!$errors->first('startDate','<div class="error">:message</div>')!!}
+                    {!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'end date']) !!}
+                    {!!$errors->first('endDate','<div class="error">:message</div>')!!}
+                    {{-- task forms --}}
+                    <div id="taskAddBlock">
+                        <div class="taskBlock taskDiv">
+                            <div>
+                                <span class="removeTaskFrom removeMoreBtn"></span>
+                                {!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}
+                                <div class="clearboth"></div>
+                            </div>
+                            <div class="minuteItemNumber">
+                                
+                            </div>
+                            <div class="minuteItemLeft">
+                                <h5>{!! Form::text('title[]','',array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
+                                <p>{!! Form::textarea('description[]','',array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+                            </div>
+                            <div class="minuteItemRight">
+                                {{--<p>
+                                    {!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+                                </p>--}}
+                                <p>
+                                    {!! Form::select('assignee[]',array(''=>'Assingee'),'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+                                </p>
+                                <p>{!! Form::text('dueDate[]','',array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+                                <p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+                                <p>Draft</p>
+                            </div>
+                            <div class="clearboth"></div>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+                     <span id="add_more" type="submit" class="button">Add more</span>
+                     <span id="add_more" type="submit" class="button">Save Draft</span>
+                     <span id="add_more" type="submit" class="button">Send minute After Admin aprrove</span>
                 </div>
-            	<div id="minuters_err" class="error"></div>
-                --}}
-            	{!! Form::label('selectAttendees', 'Expected Attendees',['class'=>'control-label']); !!}
-            	<div id="selected_attendees" class="form-group">
-                    {!! Form::text('selectAttendees', '',['class'=>'form-control'])!!}
-                </div>
-            	<div id="attendees_err" class="error"></div>
-
-            	{!! Form::label('venue', 'Venue',['class'=>'control-label']); !!}
-            	{!! Form::text('venue', '',['class'=>'form-control'])!!}
-            	<div id="venue_err" class="error"></div>
-            @endif
-		</div>
-		<div class="popupContentRight">
-		</div>
-		{!!Form::close()!!}
-	</div>
-    @if($meeting)
-    <button id="createMeetingSubmit">Update</button>
-    @else
-	<button id="createMeetingSubmit">Create</button>
-    @endif
+            </div>
+        </div>
+        <div class="clearboth"></div>
+    </div>
 </div>
 <script type="text/javascript">
-$( "#selectMinuters" ).autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                if($("#" + ui.item.userId).length != 0)
-                {
-                  alert('User already exist!');
-                  return false;
-                }
-                else
-                {
-                    insert = '<div class="attendees" id="'+ui.item.userId+'"><input type="hidden" name="minuters[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent"> remove</span></div>';
-                    $('#selected_minuters').prepend(insert);
-                    $(this).val("");
-                    return false;
-                }
-                
-            }
-            });
- $( "#selectAttendees" ).autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                if($("#" + ui.item.userId).length != 0)
-                {
-                  alert('User already exist!');
-                  return false;
-                }
-                else
-                {
-                    insert = '<div class="attendees" id="'+ui.item.userId+'"><input type="hidden" name="attendees[]" value="'+ui.item.userId+'">'+ui.item.value+'<span class="removeParent"> remove</span></div>';
-                    $('#selected_attendees').prepend(insert);
-                    $(this).val("");
-                    return false;
-                }
-                
-            }
-            });
+nextDateInput();
 </script>

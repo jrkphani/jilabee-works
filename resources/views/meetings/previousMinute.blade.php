@@ -16,7 +16,6 @@ Review of old Minutes
 			{!! Form::hidden('tid[]', $task->id)!!}
 			{!! Form::hidden('type[]', 'task')!!}
 			<div>
-				<span class="removeTaskFrom removeMoreBtn"></span>
 				{!! Form::select('',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off','disabled')) !!}
 				<div class="clearboth"></div>
 			</div>

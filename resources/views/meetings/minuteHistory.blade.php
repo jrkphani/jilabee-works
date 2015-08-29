@@ -13,7 +13,6 @@
 					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Edit last minutes</button>
 					@endif
 			@endif
-			<h4>Previous Meetings</h4>
 			@foreach($minutes as $row)
 				<?php $isfiled=""; if($row->filed == '0') { $isfiled=" - Draft"; }?>
 				@if($row->id == $minute->id)
