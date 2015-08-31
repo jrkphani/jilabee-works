@@ -28,24 +28,22 @@ class MeetingsController extends Controller {
 	}
 	public function notification()
 	{
-		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
+		$meetings = TempMeetings::select('tempMeetings.*')->join('organizations','tempMeetings.oid','=','organizations.id')
 					->where('organizations.customerId','=',getOrgId())
-					->where('meetings.approved','=','0')
+					->where('tempMeetings.approved','=','0')
+					->where('tempMeetings.draft','=','0')
 					->get();
 		return view('admin.notification',['meetings'=>$meetings]);
 	}
-	public function view($id)
+	public function view()
 	{
-		$meeting = Meetings::find($id);
-		if($meeting->approved == '0')
-		{
-			//for pop view in meeting approve page
-			return view('admin.meetingPop',['meeting'=>$meeting]);
-		}
-		else
-		{
-			return view('admin.meeting',['meeting'=>$meeting]);
-		}
+		return view('admin.meeting',['meeting'=>$meeting]);
+	}
+	public function viewTemp($id)
+	{
+		$meeting = TempMeetings::find($id);
+		//for pop view in meeting approve page
+		return view('admin.meetingPop',['meeting'=>$meeting]);
 	}
 	public function meetingForm($mid=NULL)
 	{

@@ -27,7 +27,7 @@ class CreateTempMeetingTable extends Migration {
 			$table->binary('details');
 			$table->integer('oid')->unsigned()->nullable();
 			$table->enum('draft',array('0','1'))->default('1');
-			$table->enum('approved',array('0','1'))->default('0');
+			$table->enum('approved',array('-1','0','1'))->default('0');
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();
         	$table->timestamps();

@@ -36,43 +36,42 @@
 						}
 					?>
 				@endif
-				@if($meeting->attendees)
 					<?php
-					$attendeesEmail = $attendees = array();
-						foreach (explode(',',$meeting->attendees) as $key => $value)
+					$details = unserialize($meeting->details);
+					$attendees = array();
+					for($i=0;$i<=count($details['title'])-1;$i++)
+					{
+						if($details['type'][$i] == 'task')
 						{
-							if(isEmail($value))
+							$attendees[] = $details['assingee'][$i];
+						}
+						else
+						{
+							$attendees[] = $details['orginator'][$i];
+						}
+						$attendees = array_unique(array_filter($attendees));
+						foreach($attendees as $user)
+						{
+							if(isEmail($user))
 							{
-								$attendeesEmail[] = $value;
+								echo '<div class="meetingSettingITem">
+											<p>'.$user.'Attendee</p>
+											<div class="clearboth"></div>
+										</div>';
 							}
 							else
 							{
-								$attendees[] = $value;
+								if($attuser = getUSer(['userId'=>$user])->profile->name)
+								{
+									echo '<div class="meetingSettingITem">
+											<p>'.$attuser.'-Attendee</p>
+											<div class="clearboth"></div>
+										</div>';
+								}
 							}
 						}
-						if(count($attendees))
-						{
-							$attendeesList = App\Model\Profile::select('userId','name')->whereIn('userId',$attendees)->get();
-							foreach ($attendeesList as $attendee)
-							{
-								echo '<div class="meetingSettingITem">
-										<p>'.$attendee->name.'-Attendee</p>
-										<div class="clearboth"></div>
-									</div>';
-							}
-						}
-						if(count($attendeesEmail))
-						{
-							foreach ($attendeesEmail as $attendee)
-							{
-								echo '<div class="meetingSettingITem">
-										<p>'.$attendee.'Attendee</p>
-										<div class="clearboth"></div>
-									</div>';
-							}
-						}
+					}
 					?>
-				@endif
 			</div>
 		<div class="clearboth"></div>
 	</div>
