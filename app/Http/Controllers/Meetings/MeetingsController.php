@@ -10,6 +10,7 @@ use App\Model\Profile;
 use App\User;
 use Auth;
 use DB;
+use Validator;
 class MeetingsController extends Controller {
 
 	/**
@@ -51,18 +52,16 @@ class MeetingsController extends Controller {
 					->get();
 		//print_r($minutes); die;
 					//non approve meeting minutes
-		$pendingminutes = Minutes::select('minutes.*')->join('meetings','minutes.meetingId','=','meetings.id')
-					->where('meetings.requested_by','=',Auth::id())
-					->where('meetings.approved','=','0')->get();
+		$pendingmeetings = TempMeetings::where('created_by','=',Auth::id())->get();
 					//print_r($pendingminutes); die;
 		
-		return view('meetings.index',['notfiled'=>$notfiled,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingminutes'=>$pendingminutes]);
+		return view('meetings.index',['notfiled'=>$notfiled,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingmeetings'=>$pendingmeetings]);
 	}
 	public function meetingForm($mid=NULL)
 	{
 		if($mid)
 		{
-			$meeting = Meetings::find($mid);
+			$meeting = TempMeetings::find($mid);
 		}
 		else
 		{
@@ -73,78 +72,44 @@ class MeetingsController extends Controller {
 	}
 	public function createMeeting()
 	{
-		$input = Request::only('title','description','venue','participants');
+		$meetingInput = Request::only('meetingDescription','meetingTitle','meetingType',
+								'venue','purpose','startDate','endDate','purpose');
+		$minuteInput = Request::only('title','description','type','assignee','dueDate','orginator');
 		$output['success'] = 'yes';
-		if(!Auth::user()->isAdmin)
-		{
-			$input['minuters'][0] = Auth::user()->userId;
-		}
 		$attendeesEmail=$attendees=array();
-		$validator = Meetings::validation($input);
+		$validator = TempMeetings::validation($meetingInput);
 		if ($validator->fails())
 		{
 			$output['success'] = 'no';
 			$output['validator'] = $validator->messages()->toArray();
-			return json_encode($output);
 		}
 		else
 		{
-			if($input['attendees'])
-			{
-				foreach ($input['attendees'] as $key => $value)
+			//print_r(serialize($input));
+			$data = ['title'=>$meetingInput['meetingTitle']
+					,'description'=>$meetingInput['meetingDescription'],
+					'purpose'=>$meetingInput['purpose'],
+					'type'=>$meetingInput['meetingType'],
+					'startDate'=>$meetingInput['startDate'],
+					'endDate'=>$meetingInput['endDate'],
+					'minuters'=>Auth::id(),
+					'created_by'=>Auth::id(),
+					'updated_by'=>Auth::id(),
+					'created_at'=>date('Y-m-d H:i:s'),
+					'updated_at'=>date('Y-m-d H:i:s'),
+					'details'=>serialize($minuteInput),
+					'draft'=>'0',
+					'oid'=> Organizations::where('customerId','=',getOrgId())->first()->id];
+			if(Request::get('id',null))
 				{
-					if(isEmail($value))
-					{
-						$attendeesEmail[] = $value;
-					}
-					else
-					{
-						$attendees[] = $value;
-					}
-				}
-			}
-			$input['created_by'] = $input['updated_by'] = Auth::id();
-			$getMinutersId = User::whereIn('userId',$input['minuters'])->lists('id');
-			$input['minuters'] = implode(',',$getMinutersId);
-			if(count($attendees))
-			{
-				$attendees = User::whereIn('userId',$attendees)->lists('id');
-			}
-			if(count($attendeesEmail))
-			{
-				if($attendees)
-				{
-					$attendees = array_merge($attendees,$attendeesEmail);
+					TempMeetings::whereId(Request::get('id'))->update($data);
 				}
 				else
 				{
-					$attendees = $attendeesEmail;
+					TempMeetings::insert($data);
 				}
-			}
-			$input['attendees'] = implode(',',$attendees);
-			$input['description'] = nl2br($input['description']);
-			if($mid = Request::get('id'))
-				{
-					$meeting = Meetings::whereId($mid)->first();
-					if(Auth::user()->isAdmin)
-					{
-						$input['approved'] = 1;
-					}
-					$meeting->update($input);
-				}
-				else
-				{
-					if(Auth::user()->isAdmin)
-					{
-						$input['approved'] = 1;
-					}
-					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
-					$input['requested_by'] = Auth::id();
-					$meeting = Meetings::create($input);
-				}
-				$output['meetingId'] = $meeting->id;
-			return json_encode($output);
 		}
+		return json_encode($output);
 	}
 	// public function loadMeeting($mid)
 	// {

@@ -201,18 +201,23 @@
 		
 		<div class="boxList">
 			<div class="boxTitle">
-				<span class="boxTitleNumber boxNumberRed">{{count($pendingminutes)}}</span>
+				<span class="boxTitleNumber boxNumberRed">{{count($pendingmeetings)}}</span>
 				<p>Pending</p>
 				<div class="clearboth"></div>
 			</div>
-			@foreach($pendingminutes as $minute)
+			@foreach($pendingmeetings as $meeting)
+			<?php $details = unserialize($meeting->details); ?>
 				<div class="box">
 					<span class="boxNumber boxNumberRed">1</span>
-					<div class="boxInner  minute_history" mid="{{$minute->id}}">
-						<h4>{{$minute->meeting->title}}</h4>
-						<p>{{$minute->startDate}}</p>
+					<div class="boxInner pendingmeetings" mid="{{$meeting->id}}">
+						<h4>{{$meeting->title}}</h4>
+						<p>{{$meeting->created_at}}</p>
 					</div>
-					<div class="boxRight minute" mid="{{$minute->id}}"></div>
+					<div class="boxRight" mid="{{$meeting->id}}">
+						@if($meeting->draft == '1')
+						<p class="boxRightText">draft</p>
+						@endif
+					</div>
 				</div>
 			@endforeach
 		</div>

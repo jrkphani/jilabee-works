@@ -115,7 +115,7 @@ Route::group(['prefix' => 'admin'], function()
 			//Route::get('history', 'Meetings\MeetingsController@history');
 			Route::get('create','Meetings\MeetingsController@meetingForm');
 			Route::post('create','Meetings\MeetingsController@createMeeting');
-			// Route::get('load/{temMeetingId}','Meetings\MeetingsController@loadMeeting')->where('id', '[0-9]+');
+			Route::get('load/{temMeetingId}','Meetings\MeetingsController@meetingForm')->where('id', '[0-9]+');
 			// Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting')->where('id', '[0-9]+');
 		});
 		Route::group(['prefix' => 'minute'], function()

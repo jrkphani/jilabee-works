@@ -86,7 +86,7 @@
 }
 .createMeeting .paperBorder
 {
-	height: 700px;
+	height: 300px;
     overflow-y: scroll;
     position: relative;
 }

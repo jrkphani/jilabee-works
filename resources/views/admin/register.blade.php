@@ -69,7 +69,7 @@
 
 						<div class="userDetailItem">
 							<p>DOB</p>
-							<input type="text" class="dateInput" name="dob" value="{{ old('dob') }}">
+							<input type="text" id="dob" name="dob" value="{{ old('dob') }}">
 							{!! $errors->first('dob','<div class="error">:message</div>') !!}
 						</div>
 
@@ -94,12 +94,16 @@
 <script>
 	$(document).ready(function($)
 		{
-			$('.dateInput').appendDtpicker(
+			d= new Date();
+			d.setFullYear(d.getFullYear()-15);
+			$('#dob').appendDtpicker(
 			    {
 			    "autodateOnStart": false,
-			    "maxDate":"-15y",
+			    "maxDate":d,
 			    "closeOnSelected": true,
 			    "dateOnly":true
 			    });
+			$('#dob').handleDtpicker('setDate',d);
+			$('#dob').val('');
     	});
 </script>

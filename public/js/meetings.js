@@ -51,7 +51,8 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
                    className:'success',
                    globalPosition:'top center'
                 });
-                $('#popup').load('/minute/first/'+jsonData.meetingId);
+                location.reload();
+                //$('#popup').load('/minute/first/'+jsonData.meetingId);
             }
             //////console.log("success");
         })
@@ -68,7 +69,12 @@ $('#centralContainer').on('click', '#addMeeting', function(event)
     event.preventDefault();
     popupContentAjaxGet('/meetings/create');
 });
-$('#centralContainer').on('keyup', '#selectAttendees', function(event) {
+$('#centralContainer').on('click', '.pendingmeetings', function(event)
+{
+    event.preventDefault();
+    popupContentAjaxGet('/meetings/load/'+$(this).attr('mid'));
+});
+/*$('#centralContainer').on('keyup', '#selectAttendees', function(event) {
     event.preventDefault();
     if($(this).val().length)
     {
@@ -93,7 +99,7 @@ $('#centralContainer').on('keyup', '#selectAttendees', function(event) {
                             }
                             else
                             {
-                                insert = '<div class="col-md-6 attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
+                                insert = '<div class="attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
                                 $('#selected_attendees').prepend(insert);
                                 $('#selectAttendees').val('');
                            }
@@ -104,7 +110,7 @@ $('#centralContainer').on('keyup', '#selectAttendees', function(event) {
             }
         }
     }
-});
+});*/
 $('#centralContainer').on('click', '.minute', function(event) {
         //alert($(this).find('.minute').length);
         //return false;
@@ -187,8 +193,10 @@ $('#centralContainer').on('click', '#add_more', function(event) {
     taskBlock = $( ".taskBlock:first").clone().appendTo('#taskAddBlock');
         taskBlock.find(".clearVal").val("");
         taskBlock.find(".type").val("task");
+        taskBlock.find('.assignee').remove();
         taskBlock.find(".ideainput").hide();
         taskBlock.find(".taskinput").show();
+        selectAssignee();
         nextDateInput();
 });
 $('#centralContainer').on('change', '.type', function(event) {
@@ -295,4 +303,10 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             html = '<div uid="u'+userId+'" class="attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<div class="markabsent"></div></div>';
             $('#attendees').append(html);
             $(this).parent(".absentees" ).remove();
+        });
+ $('#centralContainer').on('click', '.removeParent', function(event) {
+            var selectAssignee = $(this).parents( "p" ).find('.selectAssignee');
+            selectAssignee.show();
+            selectAssignee.val('');
+            $(this).parent( ".assignee" ).remove();
         });
