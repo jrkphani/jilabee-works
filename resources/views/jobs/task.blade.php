@@ -33,7 +33,7 @@
 		</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
-				{{$task->description}}
+				{!!$task->description!!}
 			</div>
 			
 			@if($mid)

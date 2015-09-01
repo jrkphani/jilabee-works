@@ -77,7 +77,12 @@ class TaskController extends Controller {
 							$tempArr['status'] = 'Open';
 						}
 						if($input['tid'][$i])
-						{
+						{ 
+							$findstate = 'status'.$input['tid'][$i];
+							if(Request::get($findstate,null))
+							{
+								$tempArr['status'] = Request::get($findstate);
+							}
 							$updatedFlag = 1;
 							MinuteTasks::whereId($input['tid'][$i])->update($tempArr);
 						}

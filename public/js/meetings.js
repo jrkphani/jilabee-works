@@ -114,43 +114,7 @@ $('#centralContainer').on('click', '.pendingmeetings', function(event)
     event.preventDefault();
     popupContentAjaxGet('/meetings/load/'+$(this).attr('mid'));
 });
-/*$('#centralContainer').on('keyup', '#selectAttendees', function(event) {
-    event.preventDefault();
-    if($(this).val().length)
-    {
-        if((event.which == 188) || (event.which == 13))
-        {
-            emailArr = $(this).val().split(",");
-            if(emailArr.length)
-            {
-                $.each(emailArr, function(index, val)
-                {   
-                    if($("#"+val.replace('@', '_')).length != 0)
-                    {
 
-                    }
-                    else
-                    {
-                        if(isEmail(val))
-                        {
-                            if($("#" +val.replace('@', '_')).length != 0)
-                            {
-                              //User already exist
-                            }
-                            else
-                            {
-                                insert = '<div class="attendees" id="'+val.replace('@', '_')+'"><input type="hidden" name="attendees[]" value="'+val+'">'+val+'<span class="removeParent"> remove</span></div>';
-                                $('#selected_attendees').prepend(insert);
-                                $('#selectAttendees').val('');
-                           }
-                        }
-                    }
-                });
-                return false;
-            }
-        }
-    }
-});*/
 $('#centralContainer').on('click', '.minute', function(event) {
         //alert($(this).find('.minute').length);
         //return false;
@@ -350,3 +314,8 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             selectAssignee.val('');
             $(this).parent( ".assignee" ).remove();
         });
+ $('#centralContainer').on('change', '.onchange', function(event) {
+     event.preventDefault();
+     previousTaskBlock = $(this).parents('.previousTaskBlock');
+     previousTaskBlock.find('.status').val('Sent');
+ });
