@@ -305,7 +305,7 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             $(this).parent(".absentees" ).remove();
         });
  $('#centralContainer').on('click', '.removeParent', function(event) {
-            var selectAssignee = $(this).parents( "p" ).find('.selectAssignee');
+            var selectAssignee = $(this).parents( ".parentDiv" ).find('.selectAssignee');
             selectAssignee.show();
             selectAssignee.val('');
             $(this).parent( ".assignee" ).remove();

@@ -52,7 +52,7 @@
                         <div class="taskBlock taskDiv">
                             <div>
                                 <span class="removeTaskFrom removeMoreBtn"></span>
-                                {!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$details['type'][$i],array('class'=>'type','autocomplete'=>'off','disabled')) !!}
+                                {!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$details['type'][$i],array('class'=>'type','autocomplete'=>'off')) !!}
                                 <div class="clearboth"></div>
                             </div>
                             <div class="minuteItemNumber">
@@ -63,7 +63,7 @@
                                 <p>{!! Form::textarea('description[]',$details['description'][$i],array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
                             </div>
                             <div class="minuteItemRight">
-                                <p>
+                                <div class="parentDiv">
                                    <?php
                                    $display='';
 
@@ -71,37 +71,60 @@
                                    {
                                     $display = "display:none;";
                                    }
-                                   // if($details['assignee'][$i])
-                                   // {
-                                   //   if(isEmail($details['assignee'][$i]))
-                                   //   {
-                                   //    $display='';
-                                   //   }
-                                   //   else
-                                   //   {
-                                   //     $display='display:none;';
-                                   //     $name = getUser(['userId'=>$details['assignee'][$i]])->profile->name;
-                                   //    echo '<div class="assignee">yet to finish<span class="removeParent">remove</span></div>';
-                                   //   }
-                                   // }
-                                   //  else
-                                   //  {
-                                   //      $display='';
-                                   //  }
+                                   else
+                                   {
+                                    if($details['assignee'][$i])
+                                       {
+                                         if(isEmail($details['assignee'][$i]))
+                                         {
+                                          $display='';
+                                         }
+                                         else
+                                         {
+                                           $display='display:none;';
+                                           $name = getUser(['userId'=>$details['assignee'][$i]])->profile->name;
+                                          echo '<div class="assignee">'.$name.'<span class="removeParent">remove</span></div>';
+                                         }
+                                       }
+                                        else
+                                        {
+                                            $display='';
+                                        }
+                                   }
                                     ?>
                                 {!! Form::text('assignee[]',$details['assignee'][$i],array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner','style'=>$display)) !!}
-                                </p>
+                                </div>
                                 <p>{!! Form::text('dueDate[]',$details['dueDate'][$i],array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$display)) !!}</p>
-                                <p>
+                                 <div class="parentDiv">
                                     <?php
                                         $display='';
                                         if($details['type'][$i] == 'task')
                                        {
                                         $display = "display:none;";
                                        }
+                                       else
+                                       {
+                                        if($details['orginator'][$i])
+                                           {
+                                             if(isEmail($details['orginator'][$i]))
+                                             {
+                                              $display='';
+                                             }
+                                             else
+                                             {
+                                               $display='display:none;';
+                                               $name = getUser(['userId'=>$details['orginator'][$i]])->profile->name;
+                                              echo '<div class="assignee">'.$name.'<span class="removeParent">remove</span></div>';
+                                             }
+                                           }
+                                            else
+                                            {
+                                                $display='';
+                                            }
+                                       }
                                        ?>
-                                   {!! Form::text('orginator[]',$details['orginator'][$i],array('autocomplete'=>'off','class'=>'clearVal ideainput selectOrginator','style'=>$display)) !!}
-                               </p>
+                                   {!! Form::text('orginator[]',$details['orginator'][$i],array('autocomplete'=>'off','class'=>'clearVal ideainput selectAssignee','style'=>$display)) !!}
+                                </div>
                                 <p>Draft</p>
                             </div>
                             <div class="clearboth"></div>
@@ -158,11 +181,11 @@
                                 <p>{!! Form::textarea('description[]','',array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
                             </div>
                             <div class="minuteItemRight">
-                                <p>
+                                 <div class="parentDiv">
                                     {!! Form::text('assignee[]','',array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner')) !!}
-                                </p>
+                                </div>
                                 <p>{!! Form::text('dueDate[]','',array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
-                                <p>{!! Form::text('orginator[]','',array('autocomplete'=>'off','class'=>'clearVal ideainput selectOrginator','style'=>'display:none;')) !!}</p>
+                                 <div class="parentDiv">{!! Form::text('orginator[]','',array('selectAssignee'=>'off','class'=>'clearVal ideainput selectOrginator','style'=>'display:none;')) !!}</div>
                                 <p>Draft</p>
                             </div>
                             <div class="clearboth"></div>
@@ -199,23 +222,23 @@ $( ".selectAssignee" ).autocomplete({
             minLength: 2,
             select: function( event, ui ) {
                 insert = '<div class="assignee">'+ui.item.value+'<span class="removeParent">remove</span></div>';
-                $(this).parent('p').append(insert);
+                $(this).parent('.parentDiv').append(insert);
                 $(this).val(ui.item.userId);
                 $(this).hide();
                 return false;
             }
             });
-$( ".selectOrginator" ).autocomplete({
-            source: "/user/search",
-            minLength: 2,
-            select: function( event, ui ) {
-                insert = '<div class="assignee">'+ui.item.value+'<span class="removeParent">remove</span></div>';
-                $(this).parent('p').append(insert);
-                $(this).val(ui.item.userId);
-                $(this).hide();
-                return false;
-            }
-            });
+// $( ".selectOrginator" ).autocomplete({
+//             source: "/user/search",
+//             minLength: 2,
+//             select: function( event, ui ) {
+//                 insert = '<div class="assignee">'+ui.item.value+'<span class="removeParent">remove</span></div>';
+//                 $(this).parent('.parentDiv').append(insert);
+//                 $(this).val(ui.item.userId);
+//                 $(this).hide();
+//                 return false;
+//             }
+//             });
 }
 selectAssignee();
 nextDateInput();
