@@ -124,13 +124,13 @@
 
 $('#startDateInput').appendDtpicker(
 	{
-	"minDate": new Date(),
+	"maxDate": new Date(),
 	"autodateOnStart": false,
     "closeOnSelected": true
     });
 $('#endSateInput').appendDtpicker(
 	{
-    "minDate": new Date(),
+    "maxDate": new Date(),
     "autodateOnStart": false,
 	"closeOnSelected": true
     });

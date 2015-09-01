@@ -9,7 +9,9 @@
 			<h4>{{$meeting->title}}</h4>
 			<p>Created on: {{$meeting->created_at}}</p>
 			<p> Creation request by: {{$meeting->requestedby->name}}</p>
-			<button class="completeBtn" id="approveMeeting" id="{{$meeting->id}}">Approve</button>
+			<button class="" id="approveMeeting" mid="{{$meeting->id}}">Approve</button>
+			{!! Form::textarea('reason','',['id'=>'reason'])!!}
+			<button class="" id="disapproveMeeting" mid="{{$meeting->id}}">Disapprove</button>
 		</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
@@ -43,34 +45,35 @@
 					{
 						if($details['type'][$i] == 'task')
 						{
-							$attendees[] = $details['assingee'][$i];
+							$attendees[] = $details['assignee'][$i];
 						}
 						else
 						{
 							$attendees[] = $details['orginator'][$i];
 						}
-						$attendees = array_unique(array_filter($attendees));
-						foreach($attendees as $user)
+					}
+					$attendees = array_unique(array_filter($attendees));
+					foreach($attendees as $user)
+					{
+						if(isEmail($user))
 						{
-							if(isEmail($user))
+							echo '<div class="meetingSettingITem">
+										<p>'.$user.'Attendee</p>
+										<div class="clearboth"></div>
+									</div>';
+						}
+						else
+						{
+							if($attuser = getUSer(['userId'=>$user])->profile->name)
 							{
 								echo '<div class="meetingSettingITem">
-											<p>'.$user.'Attendee</p>
-											<div class="clearboth"></div>
-										</div>';
-							}
-							else
-							{
-								if($attuser = getUSer(['userId'=>$user])->profile->name)
-								{
-									echo '<div class="meetingSettingITem">
-											<p>'.$attuser.'-Attendee</p>
-											<div class="clearboth"></div>
-										</div>';
-								}
+										<p>'.$attuser.'-Attendee</p>
+										<div class="clearboth"></div>
+									</div>';
 							}
 						}
 					}
+					
 					?>
 			</div>
 		<div class="clearboth"></div>

@@ -64,6 +64,46 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
         });
         
     });
+$('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/meetings/draft',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#createMeetingForm').serialize(),
+        })
+        .done(function(jsonData) {
+
+            if(jsonData.success == 'no')
+            {
+                if(jsonData.hasOwnProperty('validator'))
+                {
+                    $('.error').html('');
+                    $.each(jsonData.validator, function(index, val) {
+                         $('#'+index+'_err').html(val);
+                    });
+                }
+            }
+            else if(jsonData.success == 'yes')
+            {
+                $.notify('Meeting Created Successfully',
+                {
+                   className:'success',
+                   globalPosition:'top center'
+                });
+                //location.reload();
+                $('#popup').load('/meetings/load/'+jsonData.meetingId);
+            }
+            //////console.log("success");
+        })
+        .fail(function() {
+            ////console.log("error");
+        })
+        .always(function() {
+            ////console.log("complete");
+        });
+        
+    });
 $('#centralContainer').on('click', '#addMeeting', function(event)
 {
     event.preventDefault();

@@ -18,13 +18,13 @@ class CreateMeetingsTable extends Migration {
 			$table->string('title','64');
 			$table->text('description');
 			$table->string('venue','64')->nullable();
-			$table->string('type','64');
-			$table->string('purpose','256');
+			$table->string('type','64')->nullable();
+			$table->string('purpose','256')->nullable();
 			$table->string('attendees','64')->nullable();
 			$table->string('minuters','64');
 			$table->integer('requested_by')->unsigned();
 			$table->enum('active',array('0','1'))->default('1');
-			$table->enum('approved',array('0','1'))->default('0');
+			//$table->enum('approved',array('0','1'))->default('0');
 			$table->integer('oid')->unsigned()->nullable();
 			$table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();

@@ -129,6 +129,10 @@
                             </div>
                             <div class="clearboth"></div>
                         </div>
+                         <div id="title_err" class="error"></div>
+                        <div id="description_err" class="error"></div>
+                        <div id="assignee_err" class="error"></div>
+                        <div id="dueDate_err" class="error"></div>
                     @endfor
                     </div>
                     @else
@@ -190,11 +194,15 @@
                             </div>
                             <div class="clearboth"></div>
                         </div>
+                        <div id="title_err" class="error"></div>
+                        <div id="description_err" class="error"></div>
+                        <div id="assignee_err" class="error"></div>
+                        <div id="dueDate_err" class="error"></div>
                     </div>
                     @endif
                     {!! Form::close() !!}
                      <span id="add_more" type="submit" class="button">Add more</span>
-                     <span id="add_more" type="submit" class="button">Save Draft</span>
+                     <span id="draftMeetingSubmit" type="submit" class="button">Save Draft</span>
                      <span id="createMeetingSubmit" type="submit" class="button">Send minute After Admin aprrove</span>
                 </div>
             </div>

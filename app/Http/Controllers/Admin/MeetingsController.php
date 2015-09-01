@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Request;
-use App\Model\JobTasks;
 use App\Model\TempMeetings;
+use App\Model\MinuteTasks;
+use App\Model\Minutes;
+use App\Model\Ideas;
 use App\Model\Meetings;
 use App\Model\Organizations;
 use Auth;
@@ -22,7 +24,6 @@ class MeetingsController extends Controller {
 	{
 		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
 					->where('organizations.customerId','=',getOrgId())
-					->where('meetings.approved','=','1')
 					->get();
 		return view('admin.meetings',['meetings'=>$meetings]);
 	}
@@ -30,13 +31,13 @@ class MeetingsController extends Controller {
 	{
 		$meetings = TempMeetings::select('tempMeetings.*')->join('organizations','tempMeetings.oid','=','organizations.id')
 					->where('organizations.customerId','=',getOrgId())
-					->where('tempMeetings.approved','=','0')
+					//->where('tempMeetings.approved','=','0')
 					->where('tempMeetings.draft','=','0')
 					->get();
 		return view('admin.notification',['meetings'=>$meetings]);
 	}
-	public function view()
-	{
+	public function view($mid)
+	{	$meeting = Meetings::find($mid);
 		return view('admin.meeting',['meeting'=>$meeting]);
 	}
 	public function viewTemp($id)
@@ -61,7 +62,7 @@ class MeetingsController extends Controller {
 	}
 	public function createMeeting()
 	{
-		$input = Request::only('title','description','venue','participants','roles');
+		$input = Request::only('title','description','venue','participants','roles','type','purpose');
 		$output['success'] = 'yes';
 		if(!Auth::user()->isAdmin)
 		{
@@ -135,18 +136,10 @@ class MeetingsController extends Controller {
 			if($mid = Request::get('id'))
 				{
 					$meeting = Meetings::whereId($mid)->first();
-					if(Auth::user()->isAdmin)
-					{
-						$input['approved'] = 1;
-					}
 					$meeting->update($input);
 				}
 				else
 				{
-					if(Auth::user()->isAdmin)
-					{
-						$input['approved'] = 1;
-					}
 					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
 					$input['requested_by'] = Auth::id();
 					$meeting = Meetings::create($input);
@@ -155,59 +148,128 @@ class MeetingsController extends Controller {
 			return json_encode($output);
 		}
 	}
-	// public function approve(Request $request)
-	// {
-	// 	$input = $request->all();
-	// 	if($tempMeetings = TempMeetings::find($input['mid']))
-	// 	{
-	// 		$output['success'] = 'yes';
-	// 		$validator = TempMeetings::validation($input);
-	// 		if ($validator->fails())
-	// 		{
-	// 			$output['success'] = 'no';
-	// 			$output['validator'] = $validator->messages()->toArray();
-	// 			return json_encode($output);
-	// 		}
-	// 		else
-	// 		{
-	// 			$input['created_by'] = $tempMeetings->created_by;
-	// 			$input['updated_by'] = Auth::id();
-	// 			$input['minuters'] = implode(',',$input['minuters']);
-	// 			$input['attendees'] = implode(',',$request->input('attendees',[]));
-	// 			if(Meetings::create($input))
-	// 			{
-	// 				$tempMeetings->delete();
-	// 				return json_encode($output);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		return abort('403');
-	// 	}
-	// }
-	// public function disapprove(Request $request)
-	// {
-	// 	$input = $request->all();
-	// 	$tempMeetings = TempMeetings::find($input['mid'])->first();
-	// 	if($tempMeetings)
-	// 	{
-	// 		if(!$input['reason'])
-	// 		{
-	// 			$output['success'] = 'no';
-	// 			$output['reason'] = 'Reason for reject is require.';
-	// 			return json_encode($output);
-	// 		}
-	// 		$output['success'] = 'yes';
-	// 		$tempMeetings->status = 'Rejected';
-	// 		$tempMeetings->reason = $input['reason'];
-	// 		$tempMeetings->updated_by = Auth::id();
-	// 		$tempMeetings->save();
-	// 		return json_encode($output);
-	// 	}
-	// 	else
-	// 	{
-	// 		return abort('403');
-	// 	}
-	// }
+	public function approve($mid)
+	{
+		if($meeting = TempMeetings::find($mid))
+		{
+			$output['success'] = 'no';
+			$meetingData['title'] = $meeting->title;
+			$meetingData['description'] = $meeting->description;
+			$meetingData['venue'] = $meeting->venue;
+			$meetingData['minuters'] = $meeting->minuters;
+			$meetingData['oid'] = $meeting->oid;
+			$meetingData['type'] = $meeting->type;
+			$meetingData['purpose'] = $meeting->purpose;
+
+			$details = unserialize($meeting->details);
+			$attendees = $records = $ideasArr =array();
+			for($i=0;$i<=count($details['title'])-1;$i++)
+			{
+				$tempArr['title'] = $details['title'][$i];
+				$tempArr['description'] = nl2br($details['description'][$i]);
+				if($details['type'][$i] == 'task')
+				{
+					$tempArr['assigner'] = Auth::id();
+					$tempArr['dueDate'] = $details['dueDate'][$i];
+					$tempArr['updated_by'] = Auth::id();
+					$tempArr['status'] = 'Sent';
+
+					if(isEmail($details['assignee'][$i]))
+					{
+						if($assignee = getUser(['email'=>$details['assignee'][$i]]))
+						{
+							//check user has an account
+							$details['assignee'][$i] = $assignee->id;
+						}
+						else
+						{
+							//mark the task as accepted for who do have an account
+							$tempArr['status'] = 'Open';
+						}
+
+					}
+					else if($assignee = getUser(['userId'=>$details['assignee'][$i]]))
+					{
+						$details['assignee'][$i] = $assignee->id;
+					}
+					$attendees[] = $details['assignee'][$i];
+					$tempArr['assignee'] = $details['assignee'][$i];
+					$tempArr['updated_by'] = $meeting->created_by;
+					$tempArr['created_by'] = $meeting->created_by;
+					$records[] = New MinuteTasks(array_filter($tempArr));
+				}
+				elseif($details['type'][$i] == 'idea')
+				{
+					if(isEmail($details['orginator'][$i]))
+					{
+						if($orginator = getUser(['email'=>$details['orginator'][$i]]))
+						{
+							//check user has an account
+							$details['orginator'][$i] = $orginator->id;
+						}
+
+					}
+					else if($orginator = getUser(['userId'=>$details['orginator'][$i]]))
+					{
+						$details['orginator'][$i] = $orginator->id;
+					}
+					$attendees[] = $details['orginator'][$i];
+					$tempArr['orginator'] = $details['orginator'][$i];
+					$tempArr['updated_by'] = $meeting->created_by;
+					$tempArr['created_by'] = $meeting->created_by;
+					$ideasArr[] = New Ideas(array_filter($tempArr));
+				}
+			}					
+
+
+
+			$meetingData['attendees'] =implode(',', $attendees);
+			$meetingData['requested_by'] =$meeting->created_by;
+			$meetingData['created_by'] = $meetingData['updated_by'] =Auth::id();
+			DB::transaction(function() use ($meetingData,$record,$ideasArr,$meeting,$attendees)
+			{
+				if($newmeeting = Meetings::create($meetingData))
+				{
+					$attendees[] = $meeting->minuters;
+					$minute = New Minutes(['startDate'=>$meeting->startDate,
+						'created_by'=>$meeting->created_by,'updated_by'=>$meeting->created_by,
+						'endDate'=>$meeting->endDate,'attendees'=>implode(',',$attendees)]);
+					$minute = $newmeeting->minutes()->save($minute);
+					$minute->tasks()->saveMany($records);
+					$minute->ideas()->saveMany($ideasArr);
+					$meeting->delete();
+					$output['success'] = 'yes';
+				}
+			});			
+			return json_encode($output);
+		}
+		else
+		{
+			return abort('403');
+		}
+	}
+	public function disapprove($mid)
+	{
+		$input = Request::only('reason');
+		$meeting = TempMeetings::find($input['mid'])->first();
+		if($meeting)
+		{
+			if(!$input['reason'])
+			{
+				$output['success'] = 'no';
+				$output['reason'] = 'Reason for reject is require.';
+				return json_encode($output);
+			}
+			$output['success'] = 'yes';
+			$meeting->approved = '-1';
+			$meeting->reason = $input['reason'];
+			$meeting->updated_by = Auth::id();
+			$meeting->save();
+			return json_encode($output);
+		}
+		else
+		{
+			return abort('403');
+		}
+	}
 }

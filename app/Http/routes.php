@@ -43,10 +43,10 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('meetings', 'Admin\MeetingsController@index');
 			Route::get('meeting/create','Admin\MeetingsController@meetingForm');
 			Route::post('meeting/create','Admin\MeetingsController@createMeeting');
-			Route::get('meeting/view', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
-			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
-			Route::post('meeting/approve', 'Admin\MeetingsController@approve');
-			Route::post('meeting/disapprove', 'Admin\MeetingsController@disapprove');
+			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
+			Route::get('meeting/draft/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
+			Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
+			Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
 			Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
 		//});
 	});
@@ -116,6 +116,7 @@ Route::group(['prefix' => 'admin'], function()
 			//Route::get('history', 'Meetings\MeetingsController@history');
 			Route::get('create','Meetings\MeetingsController@meetingForm');
 			Route::post('create','Meetings\MeetingsController@createMeeting');
+			Route::post('draft','Meetings\MeetingsController@draftMeeting');
 			Route::get('load/{temMeetingId}','Meetings\MeetingsController@meetingForm')->where('id', '[0-9]+');
 			// Route::post('update/{temMeetingId}','Meetings\MeetingsController@updateMeeting')->where('id', '[0-9]+');
 		});

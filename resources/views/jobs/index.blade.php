@@ -162,7 +162,7 @@
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
-								<p>{{$task->description}}</p>
+								<p>{!!$task->description!!}</p>
 								@if($task->status == 'Sent')
 									{!! Form::open(['id'=>$formId]) !!}
 									{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
@@ -201,7 +201,7 @@
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+								<p>{!!$task->description!!}</p>
 								{{-- {!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
 								{!! Form::close() !!}
@@ -234,7 +234,7 @@
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 tid="{{$task->id}}" class="task">{{$task->title}}</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+								<p>{!!$task->description!!}</p>
 								{!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
 								{!! Form::close() !!}
