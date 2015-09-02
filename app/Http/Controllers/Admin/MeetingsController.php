@@ -25,6 +25,8 @@ class MeetingsController extends Controller {
 	{
 		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
 					->where('organizations.customerId','=',getOrgId())
+					//enable this on filter 
+					//->where('meetings.active','=','1')
 					->get();
 		return view('admin.meetings',['meetings'=>$meetings]);
 	}

@@ -30,6 +30,7 @@ class MeetingsController extends Controller {
 						->join('organizations','meetings.oid','=','organizations.id')
 						//->join('minutes','meetings.id','=','minutes.meetingId')
 						->where('meetings.active','=','1')
+						->whereNull('meetings.deleted_at')
 						->where('organizations.customerId','=',getOrgId())
 						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
 						->whereNotExists(function($query)
@@ -43,13 +44,16 @@ class MeetingsController extends Controller {
 		$recentMinutes = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.active','=','1')
+					->whereNull('meetings.deleted_at')
 					->where('minutes.filed','=','1')
 					->groupBy('minutes.meetingId')
 					->orderBy('minutes.startDate','desc')
 					->get();
+					//print_r(count($recentMinutes)); die;
 		$notfiled = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.active','=','1')
+					->whereNull('meetings.deleted_at')
 					->where('minutes.filed','=','0')
 					->groupBy('minutes.meetingId')
 					->get();
