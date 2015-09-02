@@ -296,4 +296,18 @@ class MeetingsController extends Controller {
 			return abort('403');
 		}
 	}
+	public function delete($mid)
+	{
+		$meeting = Meetings::whereId($mid)->first();
+		if($meeting)
+		{
+			$output['success'] = 'yes';
+			$meeting->delete();
+			return json_encode($output);
+		}
+		else
+		{
+			return abort('403');
+		}
+	}
 }

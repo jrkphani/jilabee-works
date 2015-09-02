@@ -111,3 +111,31 @@ $('#adminContent').on('click', '#act_deact_Meeting', function(event) {
             checkStatus(xhr.status);
         });
 });
+$('#adminContent').on('click', '#endMeeting', function(event) {
+    event.preventDefault();
+    mid = $(this).attr('mid');
+    if (confirm('Are you sure to end this meeting?'))
+        {
+            $.ajax({
+            url: '/admin/meeting/delete/'+mid,
+            type: 'GET',
+            dataType: 'json',
+            })
+            .done(function(jsonData){
+                if(jsonData.success == 'yes')
+                {
+                    location.reload();
+                }
+                else
+                {
+                 notification('error','Something went wrong');   
+                }
+            })
+            .fail(function(xhr) {
+                checkStatus(xhr.status);
+            })
+            .always(function(xhr) {
+                checkStatus(xhr.status);
+            });
+        }
+});
