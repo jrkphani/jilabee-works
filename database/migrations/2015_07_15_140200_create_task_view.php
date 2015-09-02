@@ -18,7 +18,7 @@ class CreateTaskView extends Migration {
 		UNION
 		(SELECT concat('minute','','') as type,minuteTasks.id,minuteTasks.title,minuteTasks.description,minuteTasks.assigner,minuteTasks.assignee,
 			minuteTasks.status,minuteTasks.dueDate,minuteTasks.minuteId from minuteTasks 
-			JOIN minutes on minuteTasks.minuteId = minutes.id JOIN meetings on minutes.meetingId = meetings.id where minuteTasks.deleted_at IS NULL)");
+			JOIN minutes on minuteTasks.minuteId = minutes.id JOIN meetings on minutes.meetingId = meetings.id where meetings.active = '1' AND minuteTasks.deleted_at IS NULL)");
 	}
 
 	/**

@@ -93,6 +93,13 @@
 		</div>
 		
 		<div class="adminUsersBtnsRight">
+			<button id="act_deact_Meeting" mid="{{$meeting->id}}" >
+				@if($meeting->active == '0')
+				Activate
+				@else
+				Deactivate
+				@endif
+			</button>
 			<button id="endMeeting" mid="{{$meeting->id}}" >End Meeting</button>
 		</div>
 		<div class="clearboth"></div>

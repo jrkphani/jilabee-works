@@ -272,4 +272,28 @@ class MeetingsController extends Controller {
 			return abort('403');
 		}
 	}
+	public function activate($mid)
+	{
+		$meeting = Meetings::whereId($mid)->first();
+		if($meeting)
+		{
+			$output['success'] = 'yes';
+			if($meeting->active == '1')
+			{
+				$meeting->active = '0';
+			}
+			else
+			{
+				$meeting->active = '1';
+			}
+			$meeting->updated_by = Auth::id();
+			$meeting->save();
+			$output['active'] = $meeting->active;
+			return json_encode($output);
+		}
+		else
+		{
+			return abort('403');
+		}
+	}
 }

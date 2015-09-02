@@ -120,6 +120,13 @@
 		</div>
 		
 		<div class="adminUsersBtnsRight">
+			<span class="button" id="act_deact_Meeting" mid="{{$meeting->id}}" >
+				@if($meeting->active == '0')
+				Activate
+				@else
+				Deactivate
+				@endif
+			</span>
 			<span divid="adminUsersRight" class="button backBtn" url="{{url('admin/meeting/view/'.$meeting->id)}}">Back</span>
 			<span class="button" id="endMeeting" mid="{{$meeting->id}}">End Meeting</span>
 		</div>
@@ -167,6 +174,9 @@
 	<div class="adminUsersBtns">
 		<div class="adminUsersBtnsLeft">
 			<span id="createMeetingSubmit" class="button">Creat Meeting</span>
+		</div>
+		<div class="adminUsersBtnsRight">
+			<span divid="adminUsersRight" class="button" onclick="$('.listHighlight1:first').click();">Back</span>
 		</div>
 		<div class="clearboth"></div>
 	</div>

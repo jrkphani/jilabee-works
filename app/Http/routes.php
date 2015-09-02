@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
 			Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
 			Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
+			Route::get('meeting/activate/{meetingId}','Admin\MeetingsController@activate')->where('meetingId', '[0-9]+');
 		//});
 	});
     Route::get('auth/register', 'Admin\AuthController@signupGet');

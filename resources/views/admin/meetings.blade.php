@@ -22,7 +22,6 @@
 			</div>
 		</div>
 		<div id="adminUsersRight" class="adminUsersRight">
-			Loading ....
 		</div>
 		<div class="clearboth"></div>
 	</div>

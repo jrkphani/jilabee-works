@@ -83,3 +83,31 @@ $('#adminContent').on('click', '#editMeeting', function(event) {
     event.preventDefault();
     rightContentAjaxGet('/admin/meeting/edit/'+$(this).attr('mid'));
 });
+$('#adminContent').on('click', '#act_deact_Meeting', function(event) {
+    event.preventDefault();
+    mid = $(this).attr('mid');
+    $.ajax({
+            url: '/admin/meeting/activate/'+mid,
+            type: 'GET',
+            dataType: 'json',
+        })
+        .done(function(jsonData){
+            if(jsonData.success == 'yes')
+            {
+                if(jsonData.active == '0')
+                {
+                    $('#act_deact_Meeting').text('Activate');
+                }
+                else
+                {
+                    $('#act_deact_Meeting').text('Deactivate');
+                }
+            }
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+});

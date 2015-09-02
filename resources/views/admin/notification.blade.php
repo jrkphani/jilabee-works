@@ -13,13 +13,14 @@
 	<!--=================================== List 1 ================================-->
 	<div class="boxList">
 		<div class="boxTitle">
-			<span class="boxTitleNumber boxNumberRed">5</span>
+			<span class="boxTitleNumber boxNumberRed">{{count($meetings)}}</span>
 			<p>Meetings Pending</p>
 			<div class="clearboth"></div>
 		</div>
+		<?php $count=1; ?>
 		@foreach($meetings as $meeting)
 			<div class="box">
-				<span class="boxNumber boxNumberRed">3</span>
+				<span class="boxNumber boxNumberRed">{{$count++}}</span>
 				<div class="boxInner">
 					<h4>{{$meeting->title}}</h4>
 					<h6>Requested by: {{$meeting->requestedby->name}}</h6>
