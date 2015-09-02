@@ -8,6 +8,7 @@ use App\Model\Ideas;
 use App\Model\Meetings;
 use App\Model\Organizations;
 use Auth;
+use DB;
 use App\User;
 use Validator;
 class MeetingsController extends Controller {
@@ -152,7 +153,7 @@ class MeetingsController extends Controller {
 	{
 		if($meeting = TempMeetings::find($mid))
 		{
-			$output['success'] = 'no';
+			$output['success'] = 'yes';
 			$meetingData['title'] = $meeting->title;
 			$meetingData['description'] = $meeting->description;
 			$meetingData['venue'] = $meeting->venue;
@@ -226,7 +227,7 @@ class MeetingsController extends Controller {
 			$meetingData['attendees'] =implode(',', $attendees);
 			$meetingData['requested_by'] =$meeting->created_by;
 			$meetingData['created_by'] = $meetingData['updated_by'] =Auth::id();
-			DB::transaction(function() use ($meetingData,$record,$ideasArr,$meeting,$attendees)
+			DB::transaction(function() use ($meetingData,$records,$ideasArr,$meeting,$attendees)
 			{
 				if($newmeeting = Meetings::create($meetingData))
 				{
@@ -237,8 +238,7 @@ class MeetingsController extends Controller {
 					$minute = $newmeeting->minutes()->save($minute);
 					$minute->tasks()->saveMany($records);
 					$minute->ideas()->saveMany($ideasArr);
-					$meeting->delete();
-					$output['success'] = 'yes';
+					//$meeting->delete();
 				}
 			});			
 			return json_encode($output);
@@ -251,7 +251,7 @@ class MeetingsController extends Controller {
 	public function disapprove($mid)
 	{
 		$input = Request::only('reason');
-		$meeting = TempMeetings::find($input['mid'])->first();
+		$meeting = TempMeetings::whereId($mid)->first();
 		if($meeting)
 		{
 			if(!$input['reason'])

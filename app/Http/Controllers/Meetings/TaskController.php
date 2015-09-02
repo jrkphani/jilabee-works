@@ -135,11 +135,15 @@ class TaskController extends Controller {
 				}
 				$minute->draft()->delete();
 				$output['meetingId'] = $mid;
+				//file minutes if no new task
+				$this->fileMinute($minute->meetingId);
 				return json_encode($output);
 
 			}
 			else
 			{
+				//file minutes if no new task
+				$this->fileMinute($minute->meetingId);
 				if($updatedFlag == 1)
 				{
 					$output['success'] = 'yes';

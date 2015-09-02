@@ -12,15 +12,20 @@
                     @if($meeting)
                     {{--meeting form --}}
                     {!! Form::hidden('id',$meeting->id) !!}
+                    @if($meeting->approved == '-1')
+                        <div class="userDetailItem">
+                            <p>Rejected Reason: </p>
+                             <span>{{$meeting->reason}}</span>
+                            <div class="clearboth"></div>
+                            <div id="meetingType_err" class="error"></div>
+                        </div>
+                    @endif
                     <div class="userDetailItem">
                         <p>name of meeting </p>
                          <span> {!! Form::text('meetingTitle',$meeting->title,['placeholder'=>'title'])!!}</span>
                         <div class="clearboth"></div>
                         <div id="meetingTitle_err" class="error"></div>
                     </div>
-                    <h4>
-                       
-                    </h4>
                     <div class="userDetailItem">
                         <p>type of meeting </p>
                          <span>{!! Form::text('meetingType',$meeting->type,['placeholder'=>'type'])!!}</span>
@@ -94,6 +99,13 @@
                                     ?>
                                 {!! Form::text('assignee[]',$details['assignee'][$i],array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner','style'=>$display)) !!}
                                 </div>
+                                <?php
+                                $display = "";
+                                if($details['type'][$i] == 'idea')
+                                   {
+                                    $display = "display:none;";
+                                   }
+                                   ?>
                                 <p>{!! Form::text('dueDate[]',$details['dueDate'][$i],array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$display)) !!}</p>
                                  <div class="parentDiv">
                                     <?php

@@ -14,13 +14,13 @@
 	
 	<div class="userDetailItem">
 		<p>type of meeting </p>
-		<span>Project</span>
+		<span>{{$meeting->type}}</span>
 		<div class="clearboth"></div>
 	</div>
 
 	<div class="userDetailItem">
 		<p>purpose of meeting  </p>
-		<span>To track the project process</span>
+		<span>{{$meeting->purpose}}</span>
 		<div class="clearboth"></div>
 	</div>
 		<br/><br/>
@@ -93,8 +93,7 @@
 		</div>
 		
 		<div class="adminUsersBtnsRight">
-			<button>Close Meeting</button>
-			<button>End Meeting</button>
+			<button id="endMeeting" mid="{{$meeting->id}}" >End Meeting</button>
 		</div>
 		<div class="clearboth"></div>
 	</div>

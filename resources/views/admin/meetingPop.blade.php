@@ -11,6 +11,7 @@
 			<p> Creation request by: {{$meeting->requestedby->name}}</p>
 			<button class="" id="approveMeeting" mid="{{$meeting->id}}">Approve</button>
 			{!! Form::textarea('reason','',['id'=>'reason'])!!}
+			<div id="reason_err" class="error"></div>
 			<button class="" id="disapproveMeeting" mid="{{$meeting->id}}">Disapprove</button>
 		</div>
 		<div class="popupContentLeft">

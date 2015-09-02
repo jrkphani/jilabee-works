@@ -47,7 +47,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
        var token = $('#_token').val();
        var reason = $('#reason').val();
        $.ajax({
-           url: '/admin/meeting/approve/'+mid,
+           url: '/admin/meeting/disapprove/'+mid,
            type: 'POST',
            dataType: 'json',
             data: {'reason':reason,'_token':token},
@@ -55,7 +55,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
        .done(function(jsonData) {
            if(jsonData.success == 'no')
            {
-            alert('notificatin: something went wrong');
+            $('#reason_err').html(jsonData.reason);
            }
            else if(jsonData.success == 'yes')
            {

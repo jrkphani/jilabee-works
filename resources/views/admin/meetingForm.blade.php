@@ -19,13 +19,13 @@
 	
 	<div class="userDetailItem">
 		<p>type of meeting </p>
-		<span>Project</span>
+		<span>{!! Form::text('type',$meeting->type,['placeholder'=>'type'])!!} </span>
 		<div class="clearboth"></div>
 	</div>
 
 	<div class="userDetailItem">
 		<p>purpose of meeting  </p>
-		<span>To track the project process</span>
+		<span>{!! Form::text('purpose',$meeting->purpose,['placeholder'=>'title'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
 		<br/><br/>
@@ -121,7 +121,7 @@
 		
 		<div class="adminUsersBtnsRight">
 			<span divid="adminUsersRight" class="button backBtn" url="{{url('admin/meeting/view/'.$meeting->id)}}">Back</span>
-			<span class="button">End Meeting</span>
+			<span class="button" id="endMeeting" mid="{{$meeting->id}}">End Meeting</span>
 		</div>
 		<div class="clearboth"></div>
 	</div>
@@ -134,13 +134,13 @@
 	</h4>
 	<div class="userDetailItem">
 		<p>type of meeting </p>
-		<span>Project</span>
+		<span>{!! Form::text('type','',['placeholder'=>'type'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
 
 	<div class="userDetailItem">
 		<p>purpose of meeting  </p>
-		<span>To track the project process</span>
+		<span>{!! Form::text('purpose','',['placeholder'=>'purpose'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
 		<br/><br/>
