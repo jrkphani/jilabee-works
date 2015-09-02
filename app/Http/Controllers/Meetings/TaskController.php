@@ -328,9 +328,11 @@ class TaskController extends Controller {
 				$currentMinute = Minutes::where('meetingId',$meetingId)->where('filed','0')->first();
 				//print_r($currentMinute->id); die;
 				$lastFiledMinute = Minutes::where('meetingId',$meetingId)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				$datenow = date('Y-m-d H:i:s');
 				if($lastFiledMinute)
 				{
-					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId"),'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
+					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId , concat('$datenow','','') as created_at"),
+								'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
 							//->where('minutes.meetingId',$meetingId)
 							->where('minutes.id',$currentMinute->id)
 							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
@@ -345,7 +347,8 @@ class TaskController extends Controller {
 				}
 				else
 				{
-					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId"),'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
+					$tasks = Minutes::select(DB::raw("concat($currentMinute->id,'','') as minuteId , concat('$datenow','','') as created_at"),
+						'minuteTasks.id as taskId','minuteTasks.title','minuteTasks.description','minuteTasks.assignee','minuteTasks.assigner','minuteTasks.status','minuteTasks.dueDate')
 							//->where('minutes.meetingId',$meetingId)
 							->where('minutes.id',$currentMinute->id)
 							->join('minuteTasks','minuteTasks.minuteId','=','minutes.id')
