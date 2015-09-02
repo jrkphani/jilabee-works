@@ -65,7 +65,8 @@
 	
 	<div class="userDetailItem">
 		<p>Department</p>
-		<input type="text" disabled>
+		<input type="text" name="department" value="{{$user->department}}">
+		<div class="error" id="department_err"></div>
 		<div class="clearboth"></div>
 	</div>
 	<br/><br/>
@@ -140,7 +141,8 @@
 	
 	<div class="userDetailItem">
 		<p>Department</p>
-		<input type="text" disabled>
+		<input type="text" name="department" value="{{$user->department}}">
+		<div class="error" id="department_err"></div>
 		<div class="clearboth"></div>
 	</div>
 	<br/><br/>
