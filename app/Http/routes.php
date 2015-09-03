@@ -57,6 +57,7 @@ Route::group(['prefix' => 'admin'], function()
 	Route::get('auth/login', 'Admin\AuthController@loginGet');
 	Route::post('auth/login', 'Admin\AuthController@loginPost');
 	Route::get('auth/logout', 'Admin\AuthController@logout');
+	Route::get('activate/{remember}', 'Admin\UserController@emailActivate');
 });
 
 	Route::controllers([

@@ -105,7 +105,6 @@ function sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
         $mailArr['toEmail'] = $toEmail;
         $mailArr['toName'] = $toName;
         $mailArr['subject'] = $subject;
-        $view = 'emails.password';
         Mail::send(
           $view,$arrayToView,
           function( $message ) use ($mailArr){
