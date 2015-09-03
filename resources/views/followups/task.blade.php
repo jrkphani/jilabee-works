@@ -36,26 +36,12 @@
 				{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes)!!}
 			</div>
 			@endif
-			@if($mid)
-				@foreach($task->file as $file)
-					<div class="updateItem">
-						<h6> update: {{$file->created_at}}</h6>
-						<p>{{$file->description}}</p>
-					</div>
-				@endforeach
-			@endif
-			
-			<!-- ================= Updates ====================  -->
-			<!-- ================= Update item each ====================  -->
-			{{-- <div class="updateItem">
-				<h6> update: 16/08/2015</h6>
-				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div>
-			<!--================= Update item each ==================== --!>
-			<div class="updateItem">
-				<h6> update: 16/08/2015</h6>
-				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div> --}}
+			@foreach($task->file as $file)
+				<div class="updateItem">
+					<h6> update: {{$file->created_at}}</h6>
+					<p>{{$file->description}}</p>
+				</div>
+			@endforeach
 			<div class="popupButtons">
 				@if(!$task->minuteId)
 					<button id="editTask" tid="{{$task->id}}">Edit Task</button>

@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller;
 use Request;
 use App\Model\JobTasks;
+use App\Model\JobTasksLog;
 use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
@@ -227,6 +228,14 @@ class TaskController extends Controller {
 			$input['description'] = nl2br($input['description']);
 			$input['notes'] = nl2br($input['notes']);
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
+			$toLog = $task->toArray();
+			$toLog['taskId']=$toLog['id'];
+			unset($toLog['id']);
+			unset($toLog['notes']);
+			unset($toLog['deleted_at']);
+			unset($toLog['assigner']);
+			unset($toLog['reason']);
+			JobTasksLog::insert($toLog);
 			$task->update($input);
 			return view('followups.task',['task'=>$task]);
 		}
