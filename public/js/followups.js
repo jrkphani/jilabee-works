@@ -1,4 +1,38 @@
 $(document).ready(function() {
+    var url = document.location.toString();
+        if (url.match('&'))
+        {
+            variables = url.split('&');
+            mid = tid = 0;
+            for (var i = 0; i < variables.length; i++)
+            {
+                var sParameterName = variables[i].split('=');
+                if (sParameterName[0] == 'mid')
+                {
+                    mid = sParameterName[1];
+                }
+                if (sParameterName[0] == 'tid')
+                {
+                    tid = sParameterName[1];   
+                }
+            }
+            if(mid)
+            {
+                 clickDiv =  $('.followup[mid='+mid+'][tid='+tid+']');
+            }
+            else if(tid)
+            {
+                clickDiv = $('.followup[tid='+tid+']:first');
+            }
+            //alert(clickDiv.html());
+            clickDiv.trigger( "click" );
+            //alert("Dfvd");
+        }
+        else
+        {
+            //do nothing
+        } 
+    });
 	 $('#centralContainer').on('click', '.followup', function(event){
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -265,4 +299,3 @@ $(document).ready(function() {
     }
     popupContentAjaxPost(path,form);
  });
-});

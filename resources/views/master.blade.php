@@ -43,9 +43,8 @@
 			<div class="headerRight">
 				@if (Auth::guest())
 				@else
-				<button class="notificationBtn"  id="notifications" onclick="$('#notifyDiv').toggle();">2</button>
-				<div class="notification" id="notifyDiv">
-					
+				<button class="notificationBtn"  id="notifications" onclick="$('#notifyDiv').toggle();"></button>
+				<div class="notification" id="notifyDiv">No Notifications
 				</div>
 				<button class="usernameBtn"  onclick="$('#nameMenu').toggle();"> {{Auth::user()->profile()->first()->name}}<span></span></button>
 				<div class="nameMenu" id="nameMenu">

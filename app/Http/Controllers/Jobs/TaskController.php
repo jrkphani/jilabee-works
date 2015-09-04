@@ -95,7 +95,15 @@ class TaskController extends Controller {
 			})->first();
 		$task->status = 'Open';
 		$task->updated_by = Auth::id();
-		$task->save();
+		if($task->save())
+		{
+			$notification['userId'] = $task->assigner;
+			$notification['objectId'] = $task->id;
+			$notification['objectType'] = 'Task';
+			$notification['subject'] = 'Accepted';
+			$notification['body'] = $task->title;
+			setNotification($notification);
+		}
 		//return view('jobs.task',['task'=>$task]);
 		//return redirect('jobs/mytask');
 		$output['success'] = 'yes';
@@ -113,6 +121,13 @@ class TaskController extends Controller {
 			$task->updated_by = Auth::id();
 			if($task->save())
 			{
+				$notification['userId'] = $task->assigner;
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'Task';
+				$notification['subject'] = 'Rejected';
+				$notification['body'] = $task->title;
+				setNotification($notification);
+				
 				Activity::log([
 					'userId'	=> Auth::id(),
 					'contentId'   => $task->id,

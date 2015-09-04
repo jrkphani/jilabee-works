@@ -26,6 +26,9 @@
 						{{count($task->file)}}
 					@endif
 				</p>
+				@if($task->reason)
+				<p>{!! $task->reason!!}</p>
+				@endif
 			</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">

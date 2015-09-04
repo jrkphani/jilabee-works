@@ -180,7 +180,12 @@ function notifications()
                     {
                         if(row.objectType == 'Task')
                         {
-                            link = '/jobs?&tid='+row.objectId;
+                            link = '/jobs/?';
+                            if(row.subject == 'Accepted' || row.subject == 'Rejected')
+                            {
+                                link = '/followups/?';
+                            }
+                            link += '&tid='+row.objectId;
                             if(row.parentId)
                             {
                                 link +=link+'&mid='+row.parentId;
@@ -188,7 +193,11 @@ function notifications()
                         }
                         else if(row.objectType == 'Minute')
                         {
-                            //link = '';
+                            link = '';
+                        }
+                        else
+                        {
+                            link = '';
                         }
                         var t = row.updated_at.split(/[- :]/);
                         var datePast = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
