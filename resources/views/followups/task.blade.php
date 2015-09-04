@@ -39,7 +39,7 @@
 			@foreach($task->file as $file)
 				<div class="updateItem">
 					<h6> update: {{$file->created_at}}</h6>
-					<p>{{$file->description}}</p>
+					<p>{!!$file->description!!}</p>
 				</div>
 			@endforeach
 			<div class="popupButtons">

@@ -151,11 +151,12 @@ class TaskController extends Controller {
 				JobDraft::destroy(Request::input('id'));
 			}
 			$input['status'] = 'Sent';
+			$notification['userId']=0;
 			if(isEmail($input['assignee']))
 			{
 				if($assignee = getUser(['email'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 				else
 				{
@@ -167,7 +168,7 @@ class TaskController extends Controller {
 			{
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 				else
 				{
@@ -182,6 +183,14 @@ class TaskController extends Controller {
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
 			if($task = JobTasks::create($input))
 			{
+				if($notification['userId'])
+				{
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'Task';
+					$notification['subject'] = 'New';
+					$notification['body'] = $task->title;
+					setNotification($notification);
+				}
 				return json_encode($output);
 			}
 		}
@@ -208,14 +217,14 @@ class TaskController extends Controller {
 			{
 				if($assignee = getUser(['email'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 			}
 			else
 			{
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 				else
 				{
@@ -236,7 +245,17 @@ class TaskController extends Controller {
 			unset($toLog['assigner']);
 			unset($toLog['reason']);
 			JobTasksLog::insert($toLog);
-			$task->update($input);
+			if($task->update($input))
+			{
+				if($notification['userId'])
+				{
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'Task';
+					$notification['subject'] = 'Update';
+					$notification['body'] = $task->title;
+					setNotification($notification);
+				}
+			}
 			return view('followups.task',['task'=>$task]);
 		}
 	}

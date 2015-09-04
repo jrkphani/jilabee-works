@@ -114,4 +114,16 @@ function sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
           }
         );
     }
+function setNotification($data)
+{
+    $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],'subject'=>$data['subject']])->first();
+    if($check)
+    {
+        $check->update($data);
+    }
+    else
+    {
+        App\Model\Notifications::create($data);
+    }
+}
 ?>

@@ -12,18 +12,7 @@
 */
 
 Route::get('/testemail', function(){
-	//https://www.digitalocean.com/community/tutorials/how-to-install-and-setup-postfix-on-ubuntu-12-04
-	/*Mail::send(
-  'emails.password',
-  array( 'token' => 'testing' ),
-  function( $message ) {
-    $message->from( 'mani.r@mtlabs.in', 'Code Chewing' );
-    $message->to(
-      'manimani1014@gmail.com',
-      'name'
-    )->subject( 'Welcome to Code Chewing!' );
-  }
-);*/
+//https://www.digitalocean.com/community/tutorials/how-to-install-and-setup-postfix-on-ubuntu-12-04
 //sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
 sendEmail('manimani1014@gmail.com','Mani','Ha Ha Ha','emails.password',['token'=>'ssvsdvsdvsvs']);
 });
@@ -78,7 +67,7 @@ Route::group(['prefix' => 'admin'], function()
 
 		Route::get('/', 'Jobs\TaskController@index');
 		Route::get('user/search', 'Auth\ProfileController@findUser');
-
+		Route::get('notifications', 'Auth\ProfileController@notifications');
 		Route::group(['prefix' => 'jobs'], function()
 		{
 			Route::get('/', 'Jobs\TaskController@index');
