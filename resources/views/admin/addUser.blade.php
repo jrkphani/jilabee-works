@@ -141,7 +141,7 @@
 	
 	<div class="userDetailItem">
 		<p>Department</p>
-		<input type="text" name="department" value="{{$user->department}}">
+		<input type="text" name="department" value="">
 		<div class="error" id="department_err"></div>
 		<div class="clearboth"></div>
 	</div>

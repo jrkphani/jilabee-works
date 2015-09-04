@@ -48,6 +48,8 @@ $(document).ready(function($)
         //     }
     });
     notifications();
+    //every 30 secs
+    setInterval(notifications,30000);
 });
 function moveright()
 {
@@ -176,6 +178,18 @@ function notifications()
                     +'<button class="showAllBtn">Show All</button>';
                     $.each(jsonDate.result, function(key,row)
                     {
+                        if(row.objectType == 'Task')
+                        {
+                            link = '/jobs?&tid='+row.objectId;
+                            if(row.parentId)
+                            {
+                                link +=link+'&mid='+row.parentId;
+                            }
+                        }
+                        else if(row.objectType == 'Minute')
+                        {
+                            //link = '';
+                        }
                         var t = row.updated_at.split(/[- :]/);
                         var datePast = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
                         secs = new Date(dateNow -datePast)/1000;
@@ -194,13 +208,13 @@ function notifications()
                                     updated_at = days+' hrs ago';
                                 }
                             }
-                            
                         }
-                        insert += '<div class="notificationItem">'
+                        insert += '<a href="'+link+'">'
+                                +'<div class="notificationItem">'
                                 +'    <p>'+row.subject+'-'+row.objectType+'</p>'
                                 +'    <h6>'+row.body+'</h6>'
                                 +'    <p>'+updated_at+'</p>'
-                                +'</div>';
+                                +'</div></a>';
                     });
                     $('#notifyDiv').html(insert);
                 }
