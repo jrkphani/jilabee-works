@@ -112,7 +112,7 @@
 	</div>
 	<div class="meetingSettingITem">
 		<p><input type="text" name="selectParticipant" id="selectParticipant" placeholder='search user'></p>
-		{!! Form::select('', $roles,'1',['disabled'])!!} 
+		{!! Form::select('', $roles,'1',['disabled','class'=>'meeting_edit_lastrow_select'])!!}
 		<div id="participants_err" class="error"></div>
 		<div class="clearboth"></div>
 	</div>
@@ -176,7 +176,7 @@
 	</div>
 	<div class="meetingSettingITem meeting_edit_lastrow">
 		<p><input type="text" name="selectParticipant" id="selectParticipant" placeholder='search user'></p>
-		{!! Form::select('', $roles,'1',['disabled'])!!} 
+		{!! Form::select('', $roles,'1',['disabled','class'=>'meeting_edit_lastrow_select'])!!} 
 		<div id="participants_err" class="error"></div>
 		<div class="clearboth"></div>
 	</div>

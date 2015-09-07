@@ -165,7 +165,7 @@
 								<p>{!!$task->description!!}</p>
 								@if($task->status == 'Sent')
 									{!! Form::open(['id'=>$formId]) !!}
-									{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
+									{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
 									<div class="error" id="err_{{$task->id}}"></div>
 									{!! Form::close() !!}
 									<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>

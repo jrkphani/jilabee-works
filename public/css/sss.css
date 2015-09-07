@@ -456,6 +456,7 @@ select {
 
 .meetingSettingITem  select{    margin-top: -7px;    margin-bottom: -5px;}
 .meeting_edit_lastrow select{ margin-top: 12px !important;    margin-left: 70px !important;}
+.meeting_edit_lastrow_select{ margin-top: 12px !important;    margin-left: 70px !important;}
 .createMeeting .paperBorder
 {
     height: 100%;
