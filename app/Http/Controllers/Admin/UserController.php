@@ -22,6 +22,23 @@ class UserController extends Controller {
 	{
 		$this->registrar = $registrar;
 	}
+	public function emailActivate($remember_token)
+	{
+		$email = Request::get('email',NULL);
+		$user = User::whereEmail($email)->where('remember_token',$remember_token)
+				->whereActive('0')->first();
+		if($user)
+		{
+			$user->remember_token = '';
+			$user->active = '1';
+			$user->save();
+			return view('admin.activationSuccess');
+		}
+		else
+		{
+			abort('404');
+		}
+	}
 	public function getAdd($userId=NULL)
 	{
 		$meetings = Meetings::select('meetings.*')->join('organizations','meetings.oid','=','organizations.id')
@@ -75,6 +92,7 @@ class UserController extends Controller {
 						$profile->userId = $user->id;
 						$profile->name = ucwords(strtolower($input['name']));
 						$profile->dob = $input['dob'];
+						$profile->department = $input['department'];
 						$profile->gender = $input['gender'];
 						$profile->phone = $input['phone'];
 						$profile->role = $input['role'];
@@ -153,6 +171,7 @@ class UserController extends Controller {
 				$profile = $user->profile;
 				$profile->name = ucwords(strtolower($input['name']));
 				$profile->dob = $input['dob'];
+				$profile->department = $input['department'];
 				$profile->gender = $input['gender'];
 				$profile->phone = $input['phone'];
 				$profile->role = $input['role'];

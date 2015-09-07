@@ -1,5 +1,5 @@
 <div class="paper">
-	<div class="paperBorder">
+	<div id="toPrint" class="paperBorder">
 		<div class="paperTitleLeft">
 			<h3>{{$minute->meeting->title}}</h3>
 			<p>meeting venue: {{$minute->venue}}</p>
@@ -104,3 +104,34 @@
 		<span class="draft_tag"></span>
 	</div>
 </div>
+<div onclick="PrintElem('#toPrint')">Print</div>
+<script type="text/javascript">
+function PrintElem(elem)
+    {
+        Popup($(elem).html());
+    }
+
+    function Popup(data) 
+    {
+    	var css1 = "<?php echo asset('/css/base.css'); ?>";
+    	var css2 = "<?php echo asset('/css/sss.css'); ?>";
+        var mywindow = window.open('', 'my div', 'height=400,width=600');
+        mywindow.document.write('<html><head><title>Minutes</title>');
+        /*optional stylesheet*/ 
+        //"<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print\"/>"
+        mywindow.document.write('<link rel="stylesheet" href="'+css1+'" type="text/css" media="print" />');
+        mywindow.document.write('<link rel="stylesheet" href="'+css2+'" type="text/css" media="print" />');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
+</script>

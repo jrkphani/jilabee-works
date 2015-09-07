@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller;
 use Request;
 use App\Model\JobTasks;
+use App\Model\JobTasksLog;
 use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
@@ -94,7 +95,15 @@ class TaskController extends Controller {
 			})->first();
 		$task->status = 'Open';
 		$task->updated_by = Auth::id();
-		$task->save();
+		if($task->save())
+		{
+			$notification['userId'] = $task->assigner;
+			$notification['objectId'] = $task->id;
+			$notification['objectType'] = 'Task';
+			$notification['subject'] = 'Accepted';
+			$notification['body'] = $task->title;
+			setNotification($notification);
+		}
 		//return view('jobs.task',['task'=>$task]);
 		//return redirect('jobs/mytask');
 		$output['success'] = 'yes';
@@ -112,6 +121,13 @@ class TaskController extends Controller {
 			$task->updated_by = Auth::id();
 			if($task->save())
 			{
+				$notification['userId'] = $task->assigner;
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'Task';
+				$notification['subject'] = 'Rejected';
+				$notification['body'] = $task->title;
+				setNotification($notification);
+				
 				Activity::log([
 					'userId'	=> Auth::id(),
 					'contentId'   => $task->id,
@@ -150,11 +166,12 @@ class TaskController extends Controller {
 				JobDraft::destroy(Request::input('id'));
 			}
 			$input['status'] = 'Sent';
+			$notification['userId']=0;
 			if(isEmail($input['assignee']))
 			{
 				if($assignee = getUser(['email'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 				else
 				{
@@ -166,7 +183,7 @@ class TaskController extends Controller {
 			{
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 				else
 				{
@@ -181,6 +198,14 @@ class TaskController extends Controller {
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
 			if($task = JobTasks::create($input))
 			{
+				if($notification['userId'])
+				{
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'Task';
+					$notification['subject'] = 'New';
+					$notification['body'] = $task->title;
+					setNotification($notification);
+				}
 				return json_encode($output);
 			}
 		}
@@ -207,14 +232,14 @@ class TaskController extends Controller {
 			{
 				if($assignee = getUser(['email'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 			}
 			else
 			{
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
-					$input['assignee'] = $assignee->id;
+					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
 				else
 				{
@@ -227,7 +252,25 @@ class TaskController extends Controller {
 			$input['description'] = nl2br($input['description']);
 			$input['notes'] = nl2br($input['notes']);
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
-			$task->update($input);
+			$toLog = $task->toArray();
+			$toLog['taskId']=$toLog['id'];
+			unset($toLog['id']);
+			unset($toLog['notes']);
+			unset($toLog['deleted_at']);
+			unset($toLog['assigner']);
+			unset($toLog['reason']);
+			JobTasksLog::insert($toLog);
+			if($task->update($input))
+			{
+				if($notification['userId'])
+				{
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'Task';
+					$notification['subject'] = 'Update';
+					$notification['body'] = $task->title;
+					setNotification($notification);
+				}
+			}
 			return view('followups.task',['task'=>$task]);
 		}
 	}

@@ -44,7 +44,7 @@
 		
 		<div class="userDetailItem">
 			<p>Department</p>
-			<span>Maintenance</span>
+			<span>{{$user->department}}</span>
 			<div class="clearboth"></div>
 		</div>
 		<br/><br/>

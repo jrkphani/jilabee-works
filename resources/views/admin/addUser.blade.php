@@ -65,7 +65,8 @@
 	
 	<div class="userDetailItem">
 		<p>Department</p>
-		<input type="text" disabled>
+		<input type="text" name="department" value="{{$user->department}}">
+		<div class="error" id="department_err"></div>
 		<div class="clearboth"></div>
 	</div>
 	<br/><br/>
@@ -140,7 +141,8 @@
 	
 	<div class="userDetailItem">
 		<p>Department</p>
-		<input type="text" disabled>
+		<input type="text" name="department" value="">
+		<div class="error" id="department_err"></div>
 		<div class="clearboth"></div>
 	</div>
 	<br/><br/>
@@ -174,6 +176,7 @@
 <script>
 $(document).ready(function($)
 	{
+		curentval = $('#dob').val();
 		 d= new Date();
 			d.setFullYear(d.getFullYear()-15);
 			$('#dob').appendDtpicker(
@@ -184,6 +187,6 @@ $(document).ready(function($)
 			    "dateOnly":true
 			    });
 			$('#dob').handleDtpicker('setDate',d);
-			$('#dob').val('');
+			$('#dob').val(curentval);
 	});
 </script>

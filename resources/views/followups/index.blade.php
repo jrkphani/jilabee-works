@@ -192,7 +192,7 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">1</span>
 							<div class="boxInner">
-								<h4 tid="{{$task->id}}" >{{$task->title}}</h4>
+								<h4 >{{$task->title}}</h4>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
 								{{-- {!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
@@ -229,7 +229,7 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">1</span>
 							<div class="boxInner">
-								<h4 tid="{{$task->id}}" >{{$task->title}}</h4>
+								<h4 >{{$task->title}}</h4>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
 								{{-- {!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
@@ -251,7 +251,7 @@
 					<div class="box">
 						<span class="boxNumber boxNumberBlue">1</span>
 						<div class="boxInner">
-							<h4 tid="{{$task->id}}" >{{$task->title}}</h4>
+							<h4 >{{$task->title}}</h4>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
 						</div>
 						<div class="boxRight followupDraft" tid="{{$task->id}}"></div>

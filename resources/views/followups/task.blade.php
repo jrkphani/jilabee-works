@@ -21,31 +21,30 @@
 		<div class="popupContentTitle">
 				<h4>{{$task->title}}</h4>
 				<p>T{{$task->id}} / Created on: 25th jan 2015  / DUE: {{$task->dueDate}}</p>
-				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
+				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions:
+					@if($mid)
+						{{count($task->file)}}
+					@endif
+				</p>
+				@if($task->reason)
+				<p>{!! $task->reason!!}</p>
+				@endif
 			</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
 				{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description)!!}
 			</div>
-			@if($task->minuteId)
-				{{-- need to get the changes from filedminuted --}}
-			@else
+			@if(!$mid)
 			<div class="popupContentText">
 				{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes)!!}
 			</div>
 			@endif
-			
-			<!-- ================= Updates ====================  -->
-			<!-- ================= Update item each ====================  -->
-			{{-- <div class="updateItem">
-				<h6> update: 16/08/2015</h6>
-				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div>
-			<!--================= Update item each ==================== --!>
-			<div class="updateItem">
-				<h6> update: 16/08/2015</h6>
-				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div> --}}
+			@foreach($task->file as $file)
+				<div class="updateItem">
+					<h6> update: {{$file->created_at}}</h6>
+					<p>{!!$file->description!!}</p>
+				</div>
+			@endforeach
 			<div class="popupButtons">
 				@if(!$task->minuteId)
 					<button id="editTask" tid="{{$task->id}}">Edit Task</button>

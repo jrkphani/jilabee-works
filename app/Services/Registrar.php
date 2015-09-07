@@ -27,6 +27,7 @@ class Registrar implements RegistrarContract {
 			'password' => 'confirmed|min:6',
 			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
 			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
+			'department'=>'max:30',
 			'gender' =>'required|in:M,F,O',
 		]);
 		}
@@ -39,6 +40,7 @@ class Registrar implements RegistrarContract {
 			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
 			'dob' =>'required|date|date_format:Y-m-d|before:-15y',
 			'gender' =>'required|in:M,F,O',
+			'department'=>'max:30',
 		]);
 		}
         //$validator->setPresenceVerifier($verifier);

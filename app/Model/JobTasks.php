@@ -16,7 +16,7 @@ class JobTasks extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','description','notes','assignee','assigner','status','dueDate','username','created_by','updated_by'];
+	protected $fillable = ['title','description','notes','assignee','assigner','status','dueDate','created_by','updated_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\Model\Profile', 'userId', 'created_by');
@@ -36,6 +36,10 @@ class JobTasks extends Model{
     public function comments()
     {
         return $this->hasMany('App\Model\JobTaskComments','taskId','id');
+    }
+    public function file()
+    {
+        return $this->hasMany('App\Model\JobTasksLog','taskId','id');
     }
 	public static function validation($data)
     {

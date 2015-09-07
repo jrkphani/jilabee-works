@@ -6,6 +6,7 @@ use App\User;
 use Request;
 use Validator;
 use App\Model\Profile;
+use App\Model\Notifications;
 class ProfileController extends Controller {
 
 	/*
@@ -139,6 +140,14 @@ class ProfileController extends Controller {
 				return redirect('user/'.$user->id.'/edit')->with('message', 'Updated successfully!');
 			}
 		}
+	}
+	public function notifications()
+	{
+		$notifications = Auth::user()->notifications()->orderBy('updated_at','desc')->get();
+		$output['success'] = 'yes';
+		$output['dateNow'] = date('Y-m-d H:i:s');
+		$output['result'] = $notifications;
+		return json_encode($output);
 	}
 
 }

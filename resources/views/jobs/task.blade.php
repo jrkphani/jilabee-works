@@ -19,7 +19,13 @@
 		<div class="popupContentTitle">
 			<h4>{{$task->title}}</h4>
 			<p>T{{$task->id}} / Created on: 25th jan 2015 / DUE: {{$task->dueDate}}</p>
-			<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions: nil</p>
+			<p>
+				Assigned by: {{$task->assignerDetail->name}}, updates: 3, 
+				revisions:
+				@if($mid)
+					{{count($task->file)}}
+				@endif
+			</p>
 			{{$task->status}}
 			@if($task->status != 'Completed' && $task->status != 'Sent')
 				@if($mid)
@@ -36,23 +42,13 @@
 				{!!$task->description!!}
 			</div>
 			
-			@if($mid)
-				@foreach($task->minute->file as $file)
-					sdvdsvsdv
-				@endforeach
-			@endif
-			<!-- ================= Updates ====================  -->
-			<!-- ================= Update item each ====================  -->
-			{{--<div class="updateItem">
-				<h6> update: 16/08/2015</h6>
-				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div>
-			<!-- ================= Update item each ====================  -->
-			<div class="updateItem">
-				<h6> update: 16/08/2015</h6>
-				<p>Vivamus tristique non orci nec auctor. Suspendisse suscipit urna sed est porta imperdiet. Praesent eu vehicula mauris. Integer accumsan urna lorem, eu pretium sapien egestas.</p>
-			</div>
-			--}}
+			@foreach($task->file as $file)
+				<div class="updateItem">
+					<h6> update: {{$file->created_at}}</h6>
+					<p>{!!$file->description!!}</p>
+				</div>
+			@endforeach
+			
 		</div>
 		<!-- =================== Popup right ====================  -->
 		<div class="popupContentRight">

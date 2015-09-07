@@ -60,15 +60,18 @@ class AuthController extends Controller {
 							'email' => $input['email'],
 							'userId' => "dumy".date('His'),
 							'isAdmin' => '1',
-							'password' => bcrypt($input['password']),
+							'password' => bcrypt($input['password'])
 							]);
 						if($user)
 						{
 							$userId = generateUserId($customerId,$user->id);
+							$remember_token= str_random('60');
+							$user->remember_token=$remember_token;
 							$user->update(['userId'=>$userId]);
 							$profile = new Profile(['phone'=>$input['phone'],'dob'=>$input['dob'],'gender'=>$input['gender'],'name'=>ucwords(strtolower($input['adminname']))
 								,'created_by'=>$user->id,'updated_by'=>$user->id]);
 						    $user->profile()->save($profile);
+						    sendEmail($user->email,$profile->name,'Activation Mail','emails.orgSignup',['user'=>$user,'remember_token'=>$remember_token]);
 						    Activity::log([
 							    'contentType' => 'Organizations',
 							    'action'      => 'Signup',

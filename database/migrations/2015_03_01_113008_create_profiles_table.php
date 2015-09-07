@@ -22,6 +22,7 @@ class CreateProfilesTable extends Migration {
             $table->date('dob');
             $table->enum('gender', array('M','F','O'));
             $table->integer('role')->default(1)->unsigned();
+            $table->string('department',32);
             $table->string('notification',16);
             $table->integer('created_by')->unsigned();
 			$table->integer('updated_by')->unsigned();

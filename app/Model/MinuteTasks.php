@@ -37,6 +37,10 @@ class MinuteTasks extends Model{
     {
         return $this->hasOne('App\Model\Minutes', 'id', 'minuteId');
     }
+    public function file()
+    {
+        return $this->hasMany('App\Model\FiledMinutes','taskId','id');
+    }
     public function comments()
     {
         return $this->hasMany('App\Model\MinuteTaskComments','taskId','id');
