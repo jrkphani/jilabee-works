@@ -172,6 +172,7 @@ function notifications()
                 $('#notifications').html(jsonDate.result.length)
                 if(jsonDate.result.length > 0)
                 {
+                    $('#notifications').show();
                     var t = jsonDate.dateNow.split(/[- :]/);
                     var dateNow = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
                      insert = '<h4>Notifications</h4>';
@@ -226,6 +227,10 @@ function notifications()
                                 +'</div></a>';
                     });
                     $('#notifyDiv').html(insert);
+                }
+                else
+                {
+                    $('#notifications, #notifyDiv').hide();
                 }
             }
         })
