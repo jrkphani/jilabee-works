@@ -281,7 +281,9 @@
 		<span id="moveleft"><img src="images/arrow_left.png"> </span>
 		<p>History</p>
 	</div>
+	@if((Auth::user()->isAdmin !=1) && (Auth::user()->profile->role == 2))
 	<button id="addMeeting" class="addBtn meetingsAddBtn"> </button>
+	@endif
 	<div class="popupOverlay" id="popup" ></div>
 </div>
 

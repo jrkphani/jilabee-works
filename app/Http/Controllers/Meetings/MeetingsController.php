@@ -129,8 +129,8 @@ class MeetingsController extends Controller {
 					'minuters'=>Auth::id(),
 					'created_by'=>Auth::id(),
 					'updated_by'=>Auth::id(),
-					//'created_at'=>date('Y-m-d H:i:s'),
-					//'updated_at'=>date('Y-m-d H:i:s'),
+					'created_at'=>date('Y-m-d H:i:s'),
+					'updated_at'=>date('Y-m-d H:i:s'),
 					'details'=>serialize($minuteInput),
 					'draft'=>'0',
 					'oid'=> Organizations::where('customerId','=',getOrgId())->first()->id];
@@ -140,7 +140,7 @@ class MeetingsController extends Controller {
 				}
 				else
 				{
-					TempMeetings::create($data);
+					TempMeetings::insert($data);
 				}
 		}
 		return json_encode($output);
