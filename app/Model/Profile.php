@@ -15,7 +15,7 @@ class Profile extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['userId', 'name', 'phone','dob','role','created_by','updated_by'];
+	protected $fillable = ['userId', 'name', 'phone','dob','role','department','notification','created_by','updated_by'];
 	// public function createdby()
  //    {	
  //        return $this->hasOne('App\User', 'id', 'created_by');
