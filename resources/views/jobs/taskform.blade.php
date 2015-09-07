@@ -52,11 +52,11 @@
 			</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
-				{!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description),['rows'=>'10','cols'=>'30'])!!}
+				{!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description),['rows'=>'6','cols'=>'30'])!!}
 				<div class="error" id="description_err"></div>
 			</div>
 			<div class="popupContentText">
-				{!! Form::textarea('notes', str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes),['rows'=>'10','cols'=>'30'])!!}
+				{!! Form::textarea('notes', str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes),['rows'=>'6','cols'=>'30'])!!}
 				<div class="error" id="notes_err"></div>
 			</div>
 			<div class="popupButtons popupButtonsFix">

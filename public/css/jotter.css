@@ -1,4 +1,4 @@
-.error
+.removeParent.error
 {
 	color: red;
 }
@@ -18,14 +18,16 @@
     border: medium none;
     cursor: pointer;
     display: inline-block;
-    height: 23px;
-    width: 23px;
+    height: 25px;
+    width: 25px;
 }
 .nextMinutePaper .removeMoreBtn
 {
 	display: block;
-    float: left;
-    padding-top: 10px;
+    position: absolute;
+    top: 5px; right: 5px;
+    cursor: pointer;
+
 }
 #startDateInput, #endSateInput,.dateInput, .nextDateInput
 {
@@ -36,9 +38,14 @@
 {
 	margin: 5px 0 5px 0;
 }
+
+.nextMinutePaper .minuteItemRight input{
+	width: 120px;
+}
+
 .nextMinutePaper input
 {
-	height: 35px;
+	height: 35px; padding-left: 5px;
 }
 .nextMinutePaper .minuteItemNumber
 {
@@ -53,44 +60,64 @@
 .nextMinutePaper .minuteItemLeft h5 input
 {
 	height: 32px;
+	width: 79%;
 }
 .taskDiv
 {
-	 border-top: 1px solid #cdcdcd;
-    margin-top: 20px;
-    padding-bottom: 20px;
-    padding-top: 30px;
+	border: 1px solid #cdcdcd;	box-sizing:border-box;
+    margin-top: 20px;  	padding: 20px 10px; 	position: relative;
+    background-color: #f8f8f8;
 }
+
+.taskDiv select{margin-bottom: 5px;}
+
 .attendees, .absentees
 {
-	height:30px;
-	/*width: 130px;*/
-	float:left;
+	height: 25px;    /* width: 120px; */    float: left;    background-color: #2eaee3;
+    margin-left: 5px;    line-height: 25px;    color: #fff;    padding-left: 10px;
+    font-size: .9em;
 }
+
+.attendees p, .absentees p{
+	line-height: 25px;
+}
+
+.attendee_box, .absentee_box{
+	margin-top: 26px;
+}
+
+
 .attendeesLable, .absenteesLable
 {
-	border-bottom: 1px solid #cdcdcd;
-    margin-bottom: 5px;
-    padding-bottom: 5px;
+    float: left;	
+    margin-top: 10px;
+   }
+.button{
+	background: #77bad9 none repeat scroll 0 0;    border: 1px solid #67abcb;
+    border-radius: 3px;    color: #fff;    cursor: pointer;    font-weight: bold;
+    height: 35px;    line-height: 35px;    padding: 0 10px;    display: inline-block;
 }
-.button
-{
-	background: #77bad9 none repeat scroll 0 0;
-    border: 1px solid #67abcb;
-    border-radius: 3px;
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    height: 35px;
-    padding: 0 10px;
-}
-.createMeeting .paperBorder
-{
-	height: 300px;
-    overflow-y: scroll;
-    position: relative;
-}
-.createMeeting .popupMinutes
-{
-	width: 100%;
-}
+
+.button:hover{background: #4d7dc5; height: 35px; color: #fff; font-weight: bold; border:solid 1px #3e6cb2; border-radius: 3px; cursor: pointer;
+padding: 0 10px 0 10px}
+.button:active{background: #3c65a2; height: 35px; color: #fff; font-weight: bold; border:solid 1px #3e6cb2; border-radius: 3px; cursor: pointer;
+padding: 0 10px 0 10px}
+
+
+
+
+.parentDiv{margin-bottom: 5px;}
+
+
+.removeParent{    
+	display: inline-block;    width: 30px;    height: 30px;    background-color: #2eaee3;
+    margin-left: 10px;    background: #2eaee3 url(../images/button_minus_blue.png) no-repeat center center;
+    background-size: contain;    text-indent: -999em;}
+.removeParent2{    
+	display: inline-block;		background-color: #2eaee3;	margin-left: 10px;
+	background:  url(../images/button_minus_blue.png) no-repeat center center;
+	background-size: contain;	text-indent: -999em;}
+
+.assignee{
+	background-color: #4d7dc5;    display: inline-block;    padding: 0 0 0 10px;    height: 30px;
+    line-height: 30px; 		margin-bottom: 	5px; }

@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
 </head>
-<body>
+<body class="login_body">
 	<header>
 	<!-- 	<h1>Jotter</h1> -->
 	</header>
@@ -31,7 +31,7 @@
 						<div class="error">{{ $error }}</div>
 					@endforeach
 				@endif
-				<center><button type="submit" >Send Password Reset Link</button>
+				<center><button type="submit" class="rest_sendemailbtn"  >Send Password Reset Link</button>
 			</form>
 		</div>
 	</div>

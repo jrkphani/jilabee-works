@@ -21,20 +21,20 @@
                         </div>
                     @endif
                     <div class="userDetailItem">
-                        <p>name of meeting </p>
+                        <p>Meeting Title </p>
                          <span> {!! Form::text('meetingTitle',$meeting->title,['placeholder'=>'title'])!!}</span>
                         <div class="clearboth"></div>
                         <div id="meetingTitle_err" class="error"></div>
                     </div>
                     <div class="userDetailItem">
-                        <p>type of meeting </p>
+                        <p>Type of meeting </p>
                          <span>{!! Form::text('meetingType',$meeting->type,['placeholder'=>'type'])!!}</span>
                         <div class="clearboth"></div>
                         <div id="meetingType_err" class="error"></div>
                     </div>
 
                     <div class="userDetailItem">
-                        <p>purpose of meeting  </p>
+                        <p>Purpose of meeting  </p>
                         <span>{!! Form::textarea('purpose',$meeting->purpose,['placeholder'=>'purpose'])!!}</span>
                         <div class="clearboth"></div>
                          <div id="purpose_err" class="error"></div>
@@ -149,7 +149,7 @@
                     </div>
                     @else
                     <div class="userDetailItem">
-                        <p>name of meeting </p>
+                        <p>Name of meeting </p>
                          <span> {!! Form::text('meetingTitle','',['placeholder'=>'title'])!!}</span>
                         <div class="clearboth"></div>
                         <div id="meetingTitle_err" class="error"></div>
@@ -158,14 +158,14 @@
                        
                     </h4>
                     <div class="userDetailItem">
-                        <p>type of meeting </p>
+                        <p>Type of meeting </p>
                          <span>{!! Form::text('meetingType','',['placeholder'=>'type'])!!}</span>
                         <div class="clearboth"></div>
                         <div id="meetingType_err" class="error"></div>
                     </div>
 
                     <div class="userDetailItem">
-                        <p>purpose of meeting  </p>
+                        <p>Purpose of meeting  </p>
                         <span>{!! Form::textarea('purpose','',['placeholder'=>'purpose'])!!}</span>
                         <div class="clearboth"></div>
                          <div id="purpose_err" class="error"></div>
@@ -176,11 +176,16 @@
                         <div class="clearboth"></div>
                          <div id="meetingDescription_err" class="error"></div>
                     </div>                        
-
-                    {!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'start date']) !!}
-                    <div id="startDate_err" class="error"></div>
-                    {!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'end date']) !!}
-                    <div id="endDate_err" class="error"></div>
+                    <div class="userDetailItem">
+                        <p>Start Date </p>
+                     	{!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'start date']) !!}
+                 	   	<div id="startDate_err" class="error"></div>
+                 	</div> 
+                 	<div class="userDetailItem">
+                 		<p>End Date </p>
+                  		{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'end date']) !!}
+                 	    <div id="endDate_err" class="error"></div>
+                  	</div> 
                     {{-- task forms --}}
                     <div id="taskAddBlock">
                         <div class="taskBlock taskDiv">
@@ -213,6 +218,7 @@
                     </div>
                     @endif
                     {!! Form::close() !!}
+                    <br/>
                      <span id="add_more" type="submit" class="button">Add more</span>
                      <span id="draftMeetingSubmit" type="submit" class="button">Save Draft</span>
                      <span id="createMeetingSubmit" type="submit" class="button">Send minute After Admin aprrove</span>

@@ -1,27 +1,33 @@
 @extends('master')
 @section('content')
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
-			<div class="col-md-12">
+	<div >
+		<div class="profile_div">
+			<div class="profile_pic">
 				<img width="100" height="100" alt="Cinque Terre" class="img-circle" src="http://app.localjotter.com/img/jotter.jpg">
 			</div>
-			<div class="col-md-12">
-				<div class="col-md-6">Name</div>
-				<div class="col-md-6">{{$user->name}}</div>
+			<div class="profile_row">
+				<div>Name</div>
+				<div>{{$user->name}}</div>
+				<div class="clearboth"></div>
 			</div>
-			<div class="col-md-12">
-				<div class="col-md-6">Email</div>
-				<div class="col-md-6">{{$user->email}}</div>
+			<div class="profile_row">
+				<div>Email</div>
+				<div>{{$user->email}}</div>
+				<div class="clearboth"></div>
 			</div>
-			<div class="col-md-12">
-				<div class="col-md-6">Phone</div>
-				<div class="col-md-6">{{$user->profile->phone}}</div>
+			<div class="profile_row">
+				<div >Phone</div>
+				<div >{{$user->profile->phone}}</div>
+				<div class="clearboth"></div>
 			</div>
-			<div class="col-md-12">
-				<div class="col-md-6">DOB</div>
-				<div class="col-md-6">{{$user->profile->dob}}</div>
+			<div  class="profile_row">
+				<div >DOB</div>
+				<div >{{$user->profile->dob}}</div>
+				<div class="clearboth"></div>
 			</div>
-			<a href="{{url('profile/edit')}}" class="btn btn-primary col-md-12 margin_top_10" >Edit</a>
+			<a href="{{url('profile/edit')}}" class="login_loginbtn login_register_back" >Edit</a>
+			<br/>
+			<br/>
 		</div>
 	</div>
 @endsection

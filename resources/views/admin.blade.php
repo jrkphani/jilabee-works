@@ -48,6 +48,14 @@
 				@endif
 			</div>
 			<div class="clearboth"></div>
+
+			<!--================ Toast message ==================== -->
+			<div class="toast">
+				<div class="toast_inner">	
+					<p>	Place your message here ...</p>
+					<span class="btn_close_small">	</span>
+				</div>
+			</div>
 	</header>
 		<div class="adminContent" id="adminContent">
 			@yield('content')

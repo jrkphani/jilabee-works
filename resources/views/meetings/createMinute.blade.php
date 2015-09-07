@@ -6,6 +6,7 @@
 	<div>ID: M{{$minute->id}}</div>
 	{!! Form::hidden('minuteId', $minute->id)!!}
 	<p>
+	<br/>
 	{!! Form::text('venue',$minute->venue,['placeholder'=>'venue']) !!}
 	{{$errors->first('venue','<div class="error">:message</div>')}}
 	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'date']) !!}
@@ -14,9 +15,9 @@
 	{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 	</p>
 	<div class="attendeesLable">
-			<h5>Attendees</h5>
+			<h5>Attendees: </h5>
 	</div>
-			<div id="attendees">
+			<div id="attendees" class="attendee_box">
 				@foreach ($attendees as $key=>$value)
 					<div class="attendees" uid="u{{$key}}">
 						{!! Form::hidden('attendees[]',$key) !!}
@@ -35,9 +36,9 @@
 			{!!$errors->first('attendees','<div class="error">:message</div>')!!}
 			<div class="clearboth"></div>
 			<div class="absenteesLable">
-			<h5>Absentees</h5>
+			<h5>Absentees:</h5>
 			</div>
-			<div id="absentees">
+			<div id="absentees" class="absentee_box">
 				<?php
 				 $emails = $absentees = array();
 				 if($minute->absentees)
@@ -72,7 +73,9 @@
 				@endforeach
 			</div>
 			<div class="clearboth"></div>
+			<br/>
 	<button id="updateMinute">Update</button>
+	<br/>
 	@else
 
 		<h3>{{$meeting->title}}</h3>
@@ -85,9 +88,9 @@
 			{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 		</p>
 			<div class="attendeesLable">
-				<h5>Attendees</h5>
+				<h5>Attendees: </h5>
 			</div>
-			<div id="attendees">
+			<div id="attendees"  class="attendee_box">
 				@foreach ($attendees as $key=>$value)
 					<div class="attendees" uid="u{{$key}}">
 						{!! Form::hidden('attendees[]',$key) !!}
@@ -106,18 +109,20 @@
 			{!!$errors->first('attendees','<div class="error">:message</div>')!!}
 			<div class="clearboth"></div>
 			<div class="absenteesLable">
-				<h5>Absentees</h5>
+				<h5>Absentees: </h5>
 			</div>
-			<div id="absentees"></div>
+			<div id="absentees" class="absentee_box"></div>
 			<div class="clearboth"></div>
 
 	<button id="updateMinute">Proceed</button>
+
 	@endif
 	{!! Form::close() !!}
 	@if($minute)
 		@include('meetings.createTask')
 	@endif
 	</div>
+
 </div>
 
 <script type="text/javascript">

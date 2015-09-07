@@ -2,38 +2,42 @@
 @if($meeting)
 {!! Form::hidden('id',$meeting->id)!!}
 <div class="inner2">
-	<h4>
+	<div class="userDetailItem">
+		<p>Meeting Title</p>
 		{!! Form::text('title',$meeting->title,['placeholder'=>'title'])!!}
 		<div id="title_err" class="error"></div>
-	</h4>
+	</div>
 	<div class="userDetailItem">
-		<p>creation date</p>
+		<p>Creation date</p>
 		<span>{{$meeting->created_at}}</span>
 		<div class="clearboth"></div>
 	</div>
 	<div class="userDetailItem">
-		<p>creation request by</p>
+		<p>Creation request by</p>
 		<span>{{$meeting->requestedby->name}}</span>
 		<div class="clearboth"></div>
 	</div>
 	
 	<div class="userDetailItem">
-		<p>type of meeting </p>
+		<p>Type of meeting </p>
 		<span>{!! Form::text('type',$meeting->type,['placeholder'=>'type'])!!} </span>
 		<div class="clearboth"></div>
 	</div>
 
 	<div class="userDetailItem">
-		<p>purpose of meeting  </p>
+		<p>Purpose of meeting  </p>
 		<span>{!! Form::text('purpose',$meeting->purpose,['placeholder'=>'title'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
-		<br/><br/>
-		<h4>Short Description</h4>
-		<p class="userDetailDesc">
+	<div class="userDetailItem">
+		<p>Short Description</p>
+		
+		<span class="userDetailDesc">
             {!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "", $meeting->description),['placeholder'=>'description'])!!}
-		</p>
+		</span>
 		<div id="description_err" class="error"></div>
+	</div>
+	<div class="clearboth"></div>
 	<br/><br/>
 	<div class="meetingSettingsTitle">
 		<h5>Participants</h5>
@@ -50,8 +54,8 @@
 			foreach ($participantsUser as $user)
 			{
 			?>
-				<div class="meetingSettingITem participant" roles="{{$user->role}}" uid="{{$user->userId}}">
-					<span class="removeMoreBtn removeParent"></span>
+				<div class="meetingSettingITem participant " roles="{{$user->role}}" uid="{{$user->userId}}">
+					<span class="removeMoreBtn removeParent2"></span>
 					<input type="hidden" name="participants[]" value="{{$user->userId}}">
 					<p>{{$user->name}}</p>
 					<span>{!! Form::select('roles[]', $roles,'2',["class"=>"roles"])!!}</span>
@@ -80,7 +84,7 @@
 		{
 		?>
 			<div class="meetingSettingITem participant" roles="{{$user->role}}" uid="{{$user->userId}}">
-				<span class="removeMoreBtn removeParent"></span>
+				<span class="removeMoreBtn removeParent2"></span>
 				<input type="hidden" name="participants[]" value="{{$user->userId}}">
 				<p>{{$user->name}}</p>
 				<span>{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}</span>
@@ -95,7 +99,7 @@
 		{
 		?>
 			<div class="meetingSettingITem participant" roles="1" uid="{{$email}}">
-				<span class="removeMoreBtn removeParent"></span>
+				<span class="removeMoreBtn removeParent2"></span>
 				<input type="hidden" name="participants[]" value="{{$email}}">
 				<p>{{$email}}</p>
 				<span>{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}</span>
@@ -135,12 +139,15 @@
 </div>
 @else
 <div class="inner2">
-	<h4>
-		{!! Form::text('title','',['placeholder'=>'title'])!!}
-		<div id="title_err" class="error"></div>
-	</h4>
 	<div class="userDetailItem">
-		<p>type of meeting </p>
+		<p>Meeting Title </p>
+		<span>{!! Form::text('title','',['placeholder'=>'title'])!!}</span>
+		<div class="clearboth"></div>
+		<div id="title_err" class="error"></div>
+		
+	</div>
+	<div class="userDetailItem">
+		<p>Type of meeting </p>
 		<span>{!! Form::text('type','',['placeholder'=>'type'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
@@ -150,12 +157,15 @@
 		<span>{!! Form::text('purpose','',['placeholder'=>'purpose'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
-		<br/><br/>
-		<h4>Short Description</h4>
-		<p class="userDetailDesc">
-            {!! Form::textarea('description','',['placeholder'=>'description'])!!}
-		</p>
+	<div class="userDetailItem">
+		<p>Short Description</p>
+		<span class="userDetailDesc">
+        {!! Form::textarea('description','',['placeholder'=>'description'])!!}
+		</span>
+		<div class="clearboth"></div>
 		<div id="description_err" class="error"></div>
+	</div>
+	<div class="clearboth"></div>
 	<br/><br/>
 	<div class="meetingSettingsTitle">
 		<h5>Participants</h5>
@@ -164,7 +174,7 @@
 	</div>
 	<div id="selectedParticipant">
 	</div>
-	<div class="meetingSettingITem">
+	<div class="meetingSettingITem meeting_edit_lastrow">
 		<p><input type="text" name="selectParticipant" id="selectParticipant" placeholder='search user'></p>
 		{!! Form::select('', $roles,'1',['disabled'])!!} 
 		<div id="participants_err" class="error"></div>
@@ -196,7 +206,7 @@ $('#selectParticipant').autocomplete({
                 }
                 else
                 {
-                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.role+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
+                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.role+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent2"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
                     selectedParticipant.append(insert);
                 }
                 $('#selectParticipant').val('');
@@ -230,7 +240,7 @@ $('#adminContent').on('keyup', '#selectParticipant', function(event) {
                             }
                             else
                             {
-                                insert= '<div uid="'+val.replace('@', '_')+'" roles="1" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent"></span> <input type="hidden" value="'+val+'" name="participants[]"><p>'+val+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
+                                insert= '<div uid="'+val.replace('@', '_')+'" roles="1" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent2"></span> <input type="hidden" value="'+val+'" name="participants[]"><p>'+val+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
                                 $('#selectedParticipant').append(insert);
                             }
                         }

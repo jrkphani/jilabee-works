@@ -11,12 +11,13 @@
 
 			<!-- =================== Job details ====================  -->
 			
-				<div class="popupContentTitle">
+				<div class="popupContentTitle pcl_jobs">
+					<label  class="pcl_jobs_label">Task Title</label>
 					{!! Form::hidden('id', $task->id) !!}
 					{!! Form::text('title', $task->title,['placeholder'=>'Task title']) !!}
 					<div class="error" id="title_err"></div>
-					<label>Assign to </label>
-					<div id="selected_Assignee">
+					<label  class="pcl_jobs_label">Assign to </label>
+					<div class="pcl_jobs_assignee" id="selected_Assignee">
 						<?php $assignee = $task->assignee; ?>
 						@if($task->assignee)
 								@if(isEmail($task->assignee))
@@ -36,51 +37,58 @@
 						@endif
 					</div>
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
+					<div class="clearboth"></div>
 					<div class="error" id="assignee_err"></div>
-					<label>Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'nextDateInput']) !!}
+					<label  class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'nextDateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentLeft">
 				<div class="popupContentText">
-					{!! Form::textarea('description', $task->description,['rows'=>'10','cols'=>'30'])!!}
+					{!! Form::textarea('description', $task->description,['rows'=>'6','cols'=>'30'])!!}
 					<div class="error" id="description_err"></div>
 				</div>
 				<div class="popupContentText">
-					{!! Form::textarea('notes', $task->notes,['rows'=>'10','cols'=>'30'])!!}
+					{!! Form::textarea('notes', $task->notes,['rows'=>'6','cols'=>'30'])!!}
 					<div class="error" id="notes_err"></div>
 				</div>
+				
+			</div>
 				<div class="popupButtons popupButtonsFix">
 					<button id="createTaskSave" >Save Draft</button>
 					<button id="createTaskSubmit" >Send</button>
 					<button id="deleteDraft" tid="{{$task->id}}" >Discard Draft</button>
 				</div>
-			</div>
 			@else
 				<div class="popupContentTitle">
+					<label class="pcl_jobs_label">Task Title </label>
 					{!! Form::text('title', '',['placeholder'=>'Task title']) !!}
 					<div class="error" id="title_err"></div>
-					<label>Assign to </label>
-					<div id="selected_Assignee">
+
+					<label class="pcl_jobs_label">Assign to </label>
+					<div class="pcl_jobs_assignee" id="selected_Assignee">
 					</div>
+					
 					{!! Form::text('assignee','',['id'=>'selectAssignee','placeholder'=>'search user']) !!}
 					<div class="error" id="assignee_err"></div>
-					<label>Choose deadline</label> {!! Form::text('dueDate','',['class'=>'nextDateInput']) !!}
+					<div class="clearboth"></div>
+					<label class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate','',['class'=>'nextDateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentLeft">
 				<div class="popupContentText">
-					{!! Form::textarea('description', '',['rows'=>'10','cols'=>'30'])!!}
+					{!! Form::textarea('description', '',['rows'=>'6','cols'=>'30'])!!}
 					<div class="error" id="description_err"></div>
 				</div>
 				<div class="popupContentText">
-					{!! Form::textarea('notes', '',['rows'=>'10','cols'=>'30'])!!}
+					{!! Form::textarea('notes', '',['rows'=>'6','cols'=>'30'])!!}
 					<div class="error" id="notes_err"></div>
 				</div>
+				
+			</div>
 				<div class="popupButtons popupButtonsFix">
 					<button id="createTaskSave" >Save Draft</button>
 					<button id="createTaskSubmit" >Send</button>
 				</div>
-			</div>
 		@endif
 			{!! Form::close() !!}
 		<!-- =================== Popup right ====================  -->
@@ -95,11 +103,12 @@
 					<div class="clearboth"></div>
 				</div>
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
-				<div class="chatInput">
-					<textarea name="" id=""  rows="3" placeholder="Type comment here"></textarea>
-					<input type="button" value="Submit">
-				</div>
+				
 			</div>
+			<div class="chatInput chatInput_1row">
+					<textarea name="" id=""  rows="2" placeholder="Type comment here"></textarea>
+					<!-- <input type="button" value="Submit"> -->
+				</div>
 		</div>
 		<div class="clearboth"></div>
 	</div>

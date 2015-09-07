@@ -11,11 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
 	<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="login_body">
 	<header>
-		<h1><a href="/">Jotter</a></h1>
+		<!-- <h1><a href="/">Jotter</a></h1> -->
 	</header>
-	<div class="adminContent">
+	<!-- <div class="adminContent"> -->
+		<div class="indexLogin">
+			<h1>Jotter</h1>
+			<div class="registerForm">
 			<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/register') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="userDetailItem">
@@ -40,6 +43,8 @@
 						<input type="text" autocomplete="off"  name="phone1" value="{{ old('phone1') }}">
 						{!! $errors->first('phone1','<div class="error">:message</div>') !!}
 						</div>
+						<br/>
+						<span class="br_line"></span>
 						<p>Admin User Details</p>
 						<div class="userDetailItem">
 							<p>Admin Name</p>
@@ -80,13 +85,16 @@
 							{!!Form::radio('gender', 'O') !!} Others
 							{!! $errors->first('gender','<div class="error">:message</div>') !!}
 						</div>
-
-						<div class="userDetailItem">
-                           		<a class="btn btn-primary" href="{{url('/auth/login')}}">Back</a> 
-								<input type="submit" value="Register">
+						<br/>
+						<span class="br_line"></span>
+						<div class="userDetailItem" style="margin:0 auto;">
+                           		<a class="btn btn-primary login_loginbtn login_register_back" href="{{url('/auth/login')}}">Back</a> 
+								<input class=" login_loginbtn"type="submit" value="Register">
 						</div>
 					</form>
-	</div>
+					</div>
+					</div>
+	<!-- </div> -->
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>

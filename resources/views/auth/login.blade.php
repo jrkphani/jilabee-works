@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
 </head>
-<body>
+<body class="login_body">
 	<header>
 	<!-- 	<h1>Jotter</h1> -->
 	</header>
@@ -25,14 +25,23 @@
 				<label for="">Password</label><br/>
 				<input type="password" name="password"><br/>
 				{!! $errors->first('password','<div class="error">:message</div><br/>') !!}
-				<input type="submit" value="Login">
+				<input class="login_loginbtn" type="submit" value="Login">
+				<div class="clearboth"></div>
 			</form>
-			<center><a href="{{ url('/password/email') }}">Forgot Your Password?</a></center>
-			<center><h4>Don't have a login?</h4></center>
-    	 {{-- <center><a href="{{ url('/auth/register') }}">Single Signup</a></center> --}}
-    	 <center><a href="{{ url('admin/auth/register') }}">Org Signup</a></center>
+			<a class="login_forgotpassword" href="{{ url('/password/email') }}">Forgot Your Password?</a>
+			
+    	 
 		</div>
+		<br/>
+			<h4 class="login_signuptext">Don't have a login?</h4>
+			<div>
+				{{-- <a href="{{ url('/auth/register') }}" class="login_signup">Single Signup</a> --}}
+    			 <a href="{{ url('admin/auth/register') }}" class="login_signup">Org Signup</a>
+			</div>
+			<div class="clearboth"></div>
 	</div>
 	
+	<button class="completeBtn">Mark as complete</button>
+
 </body>
 </html>

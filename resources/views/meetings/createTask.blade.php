@@ -8,7 +8,7 @@
 				@include('meetings.previousMinute',['lastFiledMinute'=>$lastFiledMinute])
 		@endif
 	@endif
-	New Minutes
+	<h5>New Minutes</h5>
 		<?php
 		if($minute->tasks->count())
 		{
@@ -154,6 +154,7 @@
 	</div>
 </div>
 {!! Form::close() !!}
+<br/>
 <p>
 	<div id="createTaskError">	</div>
 	<button id="send_minute" mid="{{$minute->id}}" type="submit" class="">

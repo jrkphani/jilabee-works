@@ -101,5 +101,6 @@
 				</div>
 			@endforeach
 		@endif
+		<span class="draft_tag"></span>
 	</div>
 </div>

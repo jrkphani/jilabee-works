@@ -55,6 +55,13 @@
 				@endif
 			</div>
 			<div class="clearboth"></div>
+			<!--================ Toast message ==================== -->
+			<div class="toast">
+				<div class="toast_inner">	
+					<p>	Place your message ...</p>
+					<span class="btn_close_small">	</span>
+				</div>
+			</div>
 	</header>
 
 	<div id="centralViewer" class="centralViewer {{$colorClass}} {{$addtionalClass}}">
