@@ -219,12 +219,11 @@ function notifications()
                                 }
                             }
                         }
-                        insert += '<a href="'+link+'">'
-                                +'<div class="notificationItem">'
+                        insert +='<div class="notificationItem">'
                                 +'    <p>'+row.subject+'-'+row.objectType+'</p>'
-                                +'    <h6>'+row.body+'</h6>'
+                                +'    <h6><a href="'+link+'">'+row.body+'</a></h6>'
                                 +'    <p>'+updated_at+'</p>'
-                                +'</div></a>';
+                                +'</div>';
                     });
                     $('#notifyDiv').html(insert);
                 }

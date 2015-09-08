@@ -193,14 +193,7 @@
 							<span class="boxNumber boxNumberBlue">1</span>
 							<div class="boxInner">
 								<h4 >{{$task->title}}</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-								{{-- {!! Form::open(['id'=>$formId]) !!}
-								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
-								@if(isset($reason_err))
-									<div class="error">{{$reason_err}}</div>
-								@endif
-								{!! Form::close() !!}
-								<button {{$mid}} tid="{{$task->id}}">update</button> --}}
+								<p>{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
@@ -230,11 +223,7 @@
 							<span class="boxNumber boxNumberBlue">1</span>
 							<div class="boxInner">
 								<h4 >{{$task->title}}</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-								{{-- {!! Form::open(['id'=>$formId]) !!}
-								{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
-								{!! Form::close() !!}
-								<button {{$mid}} tid="{{$task->id}}" class="btn btn-primary">Update</button> --}}
+								<p>{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
@@ -252,7 +241,7 @@
 						<span class="boxNumber boxNumberBlue">1</span>
 						<div class="boxInner">
 							<h4 >{{$task->title}}</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+							<p>{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight followupDraft" tid="{{$task->id}}"></div>
 					</div>

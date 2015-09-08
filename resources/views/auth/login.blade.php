@@ -40,8 +40,5 @@
 			</div>
 			<div class="clearboth"></div>
 	</div>
-	
-	<button class="completeBtn">Mark as complete</button>
-
 </body>
 </html>

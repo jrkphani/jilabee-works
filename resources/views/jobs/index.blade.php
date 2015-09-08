@@ -235,9 +235,6 @@
 							<div class="boxInner">
 								<h4 >{{$task->title}}</h4>
 								<p>{!!$task->description!!}</p>
-								{!! Form::open(['id'=>$formId]) !!}
-								{!! Form::textarea('reason', '',['cols'=>'35','rows'=>3]) !!}
-								{!! Form::close() !!}
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>

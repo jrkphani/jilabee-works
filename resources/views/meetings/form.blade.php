@@ -1,6 +1,6 @@
 <div class="popupWindow">
     <div class="popupHeader">
-        <h2>Create Meeting</a></h2>
+        <h2>Create Meeting</h2>
         <button  onclick="$('#popup').hide();" class="popupClose"></button>
         <div class="clearboth"></div>
     </div>  
@@ -141,12 +141,12 @@
                             </div>
                             <div class="clearboth"></div>
                         </div>
-                         <div id="title_err" class="error"></div>
+                    @endfor
+                    </div>
+                     <div id="title_err" class="error"></div>
                         <div id="description_err" class="error"></div>
                         <div id="assignee_err" class="error"></div>
                         <div id="dueDate_err" class="error"></div>
-                    @endfor
-                    </div>
                     @else
                     <div class="userDetailItem">
                         <p>Name of meeting </p>
@@ -211,11 +211,11 @@
                             </div>
                             <div class="clearboth"></div>
                         </div>
-                        <div id="title_err" class="error"></div>
+                    </div>
+                     <div id="title_err" class="error"></div>
                         <div id="description_err" class="error"></div>
                         <div id="assignee_err" class="error"></div>
                         <div id="dueDate_err" class="error"></div>
-                    </div>
                     @endif
                     {!! Form::close() !!}
                     <br/>
