@@ -31,7 +31,7 @@
 						<div class="error">{{ $error }}</div>
 					@endforeach
 				@endif
-				<center><button type="submit" class="rest_sendemailbtn"  >Send Password Reset Link</button>
+				<center><button type="submit" class="rest_sendemailbtn"  >Send Password Reset Link</button></center>
 			</form>
 		</div>
 	</div>
