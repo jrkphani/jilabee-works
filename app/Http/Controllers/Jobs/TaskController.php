@@ -23,9 +23,9 @@ class TaskController extends Controller {
 	}*/
 	public function index()
 	{
-		$tasks = Tasks::whereAssignee(Auth::id())
-					->where('status','!=','Closed')->get();
-		$taskToFinsh = $taskNotFiled = $taskCompleted = $taskClosed = array();
+		//echo  Auth::id(); die;
+		$tasks = Tasks::whereAssignee(Auth::id())->orderBy('dueDate')->get();
+		$taskToFinsh = $taskNotFiled = $taskCompleted = $taskClosed['recent'] =$taskClosed['previous']= $taskClosed['lastWeek'] = array();
 		foreach($tasks as $task)
 		{
 			if($task->type == 'minute')
@@ -42,7 +42,24 @@ class TaskController extends Controller {
 					}
 					else if($task->status == 'Closed')
 					{
-						$taskClosed[] = $task;
+						//echo floor((strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at))/(60*60*24));
+						$days = date('d',(strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at)));
+						if($days)
+						{
+							if($days <= 7)
+							{
+								//last 7 dyas
+								$taskClosed['lastWeek'][]= $task;
+							}
+							else
+							{
+								$taskClosed['previous'][]= $task;
+							}
+						}
+						else
+						{
+							$taskClosed['recent'][]= $task;
+						}
 					}
 				}
 				else
@@ -66,7 +83,23 @@ class TaskController extends Controller {
 				}
 				else if($task->status == 'Closed')
 				{
-					$taskClosed[] = $task;
+					$days = date('d',(strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at)));
+					if($days)
+					{
+						if($days <= 7)
+						{
+							//last 7 dyas
+							$taskClosed['lastWeek'][]= $task;
+						}
+						else
+						{
+							$taskClosed['previous'][]= $task;
+						}
+					}
+					else
+					{
+						$taskClosed['recent'][]= $task;
+					}
 				}
 			}
 			

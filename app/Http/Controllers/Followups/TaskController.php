@@ -23,10 +23,92 @@ class TaskController extends Controller {
 	}*/
 	public function index()
 	{
-		$tasks = Tasks::whereAssigner(Auth::id())
-					->where('status','!=','Closed')->orderBy('dueDate')->get();
+		$tasks = Tasks::whereAssigner(Auth::id())->orderBy('dueDate')->get();
 		$drafts = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
-		return view('followups.index',['tasks'=>$tasks,'drafts'=>$drafts]);
+		$taskToFinsh = $taskNotFiled = $taskCompleted = $taskCancelled = array();
+		$taskClosed['recent'] =$taskClosed['previous']= $taskClosed['lastWeek'] = array();
+		foreach($tasks as $task)
+		{
+			if($task->type == 'minute')
+			{
+				if($task->minute->filed == '1')
+				{
+					if($task->status == 'Completed')
+					{
+						$taskCompleted[] = $task;
+					}
+					else if($task->status == 'Open')
+					{
+						$taskToFinsh[] = $task;
+					}
+					else if($task->status == 'Closed')
+					{
+						$days = date('d',(strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at)));
+						if($days)
+						{
+							if($days <= 7)
+							{
+								//last 7 dyas
+								$taskClosed['lastWeek'][]= $task;
+							}
+							else
+							{
+								$taskClosed['previous'][]= $task;
+							}
+						}
+						else
+						{
+							$taskClosed['recent'][]= $task;
+						}
+					}
+					else if($task->status == 'Cancelled')
+					{
+						$taskCancelled[] = $task;
+					}
+				}
+				else
+				{
+					$taskNotFiled[] = $task;
+				}
+			}
+			else
+			{
+				if($task->status == "Sent")
+				{
+					$taskNotFiled[] = $task;
+				}
+				else if($task->status == 'Completed')
+				{
+					$taskCompleted[] = $task;
+				}
+				else if($task->status == 'Open')
+				{
+					$taskToFinsh[] = $task;
+				}
+				else if($task->status == 'Closed')
+				{
+					$days = date('d',(strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at)));
+					if($days)
+					{
+						if($days <= 7)
+						{
+							//last 7 dyas
+							$taskClosed['lastWeek'][]= $task;
+						}
+						else
+						{
+							$taskClosed['previous'][]= $task;
+						}
+					}
+					else
+					{
+						$taskClosed['recent'][]= $task;
+					}
+				}
+			}
+			
+		}
+		return view('followups.index',['taskCancelled'=>$taskCancelled,'drafts'=>$drafts,'taskToFinsh'=>$taskToFinsh ,'taskNotFiled'=>$taskNotFiled,'taskCompleted'=>$taskCompleted,'taskClosed'=>$taskClosed]);
 	}
 	public function viewTask($id)
 	{

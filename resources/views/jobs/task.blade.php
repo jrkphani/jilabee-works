@@ -20,14 +20,18 @@
 			<h4>{{$task->title}}</h4>
 			<p>T{{$task->id}} / Created on: 25th jan 2015 / DUE: {{$task->dueDate}}</p>
 			<p>
-				Assigned by: {{$task->assignerDetail->name}}, updates: 3, 
-				revisions:
-				@if($mid)
+				Assigned by: {{$task->assignerDetail->name}}
+				@if(count($task->file))
+					@if($mid)
+						,revisions:
+					@else
+						,updates:
+					@endif
 					{{count($task->file)}}
 				@endif
 			</p>
-			{{$task->status}}
-			@if($task->status != 'Completed' && $task->status != 'Sent')
+			Status: {{$task->status}}
+			@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed')
 				@if($mid)
 						@if($task->minute->filed == '1'))
 						<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>

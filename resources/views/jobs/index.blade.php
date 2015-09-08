@@ -33,72 +33,67 @@
 			<!--=================================== List 1 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberRed">5</span>
-					<p>Recent</p>
-					<div class="clearboth"></div>
+					<span class="boxTitleNumber boxNumberGrey">{{count($taskClosed['previous'])}}</span>
+					<p>Closed Eariler</p>
 				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberRed">1</span>
-					<div class="boxInner">
-						<h4>Deliver samples to Axson. </h4>
-						<h6>Last Update - 6/7/2015</h6>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
+				<?php $count =1; ?>
+				@foreach($taskClosed['previous'] as $task)
+				<?php if($task->type == 'minute')
+					{
+						$mid = "mid=$task->minuteId";
+					}
+					else
+					{
+						$mid='';
+					}
+				?>
+
+					<div class="box">
+						<span class="boxNumber boxNumberGrey">{{$count++}}</span>
+						<div class="boxInner">
+							<h4>{{$task->title}}</h4>
+						</div>
+						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
-					<div class="boxRight">
-						
-					</div>
-				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberRed">2</span>
-					<div class="boxInner">
-						<h4>Visit Machinery Manufacture Lorem ipsum dolor sit amet.</h4>
-						<h6>Last Update - 6/7/2015</h6>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-						
-						
-					</div>
-					<div class="boxRight">
-						
-					</div>
-				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberRed">3</span>
-					<div class="boxInner">
-						<h4>Prepare project report</h4>
-						<h6>Last Update - 6/7/2015</h6>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus metus ut nisi convallis aliquam.</p>
-					</div>	
-					<div class="boxRight">
-						
-					</div>	
-				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberRed">4</span>
-					<div class="boxInner">
-						<h4>Prepare project report</h4>
-					</div>	
-					<div class="boxRight">
-						
-					</div>
-				</div>
-				<div class="box">
-					<span class="boxNumber boxNumberRed">5</span>
-					<div class="boxInner">
-						<h4>Prepare project report</h4>
-					</div>	
-					<div class="boxRight">
-						
-					</div>
-				</div>
+
+				@endforeach
 			</div>
 			<!--=================================== List 2 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGreen">{{count($taskClosed)}}</span>
-					<p>Closed</p>
+					<span class="boxTitleNumber boxNumberRed">{{count($taskClosed['lastWeek'])}}</span>
+					<p>Closed Recently</p>
 				</div>
 				<?php $count =1; ?>
-				@foreach($taskClosed as $task)
+				@foreach($taskClosed['lastWeek'] as $task)
+				<?php if($task->type == 'minute')
+					{
+						$mid = "mid=$task->minuteId";
+					}
+					else
+					{
+						$mid='';
+					}
+				?>
+
+					<div class="box">
+						<span class="boxNumber boxNumberRed">{{$count++}}</span>
+						<div class="boxInner">
+							<h4>{{$task->title}}</h4>
+						</div>
+						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
+					</div>
+
+				@endforeach
+			</div>
+			<!--=================================== List 3 ================================-->
+			<div class="boxList">
+				<div class="boxTitle">
+					<span class="boxTitleNumber boxNumberGreen">{{count($taskClosed['recent'])}}</span>
+					<p>Closed Today</p>
+				</div>
+				<?php $count =1; ?>
+				@foreach($taskClosed['recent'] as $task)
 				<?php if($task->type == 'minute')
 					{
 						$mid = "mid=$task->minuteId";
@@ -214,7 +209,7 @@
 				<!--=================================== List 3 ================================-->
 			<div class="boxList">
 				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGrey">{{count($taskCompleted)}}</span>
+					<span class="boxTitleNumber boxNumberGreen">{{count($taskCompleted)}}</span>
 					<p>Completed</p>
 				</div>
 				<?php $count =1; ?>
@@ -231,7 +226,7 @@
 					}
 					?>
 						<div class="box">
-							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
+							<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 							<div class="boxInner">
 								<h4 >{{$task->title}}</h4>
 								<p>{!!$task->description!!}</p>
