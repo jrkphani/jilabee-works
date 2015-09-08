@@ -58,10 +58,10 @@
 			</div>
 			<div class="clearboth"></div>
 			<!--================ Toast message ==================== -->
-			<div class="toast">
+			<div class="toast" id="toastDiv">
 				<div class="toast_inner">	
-					<p>	Place your message ...</p>
-					<span class="btn_close_small">	</span>
+					<p>	Place your message here ...</p>
+					<span class="btn_close_small" id="toastClose">	</span>
 				</div>
 			</div>
 	</header>

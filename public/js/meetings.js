@@ -200,7 +200,6 @@ $('#centralContainer').on('click', '#add_more', function(event) {
         taskBlock.find('.assignee').remove();
         taskBlock.find(".ideainput").hide();
         taskBlock.find(".taskinput").show();
-        selectAssignee();
         nextDateInput();
 });
 $('#centralContainer').on('change', '.type', function(event) {
