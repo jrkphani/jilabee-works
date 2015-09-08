@@ -36,7 +36,7 @@
 			<h4 class="login_signuptext">Don't have a login?</h4>
 			<div>
 				{{-- <a href="{{ url('/auth/register') }}" class="login_signup">Single Signup</a> --}}
-    			 <a href="{{ url('admin/auth/register') }}" class="login_signup">Org Signup</a>
+    			 <a href="{{ url('admin/auth/register') }}" class="login_signup">Signup</a>
 			</div>
 			<div class="clearboth"></div>
 	</div>
