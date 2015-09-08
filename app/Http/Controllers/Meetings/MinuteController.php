@@ -109,6 +109,18 @@ class MinuteController extends Controller {
 			{
 				return redirect('minute/'.$mid.'/next')->withErrors($validator);
 			}
+			//find previous end date of meeting if any
+			if($lastFiledMinute = Minutes::where('meetingId','=',$meeting->id)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first())
+			{
+				if($lastFiledMinute)
+				{
+					if($lastFiledMinute->endDate >= $input['startDate'])
+					{
+						$validator->errors()->add('startDate','Start date should be greater then last meeting date : '.$lastFiledMinute->endDate);
+						return redirect('minute/'.$mid.'/next')->withErrors($validator);
+					}
+				}
+			}
 			$emails=$attendees=array();
 			foreach ($input['attendees'] as $value)
 			 	{
