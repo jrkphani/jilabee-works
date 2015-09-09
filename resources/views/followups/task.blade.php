@@ -21,10 +21,20 @@
 		<div class="popupContentTitle">
 				<h4>{{$task->title}}</h4>
 				<p>T{{$task->id}} / Created on: 25th jan 2015  / DUE: {{$task->dueDate}}</p>
-				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions:
+				<p> Assignee to: 
+				@if(isEmail($task->assignee))
+					{{$task->assignee}}
+				@else
+					{{$task->assigneeDetail->name}}
+				@endif
+				@if(count($task->file))
 					@if($mid)
-						{{count($task->file)}}
+						,revisions:
+					@else
+						,updates:
 					@endif
+				{{count($task->file)}}
+				@endif
 				</p>
 				@if($task->reason)
 				<p>{!! $task->reason!!}</p>
@@ -98,5 +108,6 @@
 		</div>
 		<div class="clearboth"></div>
 	</div>
+</div>
 </div>
 @endif
