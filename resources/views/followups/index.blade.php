@@ -36,6 +36,7 @@
 				</div>
 				<div class="mainList">
 					<!--=================================== List 1 ================================-->
+					@if(count($taskClosed['previous']))
 					<div class="boxList">
 						<div class="boxTitle">
 							<span class="boxTitleNumber boxNumberGrey">{{count($taskClosed['previous'])}}</span>
@@ -63,7 +64,9 @@
 
 						@endforeach
 					</div>
+					@endif
 					<!--=================================== List 2 ================================-->
+					@if(count($taskClosed['lastWeek']))
 					<div class="boxList">
 						<div class="boxTitle">
 							<span class="boxTitleNumber boxNumberRed">{{count($taskClosed['lastWeek'])}}</span>
@@ -91,7 +94,9 @@
 
 						@endforeach
 					</div>
+					@endif
 					<!--=================================== List 3 ================================-->
+					@if(count($taskClosed['recent']))
 					<div class="boxList">
 						<div class="boxTitle">
 							<span class="boxTitleNumber boxNumberGreen">{{count($taskClosed['recent'])}}</span>
@@ -119,7 +124,9 @@
 
 						@endforeach
 					</div>
+					@endif
 					<!--=================================== List 4 ================================-->
+					@if(count($taskCancelled))
 					<div class="boxList">
 						<div class="boxTitle">
 							<span class="boxTitleNumber boxNumberGrey">{{count($taskCancelled)}}</span>
@@ -147,6 +154,7 @@
 
 						@endforeach
 					</div>
+					@endif
 				</div>
 					<!--================ Buttons for now sections ======================-->
 				<div class="arrowBtn arrowBtnRight">
@@ -168,7 +176,8 @@
 		</div>
 		<div class="mainList">
 		<!--=================================== List 1 ================================-->
-		<div class="boxList">
+		@if(count($drafts))
+			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberGrey">{{count($drafts)}}</span>
 					<p>Draft</p>
@@ -185,7 +194,9 @@
 					</div>
 				@endforeach
 			</div>
+			@endif
 			<!--=================================== List 2 ================================-->
+			@if(count($taskNotFiled))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberRed">{{count($taskNotFiled)}}</span>
@@ -213,7 +224,9 @@
 						</div>
 				@endforeach
 			</div>
+			@endif
 				<!--=================================== List 3 ================================-->
+			@if(count($taskToFinsh))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberBlue">{{count($taskToFinsh)}}</span>
@@ -240,7 +253,9 @@
 						</div>
 				@endforeach
 			</div>
+			@endif
 				<!--=================================== List 4 ================================-->
+			@if(count($taskCompleted))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberGreen">{{count($taskCompleted)}}</span>
@@ -269,6 +284,7 @@
 						</div>
 				@endforeach
 			</div>
+			@endif
 			<div class="clearboth"></div>
 		</div>
 			<!--================ Buttons for now sections ======================-->

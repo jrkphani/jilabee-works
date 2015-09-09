@@ -73,11 +73,11 @@
 	</div>
 	<div class="breadcrumbBar breadcrumbBarFix">
 		{!! Breadcrumbs::render(Route::getCurrentRoute()->getPath()) !!}
-		<div class="pagination">
+		{{-- <div class="pagination">
 			<button></button>
 			<button></button>
 			<button></button>
-		</div>
+		</div> --}}
 		<div class="clearboth"></div>
 	</div>
 
