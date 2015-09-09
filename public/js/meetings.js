@@ -122,6 +122,13 @@ $('#centralContainer').on('click', '.minute', function(event) {
         var mid = $(this).attr('mid');
         loadMinute(mid,'nowMeetingsRight')          
     });
+$('#centralContainer').on('click', '.closed_minute', function(event) {
+        //alert($(this).find('.minute').length);
+        //return false;
+        event.preventDefault();
+        var mid = $(this).attr('mid');
+        loadMinute(mid,'historyMeetingsRight')          
+    });
 $('#centralContainer').on('click', '.minute_history', function(event) {
     event.preventDefault();
     var mid = $(this).attr('mid');

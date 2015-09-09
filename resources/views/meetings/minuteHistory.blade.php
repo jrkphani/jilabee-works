@@ -6,6 +6,7 @@
 	</div>	
 	<div class="popupContent popUpBg1">
 		<div class="popupDateList">
+		@if(!$minute->meeting()->withTrashed()->count())
 			@if($minute->meeting->isMinuter())
 				@if($minute->filed == '1')
 					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to next meeting</button>
@@ -13,6 +14,7 @@
 					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Edit last minutes</button>
 					@endif
 			@endif
+		@endif
 			@foreach($minutes as $row)
 				<?php $isfiled=""; if($row->filed == '0') { $isfiled=" - Draft"; }?>
 				@if($row->id == $minute->id)
