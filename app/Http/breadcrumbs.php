@@ -44,6 +44,13 @@ Breadcrumbs::register('admin/meetings', function($breadcrumbs)
     $breadcrumbs->parent('admin');
     $breadcrumbs->push('Meetings', route('adminmeetings'));
 });
+
+
+Breadcrumbs::register('profile', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Profile', route('profile'));
+});
 // Home > Blog > [Category]
 Breadcrumbs::register('category', function($breadcrumbs, $category)
 {

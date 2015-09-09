@@ -53,7 +53,7 @@ Route::group(['prefix' => 'admin'], function()
 
     Route::group(['middleware' => 'auth'], function()
 	{
-		Route::get('profile/{id?}', 'Auth\ProfileController@index')->where('id', '[0-9]+');
+		Route::get('profile/{id?}', ['uses'=>'Auth\ProfileController@index','as'=>'profile'])->where('id', '[0-9]+');
 		Route::get('profile/edit', 'Auth\ProfileController@getedit');
 		Route::post('profile/edit', 'Auth\ProfileController@postedit');
 

@@ -72,7 +72,7 @@
 		</div>
 	</div>
 	<div class="breadcrumbBar breadcrumbBarFix">
-		{!! Breadcrumbs::render(Route::getCurrentRoute()->getPath()) !!}
+		{!! Breadcrumbs::render(Request::segment(1)) !!}
 		{{-- <div class="pagination">
 			<button></button>
 			<button></button>
