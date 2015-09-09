@@ -72,16 +72,13 @@
 		</div>
 	</div>
 	<div class="breadcrumbBar breadcrumbBarFix">
-		<div class="breadcrumbs">
-				<a href="">Home</a> &nbsp;/&nbsp;
-				<a href="">Jobs</a>
-			</div>
-			<div class="pagination">
-				<button></button>
-				<button></button>
-				<button></button>
-			</div>
-			<div class="clearboth"></div>
+		{!! Breadcrumbs::render(Route::getCurrentRoute()->getPath()) !!}
+		<div class="pagination">
+			<button></button>
+			<button></button>
+			<button></button>
+		</div>
+		<div class="clearboth"></div>
 	</div>
 
 	<footer>

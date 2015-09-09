@@ -148,6 +148,7 @@ return [
 		'App\Providers\RouteServiceProvider',
 		/*form , html */
 		'Illuminate\Html\HtmlServiceProvider',
+		 'DaveJamesMiller\Breadcrumbs\ServiceProvider',
 
 	],
 
@@ -199,6 +200,7 @@ return [
 		'Form'=> 'Illuminate\Html\FormFacade',
 		'HTML'=> 'Illuminate\Html\HtmlFacade',
 		'Activity' => 'Regulus\ActivityLog\Models\Activity',
+		'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
 
 	],
 
