@@ -157,16 +157,21 @@
 	@include('admin.meetingsetting')
 {!! Form::close()!!}
 	<div class="adminUsersBtns">
-		<div class="adminUsersBtnsLeft">
+		
 			@if($user)
+			<div class="adminUsersBtnsLeft">
 				<button id="editUserSubmit" type="submit" uid="{{$user->userId}}">Update</button>
 				<button url="{{url('admin/user/edit/'.$user->userId)}}" class="backBtn" divId="adminUsersRight">Revert changes</button>
 				<button url="{{url('admin/user/view/'.$user->userId)}}" class="backBtn" divId="adminUsersRight">Cancel changes</button>
+			</div>
 			@else
+			<div class="adminUsersBtnsLeft">
 				<button id="addUserSubmit" type="submit">Save</button>
+			</div>
+			<div class="adminUsersBtnsRight">
+				<span divid="adminUsersRight" class="button" onclick="$('.listHighlight1:first').click();">Back</span>
+			</div>
 			@endif
-			
-		</div>
 		<div class="clearboth"></div>
 	</div>
 
