@@ -171,6 +171,10 @@ class UserController extends Controller {
 				$profile = $user->profile;
 				$profile->name = ucwords(strtolower($input['name']));
 				$profile->dob = $input['dob'];
+				if(!isset($input['department']))
+				{
+					$input['department']='';
+				}
 				$profile->department = $input['department'];
 				$profile->gender = $input['gender'];
 				$profile->phone = $input['phone'];
