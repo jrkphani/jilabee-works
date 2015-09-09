@@ -42,7 +42,7 @@
 				//echo $minuter->value;
 				echo '<div class="meetingSettingITem">
 						<p>'.$minuter->name.'</p>
-						<span>minutes taker</span>
+						<span>'.$role[2].'</span>
 						<div class="clearboth"></div>
 					</div>';
 			}
@@ -69,7 +69,7 @@
 				{
 					echo '<div class="meetingSettingITem">
 							<p>'.$attendee->name.'</p>
-							<span>attendee</span>
+							<span>'.$role[1].'</span>
 							<div class="clearboth"></div>
 						</div>';
 				}
@@ -80,7 +80,7 @@
 				{
 					echo '<div class="meetingSettingITem">
 							<p>'.$attendee.'</p>
-							<span>attendee</span>
+							<span>'.$role[1].'</span>
 							<div class="clearboth"></div>
 						</div>';
 				}

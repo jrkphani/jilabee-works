@@ -41,7 +41,8 @@ class MeetingsController extends Controller {
 	}
 	public function view($mid)
 	{	$meeting = Meetings::find($mid);
-		return view('admin.meeting',['meeting'=>$meeting]);
+		$roles = roles();
+		return view('admin.meeting',['meeting'=>$meeting,'roles'=>$roles]);
 	}
 	public function viewTemp($id)
 	{
