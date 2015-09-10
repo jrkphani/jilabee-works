@@ -33,7 +33,7 @@
 			Status: {{$task->status}}
 			@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed')
 				@if($mid)
-						@if($task->minute->filed == '1'))
+						@if($task->minute->filed == '1')
 						<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
 						@endif
 				@else
