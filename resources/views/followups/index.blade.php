@@ -7,7 +7,7 @@
 {{-- content left--}}
 	<div id="contentLeft" class="contentLeft">
 				<div class="mainListFilter">
-					<input type="text" placeholder="Search...">
+					<input type="text" placeholder="Search..." id="historySearch"> <span id="showHistroyDiv">Reset</span>
 					<select>
 					  <option value="0">Any origin</option>
 					  <option value="Option">Option 1</option>
@@ -34,7 +34,7 @@
 					</select>
 					<button>Reset all</button>
 				</div>
-				<div class="mainList">
+				<div id="historyDiv" class="mainList">
 					<!--=================================== List 1 ================================-->
 					@if(count($taskClosed['previous']))
 					<div class="boxList">
@@ -57,7 +57,8 @@
 							<div class="box">
 								<span class="boxNumber boxNumberGrey">{{$count++}}</span>
 								<div class="boxInner">
-									<h4>{{$task->title}}</h4>
+									<h4 class="searchTxt">{{$task->title}}</h4>
+									<p class="searchTxt">{!!$task->description!!}</p>
 								</div>
 								<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 							</div>
@@ -87,7 +88,8 @@
 							<div class="box">
 								<span class="boxNumber boxNumberRed">{{$count++}}</span>
 								<div class="boxInner">
-									<h4>{{$task->title}}</h4>
+									<h4 class="searchTxt">{{$task->title}}</h4>
+									<p class="searchTxt">{!!$task->description!!}</p>
 								</div>
 								<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 							</div>
@@ -117,7 +119,8 @@
 							<div class="box">
 								<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 								<div class="boxInner">
-									<h4>{{$task->title}}</h4>
+									<h4 class="searchTxt">{{$task->title}}</h4>
+									<p class="searchTxt">{!!$task->description!!}</p>
 								</div>
 								<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 							</div>
@@ -147,7 +150,8 @@
 							<div class="box">
 								<span class="boxNumber boxNumberGrey">{{$count++}}</span>
 								<div class="boxInner">
-									<h4>{{$task->title}}</h4>
+									<h4 class="searchTxt">{{$task->title}}</h4>
+									<p class="searchTxt">{!!$task->description!!}</p>
 								</div>
 								<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 							</div>
@@ -166,7 +170,7 @@
 {{-- content right--}}
 	<div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search...">
+			<input type="text" placeholder="Search..." id="nowSearch"><span id="showNowDiv">Reset</span>
 			<select>
 			  <option value="0">Sort by</option>
 			  <option value="Option">Option 1</option>
@@ -174,7 +178,7 @@
 			  <option value="Option">Option 3</option>
 			</select>
 		</div>
-		<div class="mainList">
+		<div id="nowDiv" class="mainList">
 		<!--=================================== List 1 ================================-->
 		@if(count($drafts))
 			<div class="boxList">
@@ -187,8 +191,8 @@
 					<div class="box">
 						<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 						<div class="boxInner">
-							<h4 >{{$task->title}}</h4>
-							<p>{!!$task->description!!}</p>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight followupDraft" tid="{{$task->id}}"></div>
 					</div>
@@ -217,8 +221,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberRed">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
@@ -246,8 +250,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
@@ -277,8 +281,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
@@ -303,4 +307,5 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
 <script src="{{ asset('/js/followups.js') }}"></script>
+<script src="{{ asset('/js/search.js') }}"></script>
 @endsection

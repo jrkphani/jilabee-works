@@ -1,6 +1,6 @@
 var typingTimer;                //timer identifier
 var doneTypingInterval = 1000;  //time in ms, 1 second
-var $input = $('#jobNowSearch');
+var $input = $('#nowSearch');
 
 //on keyup, start the countdown
 $input.on('keyup', function () {
@@ -16,7 +16,7 @@ $input.on('keydown', function () {
 //user is "finished typing," do something
 function searchTxt ()
 {
-     str = $('#jobNowSearch').val().trim();
+     str = $('#nowSearch').val().trim();
      if(str.length >=3)
      {
         $('#nowDiv .box').hide();
@@ -25,11 +25,11 @@ function searchTxt ()
 }
 $('#showNowDiv').click(function(event)
 {
-    $('#jobNowSearch').val('');
+    $('#nowSearch').val('');
     $('#nowDiv .box').show();
 });
 
-var $input1 = $('#jobHistorySearch');
+var $input1 = $('#historySearch');
 
 //on keyup, start the countdown
 $input1.on('keyup', function () {
@@ -45,7 +45,7 @@ $input1.on('keydown', function () {
 //user is "finished typing," do something
 function searchTxt1 ()
 {
-     str = $('#jobHistorySearch').val().trim();
+     str = $('#historySearch').val().trim();
      if(str.length >=3)
      {
         $('#historyDiv .box').hide();
@@ -54,6 +54,6 @@ function searchTxt1 ()
 }
 $('#showHistroyDiv').click(function(event)
 {
-    $('#jobHistorySearch').val('');
+    $('#historySearch').val('');
     $('#historyDiv .box').show();
 });
