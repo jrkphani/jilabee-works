@@ -138,8 +138,10 @@ $('#centralContainer').on('click', '.minuteDiv', function(event) {
         //alert($(this).find('.minute').length);
         //return false;
         event.preventDefault();
+        $('.minuteDiv').removeClass('active');
         var mid = $(this).attr('mid');
         loadMinute(mid,'minuteDiv');
+        $(this).addClass('active');
     });
 $("#centralContainer").on('click', '#nextMinute', function(event) {
     event.preventDefault();
