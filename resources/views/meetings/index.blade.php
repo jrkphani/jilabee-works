@@ -30,7 +30,7 @@
 			<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberBlue">{{count($closedMeetings)}}</span>
-				<p>Colsed Meetings</p>
+				<p>Closed Meetings</p>
 				<div class="clearboth"></div>
 			</div>
 			@foreach($closedMeetings as $minute)
