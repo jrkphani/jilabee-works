@@ -7,7 +7,7 @@
 	<!--=================================== contentLeft - History section ================================-->
 	<div class="contentLeft" id="contentLeft">
 		<div class="mainListFilter">
-					<input type="text" placeholder="Search...">
+					<input type="text" placeholder="Search..." id="jobHistorySearch">
 					<select  class="dropdown">
 					  <option value="0">Any origin</option>
 					  <option value="Option">Option 1</option>
@@ -29,7 +29,7 @@
 					    </select>
 					<button>Reset all</button>
 				</div>
-		<div class="mainList">
+		<div id="historyDiv" class="mainList">
 			<!--=================================== List 1 ================================-->
 			@if(count($taskClosed['previous']))
 			<div class="boxList">
@@ -52,7 +52,8 @@
 					<div class="box">
 						<span class="boxNumber boxNumberGrey">{{$count++}}</span>
 						<div class="boxInner">
-							<h4>{{$task->title}}</h4>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
@@ -82,7 +83,8 @@
 					<div class="box">
 						<span class="boxNumber boxNumberRed">{{$count++}}</span>
 						<div class="boxInner">
-							<h4>{{$task->title}}</h4>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
@@ -112,7 +114,8 @@
 					<div class="box">
 						<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 						<div class="boxInner">
-							<h4>{{$task->title}}</h4>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
@@ -130,7 +133,7 @@
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search...">
+			<input type="text" placeholder="Search..." id="jobNowSearch"><span id="showNowDiv">clear</span>
 			<select>
 			  <option value="0">Sort by</option>
 			  <option value="Option">Option 1</option>
@@ -138,7 +141,7 @@
 			  <option value="Option">Option 3</option>
 			</select>
 		</div>
-		<div class="mainList">
+		<div id="nowDiv" class="mainList">
 		<!--=================================== List 1 ================================-->
 		@if(count($taskNotFiled))
 			<div class="boxList">
@@ -163,8 +166,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 								@if($task->status == 'Sent')
 									{!! Form::open(['id'=>$formId]) !!}
 									{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
@@ -204,8 +207,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 								{{-- {!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
 								{!! Form::close() !!}
@@ -239,8 +242,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
