@@ -6,7 +6,7 @@
 	</div>	
 	<div class="popupContent popUpBg1">
 		<div class="popupDateList">
-		@if(!$minute->meeting()->withTrashed()->count())
+		@if(!$minute->meeting()->withTrashed()->first()->deleted_at)
 			@if($minute->meeting->isMinuter())
 				@if($minute->filed == '1')
 					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to next meeting</button>
