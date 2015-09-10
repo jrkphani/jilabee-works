@@ -68,10 +68,6 @@ class MeetingsController extends Controller {
 	{
 		$input = Request::only('title','description','venue','participants','roles','type','purpose');
 		$output['success'] = 'yes';
-		if(!Auth::user()->isAdmin)
-		{
-			$input['minuters'][0] = Auth::user()->userId;
-		}
 		$minuters=$attendees=$attendeesEmail=array();
 		$validator = Meetings::validation($input);
 		if ($validator->fails())
