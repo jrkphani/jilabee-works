@@ -7,7 +7,7 @@
 	<!--=================================== contentLeft - History section ================================-->
 	<div class="contentLeft" id="contentLeft">
 		<div class="mainListFilter">
-					<input type="text" placeholder="Search..." id="jobHistorySearch">
+					<input type="text" placeholder="Search..." id="jobHistorySearch"> <span id="showHistroyDiv">Reset</span>
 					<select  class="dropdown">
 					  <option value="0">Any origin</option>
 					  <option value="Option">Option 1</option>
@@ -133,7 +133,7 @@
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search..." id="jobNowSearch"><span id="showNowDiv">clear</span>
+			<input type="text" placeholder="Search..." id="jobNowSearch"><span id="showNowDiv">Reset</span>
 			<select>
 			  <option value="0">Sort by</option>
 			  <option value="Option">Option 1</option>
@@ -267,6 +267,7 @@
 @section('javascript')
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/jobs.js') }}"></script>
+<script src="{{ asset('/js/jobs_search.js') }}"></script>
 <script type="text/javascript">
 $( ".dropdown" ).selectmenu();
 </script>
