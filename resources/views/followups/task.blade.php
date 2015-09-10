@@ -36,6 +36,7 @@
 				{{count($task->file)}}
 				@endif
 				</p>
+				<p>Status: {{$task->status}}</p>
 				@if($task->reason)
 				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif

@@ -30,7 +30,7 @@
 					{{count($task->file)}}
 				@endif
 			</p>
-			Status: {{$task->status}}
+			<p>Status: {{$task->status}}</p>
 			@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed')
 				@if($mid)
 						@if($task->minute->filed == '1')
