@@ -99,7 +99,9 @@
 				</div>
 			@endforeach
 		@endif
-		<span class="draft_tag"></span>
+		@if($minute->filed == '0')
+			<span class="draft_tag"></span>
+		@endif
 	</div>
 </div>
 <div onclick="PrintElem('#toPrint')">Print</div>
