@@ -90,10 +90,10 @@
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
 				<div class="chatInput">
 					{!! Form::open(['id'=>"CommentForm"]) !!}
-					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
+					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here','id'=>'followupCommentText']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<!-- <button {{$mid}} tid="{{$task->id}}" id="followupComment" class="btn btn-primary ">Post</button> -->
+					<button {{$mid}} tid="{{$task->id}}" id="followupComment" style="display:none;">Post</button>
 					@if($task->status == 'Completed')
 						{{-- 
 						//has to complet in minutes only for the minute task as per phani instruct

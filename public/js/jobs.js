@@ -190,6 +190,21 @@ $('#centralContainer').on('click', '.task', function(event){
             checkStatus(xhr.status);
         });
     });
+$('#centralContainer').on('keypress', '#taskCommentText', function(event)
+ {
+    if(event.which == 13)
+    {
+        if(event.shiftKey)
+        {
+            //alert("shiftKey");
+            //do nothing
+        }
+        else
+        {
+            $('#taskComment').click();
+        }
+    }  
+ });
 
 function rightContentAjaxGet(path)
 {
