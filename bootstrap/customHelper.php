@@ -100,7 +100,7 @@ function roles()
     }
 function sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
     {
-        $mailArr['fromEmail'] = 'no-reply@anabon.com';
+        $mailArr['fromEmail'] = 'no-reply@anabond.com';
         $mailArr['fromName'] = 'Jotter';
         $mailArr['toEmail'] = $toEmail;
         $mailArr['toName'] = $toName;
@@ -116,7 +116,16 @@ function sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
     }
 function setNotification($data)
 {
-    $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],'subject'=>$data['subject']])->first();
+    if(isset($data['parentId']))
+    {
+        $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
+            'subject'=>$data['subject'],'objectType'=>$data['objectType'],'parentId'=>$data['parentId']])->first();    
+    }
+    else
+    {
+        $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],'subject'=>$data['subject'],'objectType'=>$data['objectType']])->first();
+    }
+    
     if($check)
     {
         $check->update($data);

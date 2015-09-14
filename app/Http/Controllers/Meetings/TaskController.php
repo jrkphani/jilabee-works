@@ -46,14 +46,14 @@ class TaskController extends Controller {
 			}
 			for ($i=0; $i < count($input['title']); $i++)
 			{
-				$tempArr= array();
+				$tempArr= $notification = array();
 				$tempArr['title'] = trim($input['title'][$i]);
 				$tempArr['description'] = trim($input['description'][$i]);
 				if(($tempArr['title']) && ($tempArr['description']))
 				{
 					if($input['type'][$i] == 'task')
 					{
-						$tempArr['assignee'] = $input['assignee'][$i];
+						$tempArr['assignee'] = $notification['userId'] = $input['assignee'][$i];
 						//$tempArr['assigner'] = $input['assigner'][$i];
 						$tempArr['assigner'] = Auth::id();
 						$tempArr['dueDate'] = $input['dueDate'][$i];
@@ -69,12 +69,13 @@ class TaskController extends Controller {
 						if($assignee = getUser(['email'=>$input['assignee'][$i]]))
 						{
 							//check user has an account
-							$input['assignee'][$i] = $assignee->id;
+							$input['assignee'][$i] = $notification['userId'] = $assignee->id;
 						}
-						if(isEmail($input['assignee'][$i]))
+						else if(isEmail($input['assignee'][$i]))
 						{
 							//mark the task as accepted for who do have an account
 							$tempArr['status'] = 'Open';
+							$notification['userId']=0;
 						}
 						if($input['tid'][$i])
 						{ 
@@ -84,7 +85,17 @@ class TaskController extends Controller {
 								$tempArr['status'] = Request::get($findstate);
 							}
 							$updatedFlag = 1;
-							MinuteTasks::whereId($input['tid'][$i])->update($tempArr);
+							$oldTask = MinuteTasks::whereId($input['tid'][$i]);
+							if($notification['userId'])
+							{
+								$notification['parentId'] = $oldTask->first()->minuteId;
+								$notification['objectId'] = $input['tid'][$i];
+								$notification['objectType'] = 'Task';
+								$notification['subject'] = 'New';
+								$notification['body'] = $tempArr['title'];
+								setNotification($notification);
+							}
+							$oldTask->update($tempArr);
 						}
 						else
 						{
@@ -131,6 +142,16 @@ class TaskController extends Controller {
 					DB::transaction(function() use ($minute,$records)
 					{
 						$minute->tasks()->saveMany($records);
+						//foreach created task
+						// if($notification['userId'])
+						// 	{
+						// 		$notification['parentId'] = $mid;
+						// 		$notification['objectId'] = $task->id;
+						// 		$notification['objectType'] = 'Task';
+						// 		$notification['subject'] = 'New';
+						// 		$notification['body'] = $task->title;
+						// 		setNotification($notification);
+						// 	}
 					});
 				}
 				$minute->draft()->delete();

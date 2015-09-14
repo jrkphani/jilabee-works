@@ -19,14 +19,14 @@ $(document).ready(function($)
             }
             if(mid)
             {
-                 clickDiv =  $('.task[mid='+mid+'][tid='+tid+']');
+                 clickDiv =  $(".task[mid='"+mid+"'][tid='"+tid+"']");
             }
             else if(tid)
             {
-                clickDiv = $('.task[tid='+tid+']:first');
+                clickDiv = $('.task[tid='+tid+']');
             }
             //alert(clickDiv.html());
-            clickDiv.trigger( "click" );
+            clickDiv.first().trigger( "click" );
             //alert("Dfvd");
         }
         else

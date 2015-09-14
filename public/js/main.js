@@ -189,7 +189,7 @@ function notifications()
                             link += '&tid='+row.objectId;
                             if(row.parentId)
                             {
-                                link +=link+'&mid='+row.parentId;
+                                link +='&mid='+row.parentId;
                             }
                         }
                         else if(row.objectType == 'Minute')

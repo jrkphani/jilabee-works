@@ -30,8 +30,8 @@ class TaskController extends Controller {
 		{
 			if($task->type == 'minute')
 			{
-				if($task->minute->filed == '1')
-				{
+				//if($task->minute->filed == '1')
+				//{
 					if($task->status == 'Completed')
 					{
 						$taskCompleted[] = $task;
@@ -61,11 +61,15 @@ class TaskController extends Controller {
 							$taskClosed['recent'][]= $task;
 						}
 					}
-				}
-				else
-				{
-					$taskNotFiled[] = $task;
-				}
+					else
+					{
+						$taskNotFiled[] = $task;
+					}
+				//}
+				//else
+				//{
+				//	$taskNotFiled[] = $task;
+				//}
 			}
 			else
 			{
@@ -210,6 +214,7 @@ class TaskController extends Controller {
 				{
 					//mark the task as accepted for who do have an account
 					$input['status'] = 'Open';
+					$notification['userId']=0;
 				}
 			}
 			else
