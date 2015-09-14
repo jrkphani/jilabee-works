@@ -54,6 +54,9 @@
 			@endforeach
 			
 		</div>
+		<div class="popupButtons popupButtonsFix">	
+		<!-- ===================Keep this dive to fill the bottom bar  ====================  -->
+		</div>
 		<!-- =================== Popup right ====================  -->
 		<div class="popupContentRight">
 			<div class="popupSearchSection">
@@ -84,12 +87,4 @@
 					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<button {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button>
-				</div>
-			</div>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-</div>
-</div>
-@endif
+					<!-- <button {{$mid}} tid="{{$task->id}}" id

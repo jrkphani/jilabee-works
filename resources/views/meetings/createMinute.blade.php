@@ -8,11 +8,11 @@
 	<p>
 	<br/>
 	{!! Form::text('venue',$minute->venue,['placeholder'=>'venue']) !!}
-	{{$errors->first('venue','<div class="error">:message</div>')}}
+	{{$errors->first('venue','<span class="error">:message</span>')}}
 	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'date']) !!}
-	{!!$errors->first('startDate','<div class="error">:message</div>')!!}
+	{!!$errors->first('startDate','<span class="error">:message</span>')!!}
 	{!! Form::text('endDate',$minute->endDate,['id'=>'endSateInput','placeholder'=>'date']) !!}
-	{!!$errors->first('endDate','<div class="error">:message</div>')!!}
+	{!!$errors->first('endDate','<span class="error">:message</span>')!!}
 	</p>
 	<div class="attendeesLable">
 			<h5>Attendees: </h5>

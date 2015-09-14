@@ -40,18 +40,19 @@
 			</div>
 			@endif
 			@foreach($task->file as $file)
-				<div class="updateItem">
-					<h6> update: {{$file->created_at}}</h6>
-					<p>{!!$file->description!!}</p>
-				</div>
-			@endforeach
-			<div class="popupButtons">
-				@if(!$task->minuteId)
-					<button id="editTask" tid="{{$task->id}}">Edit Task</button>
-					<button {{$mid}} tid="{{$task->id}}" id="cancelTask">Cancel Task</button>
-					<button {{$mid}} tid="{{$task->id}}" id="deleteTask">Delete Task</button>
-				@endif
+			<div class="updateItem">
+				<h6> update: {{$file->created_at}}</h6>
+				<p>{!!$file->description!!}</p>
 			</div>
+			@endforeach
+		</div>
+		
+		<div class="popupButtons popupButtonsFix">
+			@if(!$task->minuteId)
+				<button id="editTask" tid="{{$task->id}}">Edit Task</button>
+				<button {{$mid}} tid="{{$task->id}}" id="cancelTask">Cancel Task</button>
+				<button {{$mid}} tid="{{$task->id}}" id="deleteTask">Delete Task</button>
+			@endif
 		</div>
 		<!-- =================== Popup right ====================  -->
 		<div class="popupContentRight">
@@ -78,7 +79,7 @@
 					<div class="clearboth"></div>
 				</div>
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
-				<div class="chatInput">
+				<div class="chatInput chatInput_1row">
 					{!! Form::open(['id'=>"CommentForm"]) !!}
 					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}

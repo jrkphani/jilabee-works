@@ -22,10 +22,10 @@
 				<div class="popupContentTitle">
 					{!! Form::hidden('id', $task->id) !!}
 					{!! Form::text('title', $task->title,['placeholder'=>'Task title']) !!}
-					<p class="taskNo">T{{$task->id}}</p>
+					<p class="taskNo pcl_jobs_label_tskno">T{{$task->id}}</p>
 					<div class="error" id="title_err"></div>
 					<div class="clearboth"></div>
-					<label>Assign to </label>
+					<label class="pcl_jobs_label">Assign to </label>
 					<div id="selected_Assignee">
 						<?php $assignee = $task->assignee; ?>
 						@if($task->assignee)
@@ -47,7 +47,7 @@
 					</div>
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
 					<div class="error" id="assignee_err"></div>
-					<label>Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
+					<label class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 		<div class="popupContentLeft">
@@ -59,9 +59,10 @@
 				{!! Form::textarea('notes', str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes),['rows'=>'6','cols'=>'30'])!!}
 				<div class="error" id="notes_err"></div>
 			</div>
-			<div class="popupButtons popupButtonsFix">
-				<button id="updateTaskSubmit" tid="{{$task->id}}">Update</button>
-			</div>
+			
+		</div>
+		<div class="popupButtons popupButtonsFix taskChatFix">
+			<button id="updateTaskSubmit" tid="{{$task->id}}">Update</button>
 		</div>
 		@endif
 			{!! Form::close() !!}
@@ -91,12 +92,12 @@
 					<div class="clearboth"></div>
 				</div>
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
-				<div class="chatInput">
+				<div class="chatInput chatInput_1row taskChatFix">
 					{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
 					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<button {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button>
+					<!-- <button {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button> -->
 				</div>
 			</div>
 		</div>

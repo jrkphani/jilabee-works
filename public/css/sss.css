@@ -151,7 +151,7 @@ footer{background: #323232; border-top: solid 1px #383838; padding-top: 20px; pa
 
 /*===============Index page*/
 .indexLogin{width: 400px; margin: 0 auto; padding-bottom: 50px;}
-.indexLogin .error{    color: #DCBD1C;    margin-top: -23px;    margin-bottom: 10px;    margin-left: 20px;}
+.indexLogin .error{    color: #ffea00;    margin-top: -23px;    margin-bottom: 10px;    margin-left: 20px;}
 .indexLogin h1{font-size: 4.4em; color:#4d7dc5; margin-top: 90px; text-align: center; margin-bottom: 50px;
 	font-family: 'Grand Hotel'; }
 .indexLoginForm{ background: #4d7dc5; border: solid 1px #4271b6; border-radius: 6px; padding: 40px 0 40px 0; 
@@ -164,7 +164,6 @@ footer{background: #323232; border-top: solid 1px #383838; padding-top: 20px; pa
 .login_forgotpassword{ color: #fff; font-size: .8em; margin-left: 20px;}
 .login_loginbtn{width: 40% !important;/* border:solid 1px #0d2f63; *//*background: #143b75;*/ margin: 0 auto; margin-bottom: 5px !important; cursor: pointer;}
 .login_loginbtn:hover{background: #1e4f98; }
-.login_body{background:#f8f8f8 url(../images/bg_tex1.png) repeat left top;}
 
 .login_loginbtn{
 border:1px solid #15aeec; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
@@ -288,13 +287,24 @@ border:1px solid #15aeec; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
 .popup3Title{font-size: 2.2em; border-bottom: solid 1px #828282; padding-bottom: 20px;}
 
 .pcl_jobs_label{float: left; width: 160px;}
+.pcl_jobs_label_tskno{float: left; width: 160px; margin-right: 10px;}
 .pcl_jobs_assignee{float: left;}
 .pcl_jobs_input{width: 200px;}
 
 .po_scroll_jobs{overflow-y:scroll; }
+.popupContentText textarea{width:100%;}
+
+.paperPrintBtn{    width: 50px;    height: 50px; cursor: pointer;  color: #fff; font-size: 1.1em; line-height: 50px; padding-left: 60px; padding-right: 20px;
+     background: #77bad9 url(../images/icon_print_45.png) no-repeat left center; border:solid 1px #67abcb; border-radius: 3px;  margin: 0 auto; margin-bottom: 50px;);
+    /*position: absolute;    top: 0;    right: 0;*/}
+.paperPrintBtn:hover{background: #4d7dc5 url(../images/icon_print_45.png) no-repeat left center;border:solid 1px #3e6cb2; }
+.paperPrintBtn:hover{background: #3c65a2 url(../images/icon_print_45.png) no-repeat left center;border:solid 1px #3e6cb2; }
+
+
+
 
 /*=================Chat section*/
-.chatSection{position: relative; width: 100%; height: 100%;}
+.chatSection{ width: 100%; height: 100%;}
 .chatContent{width: 100%;   height:100%; background: transparent; padding-bottom: 30px; box-sizing:border-box; overflow-y:scroll; }
 .chatLeft{width: 80%; background: #f8f8f8; border-radius: 4px; margin-left: 10px; margin-top: 20px; padding: 8px; box-sizing:border-box; float: left;
 border:solid 1px #c1c1c1;}
@@ -305,12 +315,20 @@ border:solid 1px #c1c1c1;}
 border:solid 1px #66b4bd;}
 .chatRight span{color: #232323; font-weight: bold; float: right;}
 .chatRight p{line-height: 1.2em;}
-.chatInput{  height: 110px; background: #cdcdcd; width: 40%; border-top: solid 1px #b2b2b2; border-bottom-right-radius: 6px;   position: absolute; bottom:-55px;}
+.chatInput{  height: 55px; background: #cdcdcd; width: 40%; border-top: solid 1px #b2b2b2; border-bottom-right-radius: 6px;   position: absolute; bottom:-55px;}
 .chatInput_1row{height: 55px;}
+.chatInput_1row textarea{height: 45px;  }
 .chatInput button{margin-left: 10px; margin-top: 5px; color: #000;}
 .chatInput input[type="button"]{width: 100px; height: 35px; line-height: 35px; margin-left: 10px; vertical-align: top; margin-top: 5px;
 	height: 54px; cursor: pointer;}
-.chatInput textarea{width: 95%; margin:5px 0 0 10px; font-size: 1em; line-height: 1.3em; box-sizing:border-box;}
+.chatInput textarea{width: 95%; margin:5px 0 0 10px; font-size: 1em; line-height: 1.3em; box-sizing:border-box; height: 45px;}
+
+
+.taskChatFix{bottom: -500px;}
+
+
+
+
 
 
 .notification{width: 280px; height: auto; border-radius: 4px; background: #fff; -webkit-box-shadow: 0 0 5px #424242;
@@ -321,6 +339,10 @@ border:solid 1px #66b4bd;}
  .notificationItem:hover{background: #f2f2f2;}
 .notificationItem p{color: #828282; font-size: .9em; margin-top: 5px;}
 .showAllBtn{margin-left: 10px; margin-top: 10px;}
+
+.notification_read{background: #c0e4dc;}
+
+
 
 .nameMenu{width: 200px; height: auto; border-radius: 4px; background: #fff; -webkit-box-shadow: 0 0 5px #424242;
         box-shadow: 0 0 5px #424242; position:  fixed; right: 20px; top:80px; z-index: 9999;  display: none; }
@@ -551,6 +573,8 @@ header nav{margin-left: 40px;}
     .createMeeting .popupMinutes{height: 500px;}
     .createMeeting .popupMinutes{height: 500px;}
     .popUpBg1{height: 500px;}
+.taskChatFix{bottom: -354px;}
+
 }
 
 @media (max-width: 1280px) { 
@@ -578,6 +602,7 @@ header nav{margin-left: 40px;}
     .minuteItemRight{width: 20%;}
     .minuteItemLeft{width: 70%;}
     .paper{margin: 40px;}
+    .taskChatFix{bottom: -354px;}
 }
 
 
@@ -971,3 +996,28 @@ header nav{margin-left: 40px;}
 .no-pointerevents .wrapper-dropdown-1.active .dropdown {
     display: block;
 }
+
+
+.regFormGender{ color: #fff;}
+.regFormGender input{width: auto;}
+
+.meeting_pending .popupContentTitle textarea{ width: 60%; height: 100px; margin-top: 20px;}
+.rightList_item{font-size: 1.2em !important;}
+.rightList_item span{color: #fff;   font-size: .8em !important; float: none; padding: 4px; padding-right: 8px;  background: #4d7dc5; margin-left: 10px; border-radius: 4px; }
+
+.login_body{background:#f8f8f8 url(../images/bg_tex1.png) repeat left top;}
+.login_body_admin{background:#f8f8f8 url(../images/bg_tex2.png) repeat left top;}
+.login_body_admin .indexLoginForm{ -webkit-box-shadow: 0 0 6px #121212;
+        box-shadow: 0 0 6px #424242;}
+
+.login_admin_checkbox {height: 25px; font-size: 1em !important; line-height: 25px; margin-top: -5px !important;} 
+.login_admin_checkbox input[type="checkbox"]{ width: 20px; height: 20px;  font-size: .9em; margin-left: 0px;}
+.login_admin_pwd{ margin-bottom: 5px !important; }
+.login_admin_loginbtn button{margin-left: 30px; margin-top: 30px;}
+.login_admin_loginbtn a{ color: #fff; margin-left: 30px;}
+
+
+.admin_extra{margin-top: 20px; margin-bottom: 20px;}
+.admin_extra h4{ color: #fff; font-size: 1.1em; margin-bottom: 8px; }
+.admin_extra a{ margin-bottom: 10px; display: block; color: #fff; cursor: pointer;}
+.admin_extra a:hover{ margin-bottom: 10px; display: block; color: #fff;}

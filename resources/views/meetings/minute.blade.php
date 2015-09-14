@@ -104,7 +104,7 @@
 		<span class="draft_tag"></span>
 	</div>
 </div>
-<div onclick="PrintElem('#toPrint')">Print</div>
+<div onclick="PrintElem('#toPrint')" class="paperPrintBtn">Print</div>
 <script type="text/javascript">
 function PrintElem(elem)
     {

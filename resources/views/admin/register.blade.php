@@ -78,7 +78,7 @@
 							{!! $errors->first('dob','<div class="error">:message</div>') !!}
 						</div>
 
-						<div class="userDetailItem">
+						<div class="userDetailItem regFormGender">
 							<p>Gender</p>
 							{!!Form::radio('gender', 'M') !!} Male 
 							{!!Form::radio('gender', 'F') !!} Female
