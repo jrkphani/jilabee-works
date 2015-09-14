@@ -41,7 +41,8 @@ class MeetingsController extends Controller {
 	}
 	public function view($mid)
 	{	$meeting = Meetings::find($mid);
-		return view('admin.meeting',['meeting'=>$meeting]);
+		$roles = roles();
+		return view('admin.meeting',['meeting'=>$meeting,'roles'=>$roles]);
 	}
 	public function viewTemp($id)
 	{
@@ -67,10 +68,6 @@ class MeetingsController extends Controller {
 	{
 		$input = Request::only('title','description','venue','participants','roles','type','purpose');
 		$output['success'] = 'yes';
-		if(!Auth::user()->isAdmin)
-		{
-			$input['minuters'][0] = Auth::user()->userId;
-		}
 		$minuters=$attendees=$attendeesEmail=array();
 		$validator = Meetings::validation($input);
 		if ($validator->fails())

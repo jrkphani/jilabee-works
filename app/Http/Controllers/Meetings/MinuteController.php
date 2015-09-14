@@ -237,7 +237,7 @@ class MinuteController extends Controller {
 	{
 		if($minute = Minutes::whereId($id)->first())
 		{
-			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->orderBy('startDate','desc')->get();
+			$minutes = Minutes::where('meetingId','=',$minute->meetingId)->orderBy('created_at','desc')->get();
 			return view('meetings.minuteHistory',['minute'=>$minute,'minutes'=>$minutes]);
 		}
 	}

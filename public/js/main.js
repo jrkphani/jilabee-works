@@ -203,19 +203,19 @@ function notifications()
                         var t = row.updated_at.split(/[- :]/);
                         var datePast = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
                         secs = new Date(dateNow -datePast)/1000;
-                        updated_at = secs.toFixed(2)+' sec ago';
+                        updated_at = Math.round(secs)+' sec ago';
                         if(secs >=60)
                         {
                             mins = (secs/60);
-                            updated_at = mins.toFixed(2)+' mins ago';
+                            updated_at = Math.round(mins)+' mins ago';
                             if(mins >=60)
                             {
                                 hrs = mins/60;
-                                updated_at = hrs.toFixed(2)+' hrs ago';
+                                updated_at = Math.round(hrs)+' hrs ago';
                                 if(hrs >= 24)
                                 {
                                     days = hrs/24;
-                                    updated_at = days+' hrs ago';
+                                    updated_at = Math.round(days)+' days ago';
                                 }
                             }
                         }

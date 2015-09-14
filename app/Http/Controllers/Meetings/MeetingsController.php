@@ -25,7 +25,7 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{
-		$recentMinutes = $notfiled = array();
+		$recentMinutes = $notfiled = $pendingmeetings = $closedMeetings =array();
 		$newmeetings = Meetings::select('meetings.*')
 						->join('organizations','meetings.oid','=','organizations.id')
 						//->join('minutes','meetings.id','=','minutes.meetingId')
@@ -57,12 +57,19 @@ class MeetingsController extends Controller {
 					->where('minutes.filed','=','0')
 					->groupBy('minutes.meetingId')
 					->get();
-		//print_r($minutes); die;
 					//non approve meeting minutes
 		$pendingmeetings = TempMeetings::where('created_by','=',Auth::id())->get();
-					//print_r($pendingminutes); die;
-		
-		return view('meetings.index',['notfiled'=>$notfiled,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingmeetings'=>$pendingmeetings]);
+
+		//closed meetings
+		$closedMeetings = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.active','=','1')
+					->whereNotNull('meetings.deleted_at')
+					->where('minutes.filed','=','1')
+					->groupBy('minutes.meetingId')
+					->orderBy('minutes.startDate','desc')
+					->get();		
+		return view('meetings.index',['notfiled'=>$notfiled,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingmeetings'=>$pendingmeetings,'closedMeetings'=>$closedMeetings]);
 	}
 	public function meetingForm($mid=NULL)
 	{

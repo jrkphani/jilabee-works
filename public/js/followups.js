@@ -299,3 +299,18 @@ $(document).ready(function() {
     }
     popupContentAjaxPost(path,form);
  });
+ $('#centralContainer').on('keypress', '#followupCommentText', function(event)
+ {
+    if(event.which == 13)
+    {
+        if(event.shiftKey)
+        {
+            //alert("shiftKey");
+            //do nothing
+        }
+        else
+        {
+            $('#followupComment').click();
+        }
+    }  
+ });

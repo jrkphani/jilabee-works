@@ -1,7 +1,7 @@
 <div class="paper">
 	<div id="toPrint" class="paperBorder">
 		<div class="paperTitleLeft">
-			<h3>{{$minute->meeting->title}}</h3>
+			<h3>{{$minute->meeting()->withTrashed()->first()->title}}</h3>
 			<p>meeting venue: {{$minute->venue}}</p>
 		</div>
 		<div class="paperTitleRight">
@@ -24,9 +24,7 @@
 			</p>
 		</div>
 		<h4>Minutes</h4>
-		@if($minute->meeting->approved == '0')
-			<?php $tasks = $minute->tasks; ?>
-		@elseif($minute->filed == '0')
+		@if($minute->filed == '0')
 			<?php 
 				$lastFiledMinute = App\Model\Minutes::where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
 				if($lastFiledMinute)
@@ -101,7 +99,9 @@
 				</div>
 			@endforeach
 		@endif
-		<span class="draft_tag"></span>
+		@if($minute->filed == '0')
+			<span class="draft_tag"></span>
+		@endif
 	</div>
 </div>
 <div onclick="PrintElem('#toPrint')" class="paperPrintBtn">Print</div>

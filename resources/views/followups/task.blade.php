@@ -21,13 +21,24 @@
 		<div class="popupContentTitle">
 				<h4>{{$task->title}}</h4>
 				<p>T{{$task->id}} / Created on: 25th jan 2015  / DUE: {{$task->dueDate}}</p>
-				<p> Assigned by: {{$task->assignerDetail->name}}, updates: 3, revisions:
+				<p> Assignee to: 
+				@if(isEmail($task->assignee))
+					{{$task->assignee}}
+				@else
+					{{$task->assigneeDetail->name}}
+				@endif
+				@if(count($task->file))
 					@if($mid)
-						{{count($task->file)}}
+						,revisions:
+					@else
+						,updates:
 					@endif
+				{{count($task->file)}}
+				@endif
 				</p>
+				<p>Status: {{$task->status}}</p>
 				@if($task->reason)
-				<p>{!! $task->reason!!}</p>
+				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif
 			</div>
 		<div class="popupContentLeft">
@@ -81,10 +92,10 @@
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
 				<div class="chatInput chatInput_1row">
 					{!! Form::open(['id'=>"CommentForm"]) !!}
-					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
+					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here','id'=>'followupCommentText']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<!-- <button {{$mid}} tid="{{$task->id}}" id="followupComment" class="btn btn-primary ">Post</button> -->
+					<button {{$mid}} tid="{{$task->id}}" id="followupComment" style="display:none;">Post</button>
 					@if($task->status == 'Completed')
 						{{-- 
 						//has to complet in minutes only for the minute task as per phani instruct
@@ -99,5 +110,6 @@
 		</div>
 		<div class="clearboth"></div>
 	</div>
+</div>
 </div>
 @endif

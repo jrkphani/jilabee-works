@@ -30,10 +30,10 @@
 					{{count($task->file)}}
 				@endif
 			</p>
-			Status: {{$task->status}}
+			<p>Status: {{$task->status}}</p>
 			@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed')
 				@if($mid)
-						@if($task->minute->filed == '1'))
+						@if($task->minute->filed == '1')
 						<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
 						@endif
 				@else
@@ -84,7 +84,15 @@
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
 				<div class="chatInput">
 					{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
-					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
+					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here','id'=>'taskCommentText']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<!-- <button {{$mid}} tid="{{$task->id}}" id
+					<button {{$mid}} tid="{{$task->id}}" id="taskComment" style="display:none;">Post</button>
+				</div>
+			</div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+</div>
+</div>
+@endif

@@ -7,7 +7,7 @@
 	<!--=================================== contentLeft - History section ================================-->
 	<div class="contentLeft" id="contentLeft">
 		<div class="mainListFilter">
-					<input type="text" placeholder="Search...">
+					<input type="text" placeholder="Search..." id="historySearch"> <span id="showHistroyDiv">Reset</span>
 					<select  class="dropdown">
 					  <option value="0">Any origin</option>
 					  <option value="Option">Option 1</option>
@@ -29,8 +29,9 @@
 					    </select>
 					<button>Reset all</button>
 				</div>
-		<div class="mainList">
+		<div id="historyDiv" class="mainList">
 			<!--=================================== List 1 ================================-->
+			@if(count($taskClosed['previous']))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberGrey">{{count($taskClosed['previous'])}}</span>
@@ -51,14 +52,17 @@
 					<div class="box">
 						<span class="boxNumber boxNumberGrey">{{$count++}}</span>
 						<div class="boxInner">
-							<h4>{{$task->title}}</h4>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
 
 				@endforeach
 			</div>
+			@endif
 			<!--=================================== List 2 ================================-->
+			@if(count($taskClosed['lastWeek']))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberRed">{{count($taskClosed['lastWeek'])}}</span>
@@ -79,14 +83,17 @@
 					<div class="box">
 						<span class="boxNumber boxNumberRed">{{$count++}}</span>
 						<div class="boxInner">
-							<h4>{{$task->title}}</h4>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
 
 				@endforeach
 			</div>
+			@endif
 			<!--=================================== List 3 ================================-->
+			@if(count($taskClosed['recent']))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberGreen">{{count($taskClosed['recent'])}}</span>
@@ -107,13 +114,15 @@
 					<div class="box">
 						<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 						<div class="boxInner">
-							<h4>{{$task->title}}</h4>
+							<h4 class="searchTxt">{{$task->title}}</h4>
+							<p class="searchTxt">{!!$task->description!!}</p>
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 					</div>
 
 				@endforeach
 			</div>
+			@endif
 		</div>
 			<!--================ Buttons for now sections ======================-->
 	<div class="arrowBtn arrowBtnRight">
@@ -124,7 +133,7 @@
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search...">
+			<input type="text" placeholder="Search..." id="nowSearch"><span id="showNowDiv">Reset</span>
 			<select>
 			  <option value="0">Sort by</option>
 			  <option value="Option">Option 1</option>
@@ -132,8 +141,9 @@
 			  <option value="Option">Option 3</option>
 			</select>
 		</div>
-		<div class="mainList">
+		<div id="nowDiv" class="mainList">
 		<!--=================================== List 1 ================================-->
+		@if(count($taskNotFiled))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberBlue">{{count($taskNotFiled)}}</span>
@@ -156,8 +166,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 								@if($task->status == 'Sent')
 									{!! Form::open(['id'=>$formId]) !!}
 									{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
@@ -173,7 +183,9 @@
 						</div>
 				@endforeach
 			</div>
+			@endif
 				<!--=================================== List 2 ================================-->
+			@if(count($taskToFinsh))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberRed">{{count($taskToFinsh)}}</span>
@@ -195,8 +207,8 @@
 						<div class="box">
 							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 								{{-- {!! Form::open(['id'=>$formId]) !!}
 								{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
 								{!! Form::close() !!}
@@ -206,7 +218,9 @@
 						</div>
 				@endforeach
 			</div>
+			@endif
 				<!--=================================== List 3 ================================-->
+			@if(count($taskCompleted))
 			<div class="boxList">
 				<div class="boxTitle">
 					<span class="boxTitleNumber boxNumberGreen">{{count($taskCompleted)}}</span>
@@ -228,13 +242,14 @@
 						<div class="box">
 							<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 							<div class="boxInner">
-								<h4 >{{$task->title}}</h4>
-								<p>{!!$task->description!!}</p>
+								<h4 class="searchTxt">{{$task->title}}</h4>
+								<p class="searchTxt">{!!$task->description!!}</p>
 							</div>
 							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
 				@endforeach
 			</div>
+			@endif
 			<div class="clearboth"></div>
 		</div>
 			<!--================ Buttons for now sections ======================-->
@@ -242,7 +257,6 @@
 			<span id="moveleft"><img src="{{asset('images/arrow_left.png')}}"> </span>
 			<p>History</p>
 		</div>
-		<button class="addBtn"> </button>
 	</div>
 	<div class="clearboth"></div>
 	<!--========================================= POP UP 1 ===================================================-->
@@ -252,7 +266,6 @@
 @section('javascript')
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/jobs.js') }}"></script>
-<script type="text/javascript">
-$( ".dropdown" ).selectmenu();
-</script>
+<script src="{{ asset('/js/search.js') }}"></script>
+
 @endsection

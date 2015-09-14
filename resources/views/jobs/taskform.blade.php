@@ -94,10 +94,10 @@
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
 				<div class="chatInput chatInput_1row taskChatFix">
 					{!! Form::open(['id'=>"CommentForm".$task->id]) !!}
-					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here']) !!}
+					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here','id'=>'taskCommentText']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<!-- <button {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn btn-primary ">Post</button> -->
+					<button {{$mid}} tid="{{$task->id}}" id="taskComment" style="display:none;">Post</button>
 				</div>
 			</div>
 		</div>

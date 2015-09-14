@@ -50,23 +50,18 @@ class ProfileController extends Controller {
 	public function findUser()
 	{	 
 		$input = Request::only('term');
-		$list = Profile::select('users.userId','profiles.name as value','profiles.role')->join('users','profiles.userId','=','users.id')
-				->where('profiles.name','LIKE','%'.trim($input['term']).'%')
-				->orWhere('users.email','LIKE','%'.trim($input['term']).'%')
+		$orgID = getOrgId();
+		$list = Profile::select('users.userId','profiles.name as value','profiles.role')
+				->join('users','profiles.userId','=','users.id')
+				->where('users.userId','LIKE',$orgID.'%')
+				->where(function($query) use ($input){
+					$query->where('profiles.name','LIKE','%'.trim($input['term']).'%')
+					->orWhere('users.email','LIKE','%'.trim($input['term']).'%')
+					->orWhere('users.userId','=',trim($input['term']));
+				})
 				->get();
 		return response()->json($list);
 	}
-	// public function userlist()
-	// {	 
-	// 	echo Session::get('database'); die;
-	// 	if(Auth::user()->isAdmin)
-	// 	{
-	// 		//$userId
-	// 		$users = User::where('userId')->where('id','!=',Auth::id())->paginate(10);;
-	// 		return view('user.list',['users'=>$users]);
-	// 	}
-	// 	return abort('403');
-	// }
 	public function getedit()
 	{
 		return view('auth.profileEdit',['profile'=>Profile::where('userId','=',Auth::id())->first()]);

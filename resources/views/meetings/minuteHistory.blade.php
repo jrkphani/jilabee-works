@@ -6,13 +6,17 @@
 	</div>	
 	<div class="popupContent popUpBg1">
 		<div class="popupDateList">
+		@if(!$minute->meeting()->withTrashed()->first()->deleted_at)
 			@if($minute->meeting->isMinuter())
-				@if($minute->filed == '1')
-					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to next meeting</button>
-				@elseif($minute->filed == '0' && $minute->created_by == Auth::id())
-					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Edit last minutes</button>
+				@if($unfiled = $minute->meeting->minutes()->where('filed','0')->first())
+					@if($unfiled->created_by == Auth::id())
+						<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Edit last minutes</button>
 					@endif
+				@else
+					<button id="nextMinute" mid="{{$minute->meetingId}}" class="proceedBtn">Proceed to next meeting</button>
+				@endif
 			@endif
+		@endif
 			@foreach($minutes as $row)
 				<?php $isfiled=""; if($row->filed == '0') { $isfiled=" - Draft"; }?>
 				@if($row->id == $minute->id)

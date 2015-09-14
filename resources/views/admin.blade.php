@@ -62,6 +62,10 @@
 		<div class="adminContent" id="adminContent">
 			@yield('content')
 		</div>
+	<div class="breadcrumbBar breadcrumbBarFix">
+		{!! Breadcrumbs::render(Route::getCurrentRoute()->getPath()) !!}
+		<div class="clearboth"></div>
+	</div>
 	<footer>
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>

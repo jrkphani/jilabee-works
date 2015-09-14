@@ -20,7 +20,7 @@
 	<div class="meetingSettingITem meetingItem">
 		<span class="removeMoreBtn removeMeeting"></span>
 		<p>{!! Form::select('meetings[]', [''=>'Select Meeting']+$meetings)!!}</p>
-		<span>{!! Form::select('roles[]', [''=>'Select Role']+roles(),'1',['class'=>'roles'])!!}</span>
+		<span>{!! Form::select('roles[]', [''=>'Select Role']+$roles,'1',['class'=>'roles'])!!}</span>
 		<div class="clearboth"></div>
 	</div>
 	<div class="error" id="roles_err"></div>
