@@ -86,7 +86,7 @@ class TaskController extends Controller {
 							}
 							$updatedFlag = 1;
 							$oldTask = MinuteTasks::whereId($input['tid'][$i]);
-							if($notification['userId'])
+							if(($notification['userId']) && ($oldTask->first()->minuteId != $mid))
 							{
 								$notification['parentId'] = $oldTask->first()->minuteId;
 								$notification['objectId'] = $input['tid'][$i];
@@ -142,31 +142,33 @@ class TaskController extends Controller {
 					DB::transaction(function() use ($minute,$records)
 					{
 						$minute->tasks()->saveMany($records);
-						//foreach created task
-						// if($notification['userId'])
-						// 	{
-						// 		$notification['parentId'] = $mid;
-						// 		$notification['objectId'] = $task->id;
-						// 		$notification['objectType'] = 'Task';
-						// 		$notification['subject'] = 'New';
-						// 		$notification['body'] = $task->title;
-						// 		setNotification($notification);
-						// 	}
+						foreach ($minute->tasks as $task) {
+							if(!isEmail($task->assignee))
+							{
+								$notification['userId'] = $task->assignee;
+								$notification['parentId'] = $task->minuteId;
+								$notification['objectId'] = $task->id;
+								$notification['objectType'] = 'Task';
+								$notification['subject'] = 'New';
+								$notification['body'] = $task->title;
+								setNotification($notification);
+							}
+						}
 					});
 				}
 				$minute->draft()->delete();
 				$output['meetingId'] = $mid;
 				//file minutes if no new task
-				$this->fileMinute($minute->meetingId);
+				//$this->fileMinute($minute->meetingId);
 				return json_encode($output);
 
 			}
 			else
 			{
-				//file minutes if no new task
-				$this->fileMinute($minute->meetingId);
 				if($updatedFlag == 1)
 				{
+					//file minutes if no new task
+					$this->fileMinute($minute->meetingId);
 					$output['success'] = 'yes';
 					$output['meetingId'] = $mid;
 				}
