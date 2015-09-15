@@ -1,4 +1,4 @@
-Review of old Minutes
+<h5>Review of old Minutes</h5>
 <?php
 	$minutes = App\Model\MinuteTasks::select('minuteTasks.*')->WhereIn('minuteTasks.id',function($query) use ($lastFiledMinute){
 								$query->select('taskId')
