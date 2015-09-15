@@ -33,7 +33,6 @@ $(document).ready(function($)
         $("#centralViewer").scrollLeft($('#contentRight').width());
     }
     $('#moveright').click(function(event) {
-        location.hash.replace('#history','');
         moveright();
     });
     $('#moveleft').click(function(event) {
