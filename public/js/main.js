@@ -4,7 +4,6 @@ $(document).ready(function($)
     var string = "width:" + width + "px";
     $('#centralContainer').attr("style",string);
      historypage='no';
-     alert( location.href);
     var url = document.location.toString();
         if (url.match('#'))
         {
