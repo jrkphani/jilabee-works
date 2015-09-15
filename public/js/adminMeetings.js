@@ -25,11 +25,6 @@ $(document).ready(function($)
             else if(jsonData.success == 'yes')
             {
                 location.reload();
-                $.notify('Meeting Created Successfully',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
             }
             //////console.log("success");
         })

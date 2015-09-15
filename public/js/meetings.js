@@ -48,11 +48,6 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
             }
             else if(jsonData.success == 'yes')
             {
-                $.notify('Meeting Created Successfully',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
                 location.reload();
                 //$('#popup').load('/minute/first/'+jsonData.meetingId);
             }
@@ -89,12 +84,6 @@ $('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
             }
             else if(jsonData.success == 'yes')
             {
-                $.notify('Meeting Created Successfully',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
-                //location.reload();
                 $('#popup').load('/meetings/load/'+jsonData.meetingId);
             }
             //////console.log("success");
@@ -242,11 +231,6 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             data: $('#tasksAddForm').serialize(),
         })
         .done(function() {
-            $.notify('Saved!',
-                {
-                   className:'success',
-                   globalPosition:'top center'
-                });
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);
@@ -281,11 +265,6 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
                 }
             else if(jsonData.success == 'yes')
                 {
-                    $.notify('Sent',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
                     $('#minuteDiv').load('/minute/'+mid);
                 }
         })

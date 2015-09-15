@@ -106,17 +106,7 @@
 		<div class="clearboth"></div>
 	</footer>
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-	<script src="{{ asset('/js/notify.min.js') }}"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
-	<script type="text/javascript">
-	$(document).ready(function($) {
-		$.notify("{!! Session::get('message')!!}",
-    			{
-				   className:'success',
-				   globalPosition:'top center'
-				});
-		});
-	</script>
 	@yield('javascript')
 </body>
 

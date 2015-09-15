@@ -230,11 +230,6 @@ $(document).ready(function() {
             })
             .done(function($htmlData) {
                 $('#popup').html($htmlData);
-                $.notify('Saved',
-                    {
-                       className:'success',
-                       globalPosition:'top center'
-                    });
             })
             .fail(function(xhr) {
                 checkStatus(xhr.status);
