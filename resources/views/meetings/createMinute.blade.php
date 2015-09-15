@@ -19,14 +19,14 @@
 	</div>
 			<div id="attendees" class="attendee_box">
 				@foreach ($attendees as $key=>$value)
-					<div class="attendees" uid="u{{$key}}">
+					<div class="attendees" uid="{{$key}}">
 						{!! Form::hidden('attendees[]',$key) !!}
 						{{$value}}
 						<div class="markabsent"></div>
 					</div>
 				@endforeach
 				@foreach ($attendeesEmail as $key=>$value)
-					<div class="attendees" uid="u'.$value.'">
+					<div class="attendees" uid="{{$value}}">
 						{!! Form::hidden('attendees[]',$value) !!}
 						{{$value}}
 						<div class="markabsent"></div>
@@ -58,14 +58,14 @@
 				 $absentees = App\Model\Profile::whereIn('userId',$absentees)->lists('name','userId');
 				 ?>
 				@foreach ($absentees as $key=>$value)
-					<div class="absentees" uid="u{{$key}}">
+					<div class="absentees" uid="{{$key}}">
 						{!! Form::hidden('absentees[]',$key) !!}
 						{{$value}}
 						<div class="removeabsent"></div>
 					</div>
 				@endforeach
 				@foreach ($emails as $key=>$value)
-					<div class="absentees" uid="u'.$value.'">
+					<div class="absentees" uid="{{$value}}">
 						{!! Form::hidden('absentees[]',$value) !!}
 						{{$value}}
 						<div class="removeabsent"></div>
@@ -92,14 +92,14 @@
 			</div>
 			<div id="attendees"  class="attendee_box">
 				@foreach ($attendees as $key=>$value)
-					<div class="attendees" uid="u{{$key}}">
+					<div class="attendees" uid="{{$key}}">
 						{!! Form::hidden('attendees[]',$key) !!}
 						{{$value}}
 						<span class="markabsent"></span>
 					</div>
 				@endforeach
 				@foreach ($attendeesEmail as $key=>$value)
-					<div class="attendees" uid="u'.$value.'">
+					<div class="attendees" uid="{{$value}}">
 						{!! Form::hidden('attendees[]',$value) !!}
 						{{$value}}
 						<div class="markabsent"></div>

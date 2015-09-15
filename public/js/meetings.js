@@ -1,7 +1,7 @@
 $('#centralViewer').on('click', '.markabsent', function(event) {
             userName = $(this).parent(".attendees" ).text();
-            userId = $(this).parent(".attendees" ).attr('uid').match(/\d+/);
-            html = '<div uid="u'+userId+'" class="absentees"><input type="hidden" value="'+userId+'" name="absentees[]">'+userName+'<div class="removeabsent"></div></div>';
+            userId = $(this).parent(".attendees" ).attr('uid');
+            html = '<div uid="'+userId+'" class="absentees"><input type="hidden" value="'+userId+'" name="absentees[]">'+userName+'<div class="removeabsent"></div></div>';
             $('#absentees').append(html);
             $(this).parent(".attendees" ).remove();
         });
@@ -298,8 +298,8 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
   
  $('#centralContainer').on('click', '.removeabsent', function(event) {
             userName = $(this).parent(".absentees" ).text();
-            userId = $(this).parent(".absentees" ).attr('uid').match(/\d+/);
-            html = '<div uid="u'+userId+'" class="attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<div class="markabsent"></div></div>';
+            userId = $(this).parent(".absentees" ).attr('uid');
+            html = '<div uid="'+userId+'" class="attendees"><input type="hidden" value="'+userId+'" name="attendees[]">'+userName+'<div class="markabsent"></div></div>';
             $('#attendees').append(html);
             $(this).parent(".absentees" ).remove();
         });
