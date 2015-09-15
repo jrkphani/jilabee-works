@@ -47,8 +47,9 @@ class MeetingsController extends Controller {
 	public function viewTemp($id)
 	{
 		$meeting = TempMeetings::find($id);
+		$roles = roles();
 		//for pop view in meeting approve page
-		return view('admin.meetingPop',['meeting'=>$meeting]);
+		return view('admin.meetingPop',['meeting'=>$meeting,'roles'=>$roles]);
 	}
 	public function meetingForm($mid=NULL)
 	{
