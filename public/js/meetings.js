@@ -11,6 +11,7 @@ function loadMinute(mid,divId)
         url: '/minute/'+mid,
         type: 'GET',
         dataType: 'html',
+        async:false,
         //data: {param1: 'value1'},
     })
     .done(function(htmlData)
@@ -30,6 +31,7 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
             url: '/meetings/create',
             type: 'POST',
             dataType: 'json',
+            async:false,
             data: $('#createMeetingForm').serialize(),
         })
         .done(function(jsonData) {
@@ -70,6 +72,7 @@ $('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
             url: '/meetings/draft',
             type: 'POST',
             dataType: 'json',
+            async:false,
             data: $('#createMeetingForm').serialize(),
         })
         .done(function(jsonData) {
@@ -149,6 +152,7 @@ $("#centralContainer").on('click', '#nextMinute', function(event) {
     $.ajax({
         url: '/minute/'+meetingId+'/next',
         type: 'GET',
+        async:false,
         dataType: 'html',
     })
     .done(function(htmlData)
@@ -168,6 +172,7 @@ $('#centralContainer').on('click', '.firstMinute', function(event) {
     $.ajax({
         url: '/minute/first/'+meetingId,
         type: 'GET',
+        async:false,
         dataType: 'html',
     })
     .done(function(htmlData)
@@ -188,6 +193,7 @@ $('#centralContainer').on('click', '#updateMinute', function(event) {
         url: '/minute/'+meetingId+'/next',
         type: 'POST',
         dataType: 'html',
+        async:false,
          data: $('#MinuteForm').serialize(),
     })
     .done(function(htmlData)
@@ -231,6 +237,7 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
         $.ajax({
             url: '/minute/'+mid+'/draft',
             type: 'POST',
+            async:false,
             dataType: 'html',
             data: $('#tasksAddForm').serialize(),
         })
@@ -255,6 +262,7 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
         $.ajax({
             url: '/minute/'+mid+'/task',
             type: 'POST',
+            async:false,
             dataType: 'json',
             data: $('#tasksAddForm').serialize(),
         })

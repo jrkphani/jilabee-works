@@ -4,6 +4,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
         $.ajax({
             url: '/admin/meeting/draft/'+mid,
             type: 'GET',
+            async:false,
             dataType: 'html',
         })
         .done(function(htmlData){
@@ -22,6 +23,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
        $.ajax({
            url: '/admin/meeting/approve/'+mid,
            type: 'GET',
+           async:false,
            dataType: 'json'
        })
        .done(function(jsonData) {
@@ -49,6 +51,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
        $.ajax({
            url: '/admin/meeting/disapprove/'+mid,
            type: 'POST',
+           async:false,
            dataType: 'json',
             data: {'reason':reason,'_token':token},
        })

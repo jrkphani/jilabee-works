@@ -3,14 +3,38 @@ $(document).ready(function($)
 	var width = $(window).width() * 2;
     var string = "width:" + width + "px";
     $('#centralContainer').attr("style",string);
-    //$('#centralViewer').show();
-    $("#centralViewer").scrollLeft($('#contentRight').width());
-    //moveright();
+     historypage='no';
+    var url = document.location.toString();
+        if (url.match('#'))
+        {
+            variables = url.split('#');
+            for (var i = 0; i < variables.length; i++)
+            {
+                if(variables[i] == 'history')
+                {
+                    //do nothing
+                    historypage='yes';
+                }
+                else
+                {
+                     //move to now page
+                    historypage='no';
+                }
+            }
+        }
+        else
+        {
+            //move to now page
+            historypage='no';
+        } 
+    if(historypage == 'no')
+    {   //move to now page
+        $("#centralViewer").scrollLeft($('#contentRight').width());
+    }
     $('#moveright').click(function(event) {
         moveright();
     });
     $('#moveleft').click(function(event) {
-        //alert("vf");
         moveleft();
     });
     $(document).keydown(function(e)
@@ -78,6 +102,7 @@ function popupContentAjaxGet(path)
     $.ajax({
             url: path,
             type: 'GET',
+            async:false,
             dataType: 'html',
         })
         .done(function(htmlData) {
@@ -96,6 +121,7 @@ function rightContentAjaxGet(path)
     $.ajax({
             url: path,
             type: 'GET',
+            async:false,
             dataType: 'html',
         })
         .done(function(htmlData) {
@@ -115,6 +141,7 @@ function popupContentAjaxPost(path,form)
             url: path,
             type: 'POST',
             dataType: 'html',
+            async:false,
             data: $('#'+form).serialize()
         })
         .done(function(htmlData) {
@@ -164,6 +191,7 @@ function notifications()
     $.ajax({
             url: '/notifications',
             type: 'GET',
+            async:false,
             dataType: 'json'
         })
         .done(function(jsonDate){

@@ -6,6 +6,7 @@ $(document).ready(function($)
         $.ajax({
             url: '/admin/meeting/create',
             type: 'POST',
+            async:false,
             dataType: 'json',
             data: $('#createMeetingForm').serialize(),
         })
@@ -61,6 +62,7 @@ $('#adminContent').on('click', '.meeting', function(event) {
         $.ajax({
             url: '/admin/meeting/view/'+mid,
             type: 'GET',
+            async:false,
             dataType: 'html',
         })
         .done(function(htmlData){
@@ -89,6 +91,7 @@ $('#adminContent').on('click', '#act_deact_Meeting', function(event) {
     $.ajax({
             url: '/admin/meeting/activate/'+mid,
             type: 'GET',
+            async:false,
             dataType: 'json',
         })
         .done(function(jsonData){
@@ -119,6 +122,7 @@ $('#adminContent').on('click', '#endMeeting', function(event) {
             $.ajax({
             url: '/admin/meeting/delete/'+mid,
             type: 'GET',
+            async:false,
             dataType: 'json',
             })
             .done(function(jsonData){

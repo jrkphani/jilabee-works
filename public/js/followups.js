@@ -121,6 +121,7 @@ $(document).ready(function() {
             $.ajax({
             url: path,
             type: 'GET',
+            async:false,
             dataType: 'json',
             })
             .done(function(jsonData){
@@ -158,6 +159,7 @@ $(document).ready(function() {
             $.ajax({
             url: path,
             type: 'GET',
+            async:false,
             dataType: 'json',
             })
             .done(function(jsonData){
@@ -195,6 +197,7 @@ $(document).ready(function() {
             $.ajax({
             url: path,
             type: 'GET',
+            async:false,
             dataType: 'json',
             })
             .done(function(jsonData){
@@ -221,6 +224,7 @@ $(document).ready(function() {
             $.ajax({
                 url: '/followups/draft',
                 type: 'POST',
+                async:false,
                 dataType: 'html',
                 data: $('#createTaskForm').serialize(),
             })
@@ -245,6 +249,7 @@ $(document).ready(function() {
         	$.ajax({
         		url: '/jobs/createTask',
         		type: 'POST',
+                async:false,
         		dataType: 'json',
         		data: $('#createTaskForm').serialize(),
         	})

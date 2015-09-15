@@ -165,14 +165,14 @@ class TaskController extends Controller {
 				$notification['body'] = $task->title;
 				setNotification($notification);
 				
-				Activity::log([
-					'userId'	=> Auth::id(),
-					'contentId'   => $task->id,
-				    'contentType' => 'Task',
-				    'action'      => 'Rejected',
-				    //'description' => 'Add Organizations User',
-				    'details'     => 'Rejected Reason: '.$input['reason']
-				]);
+				// Activity::log([
+				// 	'userId'	=> Auth::id(),
+				// 	'contentId'   => $task->id,
+				//     'contentType' => 'Task',
+				//     'action'      => 'Rejected',
+				//     //'description' => 'Add Organizations User',
+				//     'details'     => 'Rejected Reason: '.$input['reason']
+				// ]);
 			}
 			$output['success'] = 'yes';
 		}
@@ -320,6 +320,12 @@ class TaskController extends Controller {
 			$task->status = 'Completed';
 			if($task->save())
 			{
+				$notification['userId'] = $task->assigner;
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'Task';
+				$notification['subject'] = 'Completed';
+				$notification['body'] = $task->title;
+				setNotification($notification);
 				$output['success'] = 'yes';
 				return json_encode($output);
 			}
@@ -353,6 +359,12 @@ class TaskController extends Controller {
 				$task->status = 'Open';
 				if($task->save())
 				{
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'Task';
+					$notification['subject'] = 'Completion Rejected';
+					$notification['body'] = $task->title;
+					setNotification($notification);
 					return view('followups.task',['task'=>$task]);
 				}
 			}
@@ -387,6 +399,9 @@ class TaskController extends Controller {
 			if($task)
 			{
 				$task->delete();
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'Task';
+				removeNotification($notification);
 				$output['success'] = 'yes';
 			}
 			else

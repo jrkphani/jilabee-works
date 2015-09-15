@@ -11,6 +11,7 @@ $('#adminContent').on('click', '.user', function(event)
 	$.ajax({
 		url: '/admin/user/view/'+uid,
 		type: 'GET',
+        async:false,
 		dataType: 'html',
 	})
 	.done(function(htmlData) {
@@ -30,6 +31,7 @@ $('#adminContent').on('click', '#addUser', function(event)
 	$.ajax({
 		url: '/admin/user/add/',
 		type: 'GET',
+        async:false,
 		dataType: 'html',
 	})
 	.done(function(htmlData) {
@@ -47,6 +49,7 @@ $('#adminContent').on('click', '#addUserSubmit', function(event) {
 	$.ajax({
 		url: '/admin/user/add',
 		type: 'POST',
+        async:false,
 		dataType: 'json',
 		data: $('#addUserForm').serialize(),
 	})
@@ -102,6 +105,7 @@ $('#adminContent').on('click', '#editUserSubmit', function(event) {
 	$.ajax({
 		url: '/admin/user/edit/'+uid,
 		type: 'POST',
+        async:false,
 		dataType: 'json',
 		data: $('#addUserForm').serialize(),
 	})

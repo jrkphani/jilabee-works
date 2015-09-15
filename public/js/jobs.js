@@ -64,6 +64,7 @@ $('#centralContainer').on('click', '.task', function(event){
         }
         $.ajax({
             url: path,
+            async:false,
             type: 'GET',
         })
         .done(function() {
@@ -94,6 +95,7 @@ $('#centralContainer').on('click', '.task', function(event){
             url: path,
             type: 'POST',
             dataType: 'json',
+            async:false,
             data: $('#'+form).serialize()
         })
         .done(function(jsonData) {
@@ -149,6 +151,7 @@ $('#centralContainer').on('click', '.task', function(event){
         }
         $.ajax({
             url: path,
+            async:false,
             type: 'GET',
         })
         .done(function() {
@@ -182,6 +185,7 @@ function rightContentAjaxGet(path)
     $.ajax({
             url: path,
             type: 'GET',
+            async:false,
             dataType: 'html',
         })
         .done(function(htmlData) {

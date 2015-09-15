@@ -36,6 +36,9 @@ class TaskController extends Controller {
 				$task = MinuteTasks::find($taskId);
 				$task->comments()->forceDelete();
 				$task->forceDelete();
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'Task';
+				removeNotification($notification);
 				//JobDraft::destroy(Request::input('id'));
 			}
 			foreach (Request::get('removeIdea',array()) as $ideaId)
@@ -216,12 +219,19 @@ class TaskController extends Controller {
 		if($task->save())
 		{
 			$this->fileMinute($task->minute->meetingId);
-			Activity::log([
-				'userId'	=> Auth::id(),
-				'contentId'   => $task->id,
-				'contentType' => 'Minute Task',
-				'action'      => 'Accepted'
-				]);
+			$notification['userId'] = $task->assigner;
+			$notification['parentId'] = $task->minuteId;
+			$notification['objectId'] = $task->id;
+			$notification['objectType'] = 'Task';
+			$notification['subject'] = 'Accepted';
+			$notification['body'] = $task->title;
+			setNotification($notification);
+			// Activity::log([
+			// 	'userId'	=> Auth::id(),
+			// 	'contentId'   => $task->id,
+			// 	'contentType' => 'Minute Task',
+			// 	'action'      => 'Accepted'
+			// 	]);
 			$output['success'] = 'yes';
 			return json_encode($output);
 		}
@@ -239,14 +249,21 @@ class TaskController extends Controller {
 			$task->updated_by = Auth::id();
 			if($task->save())
 			{
-				Activity::log([
-					'userId'	=> Auth::id(),
-					'contentId'   => $task->id,
-				    'contentType' => 'Minute Task',
-				    'action'      => 'Rejected',
-				    //'description' => 'Add Organizations User',
-				    'details'     => 'Rejected Reason: '.$input['reason']
-				]);
+				$notification['userId'] = $task->assigner;
+				$notification['parentId'] = $task->minuteId;
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'Task';
+				$notification['subject'] = 'Rejected';
+				$notification['body'] = $task->title;
+				setNotification($notification);
+				// Activity::log([
+				// 	'userId'	=> Auth::id(),
+				// 	'contentId'   => $task->id,
+				//     'contentType' => 'Minute Task',
+				//     'action'      => 'Rejected',
+				//     //'description' => 'Add Organizations User',
+				//     'details'     => 'Rejected Reason: '.$input['reason']
+				// ]);
 				$output['success'] = 'yes';
 			}
 			

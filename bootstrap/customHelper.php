@@ -119,13 +119,19 @@ function setNotification($data)
     if(isset($data['parentId']))
     {
         $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
-            'subject'=>$data['subject'],'objectType'=>$data['objectType'],'parentId'=>$data['parentId']])->first();    
+            //'subject'=>$data['subject'],
+            'objectType'=>$data['objectType'],'parentId'=>$data['parentId']])->first();    
     }
     else
     {
-        $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],'subject'=>$data['subject'],'objectType'=>$data['objectType']])->first();
+        $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
+            //'subject'=>$data['subject'],
+            'objectType'=>$data['objectType']])->first();
     }
-    
+    if(!isset($data['isRead']))
+    {
+        $data['isRead'] = '0';
+    }
     if($check)
     {
         $check->update($data);
@@ -133,6 +139,15 @@ function setNotification($data)
     else
     {
         App\Model\Notifications::create($data);
+    }
+}
+function removeNotification($data)
+{
+//$data should contain objectId,objectType and parentId if   
+    $check = App\Model\Notifications::where($data)->first();
+    if($check)
+    {
+        $check->delete();
     }
 }
 ?>
