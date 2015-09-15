@@ -191,6 +191,13 @@ class TaskController extends Controller {
 	public function viewTask($mid,$id)
 	{
 		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
+		$notification['userId'] = $task->assignee;
+		$notification['objectId'] = $task->id;
+		$notification['parentId'] = $task->minuteId;
+		$notification['objectType'] = 'Task';
+		$notification['isRead'] = '1';
+		$notification['body'] = $task->title;
+		setNotification($notification);
 		return view('jobs.task',['task'=>$task]);
 	}
 	public function taskForm($mid,$id)
@@ -343,6 +350,13 @@ class TaskController extends Controller {
 			$comment = new MinuteTaskComments($input);
 			if($task->comments()->save($comment))
 			{
+				$notification['userId'] = $task->assignee;
+				$notification['objectId'] = $task->id;
+				$notification['parentId'] = $task->minuteId;
+				$notification['objectType'] = 'Task';
+				$notification['subject'] = 'Comment';
+				$notification['body'] = $task->title;
+				setNotification($notification);
 				return view('jobs.task',['task'=>$task]);
 			}
 		}

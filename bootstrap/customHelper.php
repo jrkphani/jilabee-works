@@ -144,10 +144,6 @@ function setNotification($data)
 function removeNotification($data)
 {
 //$data should contain objectId,objectType and parentId if   
-    $check = App\Model\Notifications::where($data)->first();
-    if($check)
-    {
-        $check->delete();
-    }
+    $check = App\Model\Notifications::where($data)->delete();
 }
 ?>
