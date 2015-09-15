@@ -27,6 +27,7 @@
 			</select>
 			</div>
 		<div class="contentMeetingsLeft">
+		@if(count($closedMeetings))
 			<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberBlue">{{count($closedMeetings)}}</span>
@@ -44,6 +45,7 @@
 				</div>
 			@endforeach
 			</div>
+			@endif
 		</div>
 		<div class="contentMeetingsRight" id="historyMeetingsRight">
 		</div>
@@ -67,7 +69,7 @@
 			</select>
 		</div>
 	<div class="contentMeetingsLeft">
-		
+		@if(count($pendingmeetings))
 		<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberRed">{{count($pendingmeetings)}}</span>
@@ -90,6 +92,8 @@
 				</div>
 			@endforeach
 		</div>
+		@endif
+		@if(count($recentMinutes))
 		<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberBlue">{{count($recentMinutes)}}</span>
@@ -107,6 +111,8 @@
 				</div>
 			@endforeach
 		</div>
+		@endif
+		@if(count($notfiled))
 		<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberRed">{{count($notfiled)}}</span>
@@ -124,6 +130,8 @@
 				</div>
 			@endforeach
 		</div>
+		@endif
+		@if(count($newmeetings))
 		<div class="boxList">
 			<div class="boxTitle">
 				<span class="boxTitleNumber boxNumberBlue">{{count($newmeetings)}}</span>
@@ -140,7 +148,7 @@
 				</div>
 			@endforeach
 		</div>
-
+		@endif
 	</div>
 	<div class="contentMeetingsRight" id="nowMeetingsRight">
 		{{-- right side content --}}
