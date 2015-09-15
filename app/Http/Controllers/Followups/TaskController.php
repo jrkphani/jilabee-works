@@ -179,7 +179,6 @@ class TaskController extends Controller {
 				$notification['subject'] = 'Comment';
 				$notification['body'] = $task->title;
 				setNotification($notification);
-				die;
 				return view('followups.task',['task'=>$task]);
 			}
 		}

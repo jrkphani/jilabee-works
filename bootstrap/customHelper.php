@@ -116,18 +116,13 @@ function sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
     }
 function setNotification($data)
 {
-    if(isset($data['parentId']))
+    if(!isset($data['parentId']))
     {
-        $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
-            //'subject'=>$data['subject'],
-            'objectType'=>$data['objectType'],'parentId'=>$data['parentId']])->first();    
+        $data['parentId'] = NULL;
     }
-    else
-    {
-        $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
-            //'subject'=>$data['subject'],
-            'objectType'=>$data['objectType']])->first();
-    }
+    $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
+        //'subject'=>$data['subject'],
+        'objectType'=>$data['objectType'],'parentId'=>$data['parentId']])->first();
     if(!isset($data['isRead']))
     {
         $data['isRead'] = '0';
@@ -143,7 +138,11 @@ function setNotification($data)
 }
 function removeNotification($data)
 {
-//$data should contain objectId,objectType and parentId if   
+//$data should contain objectId,objectType and parentId if
+    if(!isset($data['parentId']))
+    {
+        $data['parentId'] = NULL;
+    }
     $check = App\Model\Notifications::where($data)->delete();
 }
 ?>
