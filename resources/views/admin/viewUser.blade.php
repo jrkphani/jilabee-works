@@ -74,8 +74,8 @@
 			</div>
 			
 			<div class="adminUsersBtnsRight">
-				<button>Reset password</button>
-				<button>Change password</button>
+				{{-- <button>Reset password</button>
+				<button>Change password</button> --}}
 			</div>
 			<div class="clearboth"></div>
 		</div>

@@ -17,7 +17,7 @@
                    <div class="profile_edit_row">
                         <label>E-Mail Address</label>
                         <div>
-                          {{ $profile->email }}
+                          {{ $profile->user->email }}
                         </div>
                          <div class="clearboth"></div>
                    </div>
@@ -48,7 +48,7 @@
                    <div class="profile_edit_row">
                         <label>DOB</label>
                         <div>
-                           <input type="text" class="form-control" name="dob" value="{{ $profile->dob }}">
+                           <input type="text" class="form-control" id="dob" name="dob" value="{{ $profile->dob }}">
                            {!! $errors->first('dob','<div class="error">:message</div>') !!}
                         </div>
                          <div class="clearboth"></div>
@@ -84,4 +84,27 @@
         </div>
     </div>
 
+@endsection
+@section('javascript')
+<script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function($)
+  {
+    curentval = $('#dob').val();
+     d= new Date();
+      d.setFullYear(d.getFullYear()-15);
+      $('#dob').appendDtpicker(
+          {
+          "autodateOnStart": false,
+          "maxDate":d,
+          "closeOnSelected": true,
+          "dateOnly":true
+          });
+      $('#dob').handleDtpicker('setDate',d);
+      $('#dob').val(curentval);
+  });
+  </script>
+@endsection
+@section('css')
+<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
 @endsection

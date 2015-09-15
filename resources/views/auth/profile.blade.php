@@ -7,7 +7,7 @@
 			</div>
 			<div class="profile_row">
 				<div>Name</div>
-				<div>{{$user->name}}</div>
+				<div>{{$user->profile->name}}</div>
 				<div class="clearboth"></div>
 			</div>
 			<div class="profile_row">
