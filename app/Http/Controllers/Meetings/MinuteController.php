@@ -104,7 +104,7 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($mid)->isMinuter())
 		{
-			$input = Request::only('venue','startDate','endDate','attendees');
+			$input = Request::only('venue','startDate','endDate','attendees','absentees');
 			//print_r($input); die;
 			$validator = Minutes::validation($input);
 			if ($validator->fails())
@@ -144,11 +144,33 @@ class MinuteController extends Controller {
 						$attendees[] = $assignee->id;
 					}
 			 	}
-			$attendees = array_merge($attendees,$emails);
-			$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
-			$input['attendees'] = array_unique($attendees);
-			$absentees = array_diff($attendeesList, $input['attendees']);
-			$input['attendees'] = implode(',', $input['attendees']);
+			 	$attendees = array_merge($attendees,$emails);
+			 	$emails=$absentees=array();
+			 	if($input['absentees'])
+			 	{
+			 		foreach ($input['absentees'] as $value)
+				 	{
+				 		if(isEmail($value))
+						{
+							if($assignee = getUser(['email'=>$value]))
+							{
+								//check user has an account
+								$absentees[] = $assignee->id;
+							}
+							else
+							{
+								$emails[]=$value;
+							}
+
+						}
+						else if($assignee = getUser(['userId'=>$value]))
+						{
+							$absentees[] = $assignee->id;
+						}
+				 	}
+			 	}
+			$absentees = array_merge($absentees,$emails);
+			$input['attendees'] = implode(',', $attendees);
 			$input['absentees'] = implode(',', $absentees);
 			if($minuteId = Request::get('minuteId'))
 			{
