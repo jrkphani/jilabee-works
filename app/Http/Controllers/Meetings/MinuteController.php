@@ -123,7 +123,7 @@ class MinuteController extends Controller {
 					}
 				}
 			}
-			$emails=$attendees=array();
+			$emails=$attendees=$newusers=array();
 			foreach ($input['attendees'] as $value)
 			 	{
 			 		if(isEmail($value))
@@ -145,6 +145,8 @@ class MinuteController extends Controller {
 					}
 			 	}
 			 	$attendees = array_merge($attendees,$emails);
+			 	$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
+				$newusers = array_diff($attendees, $attendeesList);
 			 	$emails=$absentees=array();
 			 	if($input['absentees'])
 			 	{
@@ -170,6 +172,7 @@ class MinuteController extends Controller {
 				 	}
 			 	}
 			$absentees = array_merge($absentees,$emails);
+			$newusers = array_merge($newusers,array_diff($absentees, $attendeesList));
 			$input['attendees'] = implode(',', $attendees);
 			$input['absentees'] = implode(',', $absentees);
 			if($minuteId = Request::get('minuteId'))
@@ -181,7 +184,13 @@ class MinuteController extends Controller {
 					abort('403');
 				}
 				$input['updated_by'] = Auth::id();
-				$minute->update($input);
+				if($minute->update($input))
+				{
+					if(count($newusers))
+					{
+						//notify admin
+					}
+				}
 			}
 			else
 			{
@@ -197,7 +206,13 @@ class MinuteController extends Controller {
 				}
 				$input['created_by'] = $input['updated_by'] = Auth::id();
 				$minute = New Minutes($input);
-				$meeting->minutes()->save($minute);
+				if($meeting->minutes()->save($minute))
+				{
+					if(count($newusers))
+					{
+						//notify admin
+					}	
+				}
 			}
 			return redirect('minute/'.$meeting->id.'/next');
 			//return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>NULL,'minute'=>$minute]);
