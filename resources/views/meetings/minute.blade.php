@@ -54,7 +54,7 @@
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{{$task->title}}</h5>
-					<p>{{$task->description}}</p>
+					<p>{!!$task->description!!}</p>
 				</div>
 				<div class="minuteItemRight">
 					<h6>MINUTE{{$task->id}}</h6>
@@ -81,7 +81,7 @@
 					</div>
 					<div class="minuteItemLeft">
 						<h5>{{$idea->title}}</h5>
-						<p>{{$idea->description}}</p>
+						<p>{!!$idea->description!!}</p>
 					</div>
 					<div class="minuteItemRight">
 						<h6>IDEA{{$idea->id}}</h6>
