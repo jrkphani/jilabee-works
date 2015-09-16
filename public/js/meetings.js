@@ -326,22 +326,15 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             {
                 $.each(emailArr, function(index, val)
                 {   
-                    if($("#"+val.replace('@', '_')).length != 0)
+                    if(isEmail(val))
                     {
-
-                    }
-                    else
-                    {
-                        if(isEmail(val))
+                        if($('#attendees, #absentees').find("[uid='"+val+"']").html())
                         {
-                            if($("#" +val.replace('@', '_')).length != 0)
-                            {
-                              //User already exist
-                            }
-                            else
-                            {
-                                $('#attendees').append('<div uid="'+val.replace('@', '_')+'" class="attendees"><input type="hidden" value="'+val+'" name="attendees[]">'+val+'<div class="markabsent"></div></div>');
-                            }
+                          //User already exist
+                        }
+                        else
+                        {
+                            $('#attendees').append('<div uid="'+val+'" class="attendees"><input type="hidden" value="'+val+'" name="attendees[]">'+val+'<div class="markabsent"></div></div>');
                         }
                     }
                 });

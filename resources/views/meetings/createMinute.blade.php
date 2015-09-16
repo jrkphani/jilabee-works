@@ -148,6 +148,7 @@ $('#addParticipant').autocomplete({
             select: function( event, ui ) {
                 if($('#attendees, #absentees').find( "[uid="+ui.item.userId+"]").html())
                 {
+                	$('#addParticipant').val('');
                     alert('User already exist!');
                     return false;
                 }
