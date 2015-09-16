@@ -6,7 +6,7 @@
 		</div>
 		<div class="paperTitleRight">
 			<h3>{{date('d-M-Y',strtotime($minute->startDate))}}</h3>
-			<p>{{date('H:s:i',strtotime($minute->endDate))}}</p>
+			<p>{{date('H:i:s',strtotime($minute->endDate))}}</p>
 		</div>
 		<div class="clearboth"></div>
 		<div class="paperSubTitle">
@@ -57,7 +57,7 @@
 					<p>{!!$task->description!!}</p>
 				</div>
 				<div class="minuteItemRight">
-					<h6>MINUTE{{$task->id}}</h6>
+					<h6>MT{{$task->id}}</h6>
 					<p>
 						@if(isEmail($task->assignee))
 						{{$task->assignee}}
@@ -84,7 +84,7 @@
 						<p>{!!$idea->description!!}</p>
 					</div>
 					<div class="minuteItemRight">
-						<h6>IDEA{{$idea->id}}</h6>
+						<h6>I{{$idea->id}}</h6>
 						<p>
 							@if($idea->orginator)
 								@if(isEmail($idea->orginator))

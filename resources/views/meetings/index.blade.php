@@ -34,9 +34,10 @@
 				<p>Closed Meetings</p>
 				<div class="clearboth"></div>
 			</div>
+			<?php $count = 1; ?>
 			@foreach($closedMeetings as $minute)
 				<div class="box">
-					<span class="boxNumber boxNumberBlue">1</span>
+					<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 					<div class="boxInner minute_history" mid="{{$minute->id}}">
 						<h4>{{$minute->meeting()->withTrashed()->first()->title}}</h4>
 						<p>{{$minute->startDate}}</p>
@@ -76,10 +77,11 @@
 				<p>Pending</p>
 				<div class="clearboth"></div>
 			</div>
+			<?php $count = 1; ?>
 			@foreach($pendingmeetings as $meeting)
 			<?php $details = unserialize($meeting->details); ?>
 				<div class="box pendingmeetings" mid="{{$meeting->id}}">
-					<span class="boxNumber boxNumberRed">1</span>
+					<span class="boxNumber boxNumberRed">{{$count++}}</span>
 					<div class="boxInner">
 						<h4>{{$meeting->title}}</h4>
 						<p>{{$meeting->created_at}}</p>
@@ -100,9 +102,10 @@
 				<p>Recent Minutes</p>
 				<div class="clearboth"></div>
 			</div>
+			<?php $count = 1; ?>
 			@foreach($recentMinutes as $minute)
 				<div class="box">
-					<span class="boxNumber boxNumberBlue">1</span>
+					<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 					<div class="boxInner minute_history" mid="{{$minute->id}}">
 						<h4>{{$minute->meeting->title}}</h4>
 						<p>{{$minute->startDate}}</p>
@@ -119,9 +122,10 @@
 				<p>Not Filed</p>
 				<div class="clearboth"></div>
 			</div>
+			<?php $count = 1; ?>
 			@foreach($notfiled as $minute)
 				<div class="box">
-					<span class="boxNumber boxNumberRed">1</span>
+					<span class="boxNumber boxNumberRed">{{$count++}}</span>
 					<div class="boxInner minute_history" mid="{{$minute->id}}">
 						<h4>{{$minute->meeting->title}}</h4>
 						<p>{{$minute->startDate}}</p>
@@ -138,9 +142,10 @@
 				<p>New Meetings</p>
 				<div class="clearboth"></div>
 			</div>
+			<?php $count = 1; ?>
 			@foreach($newmeetings as $meeting)
 				<div class="box">
-					<span class="boxNumber boxNumberBlue">1</span>
+					<span class="boxNumber boxNumberBlue">{{$count++}}</span>
 					<div class="boxInner" mid="{{$meeting->id}}">
 						<h4>{{$meeting->title}}</h4>
 					</div>
