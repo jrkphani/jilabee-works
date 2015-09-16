@@ -238,7 +238,7 @@ class MeetingsController extends Controller {
 					$minute = $newmeeting->minutes()->save($minute);
 					$minute->tasks()->saveMany($records);
 					$minute->ideas()->saveMany($ideasArr);
-					//$meeting->delete();
+					$meeting->delete();
 				}
 			});			
 			return json_encode($output);
