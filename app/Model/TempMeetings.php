@@ -15,7 +15,7 @@ class TempMeetings extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['destails','created_by','updated_by'];
+	protected $fillable = ['title','description','venue','attendees','minuters','startDate','endDate','details','approved','reason','purpose','type','draft','requested_by','oid','created_by','updated_by'];
 
     public function createdby()
     {	

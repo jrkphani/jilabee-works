@@ -78,9 +78,9 @@
 			</div>
 			@foreach($pendingmeetings as $meeting)
 			<?php $details = unserialize($meeting->details); ?>
-				<div class="box">
+				<div class="box pendingmeetings" mid="{{$meeting->id}}">
 					<span class="boxNumber boxNumberRed">1</span>
-					<div class="boxInner pendingmeetings" mid="{{$meeting->id}}">
+					<div class="boxInner">
 						<h4>{{$meeting->title}}</h4>
 						<p>{{$meeting->created_at}}</p>
 					</div>

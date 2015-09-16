@@ -205,6 +205,7 @@ $('#centralContainer').on('click', '#add_more', function(event) {
         taskBlock.find(".ideainput").hide();
         taskBlock.find(".taskinput").show();
         nextDateInput();
+        selectAssignee();
 });
 $('#centralContainer').on('change', '.type', function(event) {
     event.preventDefault();

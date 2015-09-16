@@ -9,9 +9,9 @@
 	<br/>
 	{!! Form::text('venue',$minute->venue,['placeholder'=>'venue']) !!}
 	{{$errors->first('venue','<span class="error">:message</span>')}}
-	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'date']) !!}
+	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'start date']) !!}
 	{!!$errors->first('startDate','<span class="error">:message</span>')!!}
-	{!! Form::text('endDate',$minute->endDate,['id'=>'endSateInput','placeholder'=>'date']) !!}
+	{!! Form::text('endDate',$minute->endDate,['id'=>'endSateInput','placeholder'=>'end date']) !!}
 	{!!$errors->first('endDate','<span class="error">:message</span>')!!}
 	</p>
 	<div class="attendeesLable">

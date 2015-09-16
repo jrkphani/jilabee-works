@@ -35,7 +35,7 @@
 
                     <div class="userDetailItem">
                         <p>Purpose of meeting  </p>
-                        <span>{!! Form::textarea('purpose',$meeting->purpose,['placeholder'=>'purpose'])!!}</span>
+                        <span>{!! Form::text('purpose',$meeting->purpose,['placeholder'=>'purpose'])!!}</span>
                         <div class="clearboth"></div>
                          <div id="purpose_err" class="error"></div>
                     </div>
@@ -88,7 +88,7 @@
                                          {
                                            $display='display:none;';
                                            $name = getUser(['userId'=>$details['assignee'][$i]])->profile->name;
-                                          echo '<div class="assignee">'.$name.'<span class="removeParent">remove</span></div>';
+                                          echo '<div class="assignee">'.$name.'<span class="removeParent"></span></div>';
                                          }
                                        }
                                         else
@@ -126,7 +126,7 @@
                                              {
                                                $display='display:none;';
                                                $name = getUser(['userId'=>$details['orginator'][$i]])->profile->name;
-                                              echo '<div class="assignee">'.$name.'<span class="removeParent">remove</span></div>';
+                                              echo '<div class="assignee">'.$name.'<span class="removeParent"></span></div>';
                                              }
                                            }
                                             else
@@ -166,7 +166,7 @@
 
                     <div class="userDetailItem">
                         <p>Purpose of meeting  </p>
-                        <span>{!! Form::textarea('purpose','',['placeholder'=>'purpose'])!!}</span>
+                        <span>{!! Form::text('purpose','',['placeholder'=>'purpose'])!!}</span>
                         <div class="clearboth"></div>
                          <div id="purpose_err" class="error"></div>
                     </div>
