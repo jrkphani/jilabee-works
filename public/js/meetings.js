@@ -315,3 +315,39 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
      previousTaskBlock = $(this).parents('.previousTaskBlock');
      previousTaskBlock.find('.status').val('Sent');
  });
+ $('#centralContainer').on('keyup', '#addParticipant', function(event) {
+    event.preventDefault();
+    if($(this).val().length)
+    {
+        if((event.which == 188) || (event.which == 13))
+        {
+            emailArr = $(this).val().split(",");
+            if(emailArr.length)
+            {
+                $.each(emailArr, function(index, val)
+                {   
+                    if($("#"+val.replace('@', '_')).length != 0)
+                    {
+
+                    }
+                    else
+                    {
+                        if(isEmail(val))
+                        {
+                            if($("#" +val.replace('@', '_')).length != 0)
+                            {
+                              //User already exist
+                            }
+                            else
+                            {
+                                $('#attendees').append('<div uid="'+val.replace('@', '_')+'" class="attendees"><input type="hidden" value="'+val+'" name="attendees[]">'+val+'<div class="markabsent"></div></div>');
+                            }
+                        }
+                    }
+                });
+                $('#addParticipant').val('');
+                return false;
+            }
+        }
+    }
+});

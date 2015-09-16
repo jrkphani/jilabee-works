@@ -94,7 +94,9 @@ class MinuteController extends Controller {
 				}
 			}
 			//print_r($attendeesEmail); die;
-			$users = Profile::whereIn('userId',$participants)->lists('name','userId');
+			$users = Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
+						->join('users','profiles.userId','=','users.id')
+			->lists('profiles.name','users.userId');
 			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'attendeesEmail'=>$attendeesEmail,'minute'=>$minute]);
 		}
 	}
@@ -125,13 +127,22 @@ class MinuteController extends Controller {
 			foreach ($input['attendees'] as $value)
 			 	{
 			 		if(isEmail($value))
-			 		{
-			 			$emails[]=$value;
-			 		}
-			 		else
-			 		{
-			 			$attendees[]=$value;
-			 		}
+					{
+						if($assignee = getUser(['email'=>$value]))
+						{
+							//check user has an account
+							$attendees[] = $assignee->id;
+						}
+						else
+						{
+							$emails[]=$value;
+						}
+
+					}
+					else if($assignee = getUser(['userId'=>$value]))
+					{
+						$attendees[] = $assignee->id;
+					}
 			 	}
 			$attendees = array_merge($attendees,$emails);
 			$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));

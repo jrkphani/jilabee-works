@@ -73,8 +73,8 @@
 				@endforeach
 			</div>
 			<div class="clearboth"></div>
-			<br/>
-	<button id="updateMinute">Update</button>
+			<input type="text" id="addParticipant" placeholder='add user'>
+	<div id="updateMinute" class="button">Update</div>
 	<br/>
 	@else
 
@@ -82,9 +82,9 @@
 		<p>
 			{!! Form::text('venue',$meeting->venue,['placeholder'=>'venue']) !!}
 			{!!$errors->first('venue','<div class="error">:message</div>')!!}
-			{!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'date']) !!}
+			{!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'start date']) !!}
 			{!!$errors->first('startDate','<div class="error">:message</div>')!!}
-			{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'date']) !!}
+			{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'end date']) !!}
 			{!!$errors->first('endDate','<div class="error">:message</div>')!!}
 		</p>
 			<div class="attendeesLable">
@@ -113,7 +113,7 @@
 			</div>
 			<div id="absentees" class="absentee_box"></div>
 			<div class="clearboth"></div>
-
+			<input type="text" id="addParticipant" placeholder='add user'>
 	<button id="updateMinute">Proceed</button>
 
 	@endif
@@ -139,32 +139,22 @@ $('#endSateInput').appendDtpicker(
     "autodateOnStart": false,
 	"closeOnSelected": true
     });
-//  $('#endSateInput').change(function()
-//  {
-//  	$('#startDateInput').handleDtpicker('destroy');
-//     $('#startDateInput').appendDtpicker(
-//     {
-// 	    "maxDate": new Date($('#endSateInput').val()),
-// 	    "autodateOnStart": false,
-//     	"closeOnSelected": true
-// 	});
-// });
-
-// $('#startDateInput').change(function()
-// {
-// 	t=Date.parseDate($('#startDateInput').val(), "Y-m-dTg:i a");
-// 	alert(t);
-// 	$('#endSateInput').handleDtpicker('destroy');
-//     $('#endSateInput').appendDtpicker(
-//     {
-// 	    "minDate": new Date($('#startDateInput').val()),
-// 	    "autodateOnStart": false,
-//     	"closeOnSelected": true
-//     });
-// });
-
-
-
-
+$('#addParticipant').autocomplete({
+            source: "/user/search",
+            minLength: 2,
+            select: function( event, ui ) {
+                if($('#attendees, #absentees').find( "[uid="+ui.item.userId+"]").html())
+                {
+                    alert('User already exist!');
+                    return false;
+                }
+                else
+                {
+                	$('#attendees').append('<div uid="'+ui.item.userId+'" class="attendees"><input type="hidden" value="'+ui.item.userId+'" name="attendees[]">'+ui.item.value+'<div class="markabsent"></div></div>');
+                }
+                $('#addParticipant').val('');
+                return false;
+            }
+            });
 nextDateInput();
 </script>
