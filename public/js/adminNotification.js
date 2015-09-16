@@ -37,10 +37,10 @@ $('#adminContent').on('click', '.meeting', function(event) {
            }
        })
        .fail(function() {
-           //console.log("error");
+           checkStatus(xhr.status);
        })
        .always(function() {
-           //console.log("complete");
+            checkStatus(xhr.status);
        });
        
     });
@@ -66,10 +66,10 @@ $('#adminContent').on('click', '.meeting', function(event) {
            }
        })
        .fail(function() {
-           //console.log("error");
+            checkStatus(xhr.status);
        })
        .always(function() {
-           //console.log("complete");
+            checkStatus(xhr.status);
        });
        
     });

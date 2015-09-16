@@ -54,10 +54,10 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
             //////console.log("success");
         })
         .fail(function() {
-            ////console.log("error");
+             checkStatus(xhr.status);
         })
         .always(function() {
-            ////console.log("complete");
+             checkStatus(xhr.status);
         });
         
     });
@@ -89,10 +89,10 @@ $('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
             //////console.log("success");
         })
         .fail(function() {
-            ////console.log("error");
+             checkStatus(xhr.status);
         })
         .always(function() {
-            ////console.log("complete");
+             checkStatus(xhr.status);
         });
         
     });

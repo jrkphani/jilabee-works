@@ -29,10 +29,10 @@ $(document).ready(function($)
             //////console.log("success");
         })
         .fail(function() {
-            ////console.log("error");
+             checkStatus(xhr.status);
         })
         .always(function() {
-            ////console.log("complete");
+            checkStatus(xhr.status);
         });
         
     });
