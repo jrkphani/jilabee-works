@@ -129,6 +129,10 @@ function setNotification($data)
     }
     if($check)
     {
+        if(!isset($data['subject']))
+        {
+           $data['subject'] = $check->subject;
+        }
         $check->update($data);
     }
     else
