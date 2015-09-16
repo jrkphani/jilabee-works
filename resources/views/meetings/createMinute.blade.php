@@ -47,7 +47,7 @@
 				 	{
 				 		if(isEmail($value))
 				 		{
-				 			$emails[]=$value;
+				 			$emails[$value]=$value;
 				 		}
 				 		else
 				 		{
@@ -55,7 +55,10 @@
 				 		}
 				 	}
 				 }
-				 $absentees = App\Model\Profile::whereIn('userId',$absentees)->lists('name','userId');
+				 $absentees = App\Model\Profile::select('profiles.name','users.userId')
+				 			->whereIn('profiles.userId',$absentees)
+							->join('users','profiles.userId','=','users.id')
+							->lists('profiles.name','users.userId');
 				 ?>
 				@foreach ($absentees as $key=>$value)
 					<div class="absentees" uid="{{$key}}">
