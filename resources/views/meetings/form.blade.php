@@ -247,7 +247,7 @@ $( ".selectAssignee" ).autocomplete({
             source: "/user/search",
             minLength: 2,
             select: function( event, ui ) {
-                insert = '<div class="assignee">'+ui.item.value+'<span class="removeParent">remove</span></div>';
+                insert = '<div class="assignee">'+ui.item.value+'<span class="removeParent"></span></div>';
                 $(this).parent('.parentDiv').append(insert);
                 $(this).val(ui.item.userId);
                 $(this).hide();
