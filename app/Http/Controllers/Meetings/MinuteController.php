@@ -188,7 +188,26 @@ class MinuteController extends Controller {
 				{
 					if(count($newusers))
 					{
+						foreach ($newusers as $key => $value) 
+						{
+							if(isEmail($value))
+							{
+								$newusersList[] = $value;
+							}
+							else
+							{
+								$newusersList[] = getProfile(['userId'=>$value])->name;
+							}
+						}
 						//notify admin
+						$notification['userId'] = getAdmin()->id;
+						$notification['objectId'] = $minute->id;
+						$notification['parentId'] = $meeting->id;
+						$notification['objectType'] = 'Minute';
+						$notification['subject'] ='New';
+						$notification['isRead'] = '1';
+						$notification['body'] = implode(',',$newusersList);
+						setNotification($notification);
 					}
 				}
 			}
@@ -210,7 +229,26 @@ class MinuteController extends Controller {
 				{
 					if(count($newusers))
 					{
+						foreach ($newusers as $key => $value) 
+						{
+							if(isEmail($value))
+							{
+								$newusersList[] = $value;
+							}
+							else
+							{
+								$newusersList[] = getProfile(['userId'=>$value])->name;
+							}
+						}
 						//notify admin
+						$notification['userId'] = getAdmin()->id;
+						$notification['objectId'] = $minute->id;
+						$notification['parentId'] = $meeting->id;
+						$notification['objectType'] = 'Minute';
+						$notification['subject'] ='New';
+						$notification['isRead'] = '1';
+						$notification['body'] = implode(',',$newusersList);
+						setNotification($notification);
 					}	
 				}
 			}
