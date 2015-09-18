@@ -84,7 +84,7 @@ $(document).ready(function($)
 }).bind('ajaxStop', function()
 {
     $('#toastmsg').html('done');
-    setInterval(function(){$('#toastDiv').hide(); }, 5000);
+    setInterval(function(){$('#toastDiv').hide(); }, 1000);
 });
 function moveright()
 {
