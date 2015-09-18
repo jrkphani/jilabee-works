@@ -74,6 +74,17 @@ $(document).ready(function($)
     notifications();
     //every 30 secs
     setInterval(notifications,30000);
+    $('#toastClose').click(function(event) {
+         $('#toastDiv').hide();
+    });
+}).bind('ajaxStart', function()
+{
+    $('#toastmsg').html('loading...');
+    $('#toastDiv').show();
+}).bind('ajaxStop', function()
+{
+    $('#toastmsg').html('done');
+    setInterval(function(){$('#toastDiv').hide(); }, 5000);
 });
 function moveright()
 {
@@ -186,7 +197,10 @@ function notifications()
             url: '/notifications',
             type: 'GET',
             async:false,
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend:function(){
+            $('#toastDiv').hide();
+            },
         })
         .done(function(jsonDate){
             if(jsonDate.success =='yes')

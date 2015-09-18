@@ -52,9 +52,9 @@
 			<div class="clearboth"></div>
 
 			<!--================ Toast message ==================== -->
-			<div class="toast" id="toastDiv">
+			<div class="toast" id="toastDiv" style="display:none;">
 				<div class="toast_inner">	
-					<p>	Place your message here ...</p>
+					<p id="toastmsg">loading...</p>
 					<span class="btn_close_small" id="toastClose">	</span>
 				</div>
 			</div>
