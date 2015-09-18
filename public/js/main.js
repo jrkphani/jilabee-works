@@ -81,8 +81,15 @@ $(document).ready(function($)
 })
 .bind('ajaxStart', function()
 {
-    $('#toastmsg').html('loading...');
-    $('#toastDiv').show();
+    if($.isnotoicationajax == 'yes')
+    {
+         $('#toastDiv').hide();
+    }
+    else
+    {
+        $('#toastmsg').html('loading...');
+        $('#toastDiv').show();
+    }
 })
 .bind('ajaxError', function()
 {
@@ -100,10 +107,6 @@ $(document).ready(function($)
         {
             setInterval(function(){$('#toastDiv').hide(); },8000);
         }
-    }
-    if($.isnotoicationajax =='yes')
-    {
-        $.isnotoicationajax = 'no';
     }
 });
 function moveright()
