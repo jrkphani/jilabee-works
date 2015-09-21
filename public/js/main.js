@@ -115,7 +115,8 @@ $(document).ready(function($)
     {
         if(textStatus.status == 200)
         {
-            setInterval(function(){$('#toastDiv').hide(); },1000);
+            //setInterval(function(){$('#toastDiv').hide(); },1000);
+            setInterval(function(){$('#toastDiv').hide(); },200);
         }
         else
         {

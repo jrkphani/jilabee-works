@@ -19,43 +19,38 @@
 		</div>
 		<?php $count=1; ?>
 		@foreach($meetings as $meeting)
-			<div class="box">
+			<div class="box meeting" mid="{{$meeting->id}}">
 				<span class="boxNumber boxNumberRed">{{$count++}}</span>
 				<div class="boxInner">
 					<h4>{{$meeting->title}}</h4>
 					<h6>Requested by: {{$meeting->requestedby->name}}</h6>
 				</div>	
-				<div class="boxRight meeting" mid="{{$meeting->id}}"></div>	
+				<div class="boxRight"></div>	
 			</div>
 		@endforeach
 	</div>
 	<!--=================================== List 2 ================================-->
+	@if($notifications)
 	<div class="boxList">
 		<div class="boxTitle">
-			<span class="boxTitleNumber boxNumberGreen">2</span>
+			<span class="boxTitleNumber boxNumberGreen">{{count($notifications)}}</span>
 			<p>Users</p>
 		</div>
+		<?php $count=1; ?>
+		@foreach($notifications as $notification)
 		<div class="box">
-			<span class="boxNumber boxNumberGreen">1</span>
+			<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 			<div class="boxInner">
-				<h4>Prepare project report</h4>
+				<h4>{{$notification->body}}</h4>
 				<h6>6/7/2015 - 4.30pm</h6>
 			</div>
 			<div class="boxRight">
 				
 			</div>
 		</div>
-		<div class="box">
-			<span class="boxNumber boxNumberGreen">2</span>
-			<div class="boxInner">
-				<h4>Prepare project report</h4>
-				<h6>6/7/2015 - 4.30pm</h6>
-			</div>
-			<div class="boxRight">
-				
-			</div>
-		</div>
+		@endforeach
 	</div>
+	@endif
 	<div class="clearboth"></div>
 </div>
 <div class="popupOverlay" id="popup" >

@@ -37,7 +37,9 @@ class MeetingsController extends Controller {
 					//->where('tempMeetings.approved','=','0')
 					->where('tempMeetings.draft','=','0')
 					->get();
-		return view('admin.notification',['meetings'=>$meetings]);
+		$notifications = Auth::user()->notifications()->where('objectType','Minute')->orderBy('updated_at','desc')->get();
+		//print_r($notifications); die;
+		return view('admin.notification',['meetings'=>$meetings,'notifications'=>$notifications]);
 	}
 	public function view($mid)
 	{	$meeting = Meetings::find($mid);
