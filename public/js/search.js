@@ -19,14 +19,14 @@ function searchTxt ()
      str = $('#nowSearch').val().trim();
      if(str.length >=3)
      {
-        $('#nowDiv .box').hide();
+        $('#nowDiv .box , #nowDiv .boxTitle').hide();
         $("#nowDiv .searchTxt:contains('"+str+"')").parents('.box').show();
      }
 }
 $('#showNowDiv').click(function(event)
 {
     $('#nowSearch').val('');
-    $('#nowDiv .box').show();
+    $('#nowDiv .box , #nowDiv .boxTitle').show();
 });
 
 var $input1 = $('#historySearch');
@@ -48,12 +48,12 @@ function searchTxt1 ()
      str = $('#historySearch').val().trim();
      if(str.length >=3)
      {
-        $('#historyDiv .box').hide();
+        $('#historyDiv .box , #historyDiv .boxTitle').hide();
         $("#historyDiv .searchTxt:contains('"+str+"')").parents('.box').show();
      }
 }
 $('#showHistroyDiv').click(function(event)
 {
     $('#historySearch').val('');
-    $('#historyDiv .box').show();
+    $('#historyDiv .box , #historyDiv .boxTitle').show();
 });
