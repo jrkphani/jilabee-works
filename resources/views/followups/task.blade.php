@@ -40,6 +40,18 @@
 				@if($task->reason)
 				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif
+
+				@if($task->status == 'Completed')
+				<div class="accept_reject">
+					{{-- 
+					//has to complet in minutes only for the minute task as per phani instruct
+					--}}
+					@if(!$task->minuteId)
+					<button class="btn btn-primary " id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</button>
+					@endif
+					<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
+				</div>
+				@endif
 			</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
@@ -96,15 +108,7 @@
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
 					<button {{$mid}} tid="{{$task->id}}" id="followupComment" style="display:none;">Post</button>
-					@if($task->status == 'Completed')
-						{{-- 
-						//has to complet in minutes only for the minute task as per phani instruct
-						--}}
-						@if(!$task->minuteId)
-						<button class="btn btn-primary " id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</button>
-						@endif
-						<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
-					@endif
+					
 				</div>
 			</div>
 		</div>

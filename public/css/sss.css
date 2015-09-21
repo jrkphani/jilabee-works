@@ -289,6 +289,9 @@ border:1px solid #15aeec; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
 .completeBtn:active{ position: absolute; right: 40px; top: 35px; background: #3e6cb2 url(../images/tick_45_white.png)no-repeat 5px; top; padding-left: 40px;
  color: #fff; font-weight: bold; border:solid 1px #3e6cb2; border-radius: 3px; }
 
+.accept_reject{position: absolute; right: 40px; top: 35px; }
+
+
   .popupContentTitle h4{font-size: 1.8em; margin-bottom: 5px; color: #315FA5;}
   .popupContentTitle p{line-height: 1.3em; color: #232323;}
 .popupContentSubTitle{box-sizing:border-box; padding: 10px; background: #cdcdcd; padding-left: 20px;}
@@ -490,7 +493,7 @@ select {
 
 
 
-.toast{ width: 100%;  position: absolute; top: 50px; text-align: center;}
+.toast{ width: 100%;  position: fixed; top: 50px; text-align: center; z-index: 9999;}
 .toast_inner{ background-color: #ffd955; border:solid 1px #404040; padding: 8px 30px 8px 20px; border-radius: 4px;
         color: #232323;  max-width: 800px; text-align: center; position: relative; display: inline-block;
         -webkit-box-shadow: 0 0 6px #828282;
@@ -746,6 +749,7 @@ header nav{margin-left: 40px;}
   .proceedBtn:hover{height: 60px;}
   .mainListFilter input{width: 170px;}
   .completeBtn{position: relative; margin-top: 20px; margin-bottom: 20px; right: 0; top: 0;}
+  .accept_reject{position: relative; margin-top: 20px; margin-bottom: 20px;  right: 0; top: 0;}
     /*Controlling all popu heights on responsive*/
     .popupContentLeft, .popupContentRight{height: auto;}
     .createMeeting .popupMinutes{height: auto;}

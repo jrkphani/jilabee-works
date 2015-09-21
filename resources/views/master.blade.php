@@ -58,13 +58,7 @@
 				@endif
 			</div>
 			<div class="clearboth"></div>
-			<!--================ Toast message ==================== -->
-			<div class="toast" id="toastDiv" style="display:none;">
-				<div class="toast_inner">	
-					<p id="toastmsg">loading...</p>
-					<span class="btn_close_small" id="toastClose">	</span>
-				</div>
-			</div>
+			
 	</header>
 
 	<div id="centralViewer" class="centralViewer {{$colorClass}} {{$addtionalClass}}">
@@ -206,7 +200,13 @@
 		</div>
 		<div class="clearboth"></div>
 	</div>
-
+	<!--================ Toast message ==================== -->
+			<div class="toast" id="toastDiv" style="display:none;">
+				<div class="toast_inner">	
+					<p id="toastmsg">loading...</p>
+					<span class="btn_close_small" id="toastClose">	</span>
+				</div>
+			</div>
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
 	@yield('javascript')
