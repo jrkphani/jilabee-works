@@ -94,7 +94,9 @@ class MinuteController extends Controller {
 				}
 			}
 			//print_r($attendeesEmail); die;
-			$users = Profile::whereIn('userId',$participants)->lists('name','userId');
+			$users = Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
+						->join('users','profiles.userId','=','users.id')
+			->lists('profiles.name','users.userId');
 			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'attendeesEmail'=>$attendeesEmail,'minute'=>$minute]);
 		}
 	}
@@ -102,7 +104,7 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($mid)->isMinuter())
 		{
-			$input = Request::only('venue','startDate','endDate','attendees');
+			$input = Request::only('venue','startDate','endDate','attendees','absentees');
 			//print_r($input); die;
 			$validator = Minutes::validation($input);
 			if ($validator->fails())
@@ -121,23 +123,57 @@ class MinuteController extends Controller {
 					}
 				}
 			}
-			$emails=$attendees=array();
+			$emails=$attendees=$newusers=array();
 			foreach ($input['attendees'] as $value)
 			 	{
 			 		if(isEmail($value))
-			 		{
-			 			$emails[]=$value;
-			 		}
-			 		else
-			 		{
-			 			$attendees[]=$value;
-			 		}
+					{
+						if($assignee = getUser(['email'=>$value]))
+						{
+							//check user has an account
+							$attendees[] = $assignee->id;
+						}
+						else
+						{
+							$emails[]=$value;
+						}
+
+					}
+					else if($assignee = getUser(['userId'=>$value]))
+					{
+						$attendees[] = $assignee->id;
+					}
 			 	}
-			$attendees = array_merge($attendees,$emails);
-			$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
-			$input['attendees'] = array_unique($attendees);
-			$absentees = array_diff($attendeesList, $input['attendees']);
-			$input['attendees'] = implode(',', $input['attendees']);
+			 	$attendees = array_merge($attendees,$emails);
+			 	$attendeesList =  array_merge(explode(',', $meeting->attendees),explode(',', $meeting->minuters));
+				$newusers = array_diff($attendees, $attendeesList);
+			 	$emails=$absentees=array();
+			 	if($input['absentees'])
+			 	{
+			 		foreach ($input['absentees'] as $value)
+				 	{
+				 		if(isEmail($value))
+						{
+							if($assignee = getUser(['email'=>$value]))
+							{
+								//check user has an account
+								$absentees[] = $assignee->id;
+							}
+							else
+							{
+								$emails[]=$value;
+							}
+
+						}
+						else if($assignee = getUser(['userId'=>$value]))
+						{
+							$absentees[] = $assignee->id;
+						}
+				 	}
+			 	}
+			$absentees = array_merge($absentees,$emails);
+			$newusers = array_merge($newusers,array_diff($absentees, $attendeesList));
+			$input['attendees'] = implode(',', $attendees);
 			$input['absentees'] = implode(',', $absentees);
 			if($minuteId = Request::get('minuteId'))
 			{
@@ -148,7 +184,32 @@ class MinuteController extends Controller {
 					abort('403');
 				}
 				$input['updated_by'] = Auth::id();
-				$minute->update($input);
+				if($minute->update($input))
+				{
+					if(count($newusers))
+					{
+						foreach ($newusers as $key => $value) 
+						{
+							if(isEmail($value))
+							{
+								$newusersList[] = $value;
+							}
+							else
+							{
+								$newusersList[] = getProfile(['userId'=>$value])->name;
+							}
+						}
+						//notify admin
+						$notification['userId'] = getAdmin()->id;
+						$notification['objectId'] = $minute->id;
+						$notification['parentId'] = $meeting->id;
+						$notification['objectType'] = 'Minute';
+						$notification['subject'] ='New';
+						$notification['isRead'] = '1';
+						$notification['body'] = implode(',',$newusersList);
+						setNotification($notification);
+					}
+				}
 			}
 			else
 			{
@@ -164,7 +225,32 @@ class MinuteController extends Controller {
 				}
 				$input['created_by'] = $input['updated_by'] = Auth::id();
 				$minute = New Minutes($input);
-				$meeting->minutes()->save($minute);
+				if($meeting->minutes()->save($minute))
+				{
+					if(count($newusers))
+					{
+						foreach ($newusers as $key => $value) 
+						{
+							if(isEmail($value))
+							{
+								$newusersList[] = $value;
+							}
+							else
+							{
+								$newusersList[] = getProfile(['userId'=>$value])->name;
+							}
+						}
+						//notify admin
+						$notification['userId'] = getAdmin()->id;
+						$notification['objectId'] = $minute->id;
+						$notification['parentId'] = $meeting->id;
+						$notification['objectType'] = 'Minute';
+						$notification['subject'] ='New';
+						$notification['isRead'] = '1';
+						$notification['body'] = implode(',',$newusersList);
+						setNotification($notification);
+					}	
+				}
 			}
 			return redirect('minute/'.$meeting->id.'/next');
 			//return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>NULL,'minute'=>$minute]);

@@ -1,5 +1,6 @@
 $(document).ready(function($) 
 {
+    $.isnotoicationajax = 'no'
 	var width = $(window).width() * 2;
     var string = "width:" + width + "px";
     $('#centralContainer').attr("style",string);
@@ -74,6 +75,39 @@ $(document).ready(function($)
     notifications();
     //every 30 secs
     setInterval(notifications,30000);
+    $('#toastClose').click(function(event) {
+         $('#toastDiv').hide();
+    });
+})
+.bind('ajaxStart', function()
+{
+    if($.isnotoicationajax == 'yes')
+    {
+         $('#toastDiv').hide();
+    }
+    else
+    {
+        $('#toastmsg').html('loading...');
+        $('#toastDiv').show();
+    }
+})
+.bind('ajaxError', function()
+{
+    $('#toastmsg').html('Oops! Something Went Wrong!');
+})
+.bind('ajaxComplete', function(jqXHR, textStatus, errorThrown)
+ {
+    if($.isnotoicationajax == 'no')
+    {
+        if(textStatus.status == 200)
+        {
+            setInterval(function(){$('#toastDiv').hide(); },1000);
+        }
+        else
+        {
+            setInterval(function(){$('#toastDiv').hide(); },8000);
+        }
+    }
 });
 function moveright()
 {
@@ -182,13 +216,18 @@ function isEmail(emailAddress) {
 };
 function notifications()
 {
+    $.isnotoicationajax = 'yes';
     $.ajax({
             url: '/notifications',
             type: 'GET',
             async:false,
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend:function(){
+            $('#toastDiv').hide();
+            },
         })
         .done(function(jsonDate){
+             $.isnotoicationajax = 'no';
             if(jsonDate.success =='yes')
             {
                 $('#notifications').html(jsonDate.result.length)

@@ -35,7 +35,7 @@
 						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>--}}
 					<p>
-						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>
 					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('style'=>'display:none;')) !!}</p>
@@ -68,7 +68,7 @@
 						{!! Form::select('assignee[]',array(''=>'Assinger'),'',array('style'=>'display:none;')) !!}
 					</p>
 					<p>{!! Form::text('dueDate[]','',array('style'=>'display:none;')) !!}</p>
-					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail,$idea->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput')) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail+$absentees+$emails,$idea->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput')) !!}</p>
 				</div>
 				<div class="clearboth"></div>
 			</div>
@@ -112,10 +112,10 @@
 						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$draft->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
 					</p>--}}
 					<p>
-						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$draft->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal','style'=>$taskdisplay)) !!}
 					</p>
 					<p>{!! Form::text('dueDate[]',$draft->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off','style'=>$taskdisplay)) !!}</p>
-					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail+$absentees+$emails,$draft->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}</p>
 					<p>Draft</p>
 				</div>
 				<div class="clearboth"></div>
@@ -144,10 +144,10 @@
 				{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 			</p>--}}
 			<p>
-				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+				{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,'',array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 			</p>
 			<p>{!! Form::text('dueDate[]','',array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
-			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
+			<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail+$absentees+$emails,'',array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</p>
 			<p>Draft</p>
 		</div>
 		<div class="clearboth"></div>

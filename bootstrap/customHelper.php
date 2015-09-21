@@ -49,21 +49,21 @@ function getOrgId()
         return substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u'));
     }
 }
-// function getProfile($userId=NULL)
-// {
-//     if(Auth::check())
-//     {
-//         if(!$userId)
-//         {
-//             $userId = Auth::id();
-//         }
-//         return App\Model\Profile::find($userId);
-//     }
-//     else
-//     {
-//         return false;
-//     }
-// }
+function getProfile($where=NULL)
+{
+    if(Auth::check())
+    {
+        if(!$where)
+        {
+            $where['userId'] = Auth::id();
+        }
+        return App\Model\Profile::where($where)->first();
+    }
+    else
+    {
+        return false;
+    }
+}
 function getUser($where=NULL)
 {
     if(Auth::check())
@@ -148,5 +148,17 @@ function removeNotification($data)
         $data['parentId'] = NULL;
     }
     $check = App\Model\Notifications::where($data)->delete();
+}
+function getAdmin()
+{
+    if(starts_with(Auth::user()->userId, 'GEN'))
+    {
+        return false;
+    }
+    else
+    {
+        $org =  substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u'));
+        return App\User::where('users.userId','LIKE',$org.'%')->where('isAdmin','1')->first();
+    }
 }
 ?>
