@@ -20,9 +20,9 @@
 			@foreach($minutes as $row)
 				<?php $isfiled=""; if($row->filed == '0') { $isfiled=" - Draft"; }?>
 				@if($row->id == $minute->id)
-					<button class="popupDateBtn minuteDiv active" mid="{{$row->id}}">{{$row->startDate}}{{$isfiled}}</button>
+					<button class="popupDateBtn minuteDiv popupDateBtn_active" mid="{{$row->id}}">{{date('Y-m-d',strtotime($row->startDate))}}<!-- {{$isfiled}} --></button>
 				@else
-					<button class="popupDateBtn minuteDiv" mid="{{$row->id}}">{{$row->startDate}}{{$isfiled}}</button>
+					<button class="popupDateBtn minuteDiv" mid="{{$row->id}}">{{date('Y-m-d',strtotime($row->startDate))}}<!-- {{$isfiled}} --></button>
 				@endif
 			@endforeach
 		</div>

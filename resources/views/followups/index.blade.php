@@ -284,7 +284,7 @@
 								<h4 class="searchTxt">{{$task->title}}</h4>
 								<p class="searchTxt">{!!$task->description!!}</p>
 							</div>
-							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
+							<div class="boxRight followup" {{$mid}} tid="{{$task->id}}"></div>
 						</div>
 				@endforeach
 			</div>

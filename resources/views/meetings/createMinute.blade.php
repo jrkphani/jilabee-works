@@ -10,9 +10,8 @@
 	{!! Form::text('venue',$minute->venue,['placeholder'=>'venue']) !!}
 	{{$errors->first('venue','<span class="error">:message</span>')}}
 	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'start date']) !!}
-	{!!$errors->first('startDate','<span class="error">:message</span>')!!}
 	{!! Form::text('endDate',$minute->endDate,['id'=>'endSateInput','placeholder'=>'end date']) !!}
-	{!!$errors->first('endDate','<span class="error">:message</span>')!!}
+	{!!$errors->first('endDate','<br><span class="error">:message</span>')!!}
 	</p>
 	<div class="attendeesLable">
 			<h5>Attendees: </h5>
@@ -84,11 +83,10 @@
 		<h3>{{$meeting->title}}</h3>
 		<p>
 			{!! Form::text('venue',$meeting->venue,['placeholder'=>'venue']) !!}
-			{!!$errors->first('venue','<div class="error">:message</div>')!!}
+			{!!$errors->first('venue','<span class="error">:message</span>')!!}
 			{!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'start date']) !!}
-			{!!$errors->first('startDate','<div class="error">:message</div>')!!}
 			{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'end date']) !!}
-			{!!$errors->first('endDate','<div class="error">:message</div>')!!}
+			{!!$errors->first('endDate','<br><span class="error">:message</span>')!!}
 		</p>
 			<div class="attendeesLable">
 				<h5>Attendees: </h5>

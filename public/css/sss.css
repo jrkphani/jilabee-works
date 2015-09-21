@@ -312,6 +312,8 @@ border:1px solid #15aeec; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
 .popupMinutes{width: 85%; float: left; background: #f8f8f8;}
 .popupDateBtn{width: 100%; background: transparent; border:none; border-bottom: solid 1px #424242; height: 50px; font-size: 1.1em; font-weight: normal; line-height: 50px; color: #fff; box-sizing:border-box;}
 .popupDateBtn:hover{width: 100%; background:#f8f8f8;   border:none; height: 50px; line-height: 50px; border-bottom-left-radius: 0px; border-top-left-radius: 0px;color: #727272; font-size: 1.1em; font-weight: normal; border-bottom: solid 1px #d2d2d2;}
+/*.popupDateBtn:active{width: 100%; background:#f8f8f8;   border:none; height: 50px; line-height: 50px; border-bottom-left-radius: 0px; border-top-left-radius: 0px;color: #727272; font-size: 1.1em; font-weight: normal; border-bottom: solid 1px #d2d2d2;}*/
+.popupDateBtn_active{width: 100%; background:#f8f8f8;   border:none; height: 50px; line-height: 50px; border-bottom-left-radius: 0px; border-top-left-radius: 0px;color: #727272; font-size: 1.1em; font-weight: normal; border-bottom: solid 1px #d2d2d2;}
 .popupContent .paper{width: 90%;}
 .popup3Title{font-size: 2.2em; border-bottom: solid 1px #828282; padding-bottom: 20px;}
 
