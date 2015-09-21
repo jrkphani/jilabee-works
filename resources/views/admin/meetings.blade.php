@@ -15,7 +15,11 @@
 				<div class="adminUsersList">
 					<ul>
 						@foreach($meetings as $meeting)
-						<li class="meeting deactive_aul_item" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
+						@if($meeting->active == '0')
+							<li class="meeting deactive_aul_item" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
+						@else
+							<li class="meeting" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
+						@endif
 						@endforeach
 					</ul>
 				</div>
