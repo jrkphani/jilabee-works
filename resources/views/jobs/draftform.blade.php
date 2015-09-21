@@ -106,7 +106,7 @@
 				
 			</div>
 			<div class="chatInput chatInput_1row">
-					<textarea name="" id=""  rows="2" placeholder="Type comment here"></textarea>
+					<textarea name="" id=""  rows="2" disabled="disabled" placeholder="Type comment here"></textarea>
 					<!-- <input type="button" value="Submit"> -->
 				</div>
 		</div>
