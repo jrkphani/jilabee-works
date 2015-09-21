@@ -130,10 +130,10 @@ $('#centralContainer').on('click', '.minuteDiv', function(event) {
         //alert($(this).find('.minute').length);
         //return false;
         event.preventDefault();
-        $('.minuteDiv').removeClass('active');
+        $('.minuteDiv').removeClass('popupDateBtn_active');
         var mid = $(this).attr('mid');
         loadMinute(mid,'minuteDiv');
-        $(this).addClass('active');
+        $(this).addClass('popupDateBtn_active');
     });
 $("#centralContainer").on('click', '#nextMinute', function(event) {
     event.preventDefault();
