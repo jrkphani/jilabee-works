@@ -144,5 +144,9 @@ class ProfileController extends Controller {
 		$output['result'] = $notifications;
 		return json_encode($output);
 	}
-
+	public function allNotifications()
+	{
+		$notifications = Auth::user()->notifications()->orderBy('updated_at','desc')->get();
+		return view('auth.notifications',['notifications'=>$notifications]);
+	}
 }

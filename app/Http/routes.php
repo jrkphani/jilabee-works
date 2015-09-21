@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin'], function()
 		Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'/']);
 		Route::get('user/search', 'Auth\ProfileController@findUser');
 		Route::get('notifications', 'Auth\ProfileController@notifications');
+		Route::get('notifications/all', 'Auth\ProfileController@allNotifications');
 
 		Route::group(['prefix' => 'jobs'], function()
 		{

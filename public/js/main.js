@@ -55,6 +55,20 @@ $(document).ready(function($)
                     $('#nameMenu').hide();   
                 }
             }
+            if($('#notifyDiv').length)
+            {
+                if($('#notifyDiv').is(":visible"))
+                {
+                    $('#notifyDiv').hide();   
+                }
+            }
+            if($('#notificationDiv').length)
+            {
+                if($('#notificationDiv').is(":visible"))
+                {
+                    $('#notificationDiv').hide();   
+                }
+            }
         }
     });
     $(document).on('click', '.backBtn', function(event) {
@@ -236,8 +250,7 @@ function notifications()
                     $('#notifications').show();
                     var t = jsonDate.dateNow.split(/[- :]/);
                     var dateNow = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
-                     insert = '<h4>Notifications</h4>';
-                    +'<button class="showAllBtn">Show All</button>';
+                     insert = '<h4>Notifications</h4><button id="allNotifications" class="showAllBtn">Show All</button>';
                     $.each(jsonDate.result, function(key,row)
                     {
                         if(row.objectType == 'Task')
@@ -280,7 +293,12 @@ function notifications()
                                 }
                             }
                         }
-                        insert +='<div class="notificationItem">'
+                        isRead ='';
+                        if(row.isRead == '1')
+                        {
+                            isRead ='notification_read';
+                        }
+                        insert +='<div class="notificationItem '+isRead+'">'
                                 +'    <p>'+row.subject+'-'+row.objectType+'</p>'
                                 +'    <h6><a href="'+link+'">'+row.body+'</a></h6>'
                                 +'    <p>'+updated_at+'</p>'
@@ -301,3 +319,22 @@ function notifications()
             checkStatus(xhr.status);
         });
 }
+$(document).on('click', '#allNotifications', function(event) {
+    event.preventDefault();
+     $.ajax({
+            url: '/notifications/all',
+            type: 'GET',
+            dataType: 'html',
+            async:false,
+        })
+        .done(function(htmlData) {
+            $('#notification_content').html(htmlData);
+            $('#notificationDiv').show();
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+});

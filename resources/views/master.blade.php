@@ -78,99 +78,14 @@
 	
 <!-- style="display:none;"  --> 
 	<!--========================================= Notification popup start ===================================================-->
-	<div class="popupnotificationOverlay"style="display:none;" >
+	<div id="notificationDiv" class="popupnotificationOverlay"style="display:none;" >
 		<div class="popupnotification">
 			<div class="popupHeader">
 				<h2>Your Notifications</h2>
-				<span class="popupClose"></span>
+				<span class="popupClose" onclick="$('#notificationDiv').hide();" ></span>
 			</div>
-	
-				
-			
-			<div class="popupnotification_content">
-				<ul>
-					<li>
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li>
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-					<li class="notification_read">
-						<h3>This is what happened</h3>
-						<a href="#">Oh no go there</a>
-						<p>Sep 17 at 8.00pm</p>
-						<span class="notification_go_btn">Go</span>
-						<span class="notification_left_bar"></span>
-					</li>
-				</ul>
+			<div id="notification_content" class="popupnotification_content">
 			</div>
-
-			
-
 		</div>
 	</div>
 	<!--========================================= Notification popup end ===================================================-->
