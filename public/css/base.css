@@ -68,6 +68,12 @@ padding: 0 10px 0 10px}
 button:active{background: #3c65a2; height: 35px; color: #fff; font-weight: bold; border:solid 1px #3e6cb2; border-radius: 3px; cursor: pointer;
 padding: 0 10px 0 10px}
 
+.commonbutton{background: #77bad9; color: #fff; font-weight: bold; border:solid 1px #67abcb; border-radius: 3px; cursor: pointer;
+padding: 0 10px 0 10px; height: 40px; line-height:38px; margin-left: 5px; box-sizing:border-box; margin-top: -2px; display: inline-block;}
+.commonbutton:hover{background: #4d7dc5; border:solid 1px #3e6cb2; }
+.commonbutton:active{background: #3c65a2;  border:solid 1px #3e6cb2;}
+
+
 select{height: 50px; font-size: 1em; cursor: pointer; border-radius: 3px;}
 
 /*=====================================All transitions==========================================*/
@@ -77,3 +83,4 @@ a, input, ul li, .toast{-webkit-transition: all 0.4s ease;-moz-transition: all 0
 
 input, textarea{font-family: 'Source Sans Pro', sans-serif;	font-weight: 400; color: #626262; padding-left: 5px; 
 box-sizing:border-box; }
+

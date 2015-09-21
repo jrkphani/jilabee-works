@@ -13,6 +13,7 @@
 	@yield('css')
 </head>
 <body>
+<div class="wrapper">
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
 		<h1><a href="/">Jotter</a></h1>
@@ -66,7 +67,10 @@
 		{!! Breadcrumbs::render(Route::getCurrentRoute()->getPath()) !!}
 		<div class="clearboth"></div>
 	</div>
-	<footer>
+	<div class="push"></div>
+	
+	</div>
+	<div class="footer">
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>
 			<a href="">My Taks</a>
@@ -97,7 +101,7 @@
 			<a href="">FAQs</a>
 		</div>
 		<div class="clearboth"></div>
-	</footer>
+	</div>
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
 	@yield('javascript')

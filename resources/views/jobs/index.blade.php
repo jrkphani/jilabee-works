@@ -133,7 +133,7 @@
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search..." id="nowSearch"><span id="showNowDiv">Reset</span>
+			<input type="text" placeholder="Search..." id="nowSearch"><span class="commonbutton" id="showNowDiv">Reset</span>
 			<select>
 			  <option value="0">Sort by</option>
 			  <option value="Option">Option 1</option>

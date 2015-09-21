@@ -4,7 +4,10 @@
 		<button onclick="$('#popup').hide();" class="popupClose"></button>
 		<div class="clearboth"></div>
 	</div>	
-	<div class="popupContent">
+	<div class="popupContent meetingPendingPopupbg"> 
+	<div class="adminUsersRight">
+		
+	
 		<div class="inner2">
 			<h4>{{$meeting->title}}</h4>
 			<div class="userDetailItem">
@@ -33,7 +36,7 @@
 				<h4>Short Description</h4>
 				<p class="userDetailDesc">{!! $meeting->description!!}</p>
 
-			<br/><br/>
+			<br/>
 			
 			<div class="meetingSettingsTitle">
 				<h5>Participants</h5>
@@ -95,17 +98,21 @@
 			@endif
 			<div class="adminUsersBtns">
 				<div class="adminUsersBtnsLeft">
-					<button class="" id="approveMeeting" mid="{{$meeting->id}}">Approve</button>
+					
+					{!! Form::textarea('reason','',['id'=>'reason'])!!}
+					<div id="reason_err" class="error"></div>
+					<button class="" id="approveMeeting" mid="{{$meeting->id}}">Approve</button>	
+					<button class="" id="disapproveMeeting" mid="{{$meeting->id}}">Disapprove</button>
 				</div>
 				
 				<div class="adminUsersBtnsRight">
 					
-					{!! Form::textarea('reason','',['id'=>'reason'])!!}
-					<div id="reason_err" class="error"></div>
-					<button class="" id="disapproveMeeting" mid="{{$meeting->id}}">Disapprove</button>
+					
 				</div>
 				<div class="clearboth"></div>
 			</div>
-		</div>		
+		</div>	
+		</div>	
+		<div class="clearboth"></div>
 	</div>
 </div>

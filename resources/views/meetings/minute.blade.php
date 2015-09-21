@@ -1,5 +1,7 @@
-<div class="paper">
-	<div id="toPrint" class="paperBorder">
+<div onclick="PrintElem('#toPrint')" class="paperPrintBtn">Print</div>
+<div class="clearboth"></div>
+<div id="toPrint" class="paper">
+	<div  class="paperBorder">
 		<div class="paperTitleLeft">
 			<h3>{{$minute->meeting()->withTrashed()->first()->title}}</h3>
 			<p>meeting venue: {{$minute->venue}}</p>
@@ -104,7 +106,7 @@
 		@endif
 	</div>
 </div>
-<div onclick="PrintElem('#toPrint')" class="paperPrintBtn">Print</div>
+
 <script type="text/javascript">
 function PrintElem(elem)
     {
@@ -115,7 +117,7 @@ function PrintElem(elem)
     {
     	var css1 = "<?php echo asset('/css/base.css'); ?>";
     	var css2 = "<?php echo asset('/css/sss.css'); ?>";
-        var mywindow = window.open('', 'my div', 'height=400,width=600');
+        var mywindow = window.open('', 'my div', 'height=800,width=800');
         mywindow.document.write('<html><head><title>Minutes</title>');
         /*optional stylesheet*/ 
         //"<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print\"/>"

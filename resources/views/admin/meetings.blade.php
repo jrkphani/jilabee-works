@@ -1,6 +1,6 @@
 @extends('admin')
 @section('content')
-	<div class="adminContent">
+
 		<div class="adminUsersLeft">
 			<div class="inner1">
 				<div class="filterSet1">
@@ -15,7 +15,7 @@
 				<div class="adminUsersList">
 					<ul>
 						@foreach($meetings as $meeting)
-						<li class="meeting" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
+						<li class="meeting deactive_aul_item" mid="{{$meeting->id}}"><p>{{$meeting->title}}</p></li>
 						@endforeach
 					</ul>
 				</div>
@@ -24,7 +24,7 @@
 		<div id="adminUsersRight" class="adminUsersRight">
 		</div>
 		<div class="clearboth"></div>
-	</div>
+	
 	<button class="addBtn" id="addMeeting"> </button>
 	<div class="popupOverlay" id="popup" ></div>
 @endsection

@@ -13,6 +13,7 @@
 	@yield('css')
 </head>
 <body>
+<div class="wrapper">
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
 		<h1><a href="/">Jotter</a></h1>
@@ -80,8 +81,108 @@
 		</div> --}}
 		<div class="clearboth"></div>
 	</div>
+	
+<!-- style="display:none;"  --> 
+	<!--========================================= Notification popup start ===================================================-->
+	<div class="popupnotificationOverlay"style="display:none;" >
+		<div class="popupnotification">
+			<div class="popupHeader">
+				<h2>Your Notifications</h2>
+				<span class="popupClose"></span>
+			</div>
+	
+				
+			
+			<div class="popupnotification_content">
+				<ul>
+					<li>
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li>
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+					<li class="notification_read">
+						<h3>This is what happened</h3>
+						<a href="#">Oh no go there</a>
+						<p>Sep 17 at 8.00pm</p>
+						<span class="notification_go_btn">Go</span>
+						<span class="notification_left_bar"></span>
+					</li>
+				</ul>
+			</div>
 
-	<footer>
+			
+
+		</div>
+	</div>
+	<!--========================================= Notification popup end ===================================================-->
+	<div class="push"></div>
+	</div>
+	<div class="footer">
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>
 			<a href="">History</a>
@@ -104,7 +205,8 @@
 			<a href="">FAQ </a>
 		</div>
 		<div class="clearboth"></div>
-	</footer>
+	</div>
+
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
 	@yield('javascript')
