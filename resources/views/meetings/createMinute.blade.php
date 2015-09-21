@@ -11,7 +11,11 @@
 	{{$errors->first('venue','<span class="error">:message</span>')}}
 	{!! Form::text('startDate',$minute->startDate,['id'=>'startDateInput','placeholder'=>'start date']) !!}
 	{!! Form::text('endDate',$minute->endDate,['id'=>'endSateInput','placeholder'=>'end date']) !!}
-	{!!$errors->first('endDate','<br><span class="error">:message</span>')!!}
+	@if($errors->has('startDate'))
+		{!!$errors->first('startDate','<br><span class="error">:message</span>')!!}
+	@elseif($errors->has('endDate'))
+		{!!$errors->first('endDate','<br><span class="error">:message</span>')!!}
+	@endif
 	</p>
 	<div class="attendeesLable">
 			<h5>Attendees: </h5>
@@ -86,7 +90,11 @@
 			{!!$errors->first('venue','<span class="error">:message</span>')!!}
 			{!! Form::text('startDate','',['id'=>'startDateInput','placeholder'=>'start date']) !!}
 			{!! Form::text('endDate','',['id'=>'endSateInput','placeholder'=>'end date']) !!}
-			{!!$errors->first('endDate','<br><span class="error">:message</span>')!!}
+			@if($errors->has('startDate'))
+				{!!$errors->first('startDate','<br><span class="error">:message</span>')!!}
+			@elseif($errors->has('endDate'))
+				{!!$errors->first('endDate','<br><span class="error">:message</span>')!!}
+			@endif
 		</p>
 			<div class="attendeesLable">
 				<h5>Attendees: </h5>
