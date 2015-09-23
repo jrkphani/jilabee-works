@@ -45,7 +45,7 @@ $(document).ready(function($)
         if(parseInt($(this).val()) > parseInt(role))
         {
             $(this).val(role);
-            alert("Non jotter user can not be minuter");
+            alert("This user can not be minuter");
         }
     });
 });

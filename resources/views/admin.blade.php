@@ -67,6 +67,19 @@
 		{!! Breadcrumbs::render(Route::getCurrentRoute()->getPath()) !!}
 		<div class="clearboth"></div>
 	</div>
+	<!-- style="display:none;"  --> 
+	<!--========================================= Notification popup start ===================================================-->
+	<div id="notificationDiv" class="popupnotificationOverlay"style="display:none;" >
+		<div class="popupnotification">
+			<div class="popupHeader">
+				<h2>Your Notifications</h2>
+				<span class="popupClose" onclick="$('#notificationDiv').hide();" ></span>
+			</div>
+			<div id="notification_content" class="popupnotification_content">
+			</div>
+		</div>
+	</div>
+	<!--========================================= Notification popup end ===================================================-->
 	<div class="push"></div>
 	
 	</div>

@@ -55,7 +55,7 @@
 			{
 			?>
 				<div class="meetingSettingITem participant " roles="{{$user->role}}" uid="{{$user->userId}}">
-					<span class="removeMoreBtn removeParent2"></span>
+					<span class="removeMoreBtn removeParent removeParent2"></span>
 					<input type="hidden" name="participants[]" value="{{$user->userId}}">
 					<p>{{$user->name}}</p>
 					<span>{!! Form::select('roles[]', $roles,'2',["class"=>"roles"])!!}</span>
@@ -84,7 +84,7 @@
 		{
 		?>
 			<div class="meetingSettingITem participant" roles="{{$user->role}}" uid="{{$user->userId}}">
-				<span class="removeMoreBtn removeParent2"></span>
+				<span class="removeMoreBtn removeParent removeParent2"></span>
 				<input type="hidden" name="participants[]" value="{{$user->userId}}">
 				<p>{{$user->name}}</p>
 				<span>{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}</span>
@@ -99,7 +99,7 @@
 		{
 		?>
 			<div class="meetingSettingITem participant" roles="1" uid="{{$email}}">
-				<span class="removeMoreBtn removeParent2"></span>
+				<span class="removeMoreBtn removeParent removeParent2"></span>
 				<input type="hidden" name="participants[]" value="{{$email}}">
 				<p>{{$email}}</p>
 				<span>{!! Form::select('roles[]', $roles,'1',["class"=>"roles"])!!}</span>
@@ -206,7 +206,7 @@ $('#selectParticipant').autocomplete({
                 }
                 else
                 {
-                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.role+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent2"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
+                	insert= '<div uid="'+ui.item.userId+'" roles="'+ui.item.role+'" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent2 removeParent"></span> <input type="hidden" value="'+ui.item.userId+'" name="participants[]"><p>'+ui.item.value+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
                     selectedParticipant.append(insert);
                 }
                 $('#selectParticipant').val('');
@@ -240,7 +240,7 @@ $('#adminContent').on('keyup', '#selectParticipant', function(event) {
                             }
                             else
                             {
-                                insert= '<div uid="'+val.replace('@', '_')+'" roles="1" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent2"></span> <input type="hidden" value="'+val+'" name="participants[]"><p>'+val+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
+                                insert= '<div uid="'+val.replace('@', '_')+'" roles="1" class="meetingSettingITem participant"><span class="removeMoreBtn removeParent2 removeParent"></span> <input type="hidden" value="'+val+'" name="participants[]"><p>'+val+'</p><span>{!! Form::select("roles[]", $roles,"1",["class"=>"roles"])!!} </span><div class="clearboth"></div></div>';
                                 $('#selectedParticipant').append(insert);
                             }
                         }

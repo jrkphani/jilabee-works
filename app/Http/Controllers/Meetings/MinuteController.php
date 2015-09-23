@@ -196,11 +196,11 @@ class MinuteController extends Controller {
 						{
 							if(isEmail($value))
 							{
-								$newusersList[] = $value;
+								$newusersList[$value] = $value;
 							}
 							else
 							{
-								$newusersList[] = getProfile(['userId'=>$value])->name;
+								$newusersList[$value] = getProfile(['userId'=>$value])->name;
 							}
 						}
 						//notify admin
@@ -210,7 +210,7 @@ class MinuteController extends Controller {
 						$notification['objectType'] = 'Minute';
 						$notification['subject'] ='New';
 						$notification['isRead'] = '1';
-						$notification['body'] = implode(',',$newusersList);
+						$notification['body'] = serialize($newusersList);
 						setNotification($notification);
 					}
 				}
@@ -237,11 +237,11 @@ class MinuteController extends Controller {
 						{
 							if(isEmail($value))
 							{
-								$newusersList[] = $value;
+								$newusersList[$value] = $value;
 							}
 							else
 							{
-								$newusersList[] = getProfile(['userId'=>$value])->name;
+								$newusersList[$value] = getProfile(['userId'=>$value])->name;
 							}
 						}
 						//notify admin
@@ -251,7 +251,7 @@ class MinuteController extends Controller {
 						$notification['objectType'] = 'Minute';
 						$notification['subject'] ='New';
 						$notification['isRead'] = '1';
-						$notification['body'] = implode(',',$newusersList);
+						$notification['body'] = serialize($newusersList);
 						setNotification($notification);
 					}	
 				}

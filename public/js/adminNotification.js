@@ -18,6 +18,26 @@ $('#adminContent').on('click', '.meeting', function(event) {
             checkStatus(xhr.status);
         });
     });
+$('#adminContent').on('click', '.newusers', function(event) {
+        event.preventDefault();
+        mid = $(this).attr('mid');
+        $.ajax({
+            url: '/admin/meeting/newusers/'+mid,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData){
+            $('#popup').html(htmlData);
+            $('#popup').show();
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+    });
  $('#adminContent').on('click', '#approveMeeting', function(event) {
        var mid = $(this).attr('mid');
        $.ajax({
@@ -72,4 +92,16 @@ $('#adminContent').on('click', '.meeting', function(event) {
             checkStatus(xhr.status);
        });
        
+    });
+  $('#adminContent').on('change', '.roles', function(event) {
+        event.preventDefault();
+        role = $(this).parents('div.participant').attr('roles');
+        if(parseInt($(this).val()) > parseInt(role))
+        {
+            $(this).val(role);
+            alert("This user can not be minuter");
+        }
+    });
+  $('#adminContent').on('click', '.removeParent', function(event) {
+        $(this).parent( ".participant" ).remove();
     });

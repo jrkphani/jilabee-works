@@ -8,5 +8,9 @@ class Notifications extends Model
     {
         return $this->belongsTo('App\User', 'userId', 'id');
     }
+    public function meeting()
+    {
+        return $this->hasOne('App\Model\Meetings', 'id', 'parentId');
+    }
 }
 ?>

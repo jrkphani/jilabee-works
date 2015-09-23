@@ -7,6 +7,7 @@ use App\Model\Minutes;
 use App\Model\Ideas;
 use App\Model\Meetings;
 use App\Model\Organizations;
+use App\Model\Notifications;
 use Auth;
 use DB;
 use App\User;
@@ -52,6 +53,14 @@ class MeetingsController extends Controller {
 		$roles = roles();
 		//for pop view in meeting approve page
 		return view('admin.meetingPop',['meeting'=>$meeting,'roles'=>$roles]);
+	}
+	public function viewNewusers($id)
+	{
+		$meeting = Meetings::find($id);
+		$roles = roles();
+		$notification = Notifications::where('objectType','Minute')->where('parentId',$id)->where('userId',Auth::id())->first();
+		//for pop view in meeting approve page
+		return view('admin.meetingNewusers',['meeting'=>$meeting,'roles'=>$roles,'notification'=>$notification]);
 	}
 	public function meetingForm($mid=NULL)
 	{

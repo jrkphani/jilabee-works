@@ -270,6 +270,7 @@ function notifications()
                         else if(row.objectType == 'Minute')
                         {
                             link = '';
+                            row.body = 'New User Added in Meeting';
                         }
                         else
                         {

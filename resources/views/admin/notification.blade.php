@@ -38,10 +38,13 @@
 		</div>
 		<?php $count=1; ?>
 		@foreach($notifications as $notification)
-		<div class="box">
+		<div class="box newusers"  mid="{{$notification->parentId}}">
 			<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 			<div class="boxInner">
-				<h4>{{$notification->body}}</h4>
+				<h4>{{$notification->meeting->title}}</h4>
+				@foreach(unserialize($notification->body) as $key=>$value)
+					{{$value}}<br>
+				@endforeach
 				<h6>6/7/2015 - 4.30pm</h6>
 			</div>
 			<div class="boxRight">
