@@ -92,6 +92,10 @@ class MinuteController extends Controller {
 					}
 					$participants = array_merge(explode(',',$meeting->minuters),$attendees);
 				}
+				else
+				{
+					$participants = explode(',',$meeting->minuters);
+				}
 			}
 			//print_r($attendeesEmail); die;
 			$users = Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
