@@ -38,7 +38,7 @@ class MeetingsController extends Controller {
 					//->where('tempMeetings.approved','=','0')
 					->where('tempMeetings.draft','=','0')
 					->get();
-		$notifications = Auth::user()->notifications()->where('objectType','Minute')->orderBy('updated_at','desc')->get();
+		$notifications = Auth::user()->notifications()->where('objectType','Meeting')->where('isRead','0')->orderBy('updated_at','desc')->get();
 		//print_r($notifications); die;
 		return view('admin.notification',['meetings'=>$meetings,'notifications'=>$notifications]);
 	}
@@ -58,7 +58,7 @@ class MeetingsController extends Controller {
 	{
 		$meeting = Meetings::find($id);
 		$roles = roles();
-		$notification = Notifications::where('objectType','Minute')->where('parentId',$id)->where('userId',Auth::id())->first();
+		$notification = Notifications::where('objectType','Meeting')->where('objectId',$id)->where('userId',Auth::id())->first();
 		//for pop view in meeting approve page
 		return view('admin.meetingNewusers',['meeting'=>$meeting,'roles'=>$roles,'notification'=>$notification]);
 	}
@@ -320,5 +320,71 @@ class MeetingsController extends Controller {
 		{
 			return abort('403');
 		}
+	}
+	public function addUsers($mid)
+	{
+		$input = Request::only('participants','roles');
+		$output['success'] = 'yes';
+		$meeting = Meetings::whereId($mid)->first();
+		$minuters=$attendees=$attendeesEmail=array();
+		if(count($input['participants']) != count($input['roles']))
+		{
+			$output['success'] = 'no';
+			$output['error'] = 'Something is wrong with this field!';
+			return json_encode($output);
+		}
+
+		foreach ($input['participants'] as $key => $value)
+		{
+			if($input['roles'][$key] == '1')
+			{
+				//attendees
+				if(isEmail($value))
+				{
+					if($assignee = getUser(['email'=>$value]))
+					{
+						$attendees[] = $assignee->id;
+					}
+					else
+					{
+						$attendeesEmail[] = $value;
+					}
+				}
+				else
+				{
+					$attendees[] = $value;
+				}
+			}
+			elseif($input['roles'][$key] == '2')
+			{
+				$minuters[] = $value;
+			}
+		}
+
+		$input['updated_by'] = Auth::id();
+		$getMinutersId = User::whereIn('userId',$minuters)->lists('id');
+		$input['minuters'] = implode(',',array_merge($getMinutersId,explode(',',$meeting->minuters)));
+		if(count($attendees))
+		{
+			$attendees = User::whereIn('userId',$attendees)->lists('id');
+		}
+		if(count($attendeesEmail))
+		{
+			$attendees = array_merge($attendees,$attendeesEmail);
+		}
+
+		$input['attendees'] = implode(',',array_merge($attendees,explode(',',$meeting->attendees)));
+		if($meeting->update($input))
+		{
+			//update notify 
+			$notification['userId'] = Auth::id();
+			$notification['objectId'] = $mid;
+			$notification['objectType'] = 'Meeting';
+			$notification['subject'] ='New';
+			$notification['isRead'] = '1';
+			setNotification($notification);
+		}
+		$output['meetingId'] = $mid;
+		return json_encode($output);
 	}
 }

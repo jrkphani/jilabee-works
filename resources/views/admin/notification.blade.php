@@ -11,6 +11,7 @@
 </div>
 <div class="mainList">
 	<!--=================================== List 1 ================================-->
+	@if(count($meetings))
 	<div class="boxList">
 		<div class="boxTitle">
 			<span class="boxTitleNumber boxNumberRed">{{count($meetings)}}</span>
@@ -29,8 +30,9 @@
 			</div>
 		@endforeach
 	</div>
+	@endif
 	<!--=================================== List 2 ================================-->
-	@if($notifications)
+	@if(count($notifications))
 	<div class="boxList">
 		<div class="boxTitle">
 			<span class="boxTitleNumber boxNumberGreen">{{count($notifications)}}</span>
@@ -38,7 +40,7 @@
 		</div>
 		<?php $count=1; ?>
 		@foreach($notifications as $notification)
-		<div class="box newusers"  mid="{{$notification->parentId}}">
+		<div class="box newusers"  mid="{{$notification->objectId}}">
 			<span class="boxNumber boxNumberGreen">{{$count++}}</span>
 			<div class="boxInner">
 				<h4>{{$notification->meeting->title}}</h4>

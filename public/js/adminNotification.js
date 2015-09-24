@@ -105,3 +105,40 @@ $('#adminContent').on('click', '.newusers', function(event) {
   $('#adminContent').on('click', '.removeParent', function(event) {
         $(this).parent( ".participant" ).remove();
     });
+   $('#adminContent').on('click', '#updateMeetingSubmit', function(event) {
+        event.preventDefault();
+        mid = $(this).attr('mid');
+        $.ajax({
+            url: '/admin/meeting/newusers/'+mid,
+            type: 'POST',
+            async:false,
+            dataType: 'json',
+            data: $('#updateMeetingForm').serialize(),
+        })
+        .done(function(jsonData) {
+
+            if(jsonData.success == 'no')
+            {
+                if(jsonData.hasOwnProperty('error'))
+                {
+                  alert('error');
+                    $('.error').html('');
+                    $.each(jsonData.validator, function(index, val) {
+                         //$('#'+index+'_err').html(val);
+                    });
+                }
+            }
+            else if(jsonData.success == 'yes')
+            {
+                location.reload();
+            }
+            //////console.log("success");
+        })
+        .fail(function() {
+             checkStatus(xhr.status);
+        })
+        .always(function() {
+            checkStatus(xhr.status);
+        });
+        
+    });

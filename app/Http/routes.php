@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
 			Route::get('meeting/draft/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
 			Route::get('meeting/newusers/{meetingId}', 'Admin\MeetingsController@viewNewusers')->where('meetingId', '[0-9]+');
+			Route::post('meeting/newusers/{meetingId}', 'Admin\MeetingsController@addUsers')->where('meetingId', '[0-9]+');
 			Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
 			Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
 			Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');

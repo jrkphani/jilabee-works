@@ -10,7 +10,7 @@ class Notifications extends Model
     }
     public function meeting()
     {
-        return $this->hasOne('App\Model\Meetings', 'id', 'parentId');
+        return $this->hasOne('App\Model\Meetings', 'id', 'objectId');
     }
 }
 ?>

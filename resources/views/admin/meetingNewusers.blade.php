@@ -43,21 +43,6 @@
 				<h5>Role in Meeting</h5>
 				<div class="clearboth"></div>	
 			</div>
-			@if($meeting->minuters)
-				<?php
-					$minuters = App\Model\Profile::select('userId','name')->whereIn('userId',explode(',', $meeting->minuters))->get();
-					foreach ($minuters as $minuter)
-					{
-						//echo $minuter->value;
-						echo '<div class="meetingSettingITem">
-								<p>'.$minuter->name.'</p>
-								<span>'.$roles[2].'</span>
-								<div class="clearboth"></div>
-							</div>';
-					}
-				?>
-			@endif
-			@if($meeting->attendees)
 				<?php
 				$attendeesEmail = $attendees = array();
 					foreach (explode(',',$meeting->attendees) as $key => $value)
@@ -73,12 +58,14 @@
 					}
 					if(count($attendees))
 					{
-						$attendeesList = App\Model\Profile::select('userId','name')->whereIn('userId',$attendees)->get();
+						$attendeesList = App\Model\Profile::select('users.userId','profiles.name','profiles.role')
+				                        ->join('users','profiles.userId','=','users.id')
+				                        ->whereIn('users.id',array_merge(explode(',',$meeting->minuters),$attendees))->get();
 						foreach ($attendeesList as $attendee)
 						{
 							echo '<div class="meetingSettingITem">
 									<p>'.$attendee->name.'</p>
-									<span>'.$roles[1].'</span>
+									<span>'.$roles[$attendee->role].'</span>
 									<div class="clearboth"></div>
 								</div>';
 						}
@@ -95,7 +82,7 @@
 						}
 					}
 				?>
-			@endif
+			{!! Form::open(['id'=>'updateMeetingForm'])!!}
 			<?php
 			if($notification->body)
 			{
@@ -113,7 +100,9 @@
 					}
 					if(count($attendees))
 					{
-						$attendeesList = App\Model\Profile::select('userId','name','role')->whereIn('userId',$attendees)->get();
+						$attendeesList = App\Model\Profile::select('users.userId','profiles.name','profiles.role')
+				                        ->join('users','profiles.userId','=','users.id')
+				                        ->whereIn('users.id',$attendees)->get();
 						foreach ($attendeesList as $attendee)
 						{
 						?>
@@ -145,12 +134,13 @@
 				
 			}
 			?>
+			{!! Form::close()!!}
 			<div class="adminUsersBtns">
 				<div class="adminUsersBtnsLeft">
-					<span id="createMeetingSubmit" class="button">Revert Changes</span>
+					<span class="button backBtn" divId="popup" url="{{url('admin/meeting/newusers/'.$meeting->id)}}">Revert Changes</span>
 				</div>
 				<div class="adminUsersBtnsRight">
-					<span id="createMeetingSubmit" class="button">Update Meeting</span>
+					<span id="updateMeetingSubmit" class="button" mid="{{$meeting->id}}">Update Meeting</span>
 				</div>
 				<div class="clearboth"></div>
 			</div>
