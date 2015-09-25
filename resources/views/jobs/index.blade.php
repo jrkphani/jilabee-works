@@ -30,100 +30,8 @@
 					<button>Reset all</button>
 				</div>
 		<div id="historyDiv" class="mainList">
-			<!--=================================== List 1 ================================-->
-			@if(count($taskClosed['previous']))
-			<div class="boxList">
-				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGrey">{{count($taskClosed['previous'])}}</span>
-					<p>Closed Eariler</p>
-				</div>
-				<?php $count =1; ?>
-				@foreach($taskClosed['previous'] as $task)
-				<?php if($task->type == 'minute')
-					{
-						$mid = "mid=$task->minuteId";
-					}
-					else
-					{
-						$mid='';
-					}
-				?>
-
-					<div class="box">
-						<span class="boxNumber boxNumberGrey">{{$count++}}</span>
-						<div class="boxInner">
-							<h4 class="searchTxt">{{$task->title}}</h4>
-							<p class="searchTxt">{!!$task->description!!}</p>
-						</div>
-						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
-					</div>
-
-				@endforeach
-			</div>
-			@endif
-			<!--=================================== List 2 ================================-->
-			@if(count($taskClosed['lastWeek']))
-			<div class="boxList">
-				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberRed">{{count($taskClosed['lastWeek'])}}</span>
-					<p>Closed Recently</p>
-				</div>
-				<?php $count =1; ?>
-				@foreach($taskClosed['lastWeek'] as $task)
-				<?php if($task->type == 'minute')
-					{
-						$mid = "mid=$task->minuteId";
-					}
-					else
-					{
-						$mid='';
-					}
-				?>
-
-					<div class="box">
-						<span class="boxNumber boxNumberRed">{{$count++}}</span>
-						<div class="boxInner">
-							<h4 class="searchTxt">{{$task->title}}</h4>
-							<p class="searchTxt">{!!$task->description!!}</p>
-						</div>
-						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
-					</div>
-
-				@endforeach
-			</div>
-			@endif
-			<!--=================================== List 3 ================================-->
-			@if(count($taskClosed['recent']))
-			<div class="boxList">
-				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGreen">{{count($taskClosed['recent'])}}</span>
-					<p>Closed Today</p>
-				</div>
-				<?php $count =1; ?>
-				@foreach($taskClosed['recent'] as $task)
-				<?php if($task->type == 'minute')
-					{
-						$mid = "mid=$task->minuteId";
-					}
-					else
-					{
-						$mid='';
-					}
-				?>
-
-					<div class="box">
-						<span class="boxNumber boxNumberGreen">{{$count++}}</span>
-						<div class="boxInner">
-							<h4 class="searchTxt">{{$task->title}}</h4>
-							<p class="searchTxt">{!!$task->description!!}</p>
-						</div>
-						<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
-					</div>
-
-				@endforeach
-			</div>
-			@endif
-		</div>
+			
+		</div> 
 			<!--================ Buttons for now sections ======================-->
 	<div class="arrowBtn arrowBtnRight">
 				<span id="moveright"><img src="{{asset('images/arrow_right.png')}}"> </span>
@@ -143,113 +51,52 @@
 		</div>
 		<div id="nowDiv" class="mainList">
 		<!--=================================== List 1 ================================-->
-		@if(count($taskNotFiled))
-			<div class="boxList">
-				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberBlue">{{count($taskNotFiled)}}</span>
-					<p>Newly Added</p>
-					<div class="clearboth"></div>
+		@if(count($mytask))
+			@foreach($mytask as $title=>$tasks)
+				<div class="boxList">
+					<div class="boxTitle">
+						<span class="boxTitleNumber boxNumberBlue">{{count($tasks)}}</span>
+						<p>{{$title}}</p>
+						<div class="clearboth"></div>
+					</div>
+					<?php $count =1; ?>
+					@foreach($tasks as $task)
+						<?php if($task->type == 'minute')
+						{
+							$mid = "mid=$task->minuteId";
+							$formId = "Form$task->minuteId$task->id";
+						}
+						else
+						{
+							$mid='';
+							$formId = "Form$task->id";
+						}
+						?>
+							<div class="box">
+								<span class="boxNumber boxNumberBlue">{{$count++}}</span>
+								<div class="boxInner">
+									<h4 class="searchTxt">{{$task->title}}</h4>
+									<p class="searchTxt">{!!$task->description!!}</p>
+									@if($task->status == 'Sent')
+										{!! Form::open(['id'=>$formId]) !!}
+										{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
+										<div class="error" id="err_{{$task->id}}"></div>
+										{!! Form::close() !!}
+										<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
+										<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
+									@endif
+								</div>
+								<div class="boxRight task" {{$mid}} tid="{{$task->id}}">
+									<p class="boxRightText">draft</p>
+								</div>
+							</div>
+					@endforeach
 				</div>
-				<?php $count =1; ?>
-				@foreach($taskNotFiled as $task)
-					<?php if($task->type == 'minute')
-					{
-						$mid = "mid=$task->minuteId";
-						$formId = "Form$task->minuteId$task->id";
-					}
-					else
-					{
-						$mid='';
-						$formId = "Form$task->id";
-					}
-					?>
-						<div class="box">
-							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
-							<div class="boxInner">
-								<h4 class="searchTxt">{{$task->title}}</h4>
-								<p class="searchTxt">{!!$task->description!!}</p>
-								@if($task->status == 'Sent')
-									{!! Form::open(['id'=>$formId]) !!}
-									{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
-									<div class="error" id="err_{{$task->id}}"></div>
-									{!! Form::close() !!}
-									<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
-									<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
-								@endif
-							</div>
-							<div class="boxRight task" {{$mid}} tid="{{$task->id}}">
-								<p class="boxRightText">draft</p>
-							</div>
-						</div>
-				@endforeach
-			</div>
-			@endif
-				<!--=================================== List 2 ================================-->
-			@if(count($taskToFinsh))
-			<div class="boxList">
-				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberRed">{{count($taskToFinsh)}}</span>
-					<p>Pending</p>
-				</div>
-				<?php $count =1; ?>
-				@foreach($taskToFinsh as $task)
-					<?php if($task->type == 'minute')
-					{
-						$mid = "mid=$task->minuteId";
-						$formId = "Form$task->minuteId$task->id";
-					}
-					else
-					{
-						$mid='';
-						$formId = "Form$task->id";
-					}
-					?>
-						<div class="box">
-							<span class="boxNumber boxNumberBlue">{{$count++}}</span>
-							<div class="boxInner">
-								<h4 class="searchTxt">{{$task->title}}</h4>
-								<p class="searchTxt">{!!$task->description!!}</p>
-								{{-- {!! Form::open(['id'=>$formId]) !!}
-								{!! Form::textarea('update', '',['cols'=>'35','rows'=>3]) !!}
-								{!! Form::close() !!}
-								<button {{$mid}} tid="{{$task->id}}" class="btn btn-primary">Update</button> --}}
-							</div>
-							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
-						</div>
-				@endforeach
-			</div>
-			@endif
-				<!--=================================== List 3 ================================-->
-			@if(count($taskCompleted))
-			<div class="boxList">
-				<div class="boxTitle">
-					<span class="boxTitleNumber boxNumberGreen">{{count($taskCompleted)}}</span>
-					<p>Completed</p>
-				</div>
-				<?php $count =1; ?>
-				@foreach($taskCompleted as $task)
-					<?php if($task->type == 'minute')
-					{
-						$mid = "mid=$task->minuteId";
-						$formId = "Form$task->minuteId$task->id";
-					}
-					else
-					{
-						$mid='';
-						$formId = "Form$task->id";
-					}
-					?>
-						<div class="box">
-							<span class="boxNumber boxNumberGreen">{{$count++}}</span>
-							<div class="boxInner">
-								<h4 class="searchTxt">{{$task->title}}</h4>
-								<p class="searchTxt">{!!$task->description!!}</p>
-							</div>
-							<div class="boxRight task" {{$mid}} tid="{{$task->id}}"></div>
-						</div>
-				@endforeach
-			</div>
-			@endif
+			@endforeach
+		@else
+		No Tasks
+		@endif
+		
 			<div class="clearboth"></div>
 		</div>
 			<!--================ Buttons for now sections ======================-->
