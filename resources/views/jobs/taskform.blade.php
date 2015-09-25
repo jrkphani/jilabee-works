@@ -46,18 +46,18 @@
 						@endif
 					</div>
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
-					<div class="error" id="assignee_err"></div>
+					<div class="error" id="assignee_err">{{$errors->first('assignee')}}</div>
 					<label class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
-					<div class="error" id="dueDate_err"></div>
+					<div class="error" id="dueDate_err">{{$errors->first('dueDate')}}</div>
 			</div>
 		<div class="popupContentLeft">
 			<div class="popupContentText">
 				{!! Form::textarea('description',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description),['rows'=>'6','cols'=>'30'])!!}
-				<div class="error" id="description_err"></div>
+				<div class="error" id="description_err">{{$errors->first('description')}}</div>
 			</div>
 			<div class="popupContentText">
 				{!! Form::textarea('notes', str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->notes),['rows'=>'6','cols'=>'30'])!!}
-				<div class="error" id="notes_err"></div>
+				<div class="error" id="notes_err">{{$errors->first('notes')}}</div>
 			</div>
 			
 		</div>

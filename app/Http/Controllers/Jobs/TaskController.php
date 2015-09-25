@@ -23,15 +23,16 @@ class TaskController extends Controller {
 	}*/
 	public function index()
 	{
-		//echo  Auth::id(); die;
-		$tasks = Tasks::whereAssignee(Auth::id())->orderBy('dueDate')->get();
-		$taskToFinsh = $taskNotFiled = $taskCompleted = $taskClosed['recent'] =$taskClosed['previous']= $taskClosed['lastWeek'] = array();
+		$tasks = Tasks::whereAssigner(Auth::id())->orderBy('dueDate')->get();
+		$drafts = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
+		$taskToFinsh = $taskNotFiled = $taskCompleted = $taskCancelled = array();
+		$taskClosed['recent'] =$taskClosed['previous']= $taskClosed['lastWeek'] = array();
 		foreach($tasks as $task)
 		{
 			if($task->type == 'minute')
 			{
-				//if($task->minute->filed == '1')
-				//{
+				if($task->minute->filed == '1')
+				{
 					if($task->status == 'Completed')
 					{
 						$taskCompleted[] = $task;
@@ -42,7 +43,6 @@ class TaskController extends Controller {
 					}
 					else if($task->status == 'Closed')
 					{
-						//echo floor((strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at))/(60*60*24));
 						$days = date('d',(strtotime(date('Y-m-d H:i:s')) - strtotime($task->updated_at)));
 						if($days)
 						{
@@ -61,15 +61,15 @@ class TaskController extends Controller {
 							$taskClosed['recent'][]= $task;
 						}
 					}
-					else
+					else if($task->status == 'Cancelled')
 					{
-						$taskNotFiled[] = $task;
+						$taskCancelled[] = $task;
 					}
-				//}
-				//else
-				//{
-				//	$taskNotFiled[] = $task;
-				//}
+				}
+				else
+				{
+					$taskNotFiled[] = $task;
+				}
 			}
 			else
 			{
@@ -108,7 +108,7 @@ class TaskController extends Controller {
 			}
 			
 		}
-		return view('jobs.index',['taskToFinsh'=>$taskToFinsh ,'taskNotFiled'=>$taskNotFiled,'taskCompleted'=>$taskCompleted,'taskClosed'=>$taskClosed]);
+		return view('followups.index',['taskCancelled'=>$taskCancelled,'drafts'=>$drafts,'taskToFinsh'=>$taskToFinsh ,'taskNotFiled'=>$taskNotFiled,'taskCompleted'=>$taskCompleted,'taskClosed'=>$taskClosed]);
 	}
 	public function viewTask($id)
 	{
@@ -266,9 +266,7 @@ class TaskController extends Controller {
 		$validator = JobTasks::validation($input);
 		if ($validator->fails())
 		{
-			$output['success'] = 'no';
-			$output['validator'] = $validator->messages()->toArray();
-			return json_encode($output);
+			return view('jobs.taskform',['task'=>$task])->withErrors($validator);
 		}
 		else
 		{
