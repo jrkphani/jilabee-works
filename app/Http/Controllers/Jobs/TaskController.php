@@ -28,6 +28,9 @@ class TaskController extends Controller {
 		//$sortby = Request::get('sortby','timeline');
 		//$sortby = Request::get('sortby','meeting');
 		$sortby = Request::get('sortby','timeline');
+		$days = Request::get('days','7');
+		$group = Request::get('group',NULL);
+		$assigner = Request::get('assigner',NULL);
 		//$mytask = array();
 		// if($sortby == 'timeline')
 		// {
@@ -42,7 +45,9 @@ class TaskController extends Controller {
 		// 	$tasks = Tasks::whereAssignee(Auth::id())->orderBy('assigner')->get();
 		// }
 		$nowtasks = $this->nowsortby();
-		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytask'=>NULL]);
+		$historytasks = $this->historysortby();
+		//print_r($historytask); die;
+		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days]);
 	}
 	public function viewTask($id)
 	{
@@ -484,104 +489,39 @@ class TaskController extends Controller {
 	public function historysortby()
 	{
 		//ref : http://www.wescutshall.com/2013/03/php-date-diff-days-negative-zero-issue/
-		$sortby = Request::get('sortby','timeline');
-		$nowtasks = array();
+		$days = Request::get('days','7');
+		$group = Request::get('group',NULL);
+		$assigner = Request::get('assigner',NULL);
+		$historytasks = array();
 		$query = Tasks::whereAssignee(Auth::id());
-		if($sortby == 'timeline')
+		if($days != 'all')
 		{
-			$tasks = $query->orderBy('status','DESC')->orderBy('dueDate')->get();
-			$today = new DateTime();
-			foreach($tasks as $task)
+			$startDate = date("Y-m-d 00:00:00",strtotime("-".$days." days"));
+			$tasks = $query->where('updated_at','>=',$startDate)->orderBy('updated_at','DESC')->get();
+			foreach ($tasks as $task)
 			{
-				if(($task->status == 'Sent') || ($task->type == 'minute' && $task->minute->filed != '1'))
+				if(date('Y-m-d', strtotime($task->updated_at)) === date('Y-m-d'))
 				{
-					$nowtasks['New']['tasks'][] = $task;
-					$nowtasks['New']['colorClass'] = 'boxNumberGrey';
+					$historytasks['Completed Today']['tasks'][] = $task;
 				}
 				else
 				{
-					$dueDate = new DateTime($task->dueDate);
-					$interval = date_diff($today, $dueDate);
-					$days = $interval->format('%r%a');
-					if((int)$days <= -1)
-					{
-						$nowtasks['Past deadline']['tasks'][] = $task;
-						$nowtasks['Past deadline']['colorClass'] = 'boxNumberRed';
-					}
-					elseif($days  === '-0')
-					{
-						$nowtasks['Today']['tasks'][] = $task;
-						$nowtasks['Today']['colorClass'] = 'boxNumberGreen';
-					}
-					elseif($days  === '0')
-					{
-						$nowtasks['Tomorrow']['tasks'][] = $task;
-						$nowtasks['Tomorrow']['colorClass'] = 'boxNumberGreen';
-					}
-					elseif((int)$days <= 1)
-					{
-						$nowtasks['Day after']['tasks'][] = $task;
-						$nowtasks['Day after']['colorClass'] = 'boxNumberGreen';
-					}
-					else
-					{
-						if(date('W', strtotime(date('Y-m-d H:i:s')))  === date('W', strtotime($task->dueDate)))
-						{
-							$nowtasks['Rest of week']['tasks'][] = $task;
-							$nowtasks['Rest of week']['colorClass'] = 'boxNumberGreen';
-						}
-						else
-						{
-							if(date('m', strtotime(date('Y-m-d H:i:s'))) === date('m', strtotime($task->dueDate)))
-							{
-								$nowtasks['Rest of month']['tasks'][] = $task;
-								$nowtasks['Rest of month']['colorClass'] = 'boxNumberBlue';
-							}
-							else
-							{
-								$nowtasks['Beyond the month']['tasks'][] = $task;
-								$nowtasks['Beyond the month']['colorClass'] = 'boxNumberBlue';
-							}	
-						}
-					}
+					$historytasks['Last '.$days.' days']['tasks'][] = $task;	
 				}
-			}
-		}
-		elseif($sortby == 'meeting')
-		{
-			$tasks = $query->orderBy('type')->orderBy('status','DESC')->orderBy('dueDate')->get();
-			foreach($tasks as $task)
-			{
-				if($task->type == 'minute')
-				{
-					$nowtasks[$task->minute->meeting->title]['tasks'][] = $task;
-					$nowtasks[$task->minute->meeting->title]['colorClass'] = 'boxNumberBlue';
-				}
-				else
-				{
-					$nowtasks['Individual']['tasks'][] = $task;
-					$nowtasks['Individual']['colorClass'] = 'boxNumberBlue';
-				}
-
-			}
-		}
-		elseif($sortby == 'assigner')
-		{
-			$tasks = $query->orderBy('assigner')->orderBy('status','DESC')->orderBy('dueDate')->get();
-			foreach($tasks as $task)
-			{
-				$nowtasks[$task->assignerDetail->name]['tasks'][] = $task;
-				$nowtasks[$task->assignerDetail->name]['colorClass'] = 'boxNumberBlue';
-
 			}
 		}
 		if (Request::ajax())
 		{
-		    return view('jobs.now',['sortby'=>$sortby,'nowtasks'=>$nowtasks]);
+		    return view('jobs.history',['days'=>$days,'historytasks'=>$historytasks]);
 		}
 		else
 		{
-			return $nowtasks;
+			return $historytasks;
 		}
+		echo date('Y-m-d');
+		echo $startDate;
+		echo "<pre>";
+		print_r($query->get()->toArray());
+		echo "</pre>"; die;
 	}
 }

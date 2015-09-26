@@ -68,6 +68,7 @@ Route::group(['prefix' => 'admin'], function()
 		{
 			Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'jobs']);
 			Route::get('/now', ['uses'=>'Jobs\TaskController@nowsortby']);
+			Route::get('/history', ['uses'=>'Jobs\TaskController@historysortby']);
 			Route::get('acceptTask/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
 			Route::post('rejectTask/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
 			Route::get('cancelTask/{taskid}', 'Jobs\TaskController@cancelTask')->where('taskid', '[0-9]+');
@@ -79,7 +80,6 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('markComplete/{taskid}', 'Jobs\TaskController@markComplete')->where('taskid', '[0-9]+');
 			Route::get('acceptCompletion/{taskid}', 'Jobs\TaskController@acceptCompletion')->where('taskid', '[0-9]+');
 			Route::get('rejectCompletion/{taskid}', 'Jobs\TaskController@rejectCompletion')->where('taskid', '[0-9]+');
-			Route::get('history', 'Jobs\TaskController@history');
 			Route::get('history/{taskid}', 'Jobs\TaskController@viewHistory')->where('taskid', '[0-9]+');
 			Route::post('createTask','Jobs\TaskController@createTask');
 		});

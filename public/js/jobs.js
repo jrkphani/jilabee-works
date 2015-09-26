@@ -203,6 +203,26 @@ $('#centralContainer').on('change', '#nowsortby', function(event) {
             checkStatus(xhr.status);
         });
 });
+$('#centralContainer').on('change', '#days', function(event) {
+    event.preventDefault();
+    days = $(this).val();
+    $.ajax({
+            url: '/jobs/history?&days='+days,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#contentLeft').html(htmlData);
+            ChangeUrl('/jobs?&days='+days);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+});
 function rightContentAjaxGet(path)
 {
     $.ajax({
