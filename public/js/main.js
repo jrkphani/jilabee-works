@@ -32,10 +32,12 @@ $(document).ready(function($)
     {   //move to now page
         $("#centralViewer").scrollLeft($('#contentRight').width());
     }
-    $('#moveright').click(function(event) {
+    $('#centralViewer').on('click', '#moveright', function(event) {
+        event.preventDefault();
         moveright();
     });
-    $('#moveleft').click(function(event) {
+    $('#centralViewer').on('click', '#moveleft', function(event) {
+        event.preventDefault();
         moveleft();
     });
     $(document).keydown(function(e)
