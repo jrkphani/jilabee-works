@@ -340,3 +340,11 @@ $(document).on('click', '#allNotifications', function(event) {
             checkStatus(xhr.status);
         });
 });
+ function ChangeUrl(url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: '', Url: url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } else {
+        //alert("Browser does not support HTML5.");
+    }
+}

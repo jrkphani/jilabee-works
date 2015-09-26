@@ -67,6 +67,7 @@ Route::group(['prefix' => 'admin'], function()
 		Route::group(['prefix' => 'jobs'], function()
 		{
 			Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'jobs']);
+			Route::get('/now', ['uses'=>'Jobs\TaskController@nowsortby']);
 			Route::get('acceptTask/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
 			Route::post('rejectTask/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
 			Route::get('cancelTask/{taskid}', 'Jobs\TaskController@cancelTask')->where('taskid', '[0-9]+');

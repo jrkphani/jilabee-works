@@ -4,7 +4,7 @@ $(document).ready(function($)
         if (url.match('&'))
         {
             variables = url.split('&');
-            mid = tid = 0;
+            mid = tid = clickDiv=0;
             for (var i = 0; i < variables.length; i++)
             {
                 var sParameterName = variables[i].split('=');
@@ -26,7 +26,10 @@ $(document).ready(function($)
                 clickDiv = $('.task[tid='+tid+']');
             }
             //alert(clickDiv.html());
-            clickDiv.first().trigger( "click" );
+            if(clickDiv)
+            {
+                clickDiv.first().trigger( "click" );
+            }
             //alert("Dfvd");
         }
         else
@@ -180,6 +183,26 @@ $('#centralContainer').on('keypress', '#taskCommentText', function(event)
     }  
  });
 
+$('#centralContainer').on('change', '#nowsortby', function(event) {
+    event.preventDefault();
+    sortby = $(this).val();
+    $.ajax({
+            url: '/jobs/now?&sortby='+sortby,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#contentRight').html(htmlData);
+            ChangeUrl('/jobs?&sortby='+sortby);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+});
 function rightContentAjaxGet(path)
 {
     $.ajax({
