@@ -62,6 +62,41 @@ class ProfileController extends Controller {
 				->get();
 		return response()->json($list);
 	}
+	public function findAssigner()
+	{	 
+		$input = Request::only('term');
+		$userId = Auth::id();
+		$list = Profile::select('users.userId','profiles.name as value','profiles.role')
+				->join('users','profiles.userId','=','users.id')
+				//->join('tasks','profiles.userId','=','tasks.assignee')
+				->whereIn('users.id',function($query) use ($userId){
+								$query->select('assigner')
+		                    		->from('tasks')
+		                       		->where('tasks.assignee','=',$userId);
+							})
+				->where(function($query) use ($input){
+					$query->where('profiles.name','LIKE','%'.trim($input['term']).'%')
+					->orWhere('users.email','LIKE','%'.trim($input['term']).'%')
+					->orWhere('users.userId','=',trim($input['term']));
+				})
+				->groupBy('users.userId')->get();
+		return response()->json($list);
+	}
+	public function findAssignee()
+	{	 
+		$input = Request::only('term');
+		$userId = Auth::id();
+		$list = Profile::select('users.userId','profiles.name as value','profiles.role')
+				->join('users','profiles.userId','=','users.id')
+				->join('tasks','profiles.userId','=','tasks.assigner')
+				->whereIn('users.id',function($query) use ($userId){
+								$query->select('assignee')
+		                    		->from('tasks')
+		                       		->where('tasks.assigner','=',$userId);
+							})
+				->groupBy('users.userId')->get();
+		return response()->json($list);
+	}
 	public function getedit()
 	{
 		return view('auth.profileEdit',['profile'=>Profile::where('userId','=',Auth::id())->first()]);

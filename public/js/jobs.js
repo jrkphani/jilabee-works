@@ -25,12 +25,10 @@ $(document).ready(function($)
             {
                 clickDiv = $('.task[tid='+tid+']');
             }
-            //alert(clickDiv.html());
             if(clickDiv)
             {
                 clickDiv.first().trigger( "click" );
             }
-            //alert("Dfvd");
         }
         else
         {
@@ -193,7 +191,7 @@ $('#centralContainer').on('change', '#nowsortby', function(event) {
             dataType: 'html',
         })
         .done(function(htmlData) {
-            $('#contentRight').html(htmlData);
+            $('#nowDiv').html(htmlData);
             ChangeUrl('/jobs?&sortby='+sortby);
         })
         .fail(function(xhr) {
@@ -205,23 +203,7 @@ $('#centralContainer').on('change', '#nowsortby', function(event) {
 });
 $('#centralContainer').on('change', '#days', function(event) {
     event.preventDefault();
-    days = $(this).val();
-    $.ajax({
-            url: '/jobs/history?&days='+days,
-            type: 'GET',
-            async:false,
-            dataType: 'html',
-        })
-        .done(function(htmlData) {
-            $('#contentLeft').html(htmlData);
-            ChangeUrl('/jobs?&days='+days);
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
+    getHistory();
 });
 function rightContentAjaxGet(path)
 {
@@ -233,6 +215,34 @@ function rightContentAjaxGet(path)
         })
         .done(function(htmlData) {
             $('#centralContainer').html(htmlData);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
+function getHistory()
+{
+    params = '&history=yes&days='+$('#days').val();
+    if($('#assigner').val())
+    {
+        params = params +'&assigner='+$('#assigner').val();
+    }
+    if($('#meeting').val())
+    {
+        params = params +'&meeting='+$('#meeting').val();
+    }
+     $.ajax({
+            url: '/jobs/history?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#historyDiv').html(htmlData);
+            ChangeUrl('/jobs?'+params);
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

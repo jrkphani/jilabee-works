@@ -6,28 +6,19 @@ $(document).ready(function($)
     $('#centralContainer').attr("style",string);
      historypage='no';
     var url = document.location.toString();
-        if (url.match('#'))
+        if (url.match('&'))
         {
-            variables = url.split('#');
+            variables = url.split('&');
             for (var i = 0; i < variables.length; i++)
             {
-                if(variables[i] == 'history')
+                var sParameterName = variables[i].split('=');
+                if (sParameterName[0] == 'history')
                 {
-                    //do nothing
                     historypage='yes';
-                }
-                else
-                {
-                     //move to now page
-                    historypage='no';
+                    break;
                 }
             }
         }
-        else
-        {
-            //move to now page
-            historypage='no';
-        } 
     if(historypage == 'no')
     {   //move to now page
         $("#centralViewer").scrollLeft($('#contentRight').width());
@@ -130,11 +121,13 @@ function moveright()
 {
     //$("#centralViewer").scrollLeft($('#contentRight').width());
     $("#centralViewer").animate({scrollLeft:'+='+$('#contentRight').width()}, 1000);
+    ChangeUrl('/jobs');
 }
 function moveleft()
 {
     //$("#centralViewer").scrollLeft('-'+$('#contentLeft').width());
     $("#centralViewer").animate({scrollLeft:'-='+$('#contentLeft').width()}, 1000);
+     ChangeUrl('/jobs?&history=yes');
 }
 
 function checkStatus(headerStatus) {

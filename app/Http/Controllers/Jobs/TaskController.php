@@ -6,6 +6,9 @@ use App\Model\JobTasksLog;
 use App\Model\JobTaskComments;
 use App\Model\Tasks;
 use App\Model\MinuteTasks;
+use App\Model\Minutes;
+use App\Model\Meetings;
+use App\Model\Profile;
 use Auth;
 use Validator;
 use Session;
@@ -31,6 +34,11 @@ class TaskController extends Controller {
 		$days = Request::get('days','7');
 		$group = Request::get('group',NULL);
 		$assigner = Request::get('assigner',NULL);
+		$meeting = Request::get('meeting',NULL);
+		$userId = Auth::id();
+		$meetingList = Meetings::select('meetings.id','meetings.title')
+					->join('organizations','meetings.oid','=','organizations.id')
+					->where('organizations.customerId','=',getOrgId())->lists('title','id');
 		//$mytask = array();
 		// if($sortby == 'timeline')
 		// {
@@ -47,7 +55,7 @@ class TaskController extends Controller {
 		$nowtasks = $this->nowsortby();
 		$historytasks = $this->historysortby();
 		//print_r($historytask); die;
-		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days]);
+		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'assigner'=>$assigner,'meeting'=>$meeting,'meetingList'=>$meetingList]);
 	}
 	public function viewTask($id)
 	{
@@ -461,8 +469,8 @@ class TaskController extends Controller {
 				}
 				else
 				{
-					$nowtasks['Individual']['tasks'][] = $task;
-					$nowtasks['Individual']['colorClass'] = 'boxNumberBlue';
+					$nowtasks['Individuals']['tasks'][] = $task;
+					$nowtasks['Individuals']['colorClass'] = 'boxNumberBlue';
 				}
 
 			}
@@ -490,14 +498,26 @@ class TaskController extends Controller {
 	{
 		//ref : http://www.wescutshall.com/2013/03/php-date-diff-days-negative-zero-issue/
 		$days = Request::get('days','7');
-		$group = Request::get('group',NULL);
+		$meeting = Request::get('meeting','all');
 		$assigner = Request::get('assigner',NULL);
 		$historytasks = array();
-		$query = Tasks::whereAssignee(Auth::id());
+		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id());
+		if($meeting != 'all')
+		{
+			$query = $query->whereIn('tasks.minuteId',function($qry) use ($meeting){
+								$qry->select('id')
+		                    		->from('minutes')
+		                       		->where('minutes.meetingId','=',$meeting);
+							});
+		}
+		if($assigner)
+		{
+			$query = $query->where('assigner','=',getUser(['userId'=>$assigner])->id);
+		}
 		if($days != 'all')
 		{
 			$startDate = date("Y-m-d 00:00:00",strtotime("-".$days." days"));
-			$tasks = $query->where('updated_at','>=',$startDate)->orderBy('updated_at','DESC')->get();
+			$tasks = $query->where('tasks.updated_at','>=',$startDate)->orderBy('tasks.updated_at','DESC')->get();
 			foreach ($tasks as $task)
 			{
 				if(date('Y-m-d', strtotime($task->updated_at)) === date('Y-m-d'))
@@ -510,6 +530,10 @@ class TaskController extends Controller {
 				}
 			}
 		}
+		else
+		{
+
+		}
 		if (Request::ajax())
 		{
 		    return view('jobs.history',['days'=>$days,'historytasks'=>$historytasks]);
@@ -518,10 +542,5 @@ class TaskController extends Controller {
 		{
 			return $historytasks;
 		}
-		echo date('Y-m-d');
-		echo $startDate;
-		echo "<pre>";
-		print_r($query->get()->toArray());
-		echo "</pre>"; die;
 	}
 }

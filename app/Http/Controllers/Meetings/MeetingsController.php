@@ -194,43 +194,11 @@ class MeetingsController extends Controller {
 		}
 		return json_encode($output);
 	}
-	// public function loadMeeting($mid)
-	// {
-	// 	$tempMeetings = TempMeetings::where('id','=',$mid)
-	// 			->where('created_by','=',Auth::id())->first();
-	// 	if($tempMeetings)
-	// 	{
-	// 		return view('meetings.tempMeeting',['tempMeetings'=>$tempMeetings]);
-	// 	}
-	// 	else
-	// 	{
-	// 		abort('404');
-	// 	}	
-	// }
-	// public function updateMeeting()
-	// {
-	// 	$input = Request::all();
-	// 	$mid = $input['mid'];
-	// 	unset($input['mid']);
-	// 	unset($input['_token']);
-	// 	unset($input['selectMinuters']);
-	// 	unset($input['selectAttendees']);
-	// 	$validator = TempMeetings::validation($input);
-	// 	if ($validator->fails())
-	// 	{
-	// 		$tempMeetings = TempMeetings::where('id','=',$mid)
-	// 			->where('created_by','=',Auth::id())->first();
-	// 		return view('meetings.tempMeeting',['tempMeetings'=>$tempMeetings])->withErrors($validator);
-	// 	}
-	// 	else
-	// 	{
-	// 		$input['status'] = 'Sent';
-	// 		$input['updated_by'] = Auth::id();
-	// 		$input['minuters'] = implode(',',$input['minuters']);
-	// 		$input['attendees'] = implode(',',$input['attendees']);
-	// 		//$input['requested_by'] = Profile::where('userId','=',Auth::user()->userId)->first()->name;
-	// 		TempMeetings::where('id','=',$mid)->update($input);
-	// 		return 'success';
-	// 	}
-	// }
+	public function findMeeting()
+	{	 
+		$input = Request::only('term');
+		$list = Meetings::select('meetings.id','meetings.title as value')->join('organizations','meetings.oid','=','organizations.id')
+					->where('organizations.customerId','=',getOrgId())->get();
+		return response()->json($list);
+	}
 }

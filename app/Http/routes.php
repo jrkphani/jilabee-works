@@ -61,6 +61,9 @@ Route::group(['prefix' => 'admin'], function()
 
 		Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'/']);
 		Route::get('user/search', 'Auth\ProfileController@findUser');
+		Route::get('assigner/search', 'Auth\ProfileController@findAssigner');
+		Route::get('assignee/search', 'Auth\ProfileController@findAssignee');
+		Route::get('meeting/search', 'Meetings\MeetingsController@findMeeting');
 		Route::get('notifications', 'Auth\ProfileController@notifications');
 		Route::get('notifications/all', 'Auth\ProfileController@allNotifications');
 
