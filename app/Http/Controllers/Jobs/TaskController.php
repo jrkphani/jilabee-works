@@ -35,6 +35,9 @@ class TaskController extends Controller {
 		$group = Request::get('group',NULL);
 		$assigner = Request::get('assigner',NULL);
 		$meeting = Request::get('meeting',NULL);
+		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
+		$historysearchtxt = Request::get('historysearchtxt',NULL);
+		$historypage = Request::get('history',NULL);
 		$userId = Auth::id();
 		$meetingList = Meetings::select('meetings.id','meetings.title')
 					->join('organizations','meetings.oid','=','organizations.id')
@@ -57,7 +60,8 @@ class TaskController extends Controller {
 		$nowtasks = $this->nowsortby();
 		$historytasks = $this->historysortby();
 		//print_r($historytask); die;
-		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'assigner'=>$assigner,'meeting'=>$meeting,'meetingList'=>$meetingList]);
+		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'assigner'=>$assigner,'meeting'=>$meeting,'meetingList'=>$meetingList,
+					'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
 	}
 	public function viewTask($id)
 	{
@@ -397,11 +401,21 @@ class TaskController extends Controller {
 	{
 		//ref : http://www.wescutshall.com/2013/03/php-date-diff-days-negative-zero-issue/
 		$sortby = Request::get('sortby','timeline');
+		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
 		$query = Tasks::whereAssignee(Auth::id());
+		if($searchtxt)
+		{
+			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
+					->where(function($qry) use ($searchtxt){
+						$qry->where("meetings.title","LIKE","%$searchtxt%")
+						->orWhere("tasks.title","LIKE","%$searchtxt%")
+						->orWhere("tasks.description","LIKE","%$searchtxt%");
+					});
+		}
 		if($sortby == 'timeline')
 		{
-			$tasks = $query->orderBy('status','DESC')->orderBy('dueDate')->get();
+			$tasks = $query->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
 			$today = new DateTime();
 			foreach($tasks as $task)
 			{
@@ -461,13 +475,13 @@ class TaskController extends Controller {
 		}
 		elseif($sortby == 'meeting')
 		{
-			$tasks = $query->orderBy('type')->orderBy('status','DESC')->orderBy('dueDate')->get();
+			$tasks = $query->orderBy('tasks.type')->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
 			foreach($tasks as $task)
 			{
 				if($task->type == 'minute')
 				{
-					$nowtasks[$task->minute->meeting->title]['tasks'][] = $task;
-					$nowtasks[$task->minute->meeting->title]['colorClass'] = 'boxNumberBlue';
+					$nowtasks[$task->meeting->title]['tasks'][] = $task;
+					$nowtasks[$task->meeting->title]['colorClass'] = 'boxNumberBlue';
 				}
 				else
 				{
@@ -479,7 +493,7 @@ class TaskController extends Controller {
 		}
 		elseif($sortby == 'assigner')
 		{
-			$tasks = $query->orderBy('assigner')->orderBy('status','DESC')->orderBy('dueDate')->get();
+			$tasks = $query->orderBy('tasks.assigner')->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
 			foreach($tasks as $task)
 			{
 				$nowtasks[$task->assignerDetail->name]['tasks'][] = $task;
@@ -503,7 +517,17 @@ class TaskController extends Controller {
 		$meeting = Request::get('meeting','all');
 		$assigner = Request::get('assigner',NULL);
 		$historytasks = array();
+		$searchtxt = Request::get('historysearchtxt',NULL);
 		$query = Tasks::whereAssignee(Auth::id());
+		if($searchtxt)
+		{
+			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
+					->where(function($qry) use ($searchtxt){
+						$qry->where("meetings.title","LIKE","%$searchtxt%")
+						->orWhere("tasks.title","LIKE","%$searchtxt%")
+						->orWhere("tasks.description","LIKE","%$searchtxt%");
+					});
+		}
 		if($meeting != 'all')
 		{
 			$query = $query->where('meetingId','=',$meeting);

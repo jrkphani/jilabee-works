@@ -183,23 +183,7 @@ $('#centralContainer').on('keypress', '#taskCommentText', function(event)
 
 $('#centralContainer').on('change', '#nowsortby', function(event) {
     event.preventDefault();
-    sortby = $(this).val();
-    $.ajax({
-            url: '/jobs/now?&sortby='+sortby,
-            type: 'GET',
-            async:false,
-            dataType: 'html',
-        })
-        .done(function(htmlData) {
-            $('#nowDiv').html(htmlData);
-            ChangeUrl('/jobs?&sortby='+sortby);
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
+    getNow();
 });
 $('#centralContainer').on('change', '#days', function(event) {
     event.preventDefault();
@@ -223,6 +207,30 @@ function rightContentAjaxGet(path)
             checkStatus(xhr.status);
         });
 }
+function getNow()
+{
+    params = '&sortby='+$('#nowsortby').val();
+    if($('#nowSearch').val().trim().length > 0)
+    {
+        params = params +'&nowsearchtxt='+$('#nowSearch').val();
+    }
+    $.ajax({
+            url: '/jobs/now?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#nowDiv').html(htmlData);
+            ChangeUrl('/jobs?'+params);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
 function getHistory()
 {
     params = '&history=yes&days='+$('#days').val();
@@ -233,6 +241,10 @@ function getHistory()
     if($('#meeting').val())
     {
         params = params +'&meeting='+$('#meeting').val();
+    }
+    if($('#historySearch').val().trim().length > 0)
+    {
+        params = params +'&historysearchtxt='+$('#historySearch').val();
     }
      $.ajax({
             url: '/jobs/history?'+params,
