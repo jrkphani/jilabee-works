@@ -263,3 +263,11 @@ function getHistory()
             checkStatus(xhr.status);
         });
 }
+ function ChangeUrl(url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: '', Url: 'jobs'+url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } else {
+        //alert("Browser does not support HTML5.");
+    }
+}

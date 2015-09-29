@@ -3,7 +3,7 @@ $(document).ready(function() {
         if (url.match('&'))
         {
             variables = url.split('&');
-            mid = tid = 0;
+           mid = tid = clickDiv=0;
             for (var i = 0; i < variables.length; i++)
             {
                 var sParameterName = variables[i].split('=');
@@ -24,8 +24,10 @@ $(document).ready(function() {
             {
                 clickDiv = $('.followup[tid='+tid+']:first');
             }
-            //alert(clickDiv.html());
-            clickDiv.trigger( "click" );
+            if(clickDiv)
+            {
+                clickDiv.trigger( "click" );
+            }
             //alert("Dfvd");
         }
         else
@@ -314,3 +316,75 @@ $(document).ready(function() {
         }
     }  
  });
+ $('#centralContainer').on('change', '#nowsortby', function(event) {
+    event.preventDefault();
+    getNow();
+});
+$('#centralContainer').on('change', '#days', function(event) {
+    event.preventDefault();
+    getHistory();
+});
+ function getNow()
+{
+    params = '&sortby='+$('#nowsortby').val();
+    if($('#nowSearch').val().trim().length > 0)
+    {
+        params = params +'&nowsearchtxt='+$('#nowSearch').val();
+    }
+    $.ajax({
+            url: '/followups/now?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#nowDiv').html(htmlData);
+            ChangeUrl('?'+params);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
+function getHistory()
+{
+    params = '&history=yes&days='+$('#days').val();
+    if($('#assigner').val())
+    {
+        params = params +'&assigner='+$('#assigner').val();
+    }
+    if($('#meeting').val())
+    {
+        params = params +'&meeting='+$('#meeting').val();
+    }
+    if($('#historySearch').val().trim().length > 0)
+    {
+        params = params +'&historysearchtxt='+$('#historySearch').val();
+    }
+     $.ajax({
+            url: '/followups/history?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#historyDiv').html(htmlData);
+            ChangeUrl('?'+params);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
+ function ChangeUrl(url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: '', Url: 'followups'+url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } else {
+        //alert("Browser does not support HTML5.");
+    }
+}

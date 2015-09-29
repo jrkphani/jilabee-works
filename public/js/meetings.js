@@ -344,3 +344,11 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
         }
     }
 });
+ function ChangeUrl(url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: '', Url: 'meetings'+url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } else {
+        //alert("Browser does not support HTML5.");
+    }
+}

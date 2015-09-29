@@ -27,9 +27,6 @@ class TaskController extends Controller {
 	}*/
 	public function index()
 	{
-		//print_r(Request::all()); die;
-		//$sortby = Request::get('sortby','timeline');
-		//$sortby = Request::get('sortby','meeting');
 		$sortby = Request::get('sortby','timeline');
 		$days = Request::get('days','7');
 		$group = Request::get('group',NULL);
@@ -40,26 +37,11 @@ class TaskController extends Controller {
 		$historypage = Request::get('history',NULL);
 		$userId = Auth::id();
 		$meetingList = Meetings::select('meetings.id','meetings.title')
-					->join('organizations','meetings.oid','=','organizations.id')
-					->where('organizations.customerId','=',getOrgId())
+					->join('tasks','meetings.id','=','tasks.meetingId')
+					->where('tasks.assignee','=',Auth::id())
 					->lists('title','id');
-					//print_r($meetingList); die;
-		//$mytask = array();
-		// if($sortby == 'timeline')
-		// {
-		// 	$tasks = Tasks::whereAssignee(Auth::id())->orderBy('dueDate')->get();
-		// }
-		// elseif ($sortby == 'meeting') 
-		// {
-		// 	$tasks = Tasks::whereAssignee(Auth::id())->orderBy('minuteId')->get();
-		// }
-		// elseif ($sortby == 'assigner')
-		// {
-		// 	$tasks = Tasks::whereAssignee(Auth::id())->orderBy('assigner')->get();
-		// }
 		$nowtasks = $this->nowsortby();
 		$historytasks = $this->historysortby();
-		//print_r($historytask); die;
 		return view('jobs.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'assigner'=>$assigner,'meeting'=>$meeting,'meetingList'=>$meetingList,
 					'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
 	}
@@ -503,7 +485,7 @@ class TaskController extends Controller {
 		}
 		if (Request::ajax())
 		{
-		    return view('jobs.now',['sortby'=>$sortby,'nowtasks'=>$nowtasks]);
+		    return view('jobs.now',['nowtasks'=>$nowtasks]);
 		}
 		else
 		{
@@ -528,9 +510,13 @@ class TaskController extends Controller {
 						->orWhere("tasks.description","LIKE","%$searchtxt%");
 					});
 		}
-		if($meeting != 'all')
+		if($meeting != 'all' && $meeting != 'individuals')
 		{
 			$query = $query->where('meetingId','=',$meeting);
+		}
+		else if( $meeting == 'individuals')
+		{
+			$query = $query->whereNull('meetingId');
 		}
 		if($assigner)
 		{
@@ -554,11 +540,11 @@ class TaskController extends Controller {
 		}
 		else
 		{
-
+			$historytasks['Beginning of time']['tasks'] = $query->orderBy('tasks.updated_at','DESC')->get();
 		}
 		if (Request::ajax())
 		{
-		    return view('jobs.history',['days'=>$days,'historytasks'=>$historytasks]);
+		    return view('jobs.history',['historytasks'=>$historytasks]);
 		}
 		else
 		{

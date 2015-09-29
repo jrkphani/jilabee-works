@@ -121,13 +121,13 @@ function moveright()
 {
     //$("#centralViewer").scrollLeft($('#contentRight').width());
     $("#centralViewer").animate({scrollLeft:'+='+$('#contentRight').width()}, 1000);
-    ChangeUrl('/jobs');
+    ChangeUrl('/');
 }
 function moveleft()
 {
     //$("#centralViewer").scrollLeft('-'+$('#contentLeft').width());
     $("#centralViewer").animate({scrollLeft:'-='+$('#contentLeft').width()}, 1000);
-     ChangeUrl('/jobs?&history=yes');
+     ChangeUrl('?&history=yes');
 }
 
 function checkStatus(headerStatus) {
@@ -335,11 +335,3 @@ $(document).on('click', '#allNotifications', function(event) {
             checkStatus(xhr.status);
         });
 });
- function ChangeUrl(url) {
-    if (typeof (history.pushState) != "undefined") {
-        var obj = { Title: '', Url: url };
-        history.pushState(obj, obj.Title, obj.Url);
-    } else {
-        //alert("Browser does not support HTML5.");
-    }
-}

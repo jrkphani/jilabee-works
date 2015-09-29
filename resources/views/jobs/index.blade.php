@@ -9,7 +9,7 @@
 		@if(count($historytasks))
 			<div class="mainListFilter">
 				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}"> <span id="showHistroyDiv">Reset</span>
-				{!! Form::select('days',['7'=>'Last 7 days','7'=>'Last 7 days','14'=>'Last 14 days','30'=>'Last 30 days','90'=>'Last 90 days'],$days,['id'=>'days','autocomplete'=>'off']) !!}
+				{!! Form::select('days',['7'=>'Last 7 days','7'=>'Last 7 days','14'=>'Last 14 days','30'=>'Last 30 days','90'=>'Last 90 days','all'=>'Beginning of time'],$days,['id'=>'days','autocomplete'=>'off']) !!}
 				<?php 
 				$display = "";
 				if($assigner)

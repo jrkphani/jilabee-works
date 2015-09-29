@@ -89,6 +89,8 @@ Route::group(['prefix' => 'admin'], function()
 		Route::group(['prefix' => 'followups'], function()
 		{
 			Route::get('/', ['uses'=>'Followups\TaskController@index','as'=>'followups']);
+			Route::get('/now', ['uses'=>'Followups\TaskController@nowsortby']);
+			Route::get('/history', ['uses'=>'Followups\TaskController@historysortby']);
 			Route::post('draft', 'Followups\TaskController@draft');
 			Route::get('deleteDraft/{taskid}', 'Followups\TaskController@deleteDraft')->where('taskid', '[0-9]+');
 			Route::get('draftform/{taskid?}', 'Followups\TaskController@draftform')->where('taskid', '[0-9]+');
