@@ -17,8 +17,12 @@ class Tasks extends Model{
     {   
         return $this->hasOne('App\Model\Profile', 'userId','assigner');
     }
-     public function minute()
+    public function minute()
     {
         return $this->hasOne('App\Model\Minutes', 'id', 'minuteId');
+    }
+    public function meeting()
+    {
+        return $this->hasOne('App\Model\Meetings', 'id', 'meetingId');
     }
 }

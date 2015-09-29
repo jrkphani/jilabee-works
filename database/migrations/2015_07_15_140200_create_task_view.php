@@ -14,10 +14,10 @@ class CreateTaskView extends Migration {
 	{
 		//$col_need = "title,description,assignee,assigner,status,dueDate,created_by,updated_by,created_at,updated_at";
 		DB::statement( "CREATE OR REPLACE VIEW tasks AS 
-		(SELECT concat('task','','') as type,id,title,description,assigner,assignee,status,updated_at,dueDate,concat(NULL,'',NULL) as minuteId from jobTasks where deleted_at IS NULL)
+		(SELECT concat('task','','') as type,id,title,description,assigner,assignee,status,updated_at,dueDate, concat(NULL,'',NULL) COLLATE utf8_general_ci as minuteId, concat(NULL,'',NULL) COLLATE utf8_general_ci as meetingId from jobTasks where deleted_at IS NULL)
 		UNION
 		(SELECT concat('minute','','') as type,minuteTasks.id,minuteTasks.title,minuteTasks.description,minuteTasks.assigner,minuteTasks.assignee,
-			minuteTasks.status,minuteTasks.updated_at,minuteTasks.dueDate,minuteTasks.minuteId from minuteTasks 
+			minuteTasks.status,minuteTasks.updated_at,minuteTasks.dueDate,concat(minuteTasks.minuteId,'','') COLLATE utf8_general_ci as minuteId,concat(minutes.meetingId,'','') COLLATE utf8_general_ci as meetingId  from minuteTasks 
 			JOIN minutes on minuteTasks.minuteId = minutes.id JOIN meetings on minutes.meetingId = meetings.id where meetings.active = '1' AND minuteTasks.deleted_at IS NULL AND meetings.deleted_at IS NULL)");
 	}
 

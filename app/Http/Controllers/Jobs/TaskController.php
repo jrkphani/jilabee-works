@@ -38,7 +38,9 @@ class TaskController extends Controller {
 		$userId = Auth::id();
 		$meetingList = Meetings::select('meetings.id','meetings.title')
 					->join('organizations','meetings.oid','=','organizations.id')
-					->where('organizations.customerId','=',getOrgId())->lists('title','id');
+					->where('organizations.customerId','=',getOrgId())
+					->lists('title','id');
+					//print_r($meetingList); die;
 		//$mytask = array();
 		// if($sortby == 'timeline')
 		// {
@@ -501,14 +503,10 @@ class TaskController extends Controller {
 		$meeting = Request::get('meeting','all');
 		$assigner = Request::get('assigner',NULL);
 		$historytasks = array();
-		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id());
+		$query = Tasks::whereAssignee(Auth::id());
 		if($meeting != 'all')
 		{
-			$query = $query->whereIn('tasks.minuteId',function($qry) use ($meeting){
-								$qry->select('id')
-		                    		->from('minutes')
-		                       		->where('minutes.meetingId','=',$meeting);
-							});
+			$query = $query->where('meetingId','=',$meeting);
 		}
 		if($assigner)
 		{
