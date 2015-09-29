@@ -196,7 +196,7 @@ class TaskController extends Controller {
 		$sortby = Request::get('sortby','timeline');
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
-		$query = Tasks::whereAssigner(Auth::id());
+		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id());
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
@@ -311,7 +311,7 @@ class TaskController extends Controller {
 		$assignee = Request::get('assignee',NULL);
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::whereAssigner(Auth::id());
+		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id());
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')

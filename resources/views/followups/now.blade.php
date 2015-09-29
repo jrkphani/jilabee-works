@@ -9,6 +9,7 @@
 			</div>
 			<?php $count =1; ?>
 			@foreach($tasks['tasks'] as $task)
+			{{$task->type}}
 				<?php if($task->type == 'minute')
 				{
 					$mid = "mid=$task->minuteId";
