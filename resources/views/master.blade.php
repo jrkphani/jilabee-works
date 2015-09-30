@@ -93,24 +93,24 @@
 	</div>
 	<div class="footer">
 		<div class="footerColumn fcFirst">
-			<a href="">Jobs</a>
-			<a href="">History</a>
-			<a href="">Current</a>
+			<a href="{{url('jobs')}}">Jobs</a>
+			<a href="{{url('jobs?&history=yes')}}">History</a>
+			<a href="{{url('jobs')}}">Current</a>
 		</div>
 		<div class="footerColumn">
-			<a href="">Follow Ups</a>
-			<a href="">History</a>
-			<a href="">Current</a>
+			<a href="{{url('followups')}}">Follow Ups</a>
+			<a href="{{url('followups?&history=yes')}}">History</a>
+			<a href="{{url('followups')}}">Current</a>
 		</div>
 		<div class="footerColumn">
-			<a href="">Meetings</a>
-			<a href="">History</a>
-			<a href="">Current</a>
+			<a href="{{url('meetings')}}">Meetings</a>
+			<a href="{{url('meetings?&history=yes')}}">History</a>
+			<a href="{{url('meetings')}}">Current</a>
 		</div>
 		<div class="footerColumn">
 			<a href="">Misc</a>
-			<a href="">New Task</a>
-			<a href="">New Meeting </a>
+			<a href="{{url('followups')}}">New Task</a>
+			<a href="{{url('meetings')}}">New Meeting </a>
 			<a href="">FAQ </a>
 		</div>
 		<div class="clearboth"></div>
