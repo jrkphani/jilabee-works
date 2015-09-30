@@ -24,7 +24,6 @@
 	</div>
 	<!--=================================== contentRight - Main/default section ================================-->
 	<div id="contentRight" class="contentRight">
-		@if(count($nowtasks))
 			<div class="mainListFilter">
 				<input type="text" placeholder="Search..." id="nowSearch" autocomplete="off" value="{{$nowsearchtxt}}">
 				{!! Form::select('nowsortby',['timeline'=>'Time Line','meeting'=>'Group','assignee'=>'People'],$nowsortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
@@ -34,9 +33,6 @@
 				@include('followups.now')
 				<div class="clearboth"></div>
 			</div>
-		@else
-			No Tasks
-		@endif
 		<div class="arrowBtn">
 			<span id="moveleft"><img src="{{asset('images/arrow_left.png')}}"> </span>
 			<p>History</p>
