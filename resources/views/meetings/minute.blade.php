@@ -86,7 +86,7 @@
 						<p>{!!$idea->description!!}</p>
 					</div>
 					<div class="minuteItemRight">
-						<h6>I{{$idea->id}}</h6>
+						<h6>ID{{$idea->id}}</h6>
 						<p>
 							@if($idea->orginator)
 								@if(isEmail($idea->orginator))

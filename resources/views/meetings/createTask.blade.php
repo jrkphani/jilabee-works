@@ -35,7 +35,16 @@
 						{!! Form::select('assigner[]',array(''=>'Assinger')+$attendees,$task->assigner,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>--}}
 					<p>
-						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$task->assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+					<?php if(isEmail($task->assignee))
+					{
+						$taskassignee = $task->assignee;
+					}
+					else
+					{
+						$taskassignee = getUser(['id'=>$task->assignee])->userId;
+					}
+					?>
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$taskassignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
 					</p>
 					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('style'=>'display:none;')) !!}</p>

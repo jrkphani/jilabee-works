@@ -56,9 +56,7 @@ class TaskController extends Controller {
 				{
 					if($input['type'][$i] == 'task')
 					{
-						$tempArr['assignee'] = $notification['userId'] = $input['assignee'][$i];
-						//$tempArr['assigner'] = $input['assigner'][$i];
-						$tempArr['assigner'] = Auth::id();
+						$tempArr['assignee'] = $input['assignee'][$i];
 						$tempArr['dueDate'] = $input['dueDate'][$i];
 						$tempArr['updated_by'] = Auth::id();
 						$tempArr['status'] = 'Sent';
@@ -72,13 +70,18 @@ class TaskController extends Controller {
 						if($assignee = getUser(['email'=>$input['assignee'][$i]]))
 						{
 							//check user has an account
-							$input['assignee'][$i] = $notification['userId'] = $assignee->id;
+							$tempArr['assignee'] = $notification['userId'] = $assignee->id;
 						}
 						else if(isEmail($input['assignee'][$i]))
 						{
 							//mark the task as accepted for who do have an account
+							$tempArr['assignee'] = $input['assignee'][$i];
 							$tempArr['status'] = 'Open';
 							$notification['userId']=0;
+						}
+						else if($assignee = getUser(['userId'=>$input['assignee'][$i]]))
+						{
+							$tempArr['assignee'] = $notification['userId'] = $assignee->id;
 						}
 						if($input['tid'][$i])
 						{ 
@@ -108,7 +111,19 @@ class TaskController extends Controller {
 					}
 					elseif($input['type'][$i] == 'idea')
 					{
-						$tempArr['orginator'] = $input['orginator'][$i];
+						if($orginator = getUser(['email'=>$input['orginator'][$i]]))
+						{
+							//check user has an account
+							$tempArr['orginator'] = $orginator->id;
+						}
+						else if(isEmail($input['orginator'][$i]))
+						{
+							$tempArr['orginator'] = $input['orginator'][$i];
+						}
+						else if($orginator = getUser(['userId'=>$input['orginator'][$i]]))
+						{
+							$tempArr['orginator'] = $orginator->id;
+						}
 						$tempArr['updated_by'] = Auth::id();
 						$validator = Ideas::validation($tempArr);
 						if ($validator->fails())
