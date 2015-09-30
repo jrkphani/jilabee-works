@@ -118,14 +118,14 @@ class ProfileController extends Controller {
 		{
 			return redirect('profile/edit')->withErrors($validator);
 		}
-		$userinput = ['name'=>$input['name'],'update_by' => Auth::id()];
+		$userinput = ['update_by' => Auth::id()];
 		if(isset($input['password']))
 		{
 			$userinput['password']=bcrypt($input['password']);
 		}
 		if($user->update(array_filter($userinput)))
 		{
-			$profileinput = ['dob'=>$input['dob'],'phone'=>$input['phone'],
+			$profileinput = ['name'=>$input['name'],'dob'=>$input['dob'],'phone'=>$input['phone'],
 							'gender'=>$input['gender'],'update_by' => Auth::id()];
 			if($user->profile->update($profileinput))
 			{
@@ -148,6 +148,7 @@ class ProfileController extends Controller {
 			'role'	=>'required|integer',
 			'phone'	=>'required|Regex:/^([0-9\s\-\+\(\)]*)$/',
 			'dob' =>'required|date|date_format:Y-m-d',
+			'department'=>'max:30',
 			'gender' =>'required|in:M,F,O',
 		]);
 
