@@ -6,7 +6,6 @@
 
 	<!--=================================== contentLeft - History section ================================-->
 	<div class="contentLeft" id="contentLeft">
-		@if(count($historytasks))
 			<div class="mainListFilter">
 				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}">
 				{!! Form::select('historysortby',['timeline'=>'Time Line','meeting'=>'Group','assigner'=>'People'],$historysortby,['id'=>'historysortby','autocomplete'=>'off']) !!}
@@ -16,9 +15,6 @@
 			<div id="historyDiv" class="mainList">
 				@include('jobs.history')
 			</div>
-		@else
-			No Tasks
-		@endif
 			<!--================ Buttons for now sections ======================-->
 		<div class="arrowBtn arrowBtnRight">
 			<span id="moveright"><img src="{{asset('images/arrow_right.png')}}"> </span>
