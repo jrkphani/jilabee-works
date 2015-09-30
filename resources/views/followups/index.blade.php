@@ -37,6 +37,7 @@
 			<span id="moveleft"><img src="{{asset('images/arrow_left.png')}}"> </span>
 			<p>History</p>
 		</div>
+		<button id="createTask" class="addBtn"> </button>
 		<div class="clearboth"></div>
 	</div>
 		<!--================ Buttons for now sections ======================-->

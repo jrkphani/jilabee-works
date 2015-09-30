@@ -190,6 +190,8 @@ class TaskController extends Controller {
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
 		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id());
+		$nowtasks['Draft']['tasks'] = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
+		$nowtasks['Draft']['colorClass'] = 'boxNumberRed';
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
@@ -287,6 +289,8 @@ class TaskController extends Controller {
 
 			}
 		}
+		
+		//print_r($nowtasks); die;
 		if (Request::ajax())
 		{
 		    return view('followups.now',['nowtasks'=>$nowtasks]);
