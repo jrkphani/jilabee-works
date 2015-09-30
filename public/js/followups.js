@@ -43,7 +43,7 @@ $(document).ready(function() {
         }
         else
         {
-            path = 'followups/task/'+tid;
+            path = '/followups/task/'+tid;
         }
         popupContentAjaxGet(path);
         
@@ -324,6 +324,23 @@ $('#centralContainer').on('change', '#days', function(event) {
     event.preventDefault();
     getHistory();
 });
+$('#centralContainer').on('change', '#historysortby', function(event) {
+    event.preventDefault();
+    getHistory();
+});
+$('#centralContainer').on('click', '#showNowDiv', function(event) {
+    event.preventDefault();
+    $('#nowsortby').val('timeline');
+    $('#nowSearch').val('');
+    getNow();
+});
+$('#centralContainer').on('click', '#showHistroyDiv', function(event) {
+    event.preventDefault();
+    $('#historysortby').val('timeline');
+    $('#days').val('7');
+    $('#historySearch').val('');
+    getHistory();
+});
  function getNow()
 {
     params = '&sortby='+$('#nowsortby').val();
@@ -350,18 +367,18 @@ $('#centralContainer').on('change', '#days', function(event) {
 }
 function getHistory()
 {
-    params = '&history=yes&days='+$('#days').val();
-    if($('#assigner').val())
+    params = '&history=yes';
+    if($('#historysortby').val())
     {
-        params = params +'&assigner='+$('#assigner').val();
-    }
-    if($('#meeting').val())
-    {
-        params = params +'&meeting='+$('#meeting').val();
+        params = params +'&historysortby='+$('#historysortby').val();
     }
     if($('#historySearch').val().trim().length > 0)
     {
         params = params +'&historysearchtxt='+$('#historySearch').val();
+    }
+    if($('#days').val().trim().length > 0)
+    {
+        params = params +'&days='+$('#days').val();
     }
      $.ajax({
             url: '/followups/history?'+params,

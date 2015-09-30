@@ -185,8 +185,25 @@ $('#centralContainer').on('change', '#nowsortby', function(event) {
     event.preventDefault();
     getNow();
 });
+$('#centralContainer').on('change', '#historysortby', function(event) {
+    event.preventDefault();
+    getHistory();
+});
 $('#centralContainer').on('change', '#days', function(event) {
     event.preventDefault();
+    getHistory();
+});
+$('#centralContainer').on('click', '#showNowDiv', function(event) {
+    event.preventDefault();
+    $('#nowsortby').val('timeline');
+    $('#nowSearch').val('');
+    getNow();
+});
+$('#centralContainer').on('click', '#showHistroyDiv', function(event) {
+    event.preventDefault();
+    $('#historysortby').val('timeline');
+    $('#days').val('7');
+    $('#historySearch').val('');
     getHistory();
 });
 function rightContentAjaxGet(path)
@@ -209,7 +226,7 @@ function rightContentAjaxGet(path)
 }
 function getNow()
 {
-    params = '&sortby='+$('#nowsortby').val();
+    params = '&nowsortby='+$('#nowsortby').val();
     if($('#nowSearch').val().trim().length > 0)
     {
         params = params +'&nowsearchtxt='+$('#nowSearch').val();
@@ -222,7 +239,7 @@ function getNow()
         })
         .done(function(htmlData) {
             $('#nowDiv').html(htmlData);
-            ChangeUrl('/jobs?'+params);
+            ChangeUrl('?'+params);
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);
@@ -233,18 +250,18 @@ function getNow()
 }
 function getHistory()
 {
-    params = '&history=yes&days='+$('#days').val();
-    if($('#assigner').val())
+    params = '&history=yes';
+    if($('#historysortby').val())
     {
-        params = params +'&assigner='+$('#assigner').val();
-    }
-    if($('#meeting').val())
-    {
-        params = params +'&meeting='+$('#meeting').val();
+        params = params +'&historysortby='+$('#historysortby').val();
     }
     if($('#historySearch').val().trim().length > 0)
     {
         params = params +'&historysearchtxt='+$('#historySearch').val();
+    }
+    if($('#days').val().trim().length > 0)
+    {
+        params = params +'&days='+$('#days').val();
     }
      $.ajax({
             url: '/jobs/history?'+params,
@@ -254,7 +271,7 @@ function getHistory()
         })
         .done(function(htmlData) {
             $('#historyDiv').html(htmlData);
-            ChangeUrl('/jobs?'+params);
+            ChangeUrl('?'+params);
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

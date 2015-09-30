@@ -8,30 +8,10 @@
 	<div class="contentLeft" id="contentLeft">
 		@if(count($historytasks))
 			<div class="mainListFilter">
-				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}"> <span id="showHistroyDiv">Reset</span>
+				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}">
+				{!! Form::select('historysortby',['timeline'=>'Time Line','meeting'=>'Group','assigner'=>'People'],$historysortby,['id'=>'historysortby','autocomplete'=>'off']) !!}
 				{!! Form::select('days',['7'=>'Last 7 days','7'=>'Last 7 days','14'=>'Last 14 days','30'=>'Last 30 days','90'=>'Last 90 days','all'=>'Beginning of time'],$days,['id'=>'days','autocomplete'=>'off']) !!}
-				<?php 
-				$display = "";
-				if($assigner)
-				{
-					$display = "display:none;";
-				}
-				?>
-				{!! Form::text('','',['id'=>'selectAssigner','placeholder'=>'search user','style'=>$display]) !!}
-				<?php 
-				$display = "display:none;";
-				$assignerList = [''=>'Search user'];
-				if($assigner)
-				{
-					$display = "";
-					$getassigner = getUser(['userId'=>$assigner]);
-					$assignerList['']='Search user';
-					$assignerList[$getassigner->userId] = $getassigner->profile->name;
-				}
-				?>
-				{!! Form::select('assigner',$assignerList,$assigner,['id'=>'assigner','autocomplete'=>'off','style'=>$display]) !!}
-				{!! Form::select('meeting',['all'=>'All','individuals'=>'Individuals']+$meetingList,$meeting,['id'=>'meeting','autocomplete'=>'off','style'=>'']) !!}
-				<button>Reset all</button>
+				<span id="showHistroyDiv" class="button">Reset</span>
 			</div>
 			<div id="historyDiv" class="mainList">
 				@include('jobs.history')
@@ -49,8 +29,9 @@
 	<div id="contentRight" class="contentRight">
 		@if(count($nowtasks))
 			<div class="mainListFilter">
-				<input type="text" placeholder="Search..." id="nowSearch" autocomplete="off" value="{{$nowsearchtxt}}"><span class="commonbutton" id="showNowDiv">Reset</span>
-				{!! Form::select('nowsortby',['timeline'=>'Time Line','meeting'=>'Group','assigner'=>'People'],$sortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
+				<input type="text" placeholder="Search..." id="nowSearch" autocomplete="off" value="{{$nowsearchtxt}}">
+				{!! Form::select('nowsortby',['timeline'=>'Time Line','meeting'=>'Group','assigner'=>'People'],$nowsortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
+				<span class="button" id="showNowDiv">Reset</span>
 			</div>
 			<div id="nowDiv" class="mainList">
 				@include('jobs.now')

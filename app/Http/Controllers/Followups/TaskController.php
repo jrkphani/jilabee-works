@@ -25,23 +25,16 @@ class TaskController extends Controller {
 	}*/
 	public function index()
 	{
-		$sortby = Request::get('sortby','timeline');
+		$nowsortby = Request::get('nowsortby','timeline');
+		$historysortby = Request::get('historysortby','timeline');
 		$days = Request::get('days','7');
 		$group = Request::get('group',NULL);
-		$assignee = Request::get('assignee',NULL);
-		$meeting = Request::get('meeting',NULL);
 		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
 		$historysearchtxt = Request::get('historysearchtxt',NULL);
 		$historypage = Request::get('history',NULL);
-		$userId = Auth::id();
-		$meetingList = Meetings::select('meetings.id','meetings.title')
-					->join('tasks','meetings.id','=','tasks.meetingId')
-					->where('tasks.assigner','=',Auth::id())
-					->lists('title','id');
 		$nowtasks = $this->nowsortby();
 		$historytasks = $this->historysortby();
-		return view('followups.index',['sortby'=>$sortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'assignee'=>$assignee,'meeting'=>$meeting,'meetingList'=>$meetingList,
-					'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
+		return view('followups.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
 	}
 	public function viewTask($id)
 	{
@@ -305,10 +298,8 @@ class TaskController extends Controller {
 	}
 	public function historysortby()
 	{
-		//ref : http://www.wescutshall.com/2013/03/php-date-diff-days-negative-zero-issue/
 		$days = Request::get('days','7');
-		$meeting = Request::get('meeting','all');
-		$assignee = Request::get('assignee',NULL);
+		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
 		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id());
@@ -321,41 +312,80 @@ class TaskController extends Controller {
 						->orWhere("tasks.description","LIKE","%$searchtxt%");
 					});
 		}
-		if($meeting != 'all' && $meeting != 'individuals')
-		{
-			$query = $query->where('meetingId','=',$meeting);
-		}
-		else if( $meeting == 'individuals')
-		{
-			$query = $query->whereNull('meetingId');
-		}
-		if($assignee)
-		{
-			$query = $query->where('assignee','=',getUser(['userId'=>$assignee])->id);
-		}
-		if($days != 'all')
+		if(!is_array($days))
 		{
 			$startDate = date("Y-m-d 00:00:00",strtotime("-".$days." days"));
-			$tasks = $query->where('tasks.updated_at','>=',$startDate)->orderBy('tasks.updated_at','DESC')->get();
-			foreach ($tasks as $task)
+			$query = $query->where('tasks.updated_at','>=',$startDate);
+		}
+		if($sortby == 'timeline')
+		{
+			$tasks = $query->orderBy('tasks.updated_at','DESC')->get();
+			$today = new DateTime();
+			foreach($tasks as $task)
 			{
-				if(date('Y-m-d', strtotime($task->updated_at)) === date('Y-m-d'))
+				//echo $task->updated_at."<br>";
+				$updated_at = new DateTime($task->updated_at);
+				$interval = date_diff($today, $updated_at);
+				$days = $interval->format('%r%a');
+				if($days  === '-0')
 				{
 					$historytasks['Completed Today']['tasks'][] = $task;
+					$historytasks['Completed Today']['colorClass'] = 'boxNumberGreen';
+				}
+				else if(date('W', strtotime(date('Y-m-d H:i:s')))  === date('W', strtotime($task->updated_at)))
+				{
+					$historytasks['This Week']['tasks'][] = $task;
+					$historytasks['This Week']['colorClass'] = 'boxNumberGreen';
+				}
+				else if((int)date('W', strtotime(date('Y-m-d H:i:s')))  === ((int)date('W', strtotime($task->updated_at)))+1)
+				{
+					$historytasks['Past Week']['tasks'][] = $task;
+					$historytasks['Past Week']['colorClass'] = 'boxNumberGreen';
+				}
+				else if(date('mY', strtotime(date('Y-m-d H:i:s'))) === date('mY', strtotime($task->updated_at)))
+				{
+					$historytasks['This Month']['tasks'][] = $task;
+					$historytasks['This Month']['colorClass'] = 'boxNumberBlue';							
 				}
 				else
 				{
-					$historytasks['Last '.$days.' days']['tasks'][] = $task;	
+					$coltitle = date('M Y', strtotime($task->updated_at));
+					$historytasks[$coltitle]['tasks'][] = $task;
+					$historytasks[$coltitle]['colorClass'] = 'boxNumberBlue';
 				}
 			}
 		}
-		else
+		else if($sortby == 'meeting')
 		{
-			$historytasks['Beginning of time']['tasks'] = $query->orderBy('tasks.updated_at','DESC')->get();
+			$tasks = $query->orderBy('tasks.type')->orderBy('tasks.updated_at','DESC')->get();
+			foreach($tasks as $task)
+			{
+				if($task->type == 'minute')
+				{
+					$historytasks[$task->meeting->title]['tasks'][] = $task;
+					$historytasks[$task->meeting->title]['colorClass'] = 'boxNumberBlue';
+				}
+				else
+				{
+					$historytasks['Individuals']['tasks'][] = $task;
+					$historytasks['Individuals']['colorClass'] = 'boxNumberBlue';
+				}
+
+			}
+		}
+		elseif($sortby == 'assignee')
+		{
+			$tasks = $query->orderBy('tasks.assignee')->orderBy('tasks.dueDate')->get();
+			foreach($tasks as $task)
+			{
+				$historytasks[$task->assigneeDetail->name]['tasks'][] = $task;
+				$historytasks[$task->assigneeDetail->name]['colorClass'] = 'boxNumberBlue';
+
+			}
 		}
 		if (Request::ajax())
 		{
-		    return view('followups.history',['historytasks'=>$historytasks]);
+		    return view('jobs.history',['historytasks'=>$historytasks]);
 		}
 		else
 		{
