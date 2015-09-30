@@ -378,7 +378,7 @@ class TaskController extends Controller {
 		$sortby = Request::get('nowsortby','timeline');
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
-		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id());
+		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
@@ -487,12 +487,11 @@ class TaskController extends Controller {
 	}
 	public function historysortby()
 	{
-		//ref : http://www.wescutshall.com/2013/03/php-date-diff-days-negative-zero-issue/
 		$days = Request::get('days','7');
 		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id());
+		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where('status','==','Closed')->where('status','==','Cancelled');
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')

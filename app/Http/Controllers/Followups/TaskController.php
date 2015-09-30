@@ -189,9 +189,8 @@ class TaskController extends Controller {
 		$sortby = Request::get('sortby','timeline');
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
-		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id());
-		$nowtasks['Draft']['tasks'] = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
-		$nowtasks['Draft']['colorClass'] = 'boxNumberRed';
+		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
+		
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
@@ -200,6 +199,26 @@ class TaskController extends Controller {
 						->orWhere("tasks.title","LIKE","%$searchtxt%")
 						->orWhere("tasks.description","LIKE","%$searchtxt%");
 					});
+			$draft = JobDraft::where('assigner','=',Auth::id())
+					->where(function($qry)  use ($searchtxt){
+						$qry->where("title","LIKE","%$searchtxt%")
+						->orWhere("description","LIKE","%$searchtxt%");
+					})
+					->orderBy('updated_at','desc')->get();
+			if(count($draft))
+			{
+				$nowtasks['Draft']['tasks'] = $draft;
+				$nowtasks['Draft']['colorClass'] = 'boxNumberRed';
+			}
+		}
+		else
+		{
+			$draft = JobDraft::where('assigner','=',Auth::id())->orderBy('updated_at','desc')->get();
+			if(count($draft))
+			{
+				$nowtasks['Draft']['tasks'] = $draft;
+				$nowtasks['Draft']['colorClass'] = 'boxNumberRed';
+			}
 		}
 		if($sortby == 'timeline')
 		{
@@ -289,8 +308,6 @@ class TaskController extends Controller {
 
 			}
 		}
-		
-		//print_r($nowtasks); die;
 		if (Request::ajax())
 		{
 		    return view('followups.now',['nowtasks'=>$nowtasks]);
@@ -306,7 +323,7 @@ class TaskController extends Controller {
 		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id());
+		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','==','Closed')->where('status','==','Cancelled');
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
