@@ -48,7 +48,7 @@ class Meetings extends Model{
     {
 
         $rule = array('title'=>'required|max:64',
-            'description'=>'required',
+            'description'=>'required|max:1000',
             'venue'=>'max:64',
             'participants' => 'required',
             'roles' => 'required',
