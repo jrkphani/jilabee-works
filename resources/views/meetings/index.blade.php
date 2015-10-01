@@ -6,47 +6,11 @@
 @section('content')
 <div id="contentLeft" class="contentLeft">
 	<div class="mainListFilter">
-				<input type="text" placeholder="Search...">
-				<select>
-				  <option value="0">Any meeting</option>
-				  <option value="Option">Option 1</option>
-				  <option value="Option">Option 2</option>
-				  <option value="Option">Option 3</option>
-				</select>
-				<select>
-				  <option value="0">Any time</option>
-				  <option value="Option">Option 1</option>
-				  <option value="Option">Option 2</option>
-				  <option value="Option">Option 3</option>
-				</select>
-				<select>
-			  <option value="0">Location</option>
-			  <option value="Option">Option 1</option>
-			  <option value="Option">Option 2</option>
-			  <option value="Option">Option 3</option>
-			</select>
+				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}">
+				<span id="showHistroyDiv" class="button">Reset</span>
 			</div>
 		<div class="contentMeetingsLeft">
-		@if(count($closedMeetings))
-			<div class="boxList">
-			<div class="boxTitle">
-				<span class="boxTitleNumber boxNumberBlue">{{count($closedMeetings)}}</span>
-				<p>Closed Meetings</p>
-				<div class="clearboth"></div>
-			</div>
-			<?php $count = 1; ?>
-			@foreach($closedMeetings as $minute)
-				<div class="box">
-					<span class="boxNumber boxNumberBlue">{{$count++}}</span>
-					<div class="boxInner minute_history" mid="{{$minute->id}}">
-						<h4>{{$minute->meeting()->withTrashed()->first()->title}}</h4>
-						<p>{{$minute->startDate}}</p>
-					</div>
-					<div class="boxRight closed_minute" mid="{{$minute->id}}"></div>
-				</div>
-			@endforeach
-			</div>
-			@endif
+			@include('meetings.history')
 		</div>
 		<div class="contentMeetingsRight" id="historyMeetingsRight">
 		</div>
@@ -61,81 +25,11 @@
 <!-- Now section -->
 <div id="contentRight" class="contentRight">
 		<div class="mainListFilter">
-			<input type="text" placeholder="Search...">
-			<select>
-			  <option value="0">Sort by</option>
-			  <option value="Option">Option 1</option>
-			  <option value="Option">Option 2</option>
-			  <option value="Option">Option 3</option>
-			</select>
+			<input type="text" placeholder="Search..." id="nowSearch" autocomplete="off" value="{{$nowsearchtxt}}">
+			<span class="button" id="showNowDiv">Reset</span>
 		</div>
 	<div class="contentMeetingsLeft">
-		
-		
-		@if(count($notfiled) || count($pendingmeetings) || count($newmeetings))
-		<div class="boxList">
-			<div class="boxTitle">
-				<span class="boxTitleNumber boxNumberRed">{{count($notfiled)+count($pendingmeetings)+count($newmeetings)}}</span>
-				<p>Draft</p>
-				<div class="clearboth"></div>
-			</div>
-			<?php $count = 1; ?>
-			@foreach($newmeetings as $meeting)
-				<div class="box">
-					<span class="boxNumber boxNumberRed">{{$count++}}</span>
-					<div class="boxInner" mid="{{$meeting->id}}">
-						<h4>{{$meeting->title}}</h4>
-					</div>
-					<div class="boxRight firstMinute" mid="{{$meeting->id}}"></div>
-				</div>
-			@endforeach
-			@foreach($pendingmeetings as $meeting)
-			<?php $details = unserialize($meeting->details); ?>
-				<div class="box pendingmeetings" mid="{{$meeting->id}}">
-					<span class="boxNumber boxNumberRed">{{$count++}}</span>
-					<div class="boxInner">
-						<h4>{{$meeting->title}}</h4>
-						<p>{{$meeting->created_at}}</p>
-					</div>
-					<div class="boxRight" mid="{{$meeting->id}}">
-						@if($meeting->draft == '1')
-						<p class="boxRightText">draft</p>
-						@endif
-					</div>
-				</div>
-			@endforeach
-			@foreach($notfiled as $minute)
-				<div class="box">
-					<span class="boxNumber boxNumberRed">{{$count++}}</span>
-					<div class="boxInner minute_history" mid="{{$minute->id}}">
-						<h4>{{$minute->meeting->title}}</h4>
-						<p>{{$minute->startDate}}</p>
-					</div>
-					<div class="boxRight minute" mid="{{$minute->id}}"></div>
-				</div>
-			@endforeach	
-		</div>
-		@endif
-		@if(count($recentMinutes))
-		<div class="boxList">
-			<div class="boxTitle">
-				<span class="boxTitleNumber boxNumberBlue">{{count($recentMinutes)}}</span>
-				<p>Recent Minutes</p>
-				<div class="clearboth"></div>
-			</div>
-			<?php $count = 1; ?>
-			@foreach($recentMinutes as $minute)
-				<div class="box">
-					<span class="boxNumber boxNumberBlue">{{$count++}}</span>
-					<div class="boxInner minute_history" mid="{{$minute->id}}">
-						<h4>{{$minute->meeting->title}}</h4>
-						<p>{{$minute->startDate}}</p>
-					</div>
-					<div class="boxRight minute" mid="{{$minute->id}}"></div>
-				</div>
-			@endforeach
-		</div>
-		@endif
+		@include('meetings.now')
 	</div>
 	<div class="contentMeetingsRight" id="nowMeetingsRight">
 		{{-- right side content --}}

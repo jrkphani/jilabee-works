@@ -399,7 +399,7 @@ function getHistory()
 }
  function ChangeUrl(url) {
     if (typeof (history.pushState) != "undefined") {
-        var obj = { Title: '', Url: 'followups'+url };
+        var obj = { Title: '', Url: '/followups'+url };
         history.pushState(obj, obj.Title, obj.Url);
     } else {
         //alert("Browser does not support HTML5.");

@@ -24,52 +24,12 @@ class MeetingsController extends Controller {
 	{
 	}*/
 	public function index()
-	{
-		$recentMinutes = $notfiled = $pendingmeetings = $closedMeetings =array();
-		$newmeetings = Meetings::select('meetings.*')
-						->join('organizations','meetings.oid','=','organizations.id')
-						//->join('minutes','meetings.id','=','minutes.meetingId')
-						->where('meetings.active','=','1')
-						->whereNull('meetings.deleted_at')
-						->where('organizations.customerId','=',getOrgId())
-						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
-						->whereNotExists(function($query)
-						 	{
-						 	$query->select(DB::raw(1))
-		                    		->from('minutes')
-		                       		->whereRaw('meetings.id = minutes.meetingId');
-						 		})
-						->get();
-						//print_r($newmeetings); die;
-		$recentMinutes = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
-					->join('meetings','minutes.meetingId','=','meetings.id')
-					->where('meetings.active','=','1')
-					->whereNull('meetings.deleted_at')
-					->where('minutes.filed','=','1')
-					->groupBy('minutes.meetingId')
-					->orderBy('minutes.startDate','desc')
-					->get();
-					//print_r(count($recentMinutes)); die;
-		$notfiled = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
-					->join('meetings','minutes.meetingId','=','meetings.id')
-					->where('meetings.active','=','1')
-					->whereNull('meetings.deleted_at')
-					->where('minutes.filed','=','0')
-					->groupBy('minutes.meetingId')
-					->get();
-					//non approve meeting minutes
-		$pendingmeetings = TempMeetings::where('created_by','=',Auth::id())->get();
-
-		//closed meetings
-		$closedMeetings = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
-					->join('meetings','minutes.meetingId','=','meetings.id')
-					->where('meetings.active','=','1')
-					->whereNotNull('meetings.deleted_at')
-					->where('minutes.filed','=','1')
-					->groupBy('minutes.meetingId')
-					->orderBy('minutes.startDate','desc')
-					->get();		
-		return view('meetings.index',['notfiled'=>$notfiled,'recentMinutes'=>$recentMinutes,'newmeetings'=>$newmeetings,'pendingmeetings'=>$pendingmeetings,'closedMeetings'=>$closedMeetings]);
+	{	
+		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
+		$historysearchtxt = Request::get('historysearchtxt',NULL);
+		$minutes= $this->nowsortby();
+		$meetings= $this->historysortby();
+		return view('meetings.index',['nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt,'minutes'=>$minutes,'meetings'=>$meetings]);
 	}
 	public function meetingForm($mid=NULL)
 	{
@@ -200,5 +160,65 @@ class MeetingsController extends Controller {
 		$list = Meetings::select('meetings.id','meetings.title as value')->join('organizations','meetings.oid','=','organizations.id')
 					->where('organizations.customerId','=',getOrgId())->get();
 		return response()->json($list);
+	}
+	public function nowsortby()
+	{
+		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
+		$minutes['newmeetings'] = Meetings::select('meetings.*')
+						->join('organizations','meetings.oid','=','organizations.id')
+						//->join('minutes','meetings.id','=','minutes.meetingId')
+						->where('meetings.active','=','1')
+						->whereNull('meetings.deleted_at')
+						->where('organizations.customerId','=',getOrgId())
+						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
+						->whereNotExists(function($query)
+						 	{
+						 	$query->select(DB::raw(1))
+		                    		->from('minutes')
+		                       		->whereRaw('meetings.id = minutes.meetingId');
+						 		})
+						->get();
+						//print_r($newmeetings); die;
+		$minutes['recentMinutes'] = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.active','=','1')
+					->whereNull('meetings.deleted_at')
+					->where('minutes.filed','=','1')
+					->groupBy('minutes.meetingId')
+					->orderBy('minutes.startDate','desc')
+					->get();
+					//print_r(count($recentMinutes)); die;
+		$minutes['notfiled'] = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.active','=','1')
+					->whereNull('meetings.deleted_at')
+					->where('minutes.filed','=','0')
+					->groupBy('minutes.meetingId')
+					->get();
+					//non approve meeting minutes
+		$minutes['pendingmeetings'] = TempMeetings::where('created_by','=',Auth::id())->get();
+		if (Request::ajax())
+		{
+		    return view('meetings.now',['nowsearchtxt'=>$nowsearchtxt,'minutes'=>$minutes]);
+		}
+		else
+		{
+			return $minutes;
+		}
+
+	}
+	public function historysortby()
+	{
+		//closed meetings
+		$historysearchtxt = Request::get('historysearchtxt',NULL);
+		$meetings = Meetings::whereNotNull('deleted_at')->orWhere('active','=','0')->withTrashed()->get();
+		if (Request::ajax())
+		{
+		    return view('meetings.history',['historysearchtxt'=>$historysearchtxt,'meetings'=>$meetings]);
+		}
+		else
+		{
+			return $meetings;
+		}
 	}
 }
