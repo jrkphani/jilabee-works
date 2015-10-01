@@ -7,33 +7,34 @@
 				<p>{{$title}}</p>
 				<div class="clearboth"></div>
 			</div>
-			<?php $count =1; ?>
 			@foreach($tasks['tasks'] as $task)
 				<?php if($task->type == 'minute')
 				{
 					$mid = "mid=$task->minuteId";
-					$formId = "Form$task->minuteId$task->id";
 				}
 				else
 				{
 					$mid='';
-					$formId = "Form$task->id";
 				}
 				?>
-					<div class="box">
-						<span class="boxNumber {{$tasks['colorClass']}}">{{$count++}}</span>
-						<div class="boxInner">
-							<h4 class="searchTxt">{{$task->title}}</h4>
-							<p class="searchTxt">{!!$task->description!!}</p>
-						</div>
-						@if($title == 'Draft')
-						<div class="boxRight followupDraft" {{$mid}} tid="{{$task->id}}">
-						@else
-						<div class="boxRight followup" {{$mid}} tid="{{$task->id}}">
-						@endif
-						
-						</div>
+				@if($title == 'Draft')
+				<div class="box followupDraft" {{$mid}} tid="{{$task->id}}">
+					<span class="boxNumber {{$tasks['colorClass']}}">D{{$task->id}}</span>
+				@else
+				<div class="box followup" {{$mid}} tid="{{$task->id}}">
+					@if($mid)
+					<span class="boxNumber {{$tasks['colorClass']}}">MT{{$task->id}}</span>
+					@else
+						<span class="boxNumber {{$tasks['colorClass']}}">T{{$task->id}}</span>
+					@endif
+				@endif
+					<div class="boxInner">
+						<h4 class="searchTxt">{{$task->title}}</h4>
+						<p class="searchTxt">{!!$task->description!!}</p>
+						<p class="searchTxt">Due: {{$task->dueDate}}</p>
 					</div>
+					<div class="boxRight"></div>
+				</div>
 			@endforeach
 		</div>
 	@endforeach
