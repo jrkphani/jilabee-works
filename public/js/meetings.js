@@ -48,7 +48,8 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
             }
             else if(jsonData.success == 'yes')
             {
-                location.reload();
+                //toast('Meeting request');
+                getNow();
                 //$('#popup').load('/minute/first/'+jsonData.meetingId);
             }
             //////console.log("success");
@@ -84,6 +85,7 @@ $('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
             }
             else if(jsonData.success == 'yes')
             {
+                toast('Draft saved!');  
                 $('#popup').load('/meetings/load/'+jsonData.meetingId);
             }
             //////console.log("success");
@@ -187,6 +189,7 @@ $('#centralContainer').on('click', '#updateMinute', function(event) {
     })
     .done(function(htmlData)
     {
+        toast('Updated');
         $('#minuteDiv').html(htmlData);
     })
     .fail(function(xhr) {
@@ -232,6 +235,7 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
             data: $('#tasksAddForm').serialize(),
         })
         .done(function() {
+            toast('Draft saved!');
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);
@@ -266,6 +270,7 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
                 }
             else if(jsonData.success == 'yes')
                 {
+                    toast('Draft minutes sent to participants');
                     $('#minuteDiv').load('/minute/'+mid);
                 }
         })

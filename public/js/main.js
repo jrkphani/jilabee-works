@@ -108,12 +108,13 @@ $(document).ready(function($)
     {
         if(textStatus.status == 200)
         {
-            //setInterval(function(){$('#toastDiv').hide(); },1000);
-            setInterval(function(){$('#toastDiv').hide(); },200);
+            //setTimeout(function(){$('#toastDiv').hide(); },1000);
+            $('#toastDiv').hide();
+            //setTimeout(function(){$('#toastDiv').hide(); },200);
         }
         else
         {
-            setInterval(function(){$('#toastDiv').hide(); },8000);
+            setTimeout(function(){$('#toastDiv').hide(); },8000);
         }
     }
 });
@@ -179,8 +180,9 @@ function rightContentAjaxGet(path)
             checkStatus(xhr.status);
         });
 }
-function popupContentAjaxPost(path,form)
+function popupContentAjaxPost(path,form,msg)
 {
+    msg = msg||'no';
     $.ajax({
             url: path,
             type: 'POST',
@@ -190,6 +192,10 @@ function popupContentAjaxPost(path,form)
         })
         .done(function(htmlData) {
             $('#popup').html(htmlData);
+            if(msg !='no')
+            {
+                toast(msg);
+            }
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);
@@ -335,3 +341,14 @@ $(document).on('click', '#allNotifications', function(event) {
             checkStatus(xhr.status);
         });
 });
+function toast(msg,flag,time)
+{
+    msg = msg || 'Success';
+    flag = flag || 'success';
+    time = time || '4000';
+    $('#toastmsg').html(msg);
+    setTimeout(function(){
+        $('#toastDiv').show(); 
+        setTimeout(function(){$('#toastDiv').hide(); },time);
+    },200);
+}

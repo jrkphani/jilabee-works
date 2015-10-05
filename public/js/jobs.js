@@ -69,7 +69,8 @@ $('#centralContainer').on('click', '.task', function(event){
             type: 'GET',
         })
         .done(function() {
-            location.reload();
+            getNow();
+            toast('Task accepted!');
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);
@@ -103,6 +104,7 @@ $('#centralContainer').on('click', '.task', function(event){
             if(jsonData.success == 'yes')
             {
                 $('#accept, #reject').remove();
+                toast('Task rejected!');
             }
             else if(jsonData.success == 'no')
             {
@@ -112,7 +114,7 @@ $('#centralContainer').on('click', '.task', function(event){
             }
             else
             {
-                //notification(status,message);
+                toast("Oops! Something Went Wrong!");
             }
         })
         .fail(function(xhr) {

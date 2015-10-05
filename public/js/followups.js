@@ -129,7 +129,9 @@ $(document).ready(function() {
             .done(function(jsonData){
                 if(jsonData.success == 'yes')
                 {
-                    location.reload();
+                    getNow();
+                    getHistory();
+                    toast('Task cancelled and sent to history!');
                 }
                 else
                 {
@@ -167,11 +169,13 @@ $(document).ready(function() {
             .done(function(jsonData){
                 if(jsonData.success == 'yes')
                 {
-                    location.reload();
+                    getNow();
+                    getHistory();
+                    toast('Task deleted!');
                 }
                 else
                 {
-                 notification('error','Something went wrong');   
+                    toast('Oops! Something Went Wrong!');  
                 }
             })
             .fail(function(xhr) {
@@ -205,11 +209,12 @@ $(document).ready(function() {
             .done(function(jsonData){
                 if(jsonData.success == 'yes')
                 {
-                    location.reload();
+                    getNow();
+                    toast('Draft discarded!');
                 }
                 else
                 {
-                 notification('error','Something went wrong');   
+                    toast('Oops! Something Went Wrong!');
                 }
             })
             .fail(function(xhr) {
@@ -232,6 +237,7 @@ $(document).ready(function() {
             })
             .done(function($htmlData) {
                 $('#popup').html($htmlData);
+                toast('Draft saved!');
             })
             .fail(function(xhr) {
                 checkStatus(xhr.status);
@@ -264,7 +270,9 @@ $(document).ready(function() {
                 }
                 else if(jsonData.success == 'yes')
                 {
-                   location.reload();
+                    toast("Task sent");
+                    getNow();
+                   //location.reload();
                 }
                 ////console.log("success");
         	})
@@ -299,7 +307,7 @@ $(document).ready(function() {
     {
         path = 'jobs/task/update/'+tid;
     }
-    popupContentAjaxPost(path,form);
+    popupContentAjaxPost(path,form,'Task modified!');
  });
  $('#centralContainer').on('keypress', '#followupCommentText', function(event)
  {
