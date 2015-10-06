@@ -127,7 +127,7 @@ $('#adminContent').on('click', '#endMeeting', function(event) {
                 }
                 else
                 {
-                 notification('error','Something went wrong');   
+                 toast("Oops! Something Went Wrong!");
                 }
             })
             .fail(function(xhr) {

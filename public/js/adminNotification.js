@@ -49,7 +49,7 @@ $('#adminContent').on('click', '.newusers', function(event) {
        .done(function(jsonData) {
            if(jsonData.success == 'no')
            {
-            alert('notificatin: something went wrong');
+            toast("Oops! Something Went Wrong!");
            }
            else if(jsonData.success == 'yes')
            {

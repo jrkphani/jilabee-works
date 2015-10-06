@@ -70,7 +70,7 @@ $('#adminContent').on('click', '#addUserSubmit', function(event) {
         }
         else
         {
-        	errorNotification('some this worng');
+        	toast("Oops! Something Went Wrong!");
         }
 	})
 	.fail(function(xhr) {
@@ -126,7 +126,7 @@ $('#adminContent').on('click', '#editUserSubmit', function(event) {
         }
         else
         {
-        	notification('some this worng');
+        	toast("Oops! Something Went Wrong!");
         }
 	})
 	.fail(function(xhr) {
