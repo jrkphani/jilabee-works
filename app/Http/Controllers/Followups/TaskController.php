@@ -70,7 +70,7 @@ class TaskController extends Controller {
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
 				$notification['objectType'] = 'jobs';
-				$notification['subject'] = 'new';
+				$notification['subject'] = 'comment';
 				$notification['tag'] = 'now';
 				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
