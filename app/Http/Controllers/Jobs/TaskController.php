@@ -43,9 +43,7 @@ class TaskController extends Controller {
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
 		$notification['userId'] = $task->assignee;
 		$notification['objectId'] = $task->id;
-		$notification['objectType'] = 'Task';
 		$notification['isRead'] = '1';
-		$notification['body'] = $task->title;
 		setNotification($notification);
 		return view('jobs.task',['task'=>$task]);
 	}
@@ -70,9 +68,9 @@ class TaskController extends Controller {
 		{
 			$notification['userId'] = $task->assigner;
 			$notification['objectId'] = $task->id;
-			$notification['objectType'] = 'Task';
-			$notification['subject'] = 'Accepted';
-			$notification['body'] = $task->title;
+			$notification['objectType'] = 'jobs';
+			$notification['subject'] = 'now';
+			$notification['body'] = 'Task #'.$task->id.' accepted';
 			setNotification($notification);
 		}
 		//return view('jobs.task',['task'=>$task]);
@@ -94,9 +92,9 @@ class TaskController extends Controller {
 			{
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'Task';
-				$notification['subject'] = 'Rejected';
-				$notification['body'] = $task->title;
+				$notification['objectType'] = 'jobs';
+				$notification['subject'] = 'now';
+				$notification['body'] = 'Task #'.$task->id.' rejected';
 				setNotification($notification);
 				
 				// Activity::log([
@@ -173,9 +171,9 @@ class TaskController extends Controller {
 				if($notification['userId'])
 				{
 					$notification['objectId'] = $task->id;
-					$notification['objectType'] = 'Task';
-					$notification['subject'] = 'New';
-					$notification['body'] = $task->title;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'now';
+					$notification['body'] = 'Task #'.$task->id.' sent by '.Auth::user()->profile->name;
 					setNotification($notification);
 				}
 				return json_encode($output);
@@ -235,9 +233,9 @@ class TaskController extends Controller {
 				if($notification['userId'])
 				{
 					$notification['objectId'] = $task->id;
-					$notification['objectType'] = 'Task';
-					$notification['subject'] = 'Update';
-					$notification['body'] = $task->title;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'now';
+					$notification['body'] = 'Task #'.$task->id.' is modified';
 					setNotification($notification);
 				}
 			}
@@ -254,9 +252,9 @@ class TaskController extends Controller {
 			{
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'Task';
-				$notification['subject'] = 'Completed';
-				$notification['body'] = $task->title;
+				$notification['objectType'] = 'jobs';
+				$notification['subject'] = 'now';
+				$notification['body'] = Auth::user()->profile->name.' completed task #'.$task->id;
 				setNotification($notification);
 				$output['success'] = 'yes';
 				return json_encode($output);
@@ -275,6 +273,12 @@ class TaskController extends Controller {
 				$task->status = 'Closed';
 				if($task->save())
 				{
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'history';
+					$notification['body'] = 'Task #'.$task->id.' completion accepted';
+					setNotification($notification);
 					return view('followups.task',['task'=>$task]);
 				}
 			}
@@ -293,9 +297,9 @@ class TaskController extends Controller {
 				{
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
-					$notification['objectType'] = 'Task';
-					$notification['subject'] = 'Completion Rejected';
-					$notification['body'] = $task->title;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'now';
+					$notification['body'] = 'Task #'.$task->id.' completion failed';
 					setNotification($notification);
 					return view('followups.task',['task'=>$task]);
 				}
@@ -316,6 +320,12 @@ class TaskController extends Controller {
 				{
 					//return view('followups.task',['task'=>$task]);
 					$output['success'] = 'yes';
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'history';
+					$notification['body'] = 'Task #'.$task->id.' has been cancelled and sent history';
+					setNotification($notification);
 				}
 			}
 			else
@@ -332,7 +342,7 @@ class TaskController extends Controller {
 			{
 				$task->delete();
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'Task';
+				$notification['objectType'] = 'jobs';
 				removeNotification($notification);
 				$output['success'] = 'yes';
 			}
@@ -360,9 +370,9 @@ class TaskController extends Controller {
 			{
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'Task';
-				$notification['subject'] = 'Comment';
-				$notification['body'] = $task->title;
+				$notification['objectType'] = 'jobs';
+				$notification['subject'] = 'now';
+				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
 				return view('jobs.task',['task'=>$task]);
 			}

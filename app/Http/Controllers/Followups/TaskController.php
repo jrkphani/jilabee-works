@@ -40,11 +40,9 @@ class TaskController extends Controller {
 	{
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
 		$notification['userId'] = $task->assigner;
-		$notification['objectId'] = $task->id;
-		$notification['objectType'] = 'Task';
-		$notification['isRead'] = '1';
-		$notification['body'] = $task->title;
-		setNotification($notification);
+        $notification['objectId'] = $task->id;
+        $notification['isRead'] = '1';
+        setNotification($notification);
 		return view('followups.task',['task'=>$task]);
 	}
 	public function viewMinute($mid,$id)
@@ -70,9 +68,9 @@ class TaskController extends Controller {
 			{
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'Task';
-				$notification['subject'] = 'Comment';
-				$notification['body'] = $task->title;
+				$notification['objectType'] = 'jobs';
+				$notification['subject'] = 'now';
+				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
 				return view('followups.task',['task'=>$task]);
 			}
@@ -101,9 +99,9 @@ class TaskController extends Controller {
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
 				$notification['parentId'] = $task->minuteId;
-				$notification['objectType'] = 'Task';
-				$notification['subject'] = 'Comment';
-				$notification['body'] = $task->title;
+				$notification['objectType'] = 'jobs';
+				$notification['subject'] = 'now';
+				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
 				return view('followups.task',['task'=>$task]);
 			}
