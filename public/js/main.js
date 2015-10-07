@@ -255,20 +255,25 @@ function notifications()
                      insert = '<h4>Notifications</h4><button id="allNotifications" class="showAllBtn">Show All</button>';
                     $.each(jsonDate.result, function(key,row)
                     {
-                        if(row.objectType == 'Task')
+                        if(row.objectType == 'jobs')
                         {
                             link = '/jobs/?';
-                            if(row.subject == 'Accepted' || row.subject == 'Rejected')
-                            {
-                                link = '/followups/?';
-                            }
                             link += '&tid='+row.objectId;
                             if(row.parentId)
                             {
                                 link +='&mid='+row.parentId;
                             }
                         }
-                        else if(row.objectType == 'Minute')
+                        if(row.objectType == 'followups')
+                        {
+                            link = '/followups/?';
+                            link += '&tid='+row.objectId;
+                            if(row.parentId)
+                            {
+                                link +='&mid='+row.parentId;
+                            }
+                        }
+                        else if(row.objectType == 'meeting')
                         {
                             link = '';
                             row.body = 'New User Added in Meeting';
@@ -302,7 +307,7 @@ function notifications()
                             isRead ='notification_read';
                         }
                         insert +='<div class="notificationItem '+isRead+'">'
-                                +'    <p>'+row.subject+'-'+row.objectType+'</p>'
+                                //+'    <p>'+row.subject+'-'+row.objectType+'</p>'
                                 +'    <h6><a href="'+link+'">'+row.body+'</a></h6>'
                                 +'    <p>'+updated_at+'</p>'
                                 +'</div>';

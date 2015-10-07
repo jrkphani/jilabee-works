@@ -129,6 +129,7 @@ $(document).ready(function() {
             .done(function(jsonData){
                 if(jsonData.success == 'yes')
                 {
+                    $('#popup').hide();
                     getNow();
                     getHistory();
                     toast('Task cancelled and sent to history!');
@@ -169,6 +170,7 @@ $(document).ready(function() {
             .done(function(jsonData){
                 if(jsonData.success == 'yes')
                 {
+                    $('#popup').hide();
                     getNow();
                     getHistory();
                     toast('Task deleted!');
@@ -270,6 +272,7 @@ $(document).ready(function() {
                 }
                 else if(jsonData.success == 'yes')
                 {
+                    $('#popup').hide();
                     toast("Task sent");
                     getNow();
                    //location.reload();

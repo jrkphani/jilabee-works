@@ -43,6 +43,7 @@ class TaskController extends Controller {
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
 		$notification['userId'] = $task->assignee;
 		$notification['objectId'] = $task->id;
+		$notification['objectType'] = 'jobs';
 		$notification['isRead'] = '1';
 		setNotification($notification);
 		return view('jobs.task',['task'=>$task]);
@@ -68,8 +69,9 @@ class TaskController extends Controller {
 		{
 			$notification['userId'] = $task->assigner;
 			$notification['objectId'] = $task->id;
-			$notification['objectType'] = 'jobs';
-			$notification['subject'] = 'now';
+			$notification['objectType'] = 'followups';
+			$notification['subject'] = 'update';
+			$notification['tag'] = 'now';
 			$notification['body'] = 'Task #'.$task->id.' accepted';
 			setNotification($notification);
 		}
@@ -92,8 +94,9 @@ class TaskController extends Controller {
 			{
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'jobs';
-				$notification['subject'] = 'now';
+				$notification['objectType'] = 'followups';
+				$notification['subject'] = 'update';
+				$notification['tag'] = 'now';
 				$notification['body'] = 'Task #'.$task->id.' rejected';
 				setNotification($notification);
 				
@@ -172,7 +175,8 @@ class TaskController extends Controller {
 				{
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
-					$notification['subject'] = 'now';
+					$notification['subject'] = 'new';
+					$notification['tag'] = 'now';
 					$notification['body'] = 'Task #'.$task->id.' sent by '.Auth::user()->profile->name;
 					setNotification($notification);
 				}
@@ -235,6 +239,7 @@ class TaskController extends Controller {
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
 					$notification['subject'] = 'now';
+					$notification['tag'] = 'update';
 					$notification['body'] = 'Task #'.$task->id.' is modified';
 					setNotification($notification);
 				}
@@ -252,8 +257,9 @@ class TaskController extends Controller {
 			{
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
-				$notification['objectType'] = 'jobs';
-				$notification['subject'] = 'now';
+				$notification['objectType'] = 'followups';
+				$notification['subject'] = 'update';
+				$notification['tag'] = 'now';
 				$notification['body'] = Auth::user()->profile->name.' completed task #'.$task->id;
 				setNotification($notification);
 				$output['success'] = 'yes';
@@ -276,7 +282,8 @@ class TaskController extends Controller {
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
-					$notification['subject'] = 'history';
+					$notification['subject'] = 'update';
+					$notification['tag'] = 'history';
 					$notification['body'] = 'Task #'.$task->id.' completion accepted';
 					setNotification($notification);
 					return view('followups.task',['task'=>$task]);
@@ -298,7 +305,8 @@ class TaskController extends Controller {
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
-					$notification['subject'] = 'now';
+					$notification['subject'] = 'update';
+					$notification['tag'] = 'now';
 					$notification['body'] = 'Task #'.$task->id.' completion failed';
 					setNotification($notification);
 					return view('followups.task',['task'=>$task]);
@@ -323,7 +331,8 @@ class TaskController extends Controller {
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
-					$notification['subject'] = 'history';
+					$notification['subject'] = 'update';
+					$notification['tag'] = 'history';
 					$notification['body'] = 'Task #'.$task->id.' has been cancelled and sent history';
 					setNotification($notification);
 				}
@@ -371,7 +380,8 @@ class TaskController extends Controller {
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
 				$notification['objectType'] = 'jobs';
-				$notification['subject'] = 'now';
+				$notification['subject'] = 'comment';
+				$notification['tag'] = 'now';
 				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
 				return view('jobs.task',['task'=>$task]);

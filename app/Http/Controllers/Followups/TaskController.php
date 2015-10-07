@@ -41,6 +41,7 @@ class TaskController extends Controller {
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
 		$notification['userId'] = $task->assigner;
         $notification['objectId'] = $task->id;
+        $notification['objectType'] = 'followups';
         $notification['isRead'] = '1';
         setNotification($notification);
 		return view('followups.task',['task'=>$task]);
@@ -69,7 +70,8 @@ class TaskController extends Controller {
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
 				$notification['objectType'] = 'jobs';
-				$notification['subject'] = 'now';
+				$notification['subject'] = 'new';
+				$notification['tag'] = 'now';
 				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
 				return view('followups.task',['task'=>$task]);
@@ -100,7 +102,8 @@ class TaskController extends Controller {
 				$notification['objectId'] = $task->id;
 				$notification['parentId'] = $task->minuteId;
 				$notification['objectType'] = 'jobs';
-				$notification['subject'] = 'now';
+				$notification['subject'] = 'comment';
+				$notification['tag'] = 'now';
 				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
 				setNotification($notification);
 				return view('followups.task',['task'=>$task]);

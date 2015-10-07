@@ -21,6 +21,7 @@ class CreateNotificationTable extends Migration {
             $table->string('objectType', 128);
             $table->string('subject', 128)->nullable();
             $table->text('body')->nullable();
+            $table->string('tab',8)->nullable();
             $table->boolean('isRead')->default(0);
             $table->timestamps();
         });
