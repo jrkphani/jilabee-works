@@ -6,7 +6,7 @@
 	<li>
 	@endif
 		<h3>{{$notification->objectType}}</h3>
-		<a href="#">{{$notification->subject}}</a>
+		<a href="#">{{$notification->body}}</a>
 		<p>{{date('Y M d - H:i', strtotime($notification->updated_at))}}</p>
 		<span class="notification_go_btn">Go</span>
 		<span class="notification_left_bar"></span>

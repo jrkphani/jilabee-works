@@ -133,7 +133,7 @@ class UserController extends Controller {
 									}
 								}
 							}
-
+							sendEmail($user->email,$profile->name,'Jotter Account','emails.test',['user'=>$user]);
 						}
 					}
 				}

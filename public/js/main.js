@@ -258,15 +258,23 @@ function notifications()
                         if(row.objectType == 'jobs')
                         {
                             link = '/jobs/?';
+                            if(row.tag == 'history')
+                            {
+                                link += '&history=yes';    
+                            }
                             link += '&tid='+row.objectId;
                             if(row.parentId)
                             {
                                 link +='&mid='+row.parentId;
                             }
                         }
-                        if(row.objectType == 'followups')
+                        else if(row.objectType == 'followups')
                         {
                             link = '/followups/?';
+                            if(row.tag == 'history')
+                            {
+                                link += '&history=yes';    
+                            }
                             link += '&tid='+row.objectId;
                             if(row.parentId)
                             {
