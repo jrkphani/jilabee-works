@@ -1,4 +1,4 @@
-
+@if($historytasks)
 	@foreach($historytasks as $title=>$tasks)
 		<div class="boxList">
 			<div class="boxTitle">
@@ -33,3 +33,6 @@
 			@endforeach
 		</div>
 	@endforeach
+@else
+	No tasks
+@endif

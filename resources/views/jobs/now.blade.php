@@ -1,5 +1,5 @@
-
 <!--=================================== List 1 ================================-->
+@if($nowtasks)
 	@foreach($nowtasks as $title=>$tasks)
 		<div class="boxList">
 			<div class="boxTitle">
@@ -43,3 +43,6 @@
 			@endforeach
 		</div>
 	@endforeach
+@else
+	No tasks
+@endif
