@@ -34,5 +34,5 @@
 		</div>
 	@endforeach
 @else
-	No tasks
+	No jobs
 @endif
