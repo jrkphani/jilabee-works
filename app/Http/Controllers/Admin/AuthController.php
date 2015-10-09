@@ -82,7 +82,7 @@ class AuthController extends Controller {
 					}					
 				}
 		 });
-		return redirect('admin/auth/register')->with('message', 'Success');
+		return redirect('admin/auth/register')->with('message', 'Registration success, please check your email for activation.');
 	}
 	
 	public function loginGet()

@@ -87,6 +87,9 @@
 						</div>
 						<br/>
 						<span class="br_line"></span>
+						@if(session('message'))
+						{{session('message')}}
+						@endif
 						<div class="userDetailItem" style="margin:0 auto;">
                            		<a class="btn btn-primary login_loginbtn login_register_back" href="{{url('/auth/login')}}">Back</a> 
 								<input class=" login_loginbtn"type="submit" value="Register">
