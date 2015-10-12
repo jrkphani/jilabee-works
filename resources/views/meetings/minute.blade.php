@@ -18,15 +18,33 @@
 		<div class="paperSubTitle">
 			<p>
 				<span>Participants:</span>
-				@foreach(App\Model\Profile::whereIn('userId',explode(',',$minute->attendees))->lists('name','userId') as $attendee)
-				{{$attendee}} ,
+				@foreach(explode(',',$minute->attendees) as $attendee)
+					@if(isEmail($attendee))
+						{{$attendee}} ,
+					@else
+					<?php $attendees[]=$attendee; ?>
+					@endif
 				@endforeach
+				@if(isset($attendees))
+					@foreach(App\Model\Profile::whereIn('userId',$attendees))->lists('name','userId') as $attendee)
+					{{$attendee}} ,
+					@endforeach
+				@endif
 			</p>
 			<p>
 				<span>Absentees:</span>
-				@foreach(App\Model\Profile::whereIn('userId',explode(',',$minute->absentees))->lists('name','userId') as $absentees)
-					{{$absentees}} ,
+				@foreach(explode(',',$minute->absentees) as $absentee)
+					@if(isEmail($absentee))
+						{{$absentee}} ,
+					@else
+					<?php $absentees[]=$absentee; ?>
+					@endif
 				@endforeach
+				@if(isset($absentees))
+					@foreach(App\Model\Profile::whereIn('userId',$absentees)->lists('name','userId') as $absentees)
+						{{$absentees}} ,
+					@endforeach
+				@endif
 			</p>
 		</div>
 		<h4>Minutes</h4>
