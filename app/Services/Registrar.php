@@ -65,16 +65,20 @@ class Registrar implements RegistrarContract {
 				if($user)
 				{
 					$userId = $this->generatePublicUserId($user->id);
-					$user->update(['userId'=>$userId]);
+					$remember_token= str_random('60');
+					$user->remember_token=$remember_token;
+					$user->update(['userId'=>$userId,'remember_token'=>$remember_token]);
 					$input  = array('userId'=>$user->id,
 									'name'=>$data['name'],
 									'dob'=>$data['dob'],
 									'gender'=>$data['gender'],
-									'phone'=>$data['phone']);
-
+									'phone'=>$data['phone'],
+									'created_by'=>$user->id,
+									'updated_by'=>$user->id);
 					$profile = new Profile($input);
 			        //$profile->setConnection(env('GEN_DATABASE'));
-					$user->profile()->save();
+					$user->profile()->save($profile);
+					sendEmail($user->email,$profile->name,'Activation Mail','emails.singleSignup',['user'=>$user,'remember_token'=>$remember_token]);
 				}
 		 });
 		

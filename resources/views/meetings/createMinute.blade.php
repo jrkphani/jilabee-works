@@ -123,7 +123,7 @@
 			<div id="absentees" class="absentee_box"></div>
 			<div class="clearboth"></div>
 			<input type="text" id="addParticipant" placeholder='add user'>
-	<button id="updateMinute">Proceed</button>
+	<span class="button" id="updateMinute">Proceed</span>
 
 	@endif
 	{!! Form::close() !!}

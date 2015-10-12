@@ -11,6 +11,22 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
 	<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
 </head>
+<?php
+if(session('isOrg') == 'yes')
+{
+	$display1="display:none";
+	$display2="";
+	$select1 = '';
+	$select2 = 'true';
+}
+else
+{
+	$display1="";
+	$display2="display:none";
+	$select1 = 'true';
+	$select2 = '';
+}
+?>
 <body class="login_body">
 	<header>
 		<!-- <h1><a href="/">Jotter</a></h1> -->
@@ -19,7 +35,62 @@
 		<div class="indexLogin">
 			<h1>Jotter</h1>
 			<div class="registerForm">
-			<form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/auth/register') }}">
+				<div class="userDetailItem regFormGender">
+					<p>Registration Type:</p>
+					{!!Form::radio('regType', 'S',$select1,['class'=>'regType','autocomplete'=>'off']) !!} Single
+					{!!Form::radio('regType', 'O',$select2,['class'=>'regType','autocomplete'=>'off']) !!} Organization
+				</div>
+			<form class="form-horizontal" id="singleForm" role="form" style="{{$display1}}" method="POST" action="{{ url('/auth/register') }}">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<div class="userDetailItem">
+							<p>Name</p>
+							<input type="text" autocomplete="off"  name="name" value="{{ old('name') }}">
+							{!! $errors->first('name','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem">
+							<p>E-Mail Address</p>
+							<input type="email" autocomplete="off"  name="email" value="{{ old('email') }}">
+							{!! $errors->first('email','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem">
+							<p>Password</p>
+							<input type="password" autocomplete="off"  name="password">
+							{!! $errors->first('password','<div class="error">:message</div>') !!}
+						</div>
+
+						<div class="userDetailItem">
+							<p>Confirm Password</p>
+							<input type="password" autocomplete="off"  name="password_confirmation">
+						</div>
+
+						<div class="userDetailItem">
+							<p>DOB</p>
+							<input type="text" id="dob" name="dob" value="{{ old('dob') }}">
+							{!! $errors->first('dob','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem">
+							<p>Phone</p>
+							<input type="text" autocomplete="off"  name="phone" value="{{ old('phone') }}">
+							{!! $errors->first('phone','<div class="error">:message</div>') !!}
+						</div>
+						<div class="userDetailItem regFormGender">
+							<p>Gender</p>
+							{!!Form::radio('gender', 'M') !!} Male 
+							{!!Form::radio('gender', 'F') !!} Female
+							{!!Form::radio('gender', 'O') !!} Others
+							{!! $errors->first('gender','<div class="error">:message</div>') !!}
+						</div>
+						<br/>
+						<span class="br_line"></span>
+						@if(session('message'))
+						{{session('message')}}
+						@endif
+						<div class="userDetailItem" style="margin:0 auto;">
+                           		<a class="btn btn-primary login_loginbtn login_register_back" href="{{url('/auth/login')}}">Back</a> 
+								<input class=" login_loginbtn"type="submit" value="Register">
+						</div>
+					</form>
+			<form class="form-horizontal" id="orgForm" role="form" style="{{$display2}}" method="POST" action="{{ url('/admin/auth/register') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="userDetailItem">
 							<p>Organization Name</p>
@@ -116,5 +187,19 @@
 			    });
 			$('#dob').handleDtpicker('setDate',d);
 			$('#dob').val('');
+
+
+			$('.regType').change(function(event) {
+				if($(this).val() == 'S')
+				{
+					$('#singleForm').show();
+					$('#orgForm').hide();
+				}
+				else
+				{
+					$('#orgForm').show();
+					$('#singleForm').hide();
+				}
+			});
     	});
 </script>

@@ -40,12 +40,12 @@ class AuthController extends Controller {
 	}
 	public function getRegister()
 	{
-		die;
-		return view('auth.register');
+		//die;
+		//return view('auth.register');
+		return redirect('admin/auth/register');
 	}
 	public function postRegister(Request $request)
 	{
-		die;
 		$validator = $this->registrar->validator($request->all());
 
 		if ($validator->fails())
@@ -61,7 +61,8 @@ class AuthController extends Controller {
 		    'description' => 'General signup',
 		    'details'     => 'Username: '.$request->name.'Email:'.$request->email
 		]);
-		return redirect('/auth/register')->with('message', 'Registration successfully!');
+		//return redirect('/auth/register')->with('message', 'Registration successfully!');
+		return redirect('admin/auth/register')->with('message', 'Registration success, please check your email for activation.');
 	}
 	public function postLogin(Request $request)
     {

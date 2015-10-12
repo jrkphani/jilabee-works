@@ -51,6 +51,7 @@ class ProfileController extends Controller {
 	{	 
 		$input = Request::only('term');
 		$orgID = getOrgId();
+		echo $orgID; die;
 		$list = Profile::select('users.userId','profiles.name as value','profiles.role')
 				->join('users','profiles.userId','=','users.id')
 				->where('users.userId','LIKE',$orgID.'%')

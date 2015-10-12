@@ -34,7 +34,7 @@ class AuthController extends Controller {
 		$input = $request->all();
 		 if ($validator->fails())
 		 {
-		 	return redirect('admin/auth/register')->withInput($input)->withErrors($validator);
+		 	return redirect('admin/auth/register')->withInput($input)->with('isOrg','yes')->withErrors($validator);
 		 }
 		DB::transaction(function() use ($input)
 		 {

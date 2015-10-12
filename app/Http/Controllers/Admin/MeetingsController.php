@@ -327,37 +327,40 @@ class MeetingsController extends Controller {
 		$output['success'] = 'yes';
 		$meeting = Meetings::whereId($mid)->first();
 		$minuters=$attendees=$attendeesEmail=array();
-		if(count($input['participants']) != count($input['roles']))
+		if(count($input['participants']))
 		{
-			$output['success'] = 'no';
-			$output['error'] = 'Something is wrong with this field!';
-			return json_encode($output);
-		}
-
-		foreach ($input['participants'] as $key => $value)
-		{
-			if($input['roles'][$key] == '1')
+			if(count($input['participants']) != count($input['roles']))
 			{
-				//attendees
-				if(isEmail($value))
+				$output['success'] = 'no';
+				$output['error'] = 'Something is wrong with this field!';
+				return json_encode($output);
+			}
+
+			foreach ($input['participants'] as $key => $value)
+			{
+				if($input['roles'][$key] == '1')
 				{
-					if($assignee = getUser(['email'=>$value]))
+					//attendees
+					if(isEmail($value))
 					{
-						$attendees[] = $assignee->id;
+						if($assignee = getUser(['email'=>$value]))
+						{
+							$attendees[] = $assignee->id;
+						}
+						else
+						{
+							$attendeesEmail[] = $value;
+						}
 					}
 					else
 					{
-						$attendeesEmail[] = $value;
+						$attendees[] = $value;
 					}
 				}
-				else
+				elseif($input['roles'][$key] == '2')
 				{
-					$attendees[] = $value;
+					$minuters[] = $value;
 				}
-			}
-			elseif($input['roles'][$key] == '2')
-			{
-				$minuters[] = $value;
 			}
 		}
 
