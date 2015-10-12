@@ -26,7 +26,7 @@
 			</p>
 		</div>
 		<h4>Minutes</h4>
-		@if($minute->filed == '0')
+		@if($minute->filed == '1')
 			<?php 
 				$lastFiledMinute = App\Model\Minutes::where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
 				if($lastFiledMinute)
