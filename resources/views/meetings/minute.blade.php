@@ -3,6 +3,7 @@
 <div id="toPrint" class="paper">
 	<div  class="paperBorder">
 		<div class="paperTitleLeft">
+			<h3>Meeting #{{$minute->meeting()->withTrashed()->first()->id}}</h3>
 			<h3>{{$minute->meeting()->withTrashed()->first()->title}}</h3>
 			<p>meeting venue: {{$minute->venue}}</p>
 		</div>
