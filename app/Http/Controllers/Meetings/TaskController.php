@@ -84,11 +84,18 @@ class TaskController extends Controller {
 							$tempArr['assignee'] = $notification['userId'] = $assignee->id;
 						}
 						if($input['tid'][$i])
-						{ 
+						{
 							$findstate = 'status'.$input['tid'][$i];
 							if(Request::get($findstate,null))
 							{
-								$tempArr['status'] = Request::get($findstate);
+								if(isEmail($input['assignee'][$i]))
+								{
+									$tempArr['status'] = 'Open';
+								}
+								else
+								{
+									$tempArr['status'] = Request::get($findstate);
+								}
 							}
 							$updatedFlag = 1;
 							$oldTask = MinuteTasks::whereId($input['tid'][$i]);
