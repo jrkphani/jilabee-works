@@ -7,6 +7,43 @@
 		                       		->where('filedMinutes.status','!=','Cancelled')
 		                       		->where('filedMinutes.minuteId','=',$lastFiledMinute->id);
 							})->get();
+	$attendeesEmail=array();
+	if($lastFiledMinute->attendees)
+	{
+		foreach(explode(',',$lastFiledMinute->attendees) as $value)
+		{
+			if(isEmail($value))
+			{
+				$attendeesEmail[$value] = $value;
+			}
+			else
+			{
+				$participants[]=$value;
+			}
+		}
+	}
+	$attendees =  App\Model\Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
+			->join('users','profiles.userId','=','users.id')
+			->lists('profiles.name','users.userId');
+			$emails = $absentees = array();
+				 if($lastFiledMinute->absentees)
+				 {
+				 	foreach (explode(',',$lastFiledMinute->absentees) as $value)
+				 	{
+				 		if(isEmail($value))
+				 		{
+				 			$emails[$value]=$value;
+				 		}
+				 		else
+				 		{
+				 			$absentees[]=$value;
+				 		}
+				 	}
+				 }
+				 $absentees = App\Model\Profile::select('profiles.name','users.userId')
+				 			->whereIn('profiles.userId',$absentees)
+							->join('users','profiles.userId','=','users.id')
+							->lists('profiles.name','users.userId');
 ?>
 <div >	
 	{{-- not show closed/canceled task in last meeting --}}
@@ -41,7 +78,7 @@
 					$assignee=getUser(['id'=>$task->assignee])->userId;
 				}
 				?>
-					{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail,$assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal onchange')) !!}
+					{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal onchange')) !!}
 				</p>
 				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput dateInput clearVal onchange",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 				<p>{!! Form::select('status'.$task->id,['Sent'=>'Reopen','Open'=>'Open','Closed'=>'Completed','Cancelled'=>'Cancel'],$task->status,['class'=>'status']) !!}</p>
