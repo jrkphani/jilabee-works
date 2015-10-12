@@ -26,7 +26,7 @@
 					@endif
 				@endforeach
 				@if(isset($attendees))
-					@foreach(App\Model\Profile::whereIn('userId',$attendees))->lists('name','userId') as $attendee)
+					@foreach(App\Model\Profile::whereIn('userId',$attendees)->lists('name','userId') as $attendee)
 					{{$attendee}} ,
 					@endforeach
 				@endif
