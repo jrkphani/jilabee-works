@@ -452,18 +452,18 @@ class TaskController extends Controller {
 				{
 					$currentMinute->filed='1';
 					$currentMinute->save();
-					foreach ($currentMinute->attendees as $key => $value)
-					{
-						if(isEmail($value))
-						{
-							sendEmail($value,$value,'Jotter Account','emails.test',['user'=>NULL]);
-						}
-						else
-						{
-							$user = getUser(['id'=>$value]);
-							sendEmail($user->email,$user->profile->name,'Jotter Account','emails.test',['user'=>NULL]);
-						}
-					}
+					// foreach ($currentMinute->attendees as $key => $value)
+					// {
+					// 	if(isEmail($value))
+					// 	{
+					// 		sendEmail($value,$value,'Jotter Account','emails.test',['user'=>NULL]);
+					// 	}
+					// 	else
+					// 	{
+					// 		$user = getUser(['id'=>$value]);
+					// 		sendEmail($user->email,$user->profile->name,'Jotter Account','emails.test',['user'=>NULL]);
+					// 	}
+					// }
 				}
 			}
 	}

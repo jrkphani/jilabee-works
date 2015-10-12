@@ -3,8 +3,11 @@
 <div id="toPrint" class="paper">
 	<div  class="paperBorder">
 		<div class="paperTitleLeft">
-			<h3>Meeting #{{$minute->meeting()->withTrashed()->first()->id}}</h3>
-			<h3>{{$minute->meeting()->withTrashed()->first()->title}}</h3>
+		<?php
+		$meeting = $minute->meeting()->withTrashed()->first();
+		?>
+			<h3>Meeting #{{$meeting->id}}</h3>
+			<h3>{{$meeting->title}}</h3>
 			<p>meeting venue: {{$minute->venue}}</p>
 		</div>
 		<div class="paperTitleRight">
@@ -27,9 +30,12 @@
 			</p>
 		</div>
 		<h4>Minutes</h4>
-		@if($minute->filed == '1')
+		@if($minute->filed == '0')
 			<?php 
-				$lastFiledMinute = App\Model\Minutes::where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				$lastFiledMinute = App\Model\Minutes::where('filed','=','1')
+								->where('meetingId',$meeting->id)
+								->orderBy('startDate', 'DESC')->limit(1)->first();
+								
 				if($lastFiledMinute)
 				{
 					$tasks = App\Model\MinuteTasks::where('minuteId',$minute->id)
