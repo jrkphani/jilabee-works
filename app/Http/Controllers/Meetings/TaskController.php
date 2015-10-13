@@ -10,6 +10,8 @@ use Activity;
 use App\Model\FiledMinutes;
 use DB;
 use Validator;
+use PDF;
+use File;
 class TaskController extends Controller {
 
 	/**
@@ -57,6 +59,7 @@ class TaskController extends Controller {
 					if($input['type'][$i] == 'task')
 					{
 						$tempArr['assignee'] = $input['assignee'][$i];
+						$tempArr['assigner'] = Auth::id();
 						$tempArr['dueDate'] = $input['dueDate'][$i];
 						$tempArr['updated_by'] = Auth::id();
 						$tempArr['status'] = 'Sent';
@@ -462,16 +465,22 @@ class TaskController extends Controller {
 				{
 					$currentMinute->filed='1';
 					$currentMinute->save();
+					$attach = '../filedMinutes/minute'.$currentMinute->id.'.pdf';
+					if (!File::exists($attach))
+					{
+						$pdf = PDF::loadView('meetings.pdfFile',['minute'=>$currentMinute]);
+						$pdf->setWarnings(false)->save($attach);
+					}
 					foreach (explode(',',$currentMinute->attendees) as $key => $value)
 					{
 						if(isEmail($value))
 						{
-							sendEmail($value,$value,'Jotter Account','emails.filedMinutes',['user'=>NULL]);
+							sendEmail($value,$value,'Jotter Account','emails.filedMinutes',['user'=>NULL],$attach);
 						}
 						else
 						{
 							$user = getUser(['id'=>$value]);
-							sendEmail($user->email,$user->profile->name,'Jotter Account','emails.filedMinutes',['user'=>NULL]);
+							sendEmail($user->email,$user->profile->name,'Jotter Account','emails.filedMinutes',['user'=>NULL],$attach);
 						}
 					}
 				}

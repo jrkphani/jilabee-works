@@ -149,6 +149,8 @@ return [
 		/*form , html */
 		'Illuminate\Html\HtmlServiceProvider',
 		 'DaveJamesMiller\Breadcrumbs\ServiceProvider',
+		 /* pdf*/
+		 'Barryvdh\DomPDF\ServiceProvider',
 
 	],
 
@@ -201,6 +203,7 @@ return [
 		'HTML'=> 'Illuminate\Html\HtmlFacade',
 		'Activity' => 'Regulus\ActivityLog\Models\Activity',
 		'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
+		'PDF' => 'Barryvdh\DomPDF\Facade',
 
 	],
 
