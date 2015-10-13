@@ -60,6 +60,15 @@ class TaskController extends Controller {
 						$tempArr['dueDate'] = $input['dueDate'][$i];
 						$tempArr['updated_by'] = Auth::id();
 						$tempArr['status'] = 'Sent';
+						if($input['tid'][$i])
+						{
+							$oldTask = MinuteTasks::whereId($input['tid'][$i]);
+							$tempArr['startDate'] = $oldTask->first()->minute->startDate;
+						}
+						else
+						{
+							$tempArr['startDate'] = $minute->startDate;
+						}
 						$validator = MinuteTasks::validation($tempArr);
 						if ($validator->fails())
 						{
@@ -67,6 +76,7 @@ class TaskController extends Controller {
 							$output['validator'] = $validator->messages()->toArray();
 							return json_encode($output);
 						}
+						unset($tempArr['startDate']);
 						if($assignee = getUser(['email'=>$input['assignee'][$i]]))
 						{
 							//check user has an account
@@ -98,7 +108,7 @@ class TaskController extends Controller {
 								}
 							}
 							$updatedFlag = 1;
-							$oldTask = MinuteTasks::whereId($input['tid'][$i]);
+							
 							if(($notification['userId']) && ($oldTask->first()->minuteId != $mid))
 							{
 								$notification['parentId'] = $oldTask->first()->minuteId;
@@ -452,18 +462,18 @@ class TaskController extends Controller {
 				{
 					$currentMinute->filed='1';
 					$currentMinute->save();
-					// foreach ($currentMinute->attendees as $key => $value)
-					// {
-					// 	if(isEmail($value))
-					// 	{
-					// 		sendEmail($value,$value,'Jotter Account','emails.test',['user'=>NULL]);
-					// 	}
-					// 	else
-					// 	{
-					// 		$user = getUser(['id'=>$value]);
-					// 		sendEmail($user->email,$user->profile->name,'Jotter Account','emails.test',['user'=>NULL]);
-					// 	}
-					// }
+					foreach (explode(',',$currentMinute->attendees) as $key => $value)
+					{
+						if(isEmail($value))
+						{
+							sendEmail($value,$value,'Jotter Account','emails.filedMinutes',['user'=>NULL]);
+						}
+						else
+						{
+							$user = getUser(['id'=>$value]);
+							sendEmail($user->email,$user->profile->name,'Jotter Account','emails.filedMinutes',['user'=>NULL]);
+						}
+					}
 				}
 			}
 	}

@@ -7,43 +7,43 @@
 		                       		->where('filedMinutes.status','!=','Cancelled')
 		                       		->where('filedMinutes.minuteId','=',$lastFiledMinute->id);
 							})->get();
-	$attendeesEmailArr=$attendeesArr=array();
-	if($lastFiledMinute->attendees)
-	{
-		foreach(explode(',',$lastFiledMinute->attendees) as $value)
-		{
-			if(isEmail($value))
-			{
-				$attendeesEmailArr[$value] = $value;
-			}
-			else
-			{
-				$participants[]=$value;
-			}
-		}
-	}
-	$attendeesArr =  App\Model\Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
-			->join('users','profiles.userId','=','users.id')
-			->lists('profiles.name','users.userId');
-			$emailsArr = $absenteesArr = array();
-				 if($lastFiledMinute->absentees)
-				 {
-				 	foreach (explode(',',$lastFiledMinute->absentees) as $value)
-				 	{
-				 		if(isEmail($value))
-				 		{
-				 			$emailsArr[$value]=$value;
-				 		}
-				 		else
-				 		{
-				 			$absenteesArr[]=$value;
-				 		}
-				 	}
-				 }
-				 $absenteesArr = App\Model\Profile::select('profiles.name','users.userId')
-				 			->whereIn('profiles.userId',$absenteesArr)
-							->join('users','profiles.userId','=','users.id')
-							->lists('profiles.name','users.userId');
+	// $attendeesEmailArr=$attendeesArr=array();
+	// if($lastFiledMinute->attendees)
+	// {
+	// 	foreach(explode(',',$lastFiledMinute->attendees) as $value)
+	// 	{
+	// 		if(isEmail($value))
+	// 		{
+	// 			$attendeesEmailArr[$value] = $value;
+	// 		}
+	// 		else
+	// 		{
+	// 			$participants[]=$value;
+	// 		}
+	// 	}
+	// }
+	// $attendeesArr =  App\Model\Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
+	// 		->join('users','profiles.userId','=','users.id')
+	// 		->lists('profiles.name','users.userId');
+	// 		$emailsArr = $absenteesArr = array();
+	// 			 if($lastFiledMinute->absentees)
+	// 			 {
+	// 			 	foreach (explode(',',$lastFiledMinute->absentees) as $value)
+	// 			 	{
+	// 			 		if(isEmail($value))
+	// 			 		{
+	// 			 			$emailsArr[$value]=$value;
+	// 			 		}
+	// 			 		else
+	// 			 		{
+	// 			 			$absenteesArr[]=$value;
+	// 			 		}
+	// 			 	}
+	// 			 }
+	// 			 $absenteesArr = App\Model\Profile::select('profiles.name','users.userId')
+	// 			 			->whereIn('profiles.userId',$absenteesArr)
+	// 						->join('users','profiles.userId','=','users.id')
+	// 						->lists('profiles.name','users.userId');
 ?>
 <div >	
 	{{-- not show closed/canceled task in last meeting --}}
@@ -72,13 +72,16 @@
 				if(isEmail($task->assignee))
 				{
 					$assignee = $task->assignee;
+					$attendeesArr = [''=>'Assingee',$assignee=>$assignee]+$attendees+$attendeesEmail+$absentees+$emails;
 				}
 				else
 				{
-					$assignee=getUser(['id'=>$task->assignee])->userId;
+					$getuser = getUser(['id'=>$task->assignee]);
+					$assignee=$getuser->userId;
+					$attendeesArr = [''=>'Assingee',$assignee=>$getuser->profile->name]+$attendees+$attendeesEmail+$absentees+$emails;
 				}
 				?>
-					{!! Form::select('assignee[]',array(''=>'Assingee')+$attendeesArr+$attendeesEmailArr+$absenteesArr+$emailsArr,$assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal onchange')) !!}
+					{!! Form::select('assignee[]',$attendeesArr,$assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal onchange')) !!}
 				</p>
 				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput dateInput clearVal onchange",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
 				<p>{!! Form::select('status'.$task->id,['Sent'=>'Reopen','Open'=>'Open','Closed'=>'Completed','Cancelled'=>'Cancel'],$task->status,['class'=>'status']) !!}</p>
