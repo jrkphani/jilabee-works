@@ -53,7 +53,7 @@ class TaskController extends Controller {
 			{
 				$tempArr= $notification = array();
 				$tempArr['title'] = trim($input['title'][$i]);
-				$tempArr['description'] = trim($input['description'][$i]);
+				$tempArr['description'] = nl2br(trim($input['description'][$i]));
 				if(($tempArr['title']) && ($tempArr['description']))
 				{
 					if($input['type'][$i] == 'task')

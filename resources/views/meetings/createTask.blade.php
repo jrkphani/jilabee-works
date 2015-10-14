@@ -28,7 +28,7 @@
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
-					<p>{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+					<p>{!! Form::textarea('description[]',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description),array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
 				</div>
 				<div class="minuteItemRight">
 					{{--<p>
@@ -70,7 +70,7 @@
 				</div>
 				<div class="minuteItemLeft">
 					<h5>{!! Form::text('title[]',$idea->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
-					<p>{!! Form::textarea('description[]',$idea->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+					<p>{!! Form::textarea('description[]',str_ireplace(["<br />","<br>","<br/>"], "\r\n", $idea->description),array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
 				</div>
 				<div class="minuteItemRight">
 					<p>
