@@ -114,6 +114,7 @@ class TaskController extends Controller {
 							
 							if(($notification['userId']) && ($oldTask->first()->minuteId != $mid))
 							{
+								$notification['userId'] = $task->assignee;
 								$notification['parentId'] = $oldTask->first()->minuteId;
 								$notification['objectId'] = $input['tid'][$i];
 								$notification['objectType'] = 'jobs';
