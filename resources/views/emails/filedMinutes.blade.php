@@ -1,4 +1,5 @@
-[Meeting name] meeting minutes filed.
+{{$meeting->title}} meeting minutes filed.
+PFA
 <br>
 <br>
 Thanks

@@ -465,6 +465,7 @@ class TaskController extends Controller {
 				{
 					$currentMinute->filed='1';
 					$currentMinute->save();
+					$meeting = $currentMinute->meeting;
 					$attach = '../filedMinutes/minute'.$currentMinute->id.'.pdf';
 					if (!File::exists($attach))
 					{
@@ -475,12 +476,12 @@ class TaskController extends Controller {
 					{
 						if(isEmail($value))
 						{
-							sendEmail($value,$value,'Jotter Account','emails.filedMinutes',['user'=>NULL],$attach);
+							sendEmail($value,$value,'Jotter Account','emails.filedMinutes',['user'=>NULL,'meeting'=>$meeting],$attach);
 						}
 						else
 						{
 							$user = getUser(['id'=>$value]);
-							sendEmail($user->email,$user->profile->name,'Jotter Account','emails.filedMinutes',['user'=>NULL],$attach);
+							sendEmail($user->email,$user->profile->name,'Jotter Account','emails.filedMinutes',['user'=>NULL,'meeting'=>$meeting],$attach);
 						}
 					}
 				}
