@@ -26,7 +26,7 @@ class Adminonly {
 			}
 			else
 			{
-				return response('Unauthorized.', 401);
+				return abort(401);
 			}
 			
 		}
