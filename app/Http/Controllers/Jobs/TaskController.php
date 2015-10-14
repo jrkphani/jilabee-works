@@ -373,8 +373,13 @@ class TaskController extends Controller {
 			{
 				$task->delete();
 				$notification['objectId'] = $task->id;
+				$notification['objectId'] = $taskId;
 				$notification['objectType'] = 'jobs';
-				removeNotification($notification);
+				$notification['subject'] = 'removed';
+				$notification['tag'] ='';
+				$notification['isRead'] = '2';
+				$notification['body'] = 'Task #'.$taskId.' has been removed by '.Auth::user()->profile->name;
+				setNotification($notification);
 				$output['success'] = 'yes';
 			}
 			else
