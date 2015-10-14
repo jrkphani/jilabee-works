@@ -65,7 +65,7 @@ else
 
 						<div class="userDetailItem">
 							<p>DOB</p>
-							<input type="text" id="dob" name="dob" value="{{ old('dob') }}">
+							<input type="text" class="dob" name="dob" value="{{ old('dob') }}">
 							{!! $errors->first('dob','<div class="error">:message</div>') !!}
 						</div>
 						<div class="userDetailItem">
@@ -145,7 +145,7 @@ else
 
 						<div class="userDetailItem">
 							<p>DOB</p>
-							<input type="text" id="dob" name="dob" value="{{ old('dob') }}">
+							<input type="text" class="dob" name="dob" value="{{ old('dob') }}">
 							{!! $errors->first('dob','<div class="error">:message</div>') !!}
 						</div>
 
@@ -178,15 +178,15 @@ else
 		{
 			d= new Date();
 			d.setFullYear(d.getFullYear()-15);
-			$('#dob').appendDtpicker(
+			$('.dob').appendDtpicker(
 			    {
 			    "autodateOnStart": false,
 			    "maxDate":d,
 			    "closeOnSelected": true,
 			    "dateOnly":true
 			    });
-			$('#dob').handleDtpicker('setDate',d);
-			$('#dob').val('');
+			$('.dob').handleDtpicker('setDate',d);
+			$('.dob').val('');
 
 
 			$('.regType').change(function(event) {
