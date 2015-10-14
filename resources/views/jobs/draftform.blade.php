@@ -36,7 +36,7 @@
 							<?php $display=''; ?>
 						@endif
 					</div>
-					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'search user','style'=>$display]) !!}
+					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'email','style'=>$display]) !!}
 					<div class="clearboth"></div>
 					<div class="error" id="assignee_err"></div>
 					<label  class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'nextDateInput']) !!}
@@ -68,7 +68,7 @@
 					<div class="pcl_jobs_assignee" id="selected_Assignee">
 					</div>
 					
-					{!! Form::text('assignee','',['id'=>'selectAssignee','placeholder'=>'search user']) !!}
+					{!! Form::text('assignee','',['id'=>'selectAssignee','placeholder'=>'email']) !!}
 					<div class="error" id="assignee_err"></div>
 					<div class="clearboth"></div>
 					<label class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate','',['class'=>'nextDateInput']) !!}
@@ -114,6 +114,10 @@
 	</div>
 </div>
 <script type="text/javascript">
+<?php 
+if(getOrgId())
+{
+?>
  $( "#selectAssignee" ).autocomplete({
             source: "/user/search",
             minLength: 2,
@@ -125,5 +129,8 @@
 	            return false;
             }
             });
+<?php 
+}
+?>
 nextDateInput();
 </script>

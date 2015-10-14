@@ -51,8 +51,9 @@ class ProfileController extends Controller {
 	{	 
 		$input = Request::only('term');
 		$orgID = getOrgId();
-		echo $orgID; die;
-		$list = Profile::select('users.userId','profiles.name as value','profiles.role')
+		if($orgID)
+		{
+			$list = Profile::select('users.userId','profiles.name as value','profiles.role')
 				->join('users','profiles.userId','=','users.id')
 				->where('users.userId','LIKE',$orgID.'%')
 				->where(function($query) use ($input){
@@ -61,7 +62,12 @@ class ProfileController extends Controller {
 					->orWhere('users.userId','=',trim($input['term']));
 				})
 				->get();
-		return response()->json($list);
+			return response()->json($list);
+		}
+		else
+		{
+			return abort('403');
+		}
 	}
 	public function findAssigner()
 	{	 
