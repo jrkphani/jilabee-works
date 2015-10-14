@@ -142,7 +142,10 @@ function setNotification($data)
     }
     else
     {
-        App\Model\Notifications::create($data);
+        if( $data['isRead'] == '0')
+        {
+            App\Model\Notifications::create($data);
+        }
     }
 }
 function removeNotification($data)
