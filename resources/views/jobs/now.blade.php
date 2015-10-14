@@ -30,8 +30,8 @@
 								{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
 								<div class="error" id="err_{{$task->id}}"></div>
 								{!! Form::close() !!}
-								<button {{$mid}} tid="{{$task->id}}" id="accept">Accept</button>
-								<button {{$mid}} tid="{{$task->id}}" id="reject">Reject</button>
+								<button {{$mid}} tid="{{$task->id}}" class="accept">Accept</button>
+								<button {{$mid}} tid="{{$task->id}}" class="reject">Reject</button>
 							@endif
 						</div>
 						<div class="boxRight task" {{$mid}} tid="{{$task->id}}">

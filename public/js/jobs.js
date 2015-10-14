@@ -51,7 +51,7 @@ $('#centralContainer').on('click', '.task', function(event){
         popupContentAjaxGet(path);
         });
    
-    $('#centralContainer').on('click', '#accept', function(event) {
+    $('#centralContainer').on('click', '.accept', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         form = 'Form'+tid;
@@ -80,7 +80,7 @@ $('#centralContainer').on('click', '.task', function(event){
         });
         
     });
-    $('#centralContainer').on('click', '#reject', function(event) {
+    $('#centralContainer').on('click', '.reject', function(event) {
         event.preventDefault();
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
@@ -103,7 +103,8 @@ $('#centralContainer').on('click', '.task', function(event){
         .done(function(jsonData) {
             if(jsonData.success == 'yes')
             {
-                $('#accept, #reject').remove();
+                //$('#accept, #reject').remove();
+                getNow();
                 toast('Task rejected!');
             }
             else if(jsonData.success == 'no')

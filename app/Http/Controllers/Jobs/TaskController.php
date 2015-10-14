@@ -44,8 +44,7 @@ class TaskController extends Controller {
 		$notification['userId'] = $task->assignee;
 		$notification['objectId'] = $task->id;
 		$notification['objectType'] = 'jobs';
-		$notification['isRead'] = '1';
-		setNotification($notification);
+		readNotification($notification);
 		return view('jobs.task',['task'=>$task]);
 	}
 	public function viewHistory($id)
@@ -206,6 +205,10 @@ class TaskController extends Controller {
 				{
 					$input['assignee'] = $notification['userId'] = $assignee->id;
 				}
+				else
+				{
+					$notification['userId'] = 0;
+				}
 			}
 			else
 			{
@@ -226,6 +229,14 @@ class TaskController extends Controller {
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
 			$toLog = $task->toArray();
 			$toLog['taskId']=$toLog['id'];
+			if(isEmail($task->assignee))
+			{
+				$oldAssignee = 0;
+			}
+			else
+			{
+				$oldAssignee = $task->assignee;
+			}
 			unset($toLog['id']);
 			unset($toLog['notes']);
 			unset($toLog['deleted_at']);
@@ -238,9 +249,20 @@ class TaskController extends Controller {
 				{
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
-					$notification['subject'] = 'now';
+					$notification['subject'] = 'new';
 					$notification['tag'] = 'update';
-					$notification['body'] = 'Task #'.$task->id.' is modified';
+					$notification['body'] = 'Task #'.$task->id.' is modified by '.Auth::user()->profile->name;
+					setNotification($notification);
+				}
+				if(($oldAssignee) && ($oldAssignee != $notification['userId']))
+				{
+					$notification['userId'] = $oldAssignee;
+					$notification['isRead'] = '2';
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'reassigned';
+					$notification['tag'] ='now';
+					$notification['body'] = 'Task #'.$task->id.' has been reassigned by '.Auth::user()->profile->name;
 					setNotification($notification);
 				}
 			}

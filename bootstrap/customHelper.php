@@ -125,38 +125,25 @@ function setNotification($data)
     {
         $data['parentId'] = NULL;
     }
-    $check = App\Model\Notifications::where(['userId'=>$data['userId'],'objectId'=>$data['objectId'],
-        //'subject'=>$data['subject'],
-        'objectType'=>$data['objectType'],'parentId'=>$data['parentId']])->first();
     if(!isset($data['isRead']))
     {
         $data['isRead'] = '0';
     }
-    if($check)
-    {
-        if(!isset($data['subject']))
-        {
-           $data['subject'] = $check->subject;
-        }
-        $check->update($data);
-    }
-    else
-    {
-        if( $data['isRead'] == '0')
-        {
-            App\Model\Notifications::create($data);
-        }
-    }
+    App\Model\Notifications::create($data);
 }
-function removeNotification($data)
+function readNotification($data)
 {
-//$data should contain objectId,objectType and parentId if
-    if(!isset($data['parentId']))
-    {
-        $data['parentId'] = NULL;
-    }
-    $check = App\Model\Notifications::where($data)->delete();
+    $check = App\Model\Notifications::where($data)->where('isRead','0')->update(['isRead'=>1]);
 }
+// function removeNotification($data)
+// {
+// //$data should contain objectId,objectType and parentId if
+//     if(!isset($data['parentId']))
+//     {
+//         $data['parentId'] = NULL;
+//     }
+//     $check = App\Model\Notifications::where($data)->delete();
+// }
 function getAdmin()
 {
     if(starts_with(Auth::user()->userId, 'GEN'))

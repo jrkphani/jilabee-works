@@ -42,8 +42,7 @@ class TaskController extends Controller {
 		$notification['userId'] = $task->assigner;
         $notification['objectId'] = $task->id;
         $notification['objectType'] = 'followups';
-        $notification['isRead'] = '1';
-        setNotification($notification);
+        readNotification($notification);
 		return view('followups.task',['task'=>$task]);
 	}
 	public function viewMinute($mid,$id)

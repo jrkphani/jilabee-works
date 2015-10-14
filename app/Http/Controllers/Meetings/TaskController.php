@@ -38,10 +38,15 @@ class TaskController extends Controller {
 				$task = MinuteTasks::find($taskId);
 				$task->comments()->forceDelete();
 				$task->forceDelete();
-				$notification['objectId'] = $task->id;
+
+				$notification['parentId'] = $minute->minuteId;
+				$notification['objectId'] = $taskId;
 				$notification['objectType'] = 'jobs';
-				removeNotification($notification);
-				//JobDraft::destroy(Request::input('id'));
+				$notification['subject'] = 'removed';
+				$notification['tag'] ='';
+				$notification['isRead'] = '2';
+				$notification['body'] = 'Task #'.$taskId.' has been removed by '.Auth::user()->profile->name;
+				setNotification($notification);
 			}
 			foreach (Request::get('removeIdea',array()) as $ideaId)
 			{
@@ -112,17 +117,34 @@ class TaskController extends Controller {
 							}
 							$updatedFlag = 1;
 							
-							if(($notification['userId']) && ($oldTask->first()->minuteId != $mid))
+							//if(($notification['userId']) && ($oldTask->first()->minuteId != $mid))
+							if($notification['userId'])
 							{
-								$notification['userId'] = $task->assignee;
 								$notification['parentId'] = $oldTask->first()->minuteId;
 								$notification['objectId'] = $input['tid'][$i];
 								$notification['objectType'] = 'jobs';
 								$notification['subject'] = 'update';
 								$notification['tag'] ='now';
-								$notification['body'] = 'Task #'.$input['tid'][$i].' sent by '.Auth::user()->profile->name;
+								$notification['body'] = 'Task #'.$input['tid'][$i].' is modified by '.Auth::user()->profile->name;
+								if($oldTask->first()->assignee != $notification['userId'])
+								{
+									$notification['body'] = 'Task #'.$input['tid'][$i].' sent by '.Auth::user()->profile->name;
+								}
 								setNotification($notification);
 							}
+							if($oldTask->first()->assignee != $notification['userId'])
+							{
+								$notification['userId'] = $oldTask->first()->assignee;
+								$notification['isRead'] = '2';
+								$notification['parentId'] = $oldTask->first()->minuteId;
+								$notification['objectId'] = $input['tid'][$i];
+								$notification['objectType'] = 'jobs';
+								$notification['subject'] = 'reassigned';
+								$notification['tag'] ='now';
+								$notification['body'] = 'Task #'.$input['tid'][$i].' has been reassigned by '.Auth::user()->profile->name;
+								setNotification($notification);
+							}
+							
 							$oldTask->update($tempArr);
 						}
 						else
@@ -190,7 +212,7 @@ class TaskController extends Controller {
 								$notification['objectId'] = $task->id;
 								$notification['objectType'] = 'jobs';
 								$notification['subject'] = 'new';
-								$notification['subject'] ='now';
+								$notification['tag'] ='now';
 								$notification['body'] = 'Task #'.$task->id.' sent by '.Auth::user()->profile->name;
 								setNotification($notification);
 							}
