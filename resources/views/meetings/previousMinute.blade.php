@@ -61,7 +61,7 @@
 			</div>
 			<div class="minuteItemLeft">
 				<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal onchange')) !!}</h5>
-				<p>{!! Form::textarea('description[]',$task->description,array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal onchange')) !!}</p>
+				<p>{!! Form::textarea('description[]',str_ireplace(["<br />","<br>","<br/>"], "", $task->description),array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal onchange')) !!}</p>
 			</div>
 			<div class="minuteItemRight">
 			{{-- 	<p>
