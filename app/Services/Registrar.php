@@ -73,6 +73,7 @@ class Registrar implements RegistrarContract {
 									'dob'=>$data['dob'],
 									'gender'=>$data['gender'],
 									'phone'=>$data['phone'],
+									'role'=>'2',
 									'created_by'=>$user->id,
 									'updated_by'=>$user->id);
 					$profile = new Profile($input);
