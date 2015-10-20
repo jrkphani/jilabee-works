@@ -87,7 +87,9 @@ class MeetingsController extends Controller {
 						}
 					}
 			}
-			$data = ['title'=>$meetingInput['meetingTitle']
+			if(getOrgId())
+			{
+				$data = ['title'=>$meetingInput['meetingTitle']
 					,'description'=>$meetingInput['meetingDescription'],
 					'purpose'=>$meetingInput['purpose'],
 					'type'=>$meetingInput['meetingType'],
@@ -101,7 +103,7 @@ class MeetingsController extends Controller {
 					'details'=>serialize($minuteInput),
 					'draft'=>'0',
 					'oid'=> Organizations::where('customerId','=',getOrgId())->first()->id];
-			if(Request::get('id',null))
+				if(Request::get('id',null))
 				{
 					TempMeetings::whereId(Request::get('id'))->update($data);
 				}
@@ -109,8 +111,23 @@ class MeetingsController extends Controller {
 				{
 					TempMeetings::create($data);
 				}
+				return json_encode($output);
+			}
+			else
+			{
+				$data = ['title'=>$meetingInput['meetingTitle']
+					,'description'=>$meetingInput['meetingDescription'],
+					'purpose'=>$meetingInput['purpose'],
+					'type'=>$meetingInput['meetingType'],
+					'startDate'=>$meetingInput['startDate'],
+					'endDate'=>$meetingInput['endDate'],
+					'minuters'=>Auth::id(),
+					'created_by'=>Auth::id(),
+					'updated_by'=>Auth::id(),
+					'oid'=> NULL];
+				return $this->selfMeeting($data,$minuteInput);
+			}
 		}
-		return json_encode($output);
 	}
 	public function draftMeeting()
 	{
@@ -220,5 +237,85 @@ class MeetingsController extends Controller {
 		{
 			return $meetings;
 		}
+	}
+	public function selfMeeting($meetingData,$details)
+	{
+		$output['success'] = 'yes';
+		$attendees = $records = $ideasArr =array();
+		
+		for($i=0;$i<=count($details['title'])-1;$i++)
+		{
+			$tempArr['title'] = $details['title'][$i];
+			$tempArr['description'] = nl2br($details['description'][$i]);
+			if($details['type'][$i] == 'task')
+			{
+				$tempArr['assigner'] = Auth::id();
+				$tempArr['dueDate'] = $details['dueDate'][$i];
+				$tempArr['updated_by'] = Auth::id();
+				$tempArr['status'] = 'Sent';
+
+				if(isEmail($details['assignee'][$i]))
+				{
+					if($assignee = getUser(['email'=>$details['assignee'][$i]]))
+					{
+						//check user has an account
+						$details['assignee'][$i] = $assignee->id;
+					}
+					else
+					{
+						//mark the task as accepted for who do have an account
+						$tempArr['status'] = 'Open';
+					}
+
+				}
+				else if($assignee = getUser(['userId'=>$details['assignee'][$i]]))
+				{
+					$details['assignee'][$i] = $assignee->id;
+				}
+				$attendees[] = $details['assignee'][$i];
+				$tempArr['assignee'] = $details['assignee'][$i];
+				$tempArr['updated_by'] = Auth::id();
+				$tempArr['created_by'] = Auth::id();
+				$records[] = New MinuteTasks(array_filter($tempArr));
+			}
+			elseif($details['type'][$i] == 'idea')
+			{
+				if(isEmail($details['orginator'][$i]))
+				{
+					if($orginator = getUser(['email'=>$details['orginator'][$i]]))
+					{
+						//check user has an account
+						$details['orginator'][$i] = $orginator->id;
+					}
+
+				}
+				else if($orginator = getUser(['userId'=>$details['orginator'][$i]]))
+				{
+					$details['orginator'][$i] = $orginator->id;
+				}
+				$attendees[] = $details['orginator'][$i];
+				$tempArr['orginator'] = $details['orginator'][$i];
+				$tempArr['updated_by'] = Auth::id();
+				$tempArr['created_by'] = Auth::id();
+				$ideasArr[] = New Ideas(array_filter($tempArr));
+			}
+		}					
+		$meetingData['attendees'] =implode(',', $attendees);
+		$meetingData['requested_by'] =Auth::id();
+		$meetingData['created_by'] = $meetingData['updated_by'] =Auth::id();
+		DB::transaction(function() use ($meetingData,$records,$ideasArr,$attendees)
+		{
+			if($newmeeting = Meetings::create($meetingData))
+			{
+				$attendees[] = Auth::id();
+				$minute = New Minutes(['startDate'=>$meetingData['startDate'],
+					'created_by'=>Auth::id(),'updated_by'=>Auth::id(),
+					'endDate'=>$meetingData['endDate'],'attendees'=>implode(',',$attendees)]);
+				$minute = $newmeeting->minutes()->save($minute);
+				$minute->tasks()->saveMany($records);
+				$minute->ideas()->saveMany($ideasArr);
+			}
+		});			
+		return json_encode($output);
 	}
 }
