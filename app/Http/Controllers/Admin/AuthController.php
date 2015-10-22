@@ -32,8 +32,28 @@ class AuthController extends Controller {
 	{
 		$validator = Organizations::validation($request->all());
 		$input = $request->all();
+		$validator->after(function($validator) use ($input)
+		{
+			if($domain = getDomainFromEmail($input['email']))
+			{
+				if(Organizations::where('domain','=',$domain)->first())
+				{
+					$validator->errors()->add('email', 'Domain registered, Please contact domain admin');
+				}
+			}
+		});
 		 if ($validator->fails())
 		 {
+		 	if (strpos($validator->errors()->first('domain'),'taken') !== false)
+		 	{
+			    $admin = Organizations::where('domain','=',$input['domain'])->first();
+			    sendEmail($admin->email,$admin->domain,'Duplicate Domain Registration','emails.duplicateDomain',['admin'=>$admin]);
+			}
+			if (strpos($validator->errors()->first('email'),'registered') !== false)
+		 	{
+			    $admin = Organizations::where('domain','=',getDomainFromEmail($input['email']))->first();
+			    sendEmail($admin->email,$admin->domain,'User Registration','emails.domainUser',['email'=>$input['email']]);
+			}
 		 	return redirect('admin/auth/register')->withInput($input)->with('isOrg','yes')->withErrors($validator);
 		 }
 		DB::transaction(function() use ($input)

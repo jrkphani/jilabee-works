@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Model\Profile;
+use App\Model\Organizations;
 use Illuminate\Contracts\Auth\Guard;
 use DB;
 use Auth;
@@ -67,8 +68,23 @@ class UserController extends Controller {
 		$input = Request::all();
 		$validator = $this->registrar->validator($input);
 		$output['success'] = 'yes';
+		$validator->after(function($validator) use ($input)
+		{
+			if($domain = getDomainFromEmail($input['email']))
+			{
+				if(Organizations::where('domain','=',$domain)->first())
+				{
+					$validator->errors()->add('email', 'Domain registered, Please contact domain admin');
+				}
+			}
+		});
 		if ($validator->fails())
 		{
+			if (strpos($validator->errors()->first('email'),'registered') !== false)
+		 	{
+			    $admin = Organizations::where('domain','=',getDomainFromEmail($input['email']))->first();
+			    sendEmail($admin->email,$admin->domain,'User Registration','emails.domainUser',['email'=>$input['email']]);
+			}
 			$output['success'] = 'no';
 			$output['validator'] = $validator->messages()->toArray();
 			return json_encode($output);

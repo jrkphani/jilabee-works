@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use Activity;
-use App\Model\Clients;
+use App\Model\Organizations;
 use Validator;
 class AuthController extends Controller {
 
@@ -47,9 +47,23 @@ class AuthController extends Controller {
 	public function postRegister(Request $request)
 	{
 		$validator = $this->registrar->validator($request->all());
-
+		$validator->after(function($validator) use ($request)
+		{
+			if($domain = getDomainFromEmail($request->email))
+			{
+				if(Organizations::where('domain','=',$domain)->first())
+				{
+					$validator->errors()->add('email', 'Domain registered, Please contact domain admin');
+				}
+			}
+		});
 		if ($validator->fails())
 		{
+			if (strpos($validator->errors()->first('email'),'registered') !== false)
+		 	{
+			    $admin = Organizations::where('domain','=',getDomainFromEmail($request->email))->first();
+			    sendEmail($admin->email,$admin->domain,'User Registration','emails.domainUser',['email'=>$request->email]);
+			}
 			$this->throwValidationException(
 				$request, $validator
 			);
