@@ -50,14 +50,14 @@ $('#centralContainer').on('click', '#createMeetingSubmit', function(event) {
             {
                 //toast('Meeting request');
                 getNow();
-                //$('#popup').load('/minute/first/'+jsonData.meetingId);
+                $('#popup').hide();
             }
             //////console.log("success");
         })
-        .fail(function() {
+        .fail(function(xhr) {
              checkStatus(xhr.status);
         })
-        .always(function() {
+        .always(function(xhr) {
              checkStatus(xhr.status);
         });
         
@@ -90,10 +90,10 @@ $('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
             }
             //////console.log("success");
         })
-        .fail(function() {
+        .fail(function(xhr) {
              checkStatus(xhr.status);
         })
-        .always(function() {
+        .always(function(xhr) {
              checkStatus(xhr.status);
         });
         
@@ -349,6 +349,54 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
         }
     }
 });
+
+function getNow()
+{
+    if($('#nowSearch').val().trim().length > 0)
+    {
+        params = '&nowsearchtxt='+$('#nowSearch').val();
+    }
+    $.ajax({
+            url: '/meetings/now?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#nowDiv').html(htmlData);
+            ChangeUrl('?'+params);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
+function getHistory()
+{
+    params = '&history=yes';
+    if($('#historySearch').val().trim().length > 0)
+    {
+        params = params +'&historysearchtxt='+$('#historySearch').val();
+    }
+     $.ajax({
+            url: '/meetings/history?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            $('#historyDiv').html(htmlData);
+            ChangeUrl('?'+params);
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
+}
  function ChangeUrl(url) {
     if (typeof (history.pushState) != "undefined") {
         var obj = { Title: '', Url: '/meetings'+url };

@@ -56,6 +56,7 @@ class MeetingsController extends Controller {
 		{
 			$output['success'] = 'no';
 			$output['validator'] = $validator->messages()->toArray();
+			return json_encode($output);
 		}
 		else
 		{
@@ -156,8 +157,15 @@ class MeetingsController extends Controller {
 					//'created_at'=>date('Y-m-d H:i:s'),
 					//'updated_at'=>date('Y-m-d H:i:s'),
 					'details'=>serialize($minuteInput),
-					'draft'=>'1',
-					'oid'=> Organizations::where('customerId','=',getOrgId())->first()->id];
+					'draft'=>'1'];
+			if(getOrgId())
+			{
+				$data['oid'] = Organizations::where('customerId','=',getOrgId())->first()->id;
+			}
+			else
+			{
+				$data['oid'] = null;
+			}
 			if(Request::get('id',null))
 				{
 					$meeting = TempMeetings::whereId(Request::get('id'))->update($data);
@@ -314,6 +322,10 @@ class MeetingsController extends Controller {
 				$minute = $newmeeting->minutes()->save($minute);
 				$minute->tasks()->saveMany($records);
 				$minute->ideas()->saveMany($ideasArr);
+				if(Request::get('id',null))
+				{
+					TempMeetings::whereId(Request::get('id'))->delete();
+				}
 			}
 		});			
 		return json_encode($output);

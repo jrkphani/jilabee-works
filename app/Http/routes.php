@@ -102,6 +102,8 @@ Route::group(['prefix' => 'admin'], function()
 		Route::group(['prefix' => 'meetings'], function()
 		{
 			Route::get('/', ['uses'=>'Meetings\MeetingsController@index','as'=>'meetings']);
+			Route::get('now', ['uses'=>'Meetings\MeetingsController@nowsortby']);
+			Route::get('history', ['uses'=>'Meetings\MeetingsController@historysortby']);
 			Route::get('create','Meetings\MeetingsController@meetingForm');
 			Route::post('create','Meetings\MeetingsController@createMeeting');
 			Route::post('draft','Meetings\MeetingsController@draftMeeting');

@@ -9,7 +9,7 @@
 				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}">
 				<span id="showHistroyDiv" class="button">Reset</span>
 			</div>
-		<div class="contentMeetingsLeft">
+		<div class="contentMeetingsLeft" id="historyDiv">
 			@include('meetings.history')
 		</div>
 		<div class="contentMeetingsRight" id="historyMeetingsRight">
@@ -28,7 +28,7 @@
 			<input type="text" placeholder="Search..." id="nowSearch" autocomplete="off" value="{{$nowsearchtxt}}">
 			<span class="button" id="showNowDiv">Reset</span>
 		</div>
-	<div class="contentMeetingsLeft">
+	<div class="contentMeetingsLeft" id="nowDiv">
 		@include('meetings.now')
 	</div>
 	<div class="contentMeetingsRight" id="nowMeetingsRight">
@@ -50,4 +50,5 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
 <script src="{{ asset('/js/meetings.js') }}"></script>
+<script src="{{ asset('/js/search.js') }}"></script>
 @endsection

@@ -97,7 +97,11 @@
                                         }
                                    }
                                     ?>
-                                {!! Form::text('assignee[]',$details['assignee'][$i],array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner','style'=>$display)) !!}
+                                    @if(getOrgId())
+                                        {!! Form::text('assignee[]',$details['assignee'][$i],array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner','style'=>$display)) !!}
+                                    @else
+                                        {!! Form::text('assignee[]',$details['assignee'][$i],array('autocomplete'=>'off','class'=>'taskinput clearVal','placeholder'=>'Assigner','style'=>$display)) !!}
+                                    @endif
                                 </div>
                                 <?php
                                 $display = "";
@@ -135,7 +139,11 @@
                                             }
                                        }
                                        ?>
-                                   {!! Form::text('orginator[]',$details['orginator'][$i],array('autocomplete'=>'off','class'=>'clearVal ideainput selectAssignee','style'=>$display)) !!}
+                                   @if(getOrgId())
+                                        {!! Form::text('orginator[]',$details['orginator'][$i],array('autocomplete'=>'off','class'=>'clearVal ideainput selectAssignee','style'=>$display)) !!}
+                                   @else
+                                    {!! Form::text('orginator[]',$details['orginator'][$i],array('autocomplete'=>'off','class'=>'clearVal ideainput','style'=>$display)) !!}
+                                   @endif
                                 </div>
                                 <p>Draft</p>
                             </div>
@@ -203,10 +211,18 @@
                             </div>
                             <div class="minuteItemRight">
                                  <div class="parentDiv">
-                                    {!! Form::text('assignee[]','',array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner')) !!}
+                                    @if(getOrgId())
+                                        {!! Form::text('assignee[]','',array('autocomplete'=>'off','class'=>'selectAssignee taskinput clearVal','placeholder'=>'Assigner')) !!}
+                                    @else
+                                        {!! Form::text('assignee[]','',array('autocomplete'=>'off','class'=>'taskinput clearVal','placeholder'=>'Assigner')) !!}
+                                    @endif
                                 </div>
                                 <p>{!! Form::text('dueDate[]','',array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+                                @if(getOrgId())
                                  <div class="parentDiv">{!! Form::text('orginator[]','',array('selectAssignee'=>'off','class'=>'clearVal ideainput selectOrginator','style'=>'display:none;')) !!}</div>
+                                 @else
+                                 <div class="parentDiv">{!! Form::text('orginator[]','',array('selectAssignee'=>'off','class'=>'clearVal ideainput','style'=>'display:none;')) !!}</div>
+                                 @endif
                                 <p>Draft</p>
                             </div>
                             <div class="clearboth"></div>
