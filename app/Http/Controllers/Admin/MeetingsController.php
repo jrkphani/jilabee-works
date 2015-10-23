@@ -353,6 +353,7 @@ class MeetingsController extends Controller {
 			$notification['objectId'] = $mid;
 			$notification['objectType'] = 'meeting';
 			$notification['subject'] ='end';
+			$notification['tag'] ='history';
 			$notification['body'] = 'Meeting '.$meeting->title.' has been ended';
 			setNotification($notification);
 			foreach (explode(',', $meeting->attendees)as $user)
