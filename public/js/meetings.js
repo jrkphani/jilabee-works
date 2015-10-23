@@ -98,6 +98,16 @@ $('#centralContainer').on('click', '#draftMeetingSubmit', function(event) {
         });
         
     });
+$('#centralContainer').on('click', '#showNowDiv', function(event) {
+    event.preventDefault();
+    $('#nowSearch').val('');
+    getNow();
+});
+$('#centralContainer').on('click', '#showHistroyDiv', function(event) {
+    event.preventDefault();
+    $('#historySearch').val('');
+    getHistory();
+});
 $('#centralContainer').on('click', '#addMeeting', function(event)
 {
     event.preventDefault();

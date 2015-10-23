@@ -189,7 +189,7 @@ class MeetingsController extends Controller {
 	public function nowsortby()
 	{
 		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
-		$minutes['newmeetings'] = Meetings::select('meetings.*')
+		$query = Meetings::select('meetings.*')
 						->join('organizations','meetings.oid','=','organizations.id')
 						//->join('minutes','meetings.id','=','minutes.meetingId')
 						->where('meetings.active','=','1')
@@ -201,25 +201,45 @@ class MeetingsController extends Controller {
 						 	$query->select(DB::raw(1))
 		                    		->from('minutes')
 		                       		->whereRaw('meetings.id = minutes.meetingId');
-						 		})
-						->get();
+						 		});
+		if($nowsearchtxt)
+		{
+			$query = $query->where(function($qry) use ($nowsearchtxt){
+						$qry->where("meetings.title","LIKE","%$nowsearchtxt%");
+						// ->orWhere("tasks.title","LIKE","%$nowsearchtxt%")
+						// ->orWhere("tasks.description","LIKE","%$nowsearchtxt%");
+					});
+		}
+		$minutes['newmeetings'] = $query->get();
 						//print_r($newmeetings); die;
-		$minutes['recentMinutes'] = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+		$query = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.active','=','1')
 					->whereNull('meetings.deleted_at')
 					->where('minutes.filed','=','1')
 					->groupBy('minutes.meetingId')
-					->orderBy('minutes.startDate','desc')
-					->get();
+					->orderBy('minutes.startDate','desc');
+		if($nowsearchtxt)
+		{
+			$query = $query->where(function($qry) use ($nowsearchtxt){
+						$qry->where("meetings.title","LIKE","%$nowsearchtxt%");
+					});
+		}
+		$minutes['recentMinutes'] = $query->get();
 					//print_r(count($recentMinutes)); die;
-		$minutes['notfiled'] = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+		$query = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.active','=','1')
 					->whereNull('meetings.deleted_at')
 					->where('minutes.filed','=','0')
-					->groupBy('minutes.meetingId')
-					->get();
+					->groupBy('minutes.meetingId');
+		if($nowsearchtxt)
+		{
+			$query = $query->where(function($qry) use ($nowsearchtxt){
+						$qry->where("meetings.title","LIKE","%$nowsearchtxt%");
+					});
+		}
+		$minutes['notfiled'] = $query->get();
 					//non approve meeting minutes
 		$minutes['pendingmeetings'] = TempMeetings::where('created_by','=',Auth::id())->get();
 		if (Request::ajax())
@@ -236,7 +256,17 @@ class MeetingsController extends Controller {
 	{
 		//closed meetings
 		$historysearchtxt = Request::get('historysearchtxt',NULL);
-		$meetings = Meetings::whereNotNull('deleted_at')->orWhere('active','=','0')->withTrashed()->get();
+		//echo $historysearchtxt; die;
+		$query = Meetings::where(function($qry) {
+			$qry->whereNotNull('deleted_at')->orWhere('active','=','0');
+		});
+		if($historysearchtxt)
+		{
+			$query = $query->where(function($qry) use ($historysearchtxt){
+						$qry->where("title","LIKE","%$historysearchtxt%");
+					});
+		}
+		$meetings = $query->withTrashed()->get();
 		if (Request::ajax())
 		{
 		    return view('meetings.history',['historysearchtxt'=>$historysearchtxt,'meetings'=>$meetings]);
