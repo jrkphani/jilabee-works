@@ -284,7 +284,10 @@ function notifications()
                         else if(row.objectType == 'meeting')
                         {
                             link = '';
-                            row.body = 'New User Added in Meeting';
+                            if(row.subject == 'user')
+                            {
+                                row.body = 'New User Added in Meeting';
+                            }
                         }
                         else
                         {
