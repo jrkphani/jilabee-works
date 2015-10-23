@@ -56,10 +56,10 @@ $('#adminContent').on('click', '.newusers', function(event) {
             location.reload();
            }
        })
-       .fail(function() {
+       .fail(function(xhr) {
            checkStatus(xhr.status);
        })
-       .always(function() {
+       .always(function(xhr) {
             checkStatus(xhr.status);
        });
        
@@ -85,10 +85,10 @@ $('#adminContent').on('click', '.newusers', function(event) {
             location.reload();
            }
        })
-       .fail(function() {
+       .fail(function(xhr) {
             checkStatus(xhr.status);
        })
-       .always(function() {
+       .always(function(xhr) {
             checkStatus(xhr.status);
        });
        
@@ -134,10 +134,10 @@ $('#adminContent').on('click', '.newusers', function(event) {
             }
             //////console.log("success");
         })
-        .fail(function() {
+        .fail(function(xhr) {
              checkStatus(xhr.status);
         })
-        .always(function() {
+        .always(function(xhr) {
             checkStatus(xhr.status);
         });
         

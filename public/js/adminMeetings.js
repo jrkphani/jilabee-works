@@ -28,10 +28,10 @@ $(document).ready(function($)
             }
             //////console.log("success");
         })
-        .fail(function() {
+        .fail(function(xhr) {
              checkStatus(xhr.status);
         })
-        .always(function() {
+        .always(function(xhr) {
             checkStatus(xhr.status);
         });
         
