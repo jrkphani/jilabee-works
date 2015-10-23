@@ -74,7 +74,10 @@ class UserController extends Controller {
 			{
 				if(Organizations::where('domain','=',$domain)->first())
 				{
-					$validator->errors()->add('email', 'Domain registered, Please contact domain admin');
+					if((Organizations::where('customerId','=',getOrgId())->first()->domain) != $domain)
+					{
+						$validator->errors()->add('email', 'Domain registered, Please contact domain admin');
+					}
 				}
 			}
 		});
