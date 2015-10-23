@@ -87,6 +87,7 @@
 			}
 		?>
 	@endif
+	@if(!$meeting->deleted_at)
 	<div class="adminUsersBtns">
 		<div class="adminUsersBtnsLeft">
 			<button id="editMeeting" mid="{{$meeting->id}}">Edit Meeting</button>
@@ -104,5 +105,6 @@
 		</div>
 		<div class="clearboth"></div>
 	</div>
+	@endif
 </div>
 @endif

@@ -29,6 +29,7 @@ class MeetingsController extends Controller {
 					->where('organizations.customerId','=',getOrgId())
 					//enable this on filter 
 					//->where('meetings.active','=','1')
+					->withTrashed()
 					->get();
 		return view('admin.meetings',['meetings'=>$meetings]);
 	}
@@ -44,7 +45,7 @@ class MeetingsController extends Controller {
 		return view('admin.notification',['meetings'=>$meetings,'notifications'=>$notifications]);
 	}
 	public function view($mid)
-	{	$meeting = Meetings::find($mid);
+	{	$meeting = Meetings::whereId($mid)->withTrashed()->first();
 		$roles = roles();
 		return view('admin.meeting',['meeting'=>$meeting,'roles'=>$roles]);
 	}
