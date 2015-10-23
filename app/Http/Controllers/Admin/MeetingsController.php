@@ -9,6 +9,7 @@ use App\Model\Meetings;
 use App\Model\Organizations;
 use App\Model\Notifications;
 use Auth;
+use Session;
 use DB;
 use App\User;
 use Validator;
@@ -149,12 +150,44 @@ class MeetingsController extends Controller {
 				{
 					$meeting = Meetings::whereId($mid)->first();
 					$meeting->update($input);
+					$notification['userId'] = $meeting->minuters;
+					$notification['objectId'] = $meeting->id;
+					$notification['objectType'] = 'meeting';
+					$notification['subject'] ='new';
+					$notification['body'] = 'Modificatoins have been made to'.$meeting->title.' meeting';
+					setNotification($notification);
+					foreach (explode(',', $meeting->attendees)as $user)
+					{
+						if(!isEmail($user))
+						{
+							$notification['userId'] = $user;
+							$notification['body'] = 'Modificatoins have been made to'.$meeting->title.' meeting';
+							setNotification($notification);
+						}
+					}
+					Session::flash('message', 'Meeting updated');
 				}
 				else
 				{
 					$input['oid']= Organizations::where('customerId','=',getOrgId())->first()->id;
 					$input['requested_by'] = Auth::id();
 					$meeting = Meetings::create($input);
+					$notification['userId'] = $meeting->minuters;
+					$notification['objectId'] = $meeting->id;
+					$notification['objectType'] = 'meeting';
+					$notification['subject'] ='new';
+					$notification['body'] = 'You are added as minuter to '.$meeting->title.' meeting';
+					setNotification($notification);
+					foreach (explode(',', $meeting->attendees)as $user)
+					{
+						if(!isEmail($user))
+						{
+							$notification['userId'] = $user;
+							$notification['body'] = 'You are added as participant to '.$meeting->title.' meeting';
+							setNotification($notification);
+						}
+					}
+					Session::flash('message', 'Meeting created');
 				}
 				$output['meetingId'] = $meeting->id;
 			return json_encode($output);
@@ -250,6 +283,7 @@ class MeetingsController extends Controller {
 					$minute->tasks()->saveMany($records);
 					$minute->ideas()->saveMany($ideasArr);
 					$meeting->delete();
+					Session::flash('message', 'Meeting request accepted');
 				}
 			});			
 			return json_encode($output);
@@ -276,6 +310,7 @@ class MeetingsController extends Controller {
 			$meeting->reason = $input['reason'];
 			$meeting->updated_by = Auth::id();
 			$meeting->save();
+			Session::flash('message', 'Meeting request rejected');
 			return json_encode($output);
 		}
 		else
@@ -314,6 +349,22 @@ class MeetingsController extends Controller {
 		{
 			$output['success'] = 'yes';
 			$meeting->delete();
+			$notification['userId'] = $meeting->minuters;
+			$notification['objectId'] = $mid;
+			$notification['objectType'] = 'meeting';
+			$notification['subject'] ='end';
+			$notification['body'] = 'Meeting '.$meeting->title.' has been ended';
+			setNotification($notification);
+			foreach (explode(',', $meeting->attendees)as $user)
+			{
+				if(!isEmail($user))
+				{
+					$notification['userId'] = $user;
+					setNotification($notification);
+				}
+			}
+			
+			Session::flash('message', 'Meeting ended');
 			return json_encode($output);
 		}
 		else
@@ -382,10 +433,17 @@ class MeetingsController extends Controller {
 			//update notify 
 			$notification['userId'] = Auth::id();
 			$notification['objectId'] = $mid;
-			$notification['objectType'] = 'Meeting';
-			$notification['subject'] ='New';
-			$notification['isRead'] = '1';
+			$notification['objectType'] = 'meeting';
+			$notification['subject'] ='user';
+			readNotification($notification);
+			$notification = array();
+			$notification['userId'] = $meeting->minuters;
+			$notification['objectId'] = $mid;
+			$notification['objectType'] = 'meeting';
+			$notification['subject'] ='user';
+			$notification['body'] = 'Meeting '.$meeting->title.' participants updated';
 			setNotification($notification);
+			Session::flash('message', 'Meeting participants updated');
 		}
 		$output['meetingId'] = $mid;
 		return json_encode($output);

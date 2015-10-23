@@ -118,5 +118,13 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
 	@yield('javascript')
+	@if($message = Session::pull('message', null))
+	<script>
+	$(document).ready(function($)
+	{
+		toast("{{$message}}");
+	});
+	</script>
+	@endif
 </body>
 </html>

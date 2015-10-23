@@ -7,14 +7,21 @@
 	</div>
 	<?php $count = 1; ?>
 	@foreach($meetings as $meeting)
-	<?php $minute = $meeting->minutes()->first(); ?>
+	<?php $mid = null; $minute = $meeting->minutes()->first(); if($minute) {$mid = $minute->id; } ?>
 		<div class="box">
 			<span class="boxNumber boxNumberBlue">{{$count++}}</span>
-			<div class="boxInner minute_history" mid="{{$minute->id}}">
+			@if($mid)
+			<div class="boxInner minute_history" mid="{{$mid}}">
 				<h4>{{$meeting->title}}</h4>
 				<p>{{$minute->updated_at}}
 			</div>
-			<div class="boxRight closed_minute" mid="{{$minute->id}}"></div>
+			<div class="boxRight closed_minute" mid="{{$mid}}"></div>
+			@else
+			<div class="boxInner">
+				<h4>{{$meeting->title}}</h4>
+			</div>
+			<div class="boxRight"></div>
+			@endif
 		</div>
 	@endforeach
 </div>

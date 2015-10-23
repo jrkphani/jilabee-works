@@ -95,10 +95,12 @@ $('#adminContent').on('click', '#act_deact_Meeting', function(event) {
                 if(jsonData.active == '0')
                 {
                     $('#act_deact_Meeting').text('Activate');
+                    toast('Meeting reactivated');
                 }
                 else
                 {
                     $('#act_deact_Meeting').text('Deactivate');
+                    toast('Meeting deactivated');
                 }
             }
         })
