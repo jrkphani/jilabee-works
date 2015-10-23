@@ -310,6 +310,8 @@ class MeetingsController extends Controller {
 			$meeting->reason = $input['reason'];
 			$meeting->updated_by = Auth::id();
 			$meeting->save();
+			$user = getUser(['id'=>$meeting->updated_by]);
+			sendEmail($user->email,$user->profile->name,'Meeting Rejected','emails.meetingReject',['meeting'=>$meeting]);
 			Session::flash('message', 'Meeting request rejected');
 			return json_encode($output);
 		}
@@ -356,12 +358,16 @@ class MeetingsController extends Controller {
 			$notification['tag'] ='history';
 			$notification['body'] = 'Meeting '.$meeting->title.' has been ended';
 			setNotification($notification);
+			$getuser = getUser(['id'=>$meeting->minuters]);
+			sendEmail($getuser->email,$getuser->profile->name,'Meeting Ended','emails.meetingEnd',['meeting'=>$meeting]);
 			foreach (explode(',', $meeting->attendees)as $user)
 			{
 				if(!isEmail($user))
 				{
 					$notification['userId'] = $user;
 					setNotification($notification);
+					$getuser = getUser(['id'=>$user]);
+					sendEmail($getuser->email,$getuser->profile->name,'Meeting Ended','emails.meetingEnd',['meeting'=>$meeting]);
 				}
 			}
 			
