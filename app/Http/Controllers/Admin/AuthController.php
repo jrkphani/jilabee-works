@@ -92,12 +92,6 @@ class AuthController extends Controller {
 								,'created_by'=>$user->id,'updated_by'=>$user->id]);
 						    $user->profile()->save($profile);
 						    sendEmail($user->email,$profile->name,'Activation Mail','emails.orgSignup',['user'=>$user,'remember_token'=>$remember_token]);
-						    Activity::log([
-							    'contentType' => 'Organizations',
-							    'action'      => 'Signup',
-							    //'description' => '',
-							    'details'     => 'Name: '.$input['name'].'Email:'.$input['email']
-							]);
 						}
 					}					
 				}

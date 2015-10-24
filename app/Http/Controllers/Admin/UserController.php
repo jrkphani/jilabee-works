@@ -119,14 +119,6 @@ class UserController extends Controller {
 						$profile->updated_by = Auth::id();
 						if($user->profile()->save($profile))
 						{
-							Activity::log([
-							'userId'	=> Auth::id(),
-							'contentId'   => $user->id,
-						    'contentType' => 'Add Organizations User',
-						    'action'      => 'Create',
-						    //'description' => 'Add Organizations User',
-						    'details'     => 'Name:'.$input['name'].'Email:'.$input['email']
-							]);
 							if(count($input['meetings']) == count($input['roles']))
 							{
 								foreach ($input['meetings'] as $key=>$value)

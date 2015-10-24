@@ -293,12 +293,6 @@ class TaskController extends Controller {
 			$notification['tag'] ='now';
 			$notification['body'] = 'Task #'.$task->id.' accepted';
 			setNotification($notification);
-			// Activity::log([
-			// 	'userId'	=> Auth::id(),
-			// 	'contentId'   => $task->id,
-			// 	'contentType' => 'Minute Task',
-			// 	'action'      => 'Accepted'
-			// 	]);
 			$output['success'] = 'yes';
 			return json_encode($output);
 		}
@@ -324,14 +318,6 @@ class TaskController extends Controller {
 				$notification['tag'] ='now';
 				$notification['body'] = 'Task #'.$task->id.' rejected';
 				setNotification($notification);
-				// Activity::log([
-				// 	'userId'	=> Auth::id(),
-				// 	'contentId'   => $task->id,
-				//     'contentType' => 'Minute Task',
-				//     'action'      => 'Rejected',
-				//     //'description' => 'Add Organizations User',
-				//     'details'     => 'Rejected Reason: '.$input['reason']
-				// ]);
 				$output['success'] = 'yes';
 			}
 			

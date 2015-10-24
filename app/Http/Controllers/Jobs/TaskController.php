@@ -98,15 +98,6 @@ class TaskController extends Controller {
 				$notification['tag'] = 'now';
 				$notification['body'] = 'Task #'.$task->id.' rejected';
 				setNotification($notification);
-				
-				// Activity::log([
-				// 	'userId'	=> Auth::id(),
-				// 	'contentId'   => $task->id,
-				//     'contentType' => 'Task',
-				//     'action'      => 'Rejected',
-				//     //'description' => 'Add Organizations User',
-				//     'details'     => 'Rejected Reason: '.$input['reason']
-				// ]);
 			}
 			$output['success'] = 'yes';
 		}

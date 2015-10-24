@@ -69,12 +69,6 @@ class AuthController extends Controller {
 			);
 		}
 		$this->registrar->create($request->all());
-		Activity::log([
-		    'contentType' => 'User',
-		    'action'      => 'General Signup',
-		    'description' => 'General signup',
-		    'details'     => 'Username: '.$request->name.'Email:'.$request->email
-		]);
 		//return redirect('/auth/register')->with('message', 'Registration successfully!');
 		return redirect('admin/auth/register')->with('message', 'Registration success, please check your email for activation.');
 	}

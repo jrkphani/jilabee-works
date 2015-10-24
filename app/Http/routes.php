@@ -15,45 +15,47 @@
 //sendEmail($toEmail,$toName,$subject,$view,$arrayToView)
 sendEmail('manimani1014@gmail.com','Mani','Ha Ha Ha','emails.password',['token'=>'ssvsdvsdvsvs']);
 });*/
-Route::group(['prefix' => 'admin'], function()
+Route::group(['middleware' => 'logAllActivity'], function()
 {
-	Route::group(['middleware' => 'adminOnly'], function()
+	Route::group(['prefix' => 'admin'], function()
 	{
-			Route::get('/', ['uses'=>'Admin\MeetingsController@notification','as'=>'admin']);
-			Route::get('user/list', ['uses'=>'Admin\UserController@userList','as'=>'users']);
-			Route::get('user/add', 'Admin\UserController@getAdd');
-			Route::post('user/add', 'Admin\UserController@postAdd');
-			Route::get('user/view/{userId}', 'Admin\UserController@getUser');
-			Route::get('user/edit/{userId}', 'Admin\UserController@getAdd');
-			Route::post('user/edit/{userId}', 'Admin\UserController@editUser');
-			Route::get('meetings', ['uses'=>'Admin\MeetingsController@index','as'=>'adminmeetings']);
-			Route::get('meeting/create','Admin\MeetingsController@meetingForm');
-			Route::post('meeting/create','Admin\MeetingsController@createMeeting');
-			Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
-			Route::get('meeting/draft/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
-			Route::get('meeting/newusers/{meetingId}', 'Admin\MeetingsController@viewNewusers')->where('meetingId', '[0-9]+');
-			Route::post('meeting/newusers/{meetingId}', 'Admin\MeetingsController@addUsers')->where('meetingId', '[0-9]+');
-			Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
-			Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
-			Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
-			Route::get('meeting/activate/{meetingId}','Admin\MeetingsController@activate')->where('meetingId', '[0-9]+');
-			Route::get('meeting/delete/{meetingId}','Admin\MeetingsController@delete')->where('meetingId', '[0-9]+');
+		Route::group(['middleware' => 'adminOnly'], function()
+		{
+				Route::get('/', ['uses'=>'Admin\MeetingsController@notification','as'=>'admin']);
+				Route::get('user/list', ['uses'=>'Admin\UserController@userList','as'=>'users']);
+				Route::get('user/add', 'Admin\UserController@getAdd');
+				Route::post('user/add', 'Admin\UserController@postAdd');
+				Route::get('user/view/{userId}', 'Admin\UserController@getUser');
+				Route::get('user/edit/{userId}', 'Admin\UserController@getAdd');
+				Route::post('user/edit/{userId}', 'Admin\UserController@editUser');
+				Route::get('meetings', ['uses'=>'Admin\MeetingsController@index','as'=>'adminmeetings']);
+				Route::get('meeting/create','Admin\MeetingsController@meetingForm');
+				Route::post('meeting/create','Admin\MeetingsController@createMeeting');
+				Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
+				Route::get('meeting/draft/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
+				Route::get('meeting/newusers/{meetingId}', 'Admin\MeetingsController@viewNewusers')->where('meetingId', '[0-9]+');
+				Route::post('meeting/newusers/{meetingId}', 'Admin\MeetingsController@addUsers')->where('meetingId', '[0-9]+');
+				Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
+				Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
+				Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
+				Route::get('meeting/activate/{meetingId}','Admin\MeetingsController@activate')->where('meetingId', '[0-9]+');
+				Route::get('meeting/delete/{meetingId}','Admin\MeetingsController@delete')->where('meetingId', '[0-9]+');
+		});
+		Route::get('auth/register', 'Admin\AuthController@signupGet');
+		Route::post('auth/register', 'Admin\AuthController@signupPost');
+		Route::get('auth/login', 'Admin\AuthController@loginGet');
+		Route::post('auth/login', 'Admin\AuthController@loginPost');
+		Route::get('auth/logout', 'Admin\AuthController@logout');
+		Route::get('activate/{remember}', 'Admin\UserController@emailActivate');
 	});
-	Route::get('auth/register', 'Admin\AuthController@signupGet');
-	Route::post('auth/register', 'Admin\AuthController@signupPost');
-	Route::get('auth/login', 'Admin\AuthController@loginGet');
-	Route::post('auth/login', 'Admin\AuthController@loginPost');
-	Route::get('auth/logout', 'Admin\AuthController@logout');
-	Route::get('activate/{remember}', 'Admin\UserController@emailActivate');
-});
 
 	Route::controllers([
 		'auth' => 'Auth\AuthController',
 		'password' => 'Auth\PasswordController',
 		]);
-	
+		
 
-    Route::group(['middleware' => 'auth'], function()
+	Route::group(['middleware' => 'auth'], function()
 	{
 		Route::get('profile/{id?}', ['uses'=>'Auth\ProfileController@index','as'=>'profile'])->where('id', '[0-9]+');
 		Route::get('profile/edit', 'Auth\ProfileController@getedit');
@@ -128,3 +130,4 @@ Route::group(['prefix' => 'admin'], function()
 			Route::get('{minuteId}/history/{taskid}', 'Meetings\TaskController@viewHistory')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 		});		
 	});	
+});

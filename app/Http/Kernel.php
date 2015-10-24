@@ -31,6 +31,7 @@ class Kernel extends HttpKernel {
 		'adminOnly' => 'App\Http\Middleware\Adminonly',
 		'admin' => 'App\Http\Middleware\AdminAuthenticate',
 		'checkDatabase' => 'App\Http\Middleware\ChangeDataBase',
+		'logAllActivity' => 'App\Http\Middleware\logAllActivity',
 	];
 
 }
