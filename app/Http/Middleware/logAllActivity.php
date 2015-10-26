@@ -18,6 +18,8 @@ class logAllActivity {
 		{
 			$inputs = Request::all();
 			unset($inputs['_token']);
+			unset($inputs['password']);
+			unset($inputs['password_confirmation']);
 			if($inputs)
 			{
 				$details = serialize($inputs);
