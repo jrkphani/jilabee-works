@@ -104,7 +104,7 @@
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
 				<div class="chatInput chatInput_1row">
 					{!! Form::open(['id'=>"CommentForm"]) !!}
-					{!! Form::textarea('description', '',['rows'=>3,'placeholder'=>'Type comment here','id'=>'followupCommentText']) !!}
+					{!! Form::textarea('description',Request::input('description',''),['rows'=>3,'placeholder'=>'Type comment here','id'=>'followupCommentText']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
 					<button {{$mid}} tid="{{$task->id}}" id="followupComment" style="display:none;">Post</button>

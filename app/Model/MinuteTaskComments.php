@@ -32,7 +32,7 @@ class MinuteTaskComments extends Model{
     public static function validation($data)
     {
         $rule = array(
-            'description'=>'required|max:64');
+            'description'=>'required|max:255');
         $validator = Validator::make($data,$rule);
         return $validator;
     }
