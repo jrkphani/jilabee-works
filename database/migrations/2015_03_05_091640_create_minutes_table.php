@@ -18,7 +18,7 @@ class CreateMinutesTable extends Migration {
 			$table->integer('meetingId')->unsigned();
 			$table->string('venue','64')->nullable();
 			$table->dateTime('startDate');
-			$table->dateTime('endDate');
+			$table->dateTime('endDate')->nullable();
 			$table->string('attendees','64');
 			$table->string('absentees','64')->nullable();
 			//$table->integer('lock_flag')->nullable()->unsigned()->default(0);

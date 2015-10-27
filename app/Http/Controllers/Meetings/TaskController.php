@@ -220,6 +220,11 @@ class TaskController extends Controller {
 					});
 				}
 				$minute->draft()->delete();
+				if(!$minute->endDate)
+				{
+					$minute->endDate = date('Y-m-d H:i:s');
+					$minute->save();
+				}
 				$output['meetingId'] = $mid;
 				//file minutes if no new task
 				//$this->fileMinute($minute->meetingId);

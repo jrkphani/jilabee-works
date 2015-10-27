@@ -110,6 +110,10 @@ class MinuteController extends Controller {
 		{
 			$input = Request::only('venue','startDate','endDate','attendees','absentees');
 			//print_r($input); die;
+			if(!$input['endDate'])
+			{
+				unset($input['endDate']);
+			}
 			$validator = Minutes::validation($input);
 			if ($validator->fails())
 			{
