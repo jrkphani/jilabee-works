@@ -66,6 +66,10 @@ class TaskController extends Controller {
 		$task->updated_by = Auth::id();
 		if($task->save())
 		{
+			$input['created_by'] = $input['updated_by'] = Auth::id();
+			$input['description'] = 'Task Accepted';
+			$comment = new JobTaskComments($input);
+			$task->comments()->save($comment);
 			$notification['userId'] = $task->assigner;
 			$notification['objectId'] = $task->id;
 			$notification['objectType'] = 'followups';
@@ -91,6 +95,10 @@ class TaskController extends Controller {
 			$task->updated_by = Auth::id();
 			if($task->save())
 			{
+				$input1['created_by'] = $input1['updated_by'] = Auth::id();
+				$input1['description'] = 'Task Rejected : '.$input['reason'];
+				$comment = new JobTaskComments($input1);
+				$task->comments()->save($comment);
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
 				$notification['objectType'] = 'followups';
@@ -217,6 +225,7 @@ class TaskController extends Controller {
 			}
 			$input['description'] = nl2br($input['description']);
 			$input['notes'] = nl2br($input['notes']);
+			$input['status'] = 'Sent';
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
 			$toLog = $task->toArray();
 			$toLog['taskId']=$toLog['id'];

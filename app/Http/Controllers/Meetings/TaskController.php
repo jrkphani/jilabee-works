@@ -284,6 +284,10 @@ class TaskController extends Controller {
 		$task->updated_by = Auth::id();
 		if($task->save())
 		{
+			$input['created_by'] = $input['updated_by'] = Auth::id();
+			$input['description'] = 'Task Accepted';
+			$comment = new MinuteTaskComments($input);
+			$task->comments()->save($comment);
 			$this->fileMinute($task->minute->meetingId);
 			$notification['userId'] = $task->assigner;
 			$notification['parentId'] = $task->minuteId;
@@ -310,6 +314,10 @@ class TaskController extends Controller {
 			$task->updated_by = Auth::id();
 			if($task->save())
 			{
+				$input1['created_by'] = $input1['updated_by'] = Auth::id();
+				$input1['description'] = 'Task Rejected : '.$input['reason'];
+				$comment = new MinuteTaskComments($input1);
+				$task->comments()->save($comment);
 				$notification['userId'] = $task->assigner;
 				$notification['parentId'] = $task->minuteId;
 				$notification['objectId'] = $task->id;
