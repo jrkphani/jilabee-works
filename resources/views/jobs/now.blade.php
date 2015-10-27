@@ -30,7 +30,11 @@
 								{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3]) !!}
 								<div class="error" id="err_{{$task->id}}"></div>
 								{!! Form::close() !!}
+							@endif
+							@if($task->status == 'Sent' || $task->status == 'Rejected')
 								<button {{$mid}} tid="{{$task->id}}" class="accept">Accept</button>
+							@endif
+							@if($task->status == 'Sent')
 								<button {{$mid}} tid="{{$task->id}}" class="reject">Reject</button>
 							@endif
 						</div>
