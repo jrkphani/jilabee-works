@@ -10,6 +10,7 @@ use Activity;
 use App\Model\FiledMinutes;
 use DB;
 use Validator;
+use Session;
 use PDF;
 use File;
 class TaskController extends Controller {
@@ -358,6 +359,7 @@ class TaskController extends Controller {
 				$notification['tag'] ='now';
 				$notification['body'] = Auth::user()->profile->name.' completed task #'.$task->id;
 				setNotification($notification);
+				Session::flash('message', 'Task marked as completed');
 				$output['success'] = 'yes';
 				return json_encode($output);
 			}

@@ -47,9 +47,10 @@
 					//has to complet in minutes only for the minute task as per phani instruct
 					--}}
 					@if(!$task->minuteId)
-					<button class="btn btn-primary " id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</button>
+					<span class="button" id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</span>
 					@endif
-					<button class="btn btn-primary " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</button>
+					<span class="button " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</span>
+					
 				</div>
 				@endif
 			</div>

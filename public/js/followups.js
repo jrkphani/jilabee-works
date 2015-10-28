@@ -97,8 +97,7 @@ $(document).ready(function() {
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
-            //has to be closed in minutes
-            //path = '/minute/'+$(this).attr('mid')+'/rejectCompletion/'+tid;
+            path = '/minute/'+$(this).attr('mid')+'/rejectCompletion/'+tid;
         }
         else
         {

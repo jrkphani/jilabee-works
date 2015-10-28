@@ -284,6 +284,7 @@ class TaskController extends Controller {
 				$notification['tag'] = 'now';
 				$notification['body'] = Auth::user()->profile->name.' completed task #'.$task->id;
 				setNotification($notification);
+				Session::flash('message', 'Task marked as completed');
 				$output['success'] = 'yes';
 				return json_encode($output);
 			}
@@ -538,7 +539,7 @@ class TaskController extends Controller {
 		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where('status','==','Closed')->where('status','==','Cancelled');
+		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where('status','=','Closed')->orWhere('status','=','Cancelled');
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
