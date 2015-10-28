@@ -23,6 +23,12 @@
                    </div>
 
                    <div class="profile_edit_row">
+                    <label>Role</label>
+                    <div>{{roles()[$profile->role]}}</div>
+                    <div class="clearboth"></div>
+                  </div>
+
+                   <div class="profile_edit_row">
                         <label>Password</label>
                         <div>
                             <input type="password" autocomplete ='off' class="form-control" name="password">

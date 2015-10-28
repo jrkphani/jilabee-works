@@ -2,9 +2,9 @@
 @section('content')
 	<div >
 		<div class="profile_div">
-			<div class="profile_pic">
+			{{-- <div class="profile_pic">
 				<img width="100" height="100" alt="Cinque Terre" class="img-circle" src="http://app.localjotter.com/img/jotter.jpg">
-			</div>
+			</div> --}}
 			<div class="profile_row">
 				<div>Name</div>
 				<div>{{$user->profile->name}}</div>
@@ -13,6 +13,11 @@
 			<div class="profile_row">
 				<div>Email</div>
 				<div>{{$user->email}}</div>
+				<div class="clearboth"></div>
+			</div>
+			<div class="profile_row">
+				<div>Role</div>
+				<div>{{roles()[$user->profile->role]}}</div>
 				<div class="clearboth"></div>
 			</div>
 			<div class="profile_row">
