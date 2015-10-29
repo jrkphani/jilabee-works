@@ -349,6 +349,7 @@ $(document).on('click', '#allNotifications', function(event) {
         .done(function(htmlData) {
             $('#notification_content').html(htmlData);
             $('#notificationDiv').show();
+            $('#notifyDiv').hide();
         })
         .fail(function(xhr) {
             checkStatus(xhr.status);

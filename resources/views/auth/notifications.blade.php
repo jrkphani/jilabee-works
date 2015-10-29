@@ -1,3 +1,4 @@
+@if($notifications)
 <ul>
 @foreach($notifications as $notification)
 	@if($notification->isRead == '1')
@@ -5,8 +6,8 @@
 	@else
 	<li>
 	@endif
-
 	<?php
+    $link = '';
 	if($notification->objectType == 'jobs')
         {
             $link = '/jobs/?';
@@ -45,12 +46,23 @@
         {
             $link = '';
         }
+        if($notification->isRead == '2')
+        {
+            $link = '';
+        }
         ?>
 		<h3>{{$notification->objectType}}</h3>
 		{{$notification->body}}
 		<p>{{date('Y M d - H:i', strtotime($notification->updated_at))}}</p>
-		<span class="notification_go_btn"><a href="{{$link}}">Go</a></span>
+        @if($link)
+            <span class="notification_go_btn">
+                <a href="{{$link}}">Go</a>
+            </span>
+        @endif
 		<span class="notification_left_bar"></span>
 	</li>
 @endforeach
 </ul>
+@else
+No Notifications
+@endif

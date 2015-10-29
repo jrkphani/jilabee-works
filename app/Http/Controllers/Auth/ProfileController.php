@@ -181,7 +181,7 @@ class ProfileController extends Controller {
 	}
 	public function notifications()
 	{
-		$notifications = Auth::user()->notifications()->orderBy('updated_at','desc')->get();
+		$notifications = Auth::user()->notifications()->where('isRead','=','0')->orderBy('updated_at','desc')->get();
 		$output['success'] = 'yes';
 		$output['dateNow'] = date('Y-m-d H:i:s');
 		$output['result'] = $notifications;
