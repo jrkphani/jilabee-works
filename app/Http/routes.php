@@ -72,6 +72,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::group(['prefix' => 'jobs'], function()
 		{
 			Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'jobs']);
+			Route::get('/readNotification', ['uses'=>'Jobs\TaskController@isReadNotification']);
 			Route::get('/now', ['uses'=>'Jobs\TaskController@nowsortby']);
 			Route::get('/history', ['uses'=>'Jobs\TaskController@historysortby']);
 			Route::get('acceptTask/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
@@ -91,6 +92,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::group(['prefix' => 'followups'], function()
 		{
 			Route::get('/', ['uses'=>'Followups\TaskController@index','as'=>'followups']);
+			Route::get('/readNotification', ['uses'=>'Followups\TaskController@isReadNotification']);
 			Route::get('/now', ['uses'=>'Followups\TaskController@nowsortby']);
 			Route::get('/history', ['uses'=>'Followups\TaskController@historysortby']);
 			Route::post('draft', 'Followups\TaskController@draft');

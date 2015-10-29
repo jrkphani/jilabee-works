@@ -27,7 +27,24 @@ $(document).ready(function($)
             }
             if(clickDiv)
             {
-                clickDiv.first().trigger( "click" );
+                if(clickDiv.first().length > 0)
+                {
+                    clickDiv.first().trigger( "click" );
+                }
+                else
+                {
+                    alert('Job not exist!');
+                    if(mid)
+                    {
+                         params =  "&mid="+mid+"&tid="+tid;
+                    }
+                    else if(tid)
+                    {
+                        params =  "&tid="+tid;
+                    }
+                    readNotification(params);
+                    ChangeUrl('');
+                }
             }
         }
         else
@@ -290,4 +307,22 @@ function getHistory()
     } else {
         //alert("Browser does not support HTML5.");
     }
+}
+function readNotification(params)
+{
+    $.ajax({
+            url: '/jobs/readNotification?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            ChangeUrl('');
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
 }

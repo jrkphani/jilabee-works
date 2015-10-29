@@ -628,4 +628,12 @@ class TaskController extends Controller {
 			return $historytasks;
 		}
 	}
+	public function isReadNotification()
+	{
+		$notification['userId'] = Auth::id();
+		$notification['parentId'] = Request::get('mid');
+		$notification['objectId'] = Request::get('tid');
+		$notification['objectType'] = 'jobs';
+		readNotification($notification);
+	}
 }
