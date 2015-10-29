@@ -181,10 +181,12 @@ class ProfileController extends Controller {
 	}
 	public function notifications()
 	{
-		$notifications = Auth::user()->notifications()->where('isRead','=','0')->orderBy('updated_at','desc')->get();
+		$notificationsCount = Auth::user()->notifications()->where('isRead','=','0')->count();
+		$notifications = Auth::user()->notifications()->orderBy('updated_at','desc')->take(10)->get();
 		$output['success'] = 'yes';
 		$output['dateNow'] = date('Y-m-d H:i:s');
 		$output['result'] = $notifications;
+		$output['unread'] = $notificationsCount;
 		return json_encode($output);
 	}
 	public function allNotifications()

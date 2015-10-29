@@ -246,7 +246,7 @@ function notifications()
              $.isnotoicationajax = 'no';
             if(jsonDate.success =='yes')
             {
-                $('#notifications').html(jsonDate.result.length)
+                $('#notifications').html(jsonDate.unread)
                 if(jsonDate.result.length > 0)
                 {
                     $('#notifications').show();
@@ -255,6 +255,7 @@ function notifications()
                      insert = '<h4>Notifications</h4><button id="allNotifications" class="showAllBtn">Show All</button>';
                     $.each(jsonDate.result, function(key,row)
                     {
+                        link='';
                         if(row.objectType == 'jobs')
                         {
                             link = '/jobs/?';
@@ -317,10 +318,20 @@ function notifications()
                         {
                             isRead ='notification_read';
                         }
-                        insert +='<div class="notificationItem '+isRead+'">'
-                                //+'    <p>'+row.subject+'-'+row.objectType+'</p>'
-                                +'    <h6><a href="'+link+'">'+row.body+'</a></h6>'
-                                +'    <p>'+updated_at+'</p>'
+                         if(row.isRead == '2')
+                         {
+                            link='';
+                         }
+                        insert +='<div class="notificationItem '+isRead+'">';
+                        if(link.length)
+                        {
+                             insert +='<h6><a href="'+link+'">'+row.body+'</a></h6>';
+                        }
+                        else
+                        {
+                            insert +='<h6>'+row.body+'</h6>';
+                        }
+                        insert +='<p>'+updated_at+'</p>'
                                 +'</div>';
                     });
                     $('#notifyDiv').html(insert);
