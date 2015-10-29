@@ -5,10 +5,51 @@
 	@else
 	<li>
 	@endif
+
+	<?php
+	if($notification->objectType == 'jobs')
+        {
+            $link = '/jobs/?';
+            if($notification->tag == 'history')
+            {
+                $link = $link.'&history=yes';    
+            }
+            $link = $link.'&tid='.$notification->objectId;
+            if($notification->parentId)
+            {
+                $link = $link.'&mid='.$notification->parentId;
+            }
+        }
+        else if($notification->objectType == 'followups')
+        {
+            $link = '/followups/?';
+            if($notification->tag == 'history')
+            {
+                $link = $link.'&history=yes';    
+            }
+            $link = $link.'&tid='.$notification->objectId;
+            if($notification->parentId)
+            {
+                $link =$link.'&mid='.$notification->parentId;
+            }
+        }
+        else if($notification->objectType == 'meeting')
+        {
+            $link = '/meeting';
+            if($notification->subject == 'user')
+            {
+                $notification->body = 'New User Added in Meeting';
+            }
+        }
+        else
+        {
+            $link = '';
+        }
+        ?>
 		<h3>{{$notification->objectType}}</h3>
-		<a href="#">{{$notification->body}}</a>
+		{{$notification->body}}
 		<p>{{date('Y M d - H:i', strtotime($notification->updated_at))}}</p>
-		<span class="notification_go_btn">Go</span>
+		<span class="notification_go_btn"><a href="{{$link}}">Go</a></span>
 		<span class="notification_left_bar"></span>
 	</li>
 @endforeach
