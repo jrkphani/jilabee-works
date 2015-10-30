@@ -40,7 +40,7 @@ class MeetingsController extends Controller {
 					//->where('tempMeetings.approved','=','0')
 					->where('tempMeetings.draft','=','0')
 					->get();
-		$notifications = Auth::user()->notifications()->where('objectType','meeting')->where('subject','user')->where('isRead','0')->orderBy('updated_at','desc')->get();
+		$notifications = Auth::user()->notifications()->where('objectType','meetinguser')->where('isRead','0')->orderBy('updated_at','desc')->get();
 		//print_r($notifications); die;
 		return view('admin.notification',['meetings'=>$meetings,'notifications'=>$notifications]);
 	}
@@ -60,7 +60,7 @@ class MeetingsController extends Controller {
 	{
 		$meeting = Meetings::find($id);
 		$roles = roles();
-		$notification = Notifications::where('objectType','Meeting')->where('objectId',$id)->where('userId',Auth::id())->first();
+		$notification = Notifications::where('objectType','meetinguser')->where('objectId',$id)->where('userId',Auth::id())->first();
 		//for pop view in meeting approve page
 		return view('admin.meetingNewusers',['meeting'=>$meeting,'roles'=>$roles,'notification'=>$notification]);
 	}
@@ -439,11 +439,10 @@ class MeetingsController extends Controller {
 		if($meeting->update($input))
 		{
 			//update notify 
-			// $notification['userId'] = Auth::id();
-			// $notification['objectId'] = $mid;
-			// $notification['objectType'] = 'meeting';
-			// $notification['subject'] ='user';
-			// readNotification($notification);
+			$notification['userId'] = Auth::id();
+			$notification['objectId'] = $mid;
+			$notification['objectType'] = 'meetinguser';
+			readNotification($notification);
 			$notification = array();
 			$notification['userId'] = $meeting->minuters;
 			$notification['objectId'] = $mid;

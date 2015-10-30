@@ -210,8 +210,8 @@ class MinuteController extends Controller {
 						//notify admin
 						$notification['userId'] = getAdmin()->id;
 						$notification['objectId'] = $meeting->id;
-						$notification['objectType'] = 'meeting';
-						$notification['subject'] ='user';
+						$notification['objectType'] = 'meetinguser';
+						$notification['subject'] ='new';
 						$notification['isRead'] = '0';
 						$notification['body'] = serialize($newusersList);
 						setNotification($notification);

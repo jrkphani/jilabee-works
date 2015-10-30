@@ -285,19 +285,17 @@ function notifications()
                         else if(row.objectType == 'meeting')
                         {
                             link = '/meetings/?';
-                            if(row.subject == 'user')
+                            if(row.tag == 'history')
                             {
-                                row.body = 'New User Added in Meeting';
-                                link = '/admin';
+                                link += '&history=yes';    
                             }
-                            else
-                            {
-                                if(row.tag == 'history')
-                                {
-                                    link += '&history=yes';    
-                                }
-                                link += '&mid='+row.objectId;
-                            }
+                            link += '&mid='+row.objectId;
+                        }
+                        else if(row.objectType == 'meetinguser')
+                        {
+                            link = '/admin/?';
+                            link += '&mid='+row.objectId;
+                            row.body = 'New User Added in Meeting';
                         }
                         else
                         {

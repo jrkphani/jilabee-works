@@ -37,19 +37,17 @@
         else if($notification->objectType == 'meeting')
         {
             $link = '/meetings/?';
-            if($notification->subject == 'user')
+            if($notification->tag == 'history')
             {
-                $link = '/admin';
-                $notification->body = 'New User Added in Meeting';
+                $link = $link.'&history=yes';    
             }
-            else
-            {
-                if($notification->tag == 'history')
-                {
-                    $link = $link.'&history=yes';    
-                }
-                $link = $link.'&mid='.$notification->objectId;
-            }
+            $link = $link.'&mid='.$notification->objectId;
+        }
+        else if($notification->objectType == 'meetinguser')
+        {
+            $link = '/admin/?';
+            $link = $link.'&mid='.$notification->objectId;
+            $notification->body = 'New User Added in Meeting';
         }
         else
         {
