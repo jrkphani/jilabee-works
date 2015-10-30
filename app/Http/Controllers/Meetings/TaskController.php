@@ -152,9 +152,9 @@ class TaskController extends Controller {
 							
 							if($oldTask->update($tempArr))
 							{
-								if($oldTask->status == 'Closed' || $oldTask->status == 'Cancelled')
+								if($oldTask->first()->status == 'Closed' || $oldTask->first()->status == 'Cancelled')
 								{
-									if($oldTask->status == 'Closed')
+									if($oldTask->first()->status == 'Closed')
 									{
 										$input1['description'] = 'Task closed';
 									}
