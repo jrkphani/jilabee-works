@@ -43,8 +43,8 @@
 
 				@if($task->status == 'Complete'  || ($task->status == 'Completed' && !$mid))
 				<div class="accept_reject">
-					<span class="button" id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</span>
-					<span class="button " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</span>
+					<span class="button" id="acceptCompletion" {{$mid}} tid="{{$task->id}}">Accept completion</span>
+					<span class="button " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">Reject completion</span>
 				</div>
 				@endif
 			</div>
