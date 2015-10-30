@@ -74,11 +74,11 @@ $('#centralContainer').on('click', '.task', function(event){
         form = 'Form'+tid;
         if($(this).attr('mid'))
         {
-            path = 'minute/'+$(this).attr('mid')+'/acceptTask/'+tid;
+            path = '/minute/'+$(this).attr('mid')+'/acceptTask/'+tid;
         }
         else
         {
-            path = 'jobs/acceptTask/'+tid;
+            path = '/jobs/acceptTask/'+tid;
         }
         $.ajax({
             url: path,
@@ -102,12 +102,12 @@ $('#centralContainer').on('click', '.task', function(event){
         tid = $(this).attr('tid');
         if($(this).attr('mid'))
         {
-            path = 'minute/'+$(this).attr('mid')+'/rejectTask/'+tid;
+            path = '/minute/'+$(this).attr('mid')+'/rejectTask/'+tid;
              form = 'Form'+$(this).attr('mid')+tid;
         }
         else
         {            
-            path = 'jobs/rejectTask/'+tid;
+            path = '/jobs/rejectTask/'+tid;
              form = 'Form'+tid;
         }
         $.ajax({
@@ -149,11 +149,11 @@ $('#centralContainer').on('click', '.task', function(event){
         form = 'CommentForm'+tid;
         if($(this).attr('mid'))
         {
-            path = 'minute/'+$(this).attr('mid')+'/comment/'+tid;
+            path = '/minute/'+$(this).attr('mid')+'/comment/'+tid;
         }
         else
         {
-             path = 'jobs/comment/'+tid;
+             path = '/jobs/comment/'+tid;
         }
         popupContentAjaxPost(path,form);
     });

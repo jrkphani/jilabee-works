@@ -70,11 +70,11 @@ $(document).ready(function() {
         form = 'CommentForm';
         if($(this).attr('mid'))
         {
-            path = 'followups/'+$(this).attr('mid')+'/comment/'+tid;
+            path = '/followups/'+$(this).attr('mid')+'/comment/'+tid;
         }
         else
         {
-            path = 'followups/comment/'+tid;
+            path = '/followups/comment/'+tid;
         }
         popupContentAjaxPost(path,form);
     });
@@ -310,7 +310,7 @@ $(document).ready(function() {
  $('#centralContainer').on('click', '#editTask', function(event) {
     event.preventDefault();
     tid = $(this).attr('tid');
-      path = 'jobs/task/edit/'+tid;
+      path = '/jobs/task/edit/'+tid;
     popupContentAjaxGet(path);
  });
  $('#centralContainer').on('click', '#updateTaskSubmit', function(event) {
@@ -319,11 +319,11 @@ $(document).ready(function() {
     form = 'updateTaskForm';
     if($(this).attr('mid'))
     {
-        path = 'minute/'+$(this).attr('mid')+'/task/update/'+tid;
+        path = '/minute/'+$(this).attr('mid')+'/task/update/'+tid;
     }
     else
     {
-        path = 'jobs/task/update/'+tid;
+        path = '/jobs/task/update/'+tid;
     }
     popupContentAjaxPost(path,form,'Task modified!');
  });

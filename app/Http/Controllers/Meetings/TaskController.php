@@ -135,6 +135,10 @@ class TaskController extends Controller {
 							}
 							if($oldTask->first()->assignee != $notification['userId'])
 							{
+								$input1['created_by'] = $input1['updated_by'] = Auth::id();
+								$input1['description'] = 'Task reassigned';
+								$comment = new MinuteTaskComments($input1);
+								$oldTask->first()->comments()->save($comment);
 								$notification['userId'] = $oldTask->first()->assignee;
 								$notification['isRead'] = '2';
 								$notification['parentId'] = $oldTask->first()->minuteId;
@@ -146,7 +150,23 @@ class TaskController extends Controller {
 								setNotification($notification);
 							}
 							
-							$oldTask->update($tempArr);
+							if($oldTask->update($tempArr))
+							{
+								if($oldTask->status == 'Closed' || $oldTask->status == 'Cancelled')
+								{
+									if($oldTask->status == 'Closed')
+									{
+										$input1['description'] = 'Task closed';
+									}
+									else
+									{
+										$input1['description'] = 'Task cancelled';
+									}
+									$input1['created_by'] = $input1['updated_by'] = Auth::id();
+									$comment = new MinuteTaskComments($input1);
+									$oldTask->first()->comments()->save($comment);
+								}
+							}
 						}
 						else
 						{
@@ -351,6 +371,10 @@ class TaskController extends Controller {
 			$task->status = 'Completed';
 			if($task->save())
 			{
+				$input['created_by'] = $input['updated_by'] = Auth::id();
+				$input['description'] = 'Task marked as completed';
+				$comment = new MinuteTaskComments($input);
+				$task->comments()->save($comment);
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
 				$notification['objectType'] = 'followups';
@@ -393,6 +417,10 @@ class TaskController extends Controller {
 				$task->status = 'Open';
 				if($task->save())
 				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task completion rejected';
+					$comment = new MinuteTaskComments($input);
+					$task->comments()->save($comment);
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';

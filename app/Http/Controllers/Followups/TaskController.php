@@ -323,7 +323,10 @@ class TaskController extends Controller {
 		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','=','Closed')->orWhere('status','=','Cancelled');
+		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where(function($qry)
+		{
+			$qry->where('status','=','Closed')->orWhere('status','=','Cancelled');
+		});
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')

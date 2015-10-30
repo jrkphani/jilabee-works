@@ -256,6 +256,10 @@ class TaskController extends Controller {
 				}
 				if(($oldAssignee) && ($oldAssignee != $notification['userId']))
 				{
+					$input1['created_by'] = $input1['updated_by'] = Auth::id();
+					$input1['description'] = 'Task reassigned';
+					$comment = new JobTaskComments($input1);
+					$task->comments()->save($comment);
 					$notification['userId'] = $oldAssignee;
 					$notification['isRead'] = '2';
 					$notification['objectId'] = $task->id;
@@ -277,6 +281,10 @@ class TaskController extends Controller {
 			$task->status = 'Completed';
 			if($task->save())
 			{
+				$input['created_by'] = $input['updated_by'] = Auth::id();
+				$input['description'] = 'Task marked as completed';
+				$comment = new JobTaskComments($input);
+				$task->comments()->save($comment);
 				$notification['userId'] = $task->assigner;
 				$notification['objectId'] = $task->id;
 				$notification['objectType'] = 'followups';
@@ -302,6 +310,10 @@ class TaskController extends Controller {
 				$task->status = 'Closed';
 				if($task->save())
 				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task completion accepted and closed';
+					$comment = new JobTaskComments($input);
+					$task->comments()->save($comment);
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
@@ -325,6 +337,10 @@ class TaskController extends Controller {
 				$task->status = 'Open';
 				if($task->save())
 				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task completion rejected';
+					$comment = new JobTaskComments($input);
+					$task->comments()->save($comment);
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
 					$notification['objectType'] = 'jobs';
@@ -349,7 +365,10 @@ class TaskController extends Controller {
 				$task->status = 'Cancelled';
 				if($task->save())
 				{
-					//return view('followups.task',['task'=>$task]);
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task cancelled';
+					$comment = new JobTaskComments($input);
+					$task->comments()->save($comment);
 					$output['success'] = 'yes';
 					$notification['userId'] = $task->assignee;
 					$notification['objectId'] = $task->id;
@@ -372,6 +391,10 @@ class TaskController extends Controller {
 			$output['success'] = 'no';
 			if($task)
 			{
+				$input['created_by'] = $input['updated_by'] = Auth::id();
+				$input['description'] = 'Task deleted';
+				$comment = new JobTaskComments($input);
+				$task->comments()->save($comment);
 				$task->delete();
 				$notification['userId'] = $task->assignee;
 				$notification['objectId'] = $task->id;
@@ -539,7 +562,11 @@ class TaskController extends Controller {
 		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where('status','=','Closed')->orWhere('status','=','Cancelled');
+		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where(function($qry)
+		{
+			$qry->where('status','=','Closed')->orWhere('status','=','Cancelled');
+		});
+		
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
