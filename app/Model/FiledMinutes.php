@@ -13,7 +13,7 @@ class FiledMinutes extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['taskId','minuteID','title','description','assignee','assigner','dueDate'];
+	protected $fillable = ['taskId','minuteId','title','status','description','assignee','assigner','dueDate'];
 
 	public function assigneeDetail()
     {   

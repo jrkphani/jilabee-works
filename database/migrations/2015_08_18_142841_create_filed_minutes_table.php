@@ -21,7 +21,7 @@ class CreateFiledMinutesTable extends Migration {
 			$table->text('description');
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
-			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Cancelled'))->default('Sent');
+			$table->enum('status', array('Draft','Sent','Rejected','Open','Complete','Completed' ,'Closed','Cancelled'))->default('Sent');
 			$table->dateTime('dueDate')->nullable();
         	$table->timestamps();
         	$table->softDeletes();
