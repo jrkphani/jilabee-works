@@ -36,7 +36,7 @@
         }
         else if($notification->objectType == 'meeting')
         {
-            $link = '/meeting';
+            $link = '/meetings';
             if($notification->subject == 'user')
             {
                 $notification->body = 'New User Added in Meeting';
