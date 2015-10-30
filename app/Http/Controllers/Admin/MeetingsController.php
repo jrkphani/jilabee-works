@@ -439,11 +439,11 @@ class MeetingsController extends Controller {
 		if($meeting->update($input))
 		{
 			//update notify 
-			$notification['userId'] = Auth::id();
-			$notification['objectId'] = $mid;
-			$notification['objectType'] = 'meeting';
-			$notification['subject'] ='user';
-			readNotification($notification);
+			// $notification['userId'] = Auth::id();
+			// $notification['objectId'] = $mid;
+			// $notification['objectType'] = 'meeting';
+			// $notification['subject'] ='user';
+			// readNotification($notification);
 			$notification = array();
 			$notification['userId'] = $meeting->minuters;
 			$notification['objectId'] = $mid;

@@ -39,10 +39,10 @@ class TaskController extends Controller {
 	public function viewTask($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
-		$notification['userId'] = $task->assigner;
-        $notification['objectId'] = $task->id;
-        $notification['objectType'] = 'followups';
-        readNotification($notification);
+		// $notification['userId'] = $task->assigner;
+  //       $notification['objectId'] = $task->id;
+  //       $notification['objectType'] = 'followups';
+  //       readNotification($notification);
 		return view('followups.task',['task'=>$task]);
 	}
 	public function viewMinute($mid,$id)

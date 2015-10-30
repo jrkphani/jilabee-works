@@ -258,10 +258,10 @@ class TaskController extends Controller {
 	{
 		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 
-		$notification['userId'] = $task->assignee;
-		$notification['objectId'] = $task->id;
-		$notification['objectType'] = 'jobs';
-		readNotification($notification);
+		// $notification['userId'] = $task->assignee;
+		// $notification['objectId'] = $task->id;
+		// $notification['objectType'] = 'jobs';
+		// readNotification($notification);
 		return view('jobs.task',['task'=>$task]);
 	}
 	public function taskForm($mid,$id)
