@@ -380,3 +380,9 @@ function toast(msg,flag,time)
         setTimeout(function(){$('#toastDiv').hide(); },time);
     },200);
 }
+$('#notification_content').on('click', '.pagination a', function(event) {
+    event.preventDefault();
+    if ( $(this).attr('href') != '#' ) {
+        $('#notification_content').load($(this).attr('href'));
+    }
+});

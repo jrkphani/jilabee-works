@@ -191,7 +191,7 @@ class ProfileController extends Controller {
 	}
 	public function allNotifications()
 	{
-		$notifications = Auth::user()->notifications()->orderBy('updated_at','desc')->get();
+		$notifications = Auth::user()->notifications()->orderBy('updated_at','desc')->paginate(10);
 		return view('auth.notifications',['notifications'=>$notifications]);
 	}
 }

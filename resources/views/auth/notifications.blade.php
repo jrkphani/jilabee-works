@@ -63,6 +63,9 @@
 	</li>
 @endforeach
 </ul>
+<div id="ajaxPagination">
+    {!! $notifications->render() !!}
+</div>
 @else
 No Notifications
 @endif
