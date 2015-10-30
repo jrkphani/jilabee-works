@@ -1,3 +1,30 @@
+$(document).ready(function($)
+{
+    var url = document.location.toString();
+        if (url.match('&'))
+        {
+            variables = url.split('&');
+            mid = tid = clickDiv=0;
+            for (var i = 0; i < variables.length; i++)
+            {
+                var sParameterName = variables[i].split('=');
+                if (sParameterName[0] == 'mid')
+                {
+                    mid = sParameterName[1];
+                }
+            }
+            if(mid)
+            {
+                 params =  "&mid="+mid;
+                 readNotification(params);
+            }
+            ChangeUrl('');
+        }
+        else
+        {
+            //do nothing
+        } 
+});
 $('#centralViewer').on('click', '.markabsent', function(event) {
             userName = $(this).parent(".attendees" ).text();
             userId = $(this).parent(".attendees" ).attr('uid');
@@ -414,4 +441,22 @@ function getHistory()
     } else {
         //alert("Browser does not support HTML5.");
     }
+}
+function readNotification(params)
+{
+    $.ajax({
+            url: '/meetings/readNotification?'+params,
+            type: 'GET',
+            async:false,
+            dataType: 'html',
+        })
+        .done(function(htmlData) {
+            ChangeUrl('');
+        })
+        .fail(function(xhr) {
+            checkStatus(xhr.status);
+        })
+        .always(function(xhr) {
+            checkStatus(xhr.status);
+        });
 }

@@ -36,10 +36,19 @@
         }
         else if($notification->objectType == 'meeting')
         {
-            $link = '/meetings';
+            $link = '/meetings/?';
             if($notification->subject == 'user')
             {
+                $link = '/admin';
                 $notification->body = 'New User Added in Meeting';
+            }
+            else
+            {
+                if($notification->tag == 'history')
+                {
+                    $link = $link.'&history=yes';    
+                }
+                $link = $link.'&mid='.$notification->objectId;
             }
         }
         else

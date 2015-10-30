@@ -360,4 +360,11 @@ class MeetingsController extends Controller {
 		});			
 		return json_encode($output);
 	}
+	public function isReadNotification()
+	{
+		$notification['userId'] = Auth::id();
+		$notification['objectId'] = Request::get('mid');
+		$notification['objectType'] = 'meeting';
+		readNotification($notification);
+	}
 }

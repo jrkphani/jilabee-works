@@ -284,10 +284,19 @@ function notifications()
                         }
                         else if(row.objectType == 'meeting')
                         {
-                            link = '';
+                            link = '/meetings/?';
                             if(row.subject == 'user')
                             {
                                 row.body = 'New User Added in Meeting';
+                                link = '/admin';
+                            }
+                            else
+                            {
+                                if(row.tag == 'history')
+                                {
+                                    link += '&history=yes';    
+                                }
+                                link += '&mid='+row.objectId;
                             }
                         }
                         else

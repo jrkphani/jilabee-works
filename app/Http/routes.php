@@ -106,6 +106,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::group(['prefix' => 'meetings'], function()
 		{
 			Route::get('/', ['uses'=>'Meetings\MeetingsController@index','as'=>'meetings']);
+			Route::get('/readNotification', ['uses'=>'Meetings\MeetingsController@isReadNotification']);
 			Route::get('now', ['uses'=>'Meetings\MeetingsController@nowsortby']);
 			Route::get('history', ['uses'=>'Meetings\MeetingsController@historysortby']);
 			Route::get('create','Meetings\MeetingsController@meetingForm');
