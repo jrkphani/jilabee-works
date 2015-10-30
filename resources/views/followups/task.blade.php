@@ -103,14 +103,17 @@
 					<div class="clearboth"></div>
 				</div>
 				<!-- ================= Chat input area fixed to bottom  ====================  -->
+				@if($task->status != 'Closed' && $task->status != 'Cancelled')
 				<div class="chatInput chatInput_1row">
 					{!! Form::open(['id'=>"CommentForm"]) !!}
 					{!! Form::textarea('description',Request::input('description',''),['rows'=>3,'placeholder'=>'Type comment here','id'=>'followupCommentText']) !!}
 					{!! $errors->first('description','<div class="error">:message</div>') !!}
 					{!! Form::close() !!}
-					<button {{$mid}} tid="{{$task->id}}" id="followupComment" style="display:none;">Post</button>
+					
+					<span {{$mid}} tid="{{$task->id}}" id="followupComment" style="display:none;">Post</span>
 					
 				</div>
+				@endif
 			</div>
 		</div>
 		<div class="clearboth"></div>
