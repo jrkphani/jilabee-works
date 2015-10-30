@@ -41,16 +41,10 @@
 				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif
 
-				@if($task->status == 'Completed')
+				@if($task->status == 'Complete'  || ($task->status == 'Completed' && !$mid))
 				<div class="accept_reject">
-					{{-- 
-					//has to complet in minutes only for the minute task as per phani instruct
-					--}}
-					@if(!$task->minuteId)
 					<span class="button" id="acceptCompletion" {{$mid}} tid="{{$task->id}}">accept completion</span>
-					@endif
 					<span class="button " id="rejectCompletion" {{$mid}} tid="{{$task->id}}">reject completion</span>
-					
 				</div>
 				@endif
 			</div>

@@ -84,7 +84,7 @@
 					{!! Form::select('assignee[]',$attendeesArr,$assignee,array('autocomplete'=>'off','class'=>'taskinput clearVal onchange')) !!}
 				</p>
 				<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput dateInput clearVal onchange",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
-				<p>{!! Form::select('status'.$task->id,['Sent'=>'Reopen','Open'=>'Open','Closed'=>'Completed','Cancelled'=>'Cancel'],$task->status,['class'=>'status']) !!}</p>
+				<p>{!! Form::select('status'.$task->id,['Sent'=>'Resend','Open'=>'Open','Complete'=>'Marked Complete','Completed'=>'Completed','Closed'=>'Closed','Cancelled'=>'Cancel'],$task->status,['class'=>'status']) !!}</p>
 				<p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('style'=>'display:none;')) !!}</p>
 			</div>
 			<div class="clearboth"></div>

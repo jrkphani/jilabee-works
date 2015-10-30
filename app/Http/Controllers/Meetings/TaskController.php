@@ -368,7 +368,7 @@ class TaskController extends Controller {
 		$task = MinuteTasks::whereIdAndAssigneeAndStatus($id,Auth::id(),'Open')->where('minuteId',$mid)->first();
 		if($task)
 		{
-			$task->status = 'Completed';
+			$task->status = 'Complete';
 			if($task->save())
 			{
 				$input['created_by'] = $input['updated_by'] = Auth::id();
@@ -392,23 +392,31 @@ class TaskController extends Controller {
 			abort('403');
 		}
 	}
-	//has to complet in minutes only as per phani instruct
-	// public function acceptCompletion($mid,$id)
-	// {
-	// 		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
-	// 		if($task)
-	// 		{
-	// 			$task->status = 'Closed';
-	// 			if($task->save())
-	// 			{
-	// 				return view('followups.task',['task'=>$task]);
-	// 			}
-	// 		}
-	// 		else
-	// 		{
-	// 			abort('403');
-	// 		}
-	// }
+	public function acceptCompletion($mid,$id)
+	{
+			$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
+			if($task)
+			{
+				$task->status = 'Completed';
+				if($task->save())
+				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task completion accepted';
+					$comment = new MinuteTaskComments($input);
+					$task->comments()->save($comment);
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'update';
+					$notification['body'] = 'Task #'.$task->id.' completion accepted';
+					return view('followups.task',['task'=>$task]);
+				}
+			}
+			else
+			{
+				abort('403');
+			}
+	}
 	public function rejectCompletion($mid,$id)
 	{
 			$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();

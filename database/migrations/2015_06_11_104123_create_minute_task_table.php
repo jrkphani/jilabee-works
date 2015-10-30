@@ -20,7 +20,7 @@ class CreateMinuteTaskTable extends Migration {
 			$table->text('description');
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
-			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Cancelled'))->default('Sent');
+			$table->enum('status', array('Draft','Sent','Rejected','Open','Complete','Completed' ,'Closed','Cancelled'))->default('Sent');
 			$table->string('reason')->nullable();
 			$table->dateTime('dueDate')->nullable();
 			$table->integer('created_by')->unsigned();
