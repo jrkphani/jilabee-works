@@ -72,11 +72,13 @@
 		</div>
 		
 		<div class="popupButtons popupButtonsFix">
-			@if(!$task->minuteId)
+		@if(!$task->minuteId)
+				@if($task->status != 'Closed' && $task->status != 'Cancelled')
 				<button id="editTask" tid="{{$task->id}}">Edit Task</button>
 				<button {{$mid}} tid="{{$task->id}}" id="cancelTask">Cancel Task</button>
 				<button {{$mid}} tid="{{$task->id}}" id="deleteTask">Delete Task</button>
 			@endif
+		@endif
 		</div>
 		<!-- =================== Popup right ====================  -->
 		<div class="popupContentRight">

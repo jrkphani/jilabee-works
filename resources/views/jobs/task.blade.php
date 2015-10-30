@@ -34,7 +34,7 @@
 			@if($task->reason)
 				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif
-			@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed')
+			@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed'  && $task->status != 'Cancelled')
 				@if($mid)
 						@if($task->minute->filed == '1')
 						<button class="completeBtn" id="markComplete" tid="{{$task->id}}" {{$mid}}>Mark as Complete</button>
