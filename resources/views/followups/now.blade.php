@@ -7,6 +7,7 @@
 				<p>{{$title}}</p>
 				<div class="clearboth"></div>
 			</div>
+			<?php $count=1; ?>
 			@foreach($tasks['tasks'] as $task)
 				<?php if($task->type == 'minute')
 				{
@@ -19,14 +20,10 @@
 				?>
 				@if($title == 'Draft')
 				<div class="box followupDraft" {{$mid}} tid="{{$task->id}}">
-					<span class="boxNumber {{$tasks['colorClass']}}">D{{$task->id}}</span>
+					<span class="boxNumber {{$tasks['colorClass']}}">{{$count++}}</span>
 				@else
 				<div class="box followup" {{$mid}} tid="{{$task->id}}">
-					@if($mid)
-					<span class="boxNumber {{$tasks['colorClass']}}">MT{{$task->id}}</span>
-					@else
-						<span class="boxNumber {{$tasks['colorClass']}}">T{{$task->id}}</span>
-					@endif
+					<span class="boxNumber {{$tasks['colorClass']}}">{{$count++}}</span>
 				@endif
 					<div class="boxInner">
 						<h4 class="searchTxt">{{$task->title}}</h4>
