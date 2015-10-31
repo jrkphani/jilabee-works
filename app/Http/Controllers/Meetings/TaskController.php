@@ -243,7 +243,8 @@ class TaskController extends Controller {
 				$minute->draft()->delete();
 				if(!$minute->endDate)
 				{
-					$minute->endDate = date('Y-m-d H:i:s');
+					//start date + 1 Hr
+					$minute->endDate = date("d-m-Y H:i:s", strtotime($minute->startDate)+3600);
 					$minute->save();
 				}
 				$output['meetingId'] = $mid;
