@@ -76,8 +76,17 @@
 					<p>
 						{!! Form::select('assignee[]',array(''=>'Assinger'),'',array('style'=>'display:none;')) !!}
 					</p>
+					<?php if(isEmail($idea->orginator))
+					{
+						$ideaorginator = $idea->orginator;
+					}
+					else
+					{
+						$ideaorginator = getUser(['id'=>$idea->orginator])->userId;
+					}
+					?>
 					<p>{!! Form::text('dueDate[]','',array('style'=>'display:none;')) !!}</p>
-					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail+$absentees+$emails,$idea->orginator,array('autocomplete'=>'off','class'=>'clearVal ideainput')) !!}</p>
+					<p>{!! Form::select('orginator[]',array(''=>'Orginator')+$attendees+$attendeesEmail+$absentees+$emails,$ideaorginator,array('autocomplete'=>'off','class'=>'clearVal ideainput')) !!}</p>
 				</div>
 				<div class="clearboth"></div>
 			</div>
@@ -90,12 +99,11 @@
 			foreach($minute->draft()->get() as $draft)
 			{
 		?>
-			Draft Minutes
 			<div class="taskBlock taskDiv">
 				{!! Form::hidden('tid[]', NULL)!!}
 				<div>
 					<span class="removeTaskFrom removeMoreBtn"></span>
-					{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],'',array('class'=>'type','autocomplete'=>'off')) !!}
+					{!! Form::select('type[]',['task'=>'Task','idea'=>'Idea'],$draft->type,array('class'=>'type','autocomplete'=>'off')) !!}
 					<div class="clearboth"></div>
 				</div>
 				<div class="minuteItemNumber">
