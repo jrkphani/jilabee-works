@@ -27,8 +27,8 @@
 					
 				</div>
 				<div class="minuteItemLeft">
-					<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal')) !!}</h5>
-					<p>{!! Form::textarea('description[]',str_ireplace(["<br />","<br>","<br/>"], "", $task->description),array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal')) !!}</p>
+					<h5>{!! Form::text('title[]',$task->title,array('placeholder'=>'Title','autocomplete'=>'off','class'=>'clearVal onchange1')) !!}</h5>
+					<p>{!! Form::textarea('description[]',str_ireplace(["<br />","<br>","<br/>"], "", $task->description),array('placeholder'=>'Description','autocomplete'=>'off','rows'=>5,'class'=>'clearVal onchange1')) !!}</p>
 				</div>
 				<div class="minuteItemRight">
 					{{--<p>
@@ -44,9 +44,11 @@
 						$taskassignee = getUser(['id'=>$task->assignee])->userId;
 					}
 					?>
-						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$taskassignee,array('autocomplete'=>'off','class'=>'taskinput clearVal')) !!}
+						{!! Form::select('assignee[]',array(''=>'Assingee')+$attendees+$attendeesEmail+$absentees+$emails,$taskassignee,array('autocomplete'=>'off','class'=>'taskinput clearVal onchange1')) !!}
 					</p>
-					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput clearVal",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+					<p>{!! Form::text('dueDate[]',$task->dueDate,array('class'=>"nextDateInput taskinput clearVal onchange1",'placeholder'=>'y-m-d','autocomplete'=>'off')) !!}</p>
+					{!! Form::hidden('status'.$task->id,$task->status,['class'=>'status']) !!}
+
 					<p>{!! Form::select('orginator[]',array(''=>'Orginator'),'',array('style'=>'display:none;')) !!}</p>
 				</div>
 				<div class="clearboth"></div>

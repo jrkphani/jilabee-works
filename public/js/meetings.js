@@ -357,6 +357,11 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
      previousTaskBlock = $(this).parents('.previousTaskBlock');
      previousTaskBlock.find('.status').val('Sent');
  });
+ $('#centralContainer').on('change', '.onchange1', function(event) {
+     event.preventDefault();
+     notfiledTaskBlock = $(this).parents('.notfiledTaskBlock');
+     notfiledTaskBlock.find('.status').val('Sent');
+ });
  $('#centralContainer').on('keyup', '#addParticipant', function(event) {
     event.preventDefault();
     if($(this).val().length)
