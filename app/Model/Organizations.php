@@ -25,7 +25,7 @@ class Organizations extends Model{
         $rule = array('customerId'=>'unique:organizations',
             'name'=>'required',
             'adminname'=>'required',
-            'domain'=>'required|min:3|unique:organizations',
+            'domain'=>'required|min:3|unique:organizations|regex:"^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$"',
             'email' => 'required|email|max:255|unique:users',
             'secondEmail' => 'email|max:255',
             'password' => 'required|confirmed|min:6',
