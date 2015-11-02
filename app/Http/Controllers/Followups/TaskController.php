@@ -103,7 +103,7 @@ class TaskController extends Controller {
 				$notification['objectType'] = 'jobs';
 				$notification['subject'] = 'comment';
 				$notification['tag'] = 'now';
-				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$tasks->id;
+				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$task->id;
 				setNotification($notification);
 				return view('followups.task',['task'=>$task]);
 			}
