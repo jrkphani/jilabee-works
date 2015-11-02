@@ -50,7 +50,7 @@ class Minutes extends Model{
     {
         $rule = array('venue'=>'max:64',
             'attendees'=>'required|max:64',
-            'startDate'=>'required|date|before:today',
+            'startDate'=>'required|date|before:now',
             'endDate'=>'date|after:startDate',);
         $validator = Validator::make($data,$rule);
         return $validator;
