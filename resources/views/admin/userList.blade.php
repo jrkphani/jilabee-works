@@ -28,9 +28,9 @@
 	<div class="popupOverlay" id="popup" ></div>
 @endsection
 @section('javascript')
-<script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
+<script src="{{ asset('/js/jquery.datetimepicker.full.js') }}"></script>
 <script src="{{ asset('/js/adminUser.js') }}"></script>
 @endsection
 @section('css')
-<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/jquery.datetimepicker.css') }}" rel="stylesheet">
 @endsection

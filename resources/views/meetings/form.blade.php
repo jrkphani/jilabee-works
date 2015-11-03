@@ -245,17 +245,14 @@
     </div>
 </div>
 <script type="text/javascript">
-$('#startDateInput').appendDtpicker(
+$('#startDateInput').datetimepicker({
+                format:'Y-m-d',
+                maxDate:0,
+            });
+$('#endSateInput').datetimepicker(
     {
-    "maxDate": new Date(),
-    "autodateOnStart": false,
-    "closeOnSelected": true
-    });
-$('#endSateInput').appendDtpicker(
-    {
-    "maxDate": new Date(),
-    "autodateOnStart": false,
-    "closeOnSelected": true
+    format:'Y-m-d',
+    maxDate:0,
     });
 function selectAssignee()
 {
@@ -270,17 +267,6 @@ $( ".selectAssignee" ).autocomplete({
                 return false;
             }
             });
-// $( ".selectOrginator" ).autocomplete({
-//             source: "/user/search",
-//             minLength: 2,
-//             select: function( event, ui ) {
-//                 insert = '<div class="assignee">'+ui.item.value+'<span class="removeParent">remove</span></div>';
-//                 $(this).parent('.parentDiv').append(insert);
-//                 $(this).val(ui.item.userId);
-//                 $(this).hide();
-//                 return false;
-//             }
-//             });
 }
 selectAssignee();
 nextDateInput();

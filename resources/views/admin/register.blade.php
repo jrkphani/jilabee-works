@@ -9,7 +9,7 @@
 	<meta name="keywords" content="Anabond, Jotter, ">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
-	<link href="{{ asset('/css/jquery.simple-dtpicker.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/jquery.datetimepicker.css') }}" rel="stylesheet">
 </head>
 <?php
 if(session('isOrg') == 'yes')
@@ -172,34 +172,16 @@ else
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="{{ asset('/js/jquery.simple-dtpicker.js') }}"></script>
+<script src="{{ asset('/js/jquery.datetimepicker.full.js') }}"></script>
 <script>
 	$(document).ready(function($)
 		{
 			d= new Date();
-			d.setFullYear(d.getFullYear()-15);
-			$('.dob').appendDtpicker(
-			    {
-			    "autodateOnStart": false,
-			    "maxDate":d,
-			    "closeOnSelected": true,
-			    "dateOnly":true
-			    });
-			$('.dob').handleDtpicker('setDate',d);
-			$('.dob').val('');
-
-
-			$('.regType').change(function(event) {
-				if($(this).val() == 'S')
-				{
-					$('#singleForm').show();
-					$('#orgForm').hide();
-				}
-				else
-				{
-					$('#orgForm').show();
-					$('#singleForm').hide();
-				}
+			$('.dob').datetimepicker({
+				format:'Y-m-d',
+				timepicker:false,
+				maxDate:'28.12.'+((d.getFullYear()-15).toString()),formatDate:'d.m.Y',
+				startDate:'28.12.'+((d.getFullYear()-15).toString()),formatDate:'d.m.Y',
 			});
     	});
 </script>

@@ -96,18 +96,13 @@
 <script type="text/javascript">
 $(document).ready(function($)
   {
-    curentval = $('#dob').val();
-     d= new Date();
-      d.setFullYear(d.getFullYear()-15);
-      $('#dob').appendDtpicker(
-          {
-          "autodateOnStart": false,
-          "maxDate":d,
-          "closeOnSelected": true,
-          "dateOnly":true
-          });
-      $('#dob').handleDtpicker('setDate',d);
-      $('#dob').val(curentval);
+    d= new Date();
+    $('#dob').datetimepicker({
+      format:'Y-m-d',
+      timepicker:false,
+      maxDate:'28.12.'+((d.getFullYear()-15).toString()),formatDate:'d.m.Y',
+      startDate:'28.12.'+((d.getFullYear()-15).toString()),formatDate:'d.m.Y',
+    });
   });
   </script>
 @endsection

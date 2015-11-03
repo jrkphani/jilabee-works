@@ -136,18 +136,14 @@
 
 <script type="text/javascript">
 
-$('#startDateInput').appendDtpicker(
-	{
-	"maxDate": new Date(),
-	"autodateOnStart": false,
-    "closeOnSelected": true
-    });
-$('#endSateInput').appendDtpicker(
-	{
-    "maxDate": new Date(),
-    "autodateOnStart": false,
-	"closeOnSelected": true
-    });
+$('#startDateInput').datetimepicker({
+	format:'Y-m-d H:i',
+	maxDate:0,
+});
+$('#endSateInput').datetimepicker({
+	format:'Y-m-d H:i',
+	maxDate:0,
+});
 $('#addParticipant').autocomplete({
             source: "/user/search",
             minLength: 2,

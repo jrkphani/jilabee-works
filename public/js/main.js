@@ -207,23 +207,18 @@ function popupContentAjaxPost(path,form,msg)
 function dateInput()
 {
     var d = new Date();
-    $('.dateInput').appendDtpicker(
-    {
-    "autodateOnStart": false,
-    "closeOnSelected": true
+    $('.dateInput').datetimepicker({
+        format:'Y-m-d H:i',
     });
-    //$('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
+ 
 }
 function nextDateInput()
 {
-    var d = new Date();
-    $('.nextDateInput').appendDtpicker(
-    {
-    "autodateOnStart": false,
-    "minDate": d,
-    "closeOnSelected": true
+    $('.nextDateInput').datetimepicker({
+        format:'Y-m-d H:i',
+        minDate:0,
+       
     });
-    //$('.dateInput').datepicker({dateFormat: "yy-mm-dd",minDate: "today",changeMonth: true,changeYear: true});
 }
 
 function isEmail(emailAddress) {
