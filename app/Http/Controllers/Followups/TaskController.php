@@ -306,12 +306,13 @@ class TaskController extends Controller {
 				if(isEmail($task->assignee))
 				{
 					$nowtasks[$task->assignee]['tasks'][] = $task;
+					$nowtasks[$task->assignee]['colorClass'] = 'boxNumberBlue';
 				}
 				else
 				{
 					$nowtasks[$task->assigneeDetail->name]['tasks'][] = $task;
+					$nowtasks[$task->assigneeDetail->name]['colorClass'] = 'boxNumberBlue';
 				}
-				$nowtasks[$task->assigneeDetail->name]['colorClass'] = 'boxNumberBlue';
 
 			}
 		}
