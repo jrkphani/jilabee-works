@@ -183,16 +183,18 @@ else
 				maxDate:'28.12.'+((d.getFullYear()-15).toString()),formatDate:'d.m.Y',
 				startDate:'28.12.'+((d.getFullYear()-15).toString()),formatDate:'d.m.Y',
 			});
+
 			$('.regType').change(function(event) {
--				if($(this).val() == 'S')
--				{
--					$('#singleForm').show();
--					$('#orgForm').hide();
--				}
--				else
--				{
--					$('#orgForm').show();
--					$('#singleForm').hide();
--				}
-    	}	);
+				if($(this).val() == 'S')
+				{
+					$('#singleForm').show();
+					$('#orgForm').hide();
+				}
+				else
+				{
+					$('#orgForm').show();
+					$('#singleForm').hide();
+				}
+ 			});
+    	});
 </script>
