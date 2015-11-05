@@ -303,7 +303,14 @@ class TaskController extends Controller {
 			$tasks = $query->orderBy('tasks.assignee')->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
 			foreach($tasks as $task)
 			{
-				$nowtasks[$task->assigneeDetail->name]['tasks'][] = $task;
+				if(isEmail($task->assignee))
+				{
+					$nowtasks[$task->assignee]['tasks'][] = $task;
+				}
+				else
+				{
+					$nowtasks[$task->assigneeDetail->name]['tasks'][] = $task;
+				}
 				$nowtasks[$task->assigneeDetail->name]['colorClass'] = 'boxNumberBlue';
 
 			}
