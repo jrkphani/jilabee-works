@@ -2,8 +2,12 @@
 	@if($user)
 	@foreach($attendees as $key=>$value)
 		<div class="meetingSettingITem meetingParent">
-			<span class="removeMeeting removeMoreBtn" mid="{{$key}}"></span>
-			<p>{{$meetings[$key]}}</p>
+				@if(isset($meetings[$key]))
+					<span class="removeMeeting removeMoreBtn" mid="{{$key}}"></span>
+					<p>{{$meetings[$key]}}</p>
+				@else
+					<p>{{$value}}</p>
+				@endif
 			<span>{{$roles[1]}}</span>
 			<div class="clearboth"></div>
 		</div>

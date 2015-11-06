@@ -109,7 +109,7 @@ class MeetingsController extends Controller {
 						{
 							if($assignee = getUser(['email'=>$value]))
 							{
-								$attendees[] = $assignee->id;
+								$attendees[] = $assignee->userId;
 							}
 							else
 							{
