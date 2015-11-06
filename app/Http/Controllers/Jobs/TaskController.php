@@ -204,19 +204,19 @@ class TaskController extends Controller {
 		}
 		else
 		{
-			if(isEmail($input['assignee']))
-			{
-				if($assignee = getUser(['email'=>$input['assignee']]))
-				{
-					$input['assignee'] = $notification['userId'] = $assignee->id;
-				}
-				else
-				{
-					$notification['userId'] = 0;
-				}
-			}
-			else
-			{
+			// if(isEmail($input['assignee']))
+			// {
+			// 	if($assignee = getUser(['email'=>$input['assignee']]))
+			// 	{
+			// 		$input['assignee'] = $notification['userId'] = $assignee->id;
+			// 	}
+			// 	else
+			// 	{
+			// 		$notification['userId'] = 0;
+			// 	}
+			// }
+			// else
+			// {
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
 					$input['assignee'] = $notification['userId'] = $assignee->id;
@@ -228,7 +228,7 @@ class TaskController extends Controller {
 					$output['validator'] = $validator->messages()->toArray();
 					return json_encode($output);
 				}
-			}
+			//}
 			$input['description'] = nl2br($input['description']);
 			$input['notes'] = nl2br($input['notes']);
 			$input['status'] = 'Sent';
