@@ -120,6 +120,11 @@ class TaskController extends Controller {
 	
 	public function createTask()
 	{
+		//disable add task for general user on followup
+		if(!getOrgId())
+		{
+			abort('404');
+		}
 		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
 		$output['success'] = 'yes';
 		$validator = JobTasks::validation($input);
@@ -137,21 +142,22 @@ class TaskController extends Controller {
 			}
 			$input['status'] = 'Sent';
 			$notification['userId']=0;
-			if(isEmail($input['assignee']))
-			{
-				if($assignee = getUser(['email'=>$input['assignee']]))
-				{
-					$input['assignee'] = $notification['userId'] = $assignee->id;
-				}
-				else
-				{
-					//mark the task as accepted for who do have an account
-					$input['status'] = 'Open';
-					$notification['userId']=0;
-				}
-			}
-			else
-			{
+			//disable adding email in add task on followup
+			// if(isEmail($input['assignee']))
+			// {
+			// 	if($assignee = getUser(['email'=>$input['assignee']]))
+			// 	{
+			// 		$input['assignee'] = $notification['userId'] = $assignee->id;
+			// 	}
+			// 	else
+			// 	{
+			// 		//mark the task as accepted for who do have an account
+			// 		$input['status'] = 'Open';
+			// 		$notification['userId']=0;
+			// 	}
+			// }
+			// else
+			// {
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
 					$input['assignee'] = $notification['userId'] = $assignee->id;
@@ -163,7 +169,7 @@ class TaskController extends Controller {
 					$output['validator'] = $validator->messages()->toArray();
 					return json_encode($output);
 				}
-			}
+			//}
 			$input['description'] = nl2br($input['description']);
 			$input['notes'] = nl2br($input['notes']);
 			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
