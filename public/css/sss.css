@@ -628,7 +628,8 @@ http://ryanfait.com/
 .historyBtn{top: 162px;}
 
 .historyBtn span{margin-top: 22px;}
-.contentMeetingsLeft{width: 460px;}
+/*.contentMeetingsLeft{width: 460px;}*/
+.contentMeetingsLeft{width: 450px;}
 .contentMeetingsLeft .mainListFilter input{width: 240px;}
 .contentMeetingsLeft .mainListFilter {margin-left: 20px;}
 .paper{width: 700px;}
