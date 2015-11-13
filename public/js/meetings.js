@@ -394,6 +394,7 @@ $('#centralContainer').on('click', '#save_changes', function(event) {
 
 function getNow()
 {
+    params='';
     if($('#nowSearch').val().trim().length > 0)
     {
         params = '&nowsearchtxt='+$('#nowSearch').val();
