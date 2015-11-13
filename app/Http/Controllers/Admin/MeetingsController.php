@@ -155,7 +155,7 @@ class MeetingsController extends Controller {
 					$notification['objectId'] = $meeting->id;
 					$notification['objectType'] = 'meeting';
 					$notification['subject'] ='new';
-					$notification['body'] = 'Modificatoins have been made to'.$meeting->title.' meeting';
+					$notification['body'] = 'Modificatoins have been made to '.$meeting->title.' meeting';
 					setNotification($notification);
 					foreach (explode(',', $meeting->attendees)as $user)
 					{
