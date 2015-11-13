@@ -241,7 +241,14 @@ function notifications()
              $.isnotoicationajax = 'no';
             if(jsonDate.success =='yes')
             {
-                $('#notifications').html(jsonDate.unread)
+                if(jsonDate.unread)
+                {
+                    $('#notifications').html(jsonDate.unread);
+                }
+                else
+                {
+                    $('#notifications').html('*');   
+                }
                 if(jsonDate.result.length > 0)
                 {
                     $('#notifications').show();
