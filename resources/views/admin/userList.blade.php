@@ -2,7 +2,7 @@
 @section('content')
 		<div class="adminUsersLeft">
 			<div class="inner1">
-				<div class="filterSet1">
+				{{-- <div class="filterSet1">
 					<input type="text" placeholder="Search...">
 					<select>
 					  <option value="0">Sort by</option>
@@ -10,7 +10,7 @@
 					  <option value="Option">Option 2</option>
 					  <option value="Option">Option 3</option>
 					</select>
-				</div>
+				</div> --}}
 				<div class="adminUsersList">
 					<ul>
 						@foreach($users as $user)

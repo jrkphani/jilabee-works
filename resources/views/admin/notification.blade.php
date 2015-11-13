@@ -1,6 +1,6 @@
 @extends('admin')
 @section('content')
-<div class="mainListFilter">
+{{-- <div class="mainListFilter">
 	<input type="text" placeholder="Search...">
 	<select>
 	  <option value="0">Sort by</option>
@@ -8,7 +8,7 @@
 	  <option value="Option">Option 2</option>
 	  <option value="Option">Option 3</option>
 	</select>
-</div>
+</div> --}}
 <div class="mainList">
 	<!--=================================== List 1 ================================-->
 	@if(count($meetings))
