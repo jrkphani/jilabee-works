@@ -11,6 +11,7 @@
 </div> --}}
 <div class="mainList">
 	<!--=================================== List 1 ================================-->
+	@if(count($meetings) || count($notifications))
 	@if(count($meetings))
 	<div class="boxList">
 		<div class="boxTitle">
@@ -55,6 +56,9 @@
 		</div>
 		@endforeach
 	</div>
+	@endif
+	@else
+		No Results
 	@endif
 	<div class="clearboth"></div>
 </div>
