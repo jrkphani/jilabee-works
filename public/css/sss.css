@@ -8,7 +8,7 @@ header nav a:hover{ background: #ebebeb; border-top-left-radius:5px; border-top-
 body{background: #ebebeb; }
 
 
-.centralViewer{width: 100%; overflow-x:scroll; min-height: 800px; }
+.centralViewer{width: 100%; overflow-x:scroll; min-height: 945px; }
 .jobsColor{background: #d4e1f5 !important;}
 .followUpsColor{background: #f7f6dc !important;}
 .jobsHeaderColor{background: #d4e1f5 !important;}
@@ -791,7 +791,7 @@ header nav{margin-left: 40px;}
 	.proceedBtn{height: 60px; margin-right: 10px; margin-left: 10px;}
 	.proceedBtn:hover{height: 60px;}
 	.popupMinutes .paper{margin: 20px;}
-    .centralViewer{min-height: 400px;}
+    .centralViewer{min-height: 457px;}
 
 }
 

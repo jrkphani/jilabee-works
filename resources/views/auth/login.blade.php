@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Jotter</title>
+	<title>Anabond Ticketing System</title>
 	<meta name="author" content="Dexel Designs">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<meta name="description" content="">
@@ -15,7 +15,7 @@
 	<!-- 	<h1>Jotter</h1> -->
 	</header>
 	<div class="indexLogin">
-		<h1>Jotter</h1>
+		<h1>Anabond Ticketing System</h1>
 		<div class="indexLoginForm">
 			<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -33,11 +33,11 @@
     	 
 		</div>
 		<br/>
-			<h4 class="login_signuptext">Don't have a login?</h4>
+			{{-- <h4 class="login_signuptext">Don't have a login?</h4>
 			<div>
-				{{-- <a href="{{ url('/auth/register') }}" class="login_signup">Single Signup</a> --}}
+				<a href="{{ url('/auth/register') }}" class="login_signup">Single Signup</a>
     			 <a href="{{ url('admin/auth/register') }}" class="login_signup">Signup</a>
-			</div>
+			</div> --}}
 			<div class="clearboth"></div>
 	</div>
 </body>

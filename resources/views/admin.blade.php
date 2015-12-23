@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Jotter</title>
-	<meta name="author" content="Jotter">
+	<title>Anabond Ticketing System</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<meta name="description" content="">
-	<meta name="keywords" content="Jotter">
 	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
@@ -16,7 +13,7 @@
 <div class="wrapper">
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
-		<h1><a href="/">Jotter</a></h1>
+		<h1><a href="/">Anabond Ticketing System</a></h1>
 			<nav>
 				@if(Request::segment(2) == '')
 					<a class="navHightlight">Notifications</a>
@@ -29,9 +26,9 @@
 					<a href="{{url('admin/user/list')}}">Users</a>
 				@endif
 				@if(Request::segment(2) == 'meetings')
-					<a class="navHightlight">Meetings</a>
+					{{-- <a class="navHightlight">Meetings</a> --}}
 				@else
-					<a href="{{url('admin/meetings')}}">Meetings</a>
+					{{-- <a href="{{url('admin/meetings')}}">Meetings</a> --}}
 				@endif				
 				<div class="clearboth"></div>
 			</nav>
@@ -80,10 +77,10 @@
 		</div>
 	</div>
 	<!--========================================= Notification popup end ===================================================-->
-	<div class="push"></div>
+	{{-- <div class="push"></div> --}}
 	
 	</div>
-	<div class="footer">
+	{{-- <div class="footer">
 		<div class="footerColumn fcFirst">
 			<a href="">Jobs</a>
 			<a href="">My Taks</a>
@@ -114,7 +111,7 @@
 			<a href="">FAQs</a>
 		</div>
 		<div class="clearboth"></div>
-	</div>
+	</div> --}}
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="{{ asset('/js/main.js') }}"></script>
 	@yield('javascript')

@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Jotter</title>
+	<title>Anabond Ticketing System</title>
 	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
@@ -22,7 +22,7 @@
 	</header>
 <div class="indexLogin">
 
-  	<h1>Jotter</h1>
+  	<h1>Anabond Ticketing System</h1>
   	<div class="indexLoginForm">		
   			
 					<form  role="form" method="POST" action="{{ url('/admin/auth/login') }}">
@@ -57,12 +57,12 @@
 					</form>	
 				</div>
 
-    <div class="admin_extra">
+    {{-- <div class="admin_extra">
     	 <h4>Don't have a login?</h4>
     	 <a href="{{ url('/admin/auth/register') }}">Register</a>
     	 <h4>Want to learn more?</h4>
     	 <a>See how Jotter can help you and your organisatoin!</a>
-    </div>
+    </div> --}}
   </div>
 
 	<footer class="footer">
@@ -71,7 +71,7 @@
       		<div class="col-md-6">
 		        <p class="text-muted">
 		        	<span class="glyphicon glyphicon-copyright-mark"></span>{{date('Y')}}
-		        	<span class="border_left">Jotter</span>
+		        	<span class="border_left">Anabond</span>
 		        	<span class="border_left">All Rights Reserved</span>
 		        </p>
 		    </div>

@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Jotter</title>
-	<meta name="author" content="Jotter">
+	<title>Anabond Ticketing System</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<meta name="description" content="">
-	<meta name="keywords" content="Jotter">
 	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
@@ -16,7 +13,7 @@
 <div class="wrapper">
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
-		<h1><a href="/">Jotter</a></h1>
+		<h1><a href="/">Anabond Ticketing System</a></h1>
 		<button class="showHeaderMenu" id="showHeaderMenu" onclick="$('#headerNav').toggle();" ></button>	
 			<nav id="headerNav" class="headerNav">
 				<?php $colorClass = $addtionalClass =''; ?>
@@ -34,9 +31,9 @@
 				@endif
 				@if(Request::segment(1) == 'meetings')
 				<?php $addtionalClass = 'meetingsPage'; ?>
-					<a class="navHightlight">Meetings</a>
+				{{-- 	<a class="navHightlight">Meetings</a> --}}
 				@else
-					<a href="{{ url('meetings') }}">Meetings</a>
+					{{-- <a href="{{ url('meetings') }}">Meetings</a> --}}
 				@endif
 				<div class="clearboth"></div>
 			</nav>
@@ -89,9 +86,9 @@
 		</div>
 	</div>
 	<!--========================================= Notification popup end ===================================================-->
-	<div class="push"></div>
+	{{-- <div class="push"></div> --}}
 	</div>
-	<div class="footer">
+	{{-- <div class="footer">
 		<div class="footerColumn fcFirst">
 			<a href="{{url('jobs')}}">Jobs</a>
 			<a href="{{url('jobs?&history=yes')}}">History</a>
@@ -114,7 +111,7 @@
 			<a href="">FAQ </a>
 		</div>
 		<div class="clearboth"></div>
-	</div>
+	</div> --}}
 	<!--================ Toast message ==================== -->
 			<div class="toast" id="toastDiv" style="display:none;">
 				<div class="toast_inner">	

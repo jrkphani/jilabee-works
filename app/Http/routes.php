@@ -28,21 +28,21 @@ Route::group(['middleware' => 'logAllActivity'], function()
 				Route::get('user/view/{userId}', 'Admin\UserController@getUser');
 				Route::get('user/edit/{userId}', 'Admin\UserController@getAdd');
 				Route::post('user/edit/{userId}', 'Admin\UserController@editUser');
-				Route::get('meetings', ['uses'=>'Admin\MeetingsController@index','as'=>'adminmeetings']);
-				Route::get('meeting/create','Admin\MeetingsController@meetingForm');
-				Route::post('meeting/create','Admin\MeetingsController@createMeeting');
-				Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
-				Route::get('meeting/draft/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
-				Route::get('meeting/newusers/{meetingId}', 'Admin\MeetingsController@viewNewusers')->where('meetingId', '[0-9]+');
-				Route::post('meeting/newusers/{meetingId}', 'Admin\MeetingsController@addUsers')->where('meetingId', '[0-9]+');
-				Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
-				Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
-				Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
-				Route::get('meeting/activate/{meetingId}','Admin\MeetingsController@activate')->where('meetingId', '[0-9]+');
-				Route::get('meeting/delete/{meetingId}','Admin\MeetingsController@delete')->where('meetingId', '[0-9]+');
+				// Route::get('meetings', ['uses'=>'Admin\MeetingsController@index','as'=>'adminmeetings']);
+				// Route::get('meeting/create','Admin\MeetingsController@meetingForm');
+				// Route::post('meeting/create','Admin\MeetingsController@createMeeting');
+				// Route::get('meeting/view/{meetingId}', 'Admin\MeetingsController@view')->where('meetingId', '[0-9]+');
+				// Route::get('meeting/draft/{meetingId}', 'Admin\MeetingsController@viewTemp')->where('meetingId', '[0-9]+');
+				// Route::get('meeting/newusers/{meetingId}', 'Admin\MeetingsController@viewNewusers')->where('meetingId', '[0-9]+');
+				// Route::post('meeting/newusers/{meetingId}', 'Admin\MeetingsController@addUsers')->where('meetingId', '[0-9]+');
+				// Route::get('meeting/approve/{meetingId}', 'Admin\MeetingsController@approve')->where('meetingId', '[0-9]+');
+				// Route::post('meeting/disapprove/{meetingId}', 'Admin\MeetingsController@disapprove')->where('meetingId', '[0-9]+');
+				// Route::get('meeting/edit/{meetingId}','Admin\MeetingsController@meetingForm')->where('meetingId', '[0-9]+');
+				// Route::get('meeting/activate/{meetingId}','Admin\MeetingsController@activate')->where('meetingId', '[0-9]+');
+				// Route::get('meeting/delete/{meetingId}','Admin\MeetingsController@delete')->where('meetingId', '[0-9]+');
 		});
-		Route::get('auth/register', 'Admin\AuthController@signupGet');
-		Route::post('auth/register', 'Admin\AuthController@signupPost');
+		// Route::get('auth/register', 'Admin\AuthController@signupGet');
+		// Route::post('auth/register', 'Admin\AuthController@signupPost');
 		Route::get('auth/login', 'Admin\AuthController@loginGet');
 		Route::post('auth/login', 'Admin\AuthController@loginPost');
 		Route::get('auth/logout', 'Admin\AuthController@logout');
@@ -65,7 +65,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::get('user/search', 'Auth\ProfileController@findUser');
 		Route::get('assigner/search', 'Auth\ProfileController@findAssigner');
 		Route::get('assignee/search', 'Auth\ProfileController@findAssignee');
-		Route::get('meeting/search', 'Meetings\MeetingsController@findMeeting');
+		//Route::get('meeting/search', 'Meetings\MeetingsController@findMeeting');
 		Route::get('notifications', 'Auth\ProfileController@notifications');
 		Route::get('notifications/all', 'Auth\ProfileController@allNotifications');
 
@@ -103,34 +103,34 @@ Route::group(['middleware' => 'logAllActivity'], function()
 			Route::post('comment/{taskid}', 'Followups\TaskController@taskComment')->where('taskid', '[0-9]+');
 			Route::post('{minuteId}/comment/{taskid}', 'Followups\TaskController@minuteComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 		});
-		Route::group(['prefix' => 'meetings'], function()
-		{
-			Route::get('/', ['uses'=>'Meetings\MeetingsController@index','as'=>'meetings']);
-			Route::get('/readNotification', ['uses'=>'Meetings\MeetingsController@isReadNotification']);
-			Route::get('now', ['uses'=>'Meetings\MeetingsController@nowsortby']);
-			Route::get('history', ['uses'=>'Meetings\MeetingsController@historysortby']);
-			Route::get('create','Meetings\MeetingsController@meetingForm');
-			Route::post('create','Meetings\MeetingsController@createMeeting');
-			Route::post('draft','Meetings\MeetingsController@draftMeeting');
-			Route::get('load/{temMeetingId}','Meetings\MeetingsController@meetingForm')->where('id', '[0-9]+');
-		});
-		Route::group(['prefix' => 'minute'], function()
-		{
-			Route::get('{minuteId}', 'Meetings\MinuteController@index')->where('minuteId', '[0-9]+');
-			Route::get('first/{meetingId}', 'Meetings\MinuteController@startMinute')->where('meetingId', '[0-9]+');
-			Route::get('view/{minuteId}', 'Meetings\MinuteController@viewMinute')->where('minuteId', '[0-9]+');
-			Route::get('{minuteId}/acceptTask/{taskid}', 'Meetings\TaskController@acceptTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::post('{minuteId}/rejectTask/{taskid}', 'Meetings\TaskController@rejectTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::post('{minuteId}/comment/{taskid}', 'Meetings\TaskController@taskComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::get('{minuteId}/task/{taskid}', 'Meetings\TaskController@viewTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::get('{minuteId}/markComplete/{taskid}', 'Meetings\TaskController@markComplete')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::get('{minuteId}/acceptCompletion/{taskid}', 'Meetings\TaskController@acceptCompletion')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::get('{minuteId}/rejectCompletion/{taskid}', 'Meetings\TaskController@rejectCompletion')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-			Route::post('{minuteId}/draft', 'Meetings\MinuteController@draft')->where('minuteId', '[0-9]+');
-			Route::post('{minuteId}/task', 'Meetings\TaskController@createTask')->where('minuteId', '[0-9]+');
-			Route::get('{meetingId}/next', 'Meetings\MinuteController@nextMinute')->where('minuteId', '[0-9]+');
-			Route::post('{meetingId}/next', 'Meetings\MinuteController@create')->where('minuteId', '[0-9]+');
-			Route::get('{minuteId}/history/{taskid}', 'Meetings\TaskController@viewHistory')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
-		});		
+		// Route::group(['prefix' => 'meetings'], function()
+		// {
+		// 	Route::get('/', ['uses'=>'Meetings\MeetingsController@index','as'=>'meetings']);
+		// 	Route::get('/readNotification', ['uses'=>'Meetings\MeetingsController@isReadNotification']);
+		// 	Route::get('now', ['uses'=>'Meetings\MeetingsController@nowsortby']);
+		// 	Route::get('history', ['uses'=>'Meetings\MeetingsController@historysortby']);
+		// 	Route::get('create','Meetings\MeetingsController@meetingForm');
+		// 	Route::post('create','Meetings\MeetingsController@createMeeting');
+		// 	Route::post('draft','Meetings\MeetingsController@draftMeeting');
+		// 	Route::get('load/{temMeetingId}','Meetings\MeetingsController@meetingForm')->where('id', '[0-9]+');
+		// });
+		// Route::group(['prefix' => 'minute'], function()
+		// {
+		// 	Route::get('{minuteId}', 'Meetings\MinuteController@index')->where('minuteId', '[0-9]+');
+		// 	Route::get('first/{meetingId}', 'Meetings\MinuteController@startMinute')->where('meetingId', '[0-9]+');
+		// 	Route::get('view/{minuteId}', 'Meetings\MinuteController@viewMinute')->where('minuteId', '[0-9]+');
+		// 	Route::get('{minuteId}/acceptTask/{taskid}', 'Meetings\TaskController@acceptTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::post('{minuteId}/rejectTask/{taskid}', 'Meetings\TaskController@rejectTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::post('{minuteId}/comment/{taskid}', 'Meetings\TaskController@taskComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::get('{minuteId}/task/{taskid}', 'Meetings\TaskController@viewTask')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::get('{minuteId}/markComplete/{taskid}', 'Meetings\TaskController@markComplete')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::get('{minuteId}/acceptCompletion/{taskid}', 'Meetings\TaskController@acceptCompletion')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::get('{minuteId}/rejectCompletion/{taskid}', 'Meetings\TaskController@rejectCompletion')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// 	Route::post('{minuteId}/draft', 'Meetings\MinuteController@draft')->where('minuteId', '[0-9]+');
+		// 	Route::post('{minuteId}/task', 'Meetings\TaskController@createTask')->where('minuteId', '[0-9]+');
+		// 	Route::get('{meetingId}/next', 'Meetings\MinuteController@nextMinute')->where('minuteId', '[0-9]+');
+		// 	Route::post('{meetingId}/next', 'Meetings\MinuteController@create')->where('minuteId', '[0-9]+');
+		// 	Route::get('{minuteId}/history/{taskid}', 'Meetings\TaskController@viewHistory')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+		// });		
 	});	
 });
