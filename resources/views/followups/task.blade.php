@@ -37,6 +37,7 @@
 				@endif
 				</p>
 				<p>Status: {{$task->status}}</p>
+				<p>Client Email: {{$task->clientEmail}}</p>
 				@if($task->reason)
 				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif

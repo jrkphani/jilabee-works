@@ -186,7 +186,7 @@ class TaskController extends Controller {
 					sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
 					if(isEmail($input['clientEmail']))
 					{
-						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+						//sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
 					}
 				}
 				return json_encode($output);
@@ -199,7 +199,7 @@ class TaskController extends Controller {
 	}
 	public function updateTask($id)
 	{
-		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
+		$input = Request::only('title','description','assignee','assigner','clientEmail','notes','dueDate');
 		$output['success'] = 'yes';
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
 		$validator = JobTasks::validation($input);
@@ -249,6 +249,7 @@ class TaskController extends Controller {
 				$oldAssignee = $task->assignee;
 			}
 			unset($toLog['id']);
+			unset($toLog['clientEmail']);
 			unset($toLog['notes']);
 			unset($toLog['deleted_at']);
 			unset($toLog['assigner']);
@@ -335,7 +336,7 @@ class TaskController extends Controller {
 					return view('followups.task',['task'=>$task]);
 					if(isEmail($task->clientEmail))
 					{
-						sendEmail($task->clientEmail,$task->clientEmail,'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+						//sendEmail($task->clientEmail,$task->clientEmail,'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
 					}
 				}
 			}
