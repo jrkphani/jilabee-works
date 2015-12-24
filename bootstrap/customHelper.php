@@ -101,7 +101,7 @@ function roles()
 function sendEmail($toEmail,$toName,$subject,$view,$arrayToView,$attachment=NULL)
     {
         $mailArr['fromEmail'] = 'noreply@anabond.com';
-        $mailArr['fromName'] = 'Jotter';
+        $mailArr['fromName'] = 'Anabond Tracking System';
         $mailArr['toEmail'] = $toEmail;
         $mailArr['toName'] = $toName;
         $mailArr['subject'] = $subject;

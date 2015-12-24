@@ -144,7 +144,7 @@ class UserController extends Controller {
 									}
 								}
 							}
-							sendEmail($user->email,$profile->name,'Jotter Account','emails.addUser',['user'=>$user]);
+							sendEmail($user->email,$profile->name,'Account Registered','emails.addUser',['user'=>$user]);
 						}
 					}
 				}

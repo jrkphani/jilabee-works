@@ -183,6 +183,7 @@ class TaskController extends Controller {
 					$notification['tag'] = 'now';
 					$notification['body'] = 'Task #'.$task->id.' sent by '.Auth::user()->profile->name;
 					setNotification($notification);
+					sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
 				}
 				return json_encode($output);
 			}

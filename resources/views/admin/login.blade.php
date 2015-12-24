@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Anabond Ticketing System</title>
+	<title>Anabond Tracking System</title>
 	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
@@ -22,7 +22,7 @@
 	</header>
 <div class="indexLogin">
 
-  	<h1>Anabond Ticketing System</h1>
+  	<h1>Track</h1>
   	<div class="indexLoginForm">		
   			
 					<form  role="form" method="POST" action="{{ url('/admin/auth/login') }}">
