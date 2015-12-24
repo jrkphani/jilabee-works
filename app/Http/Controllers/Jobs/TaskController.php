@@ -125,7 +125,7 @@ class TaskController extends Controller {
 		{
 			abort('404');
 		}
-		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
+		$input = Request::only('title','description','assignee','assigner','clientEmail','notes','dueDate');
 		$output['success'] = 'yes';
 		$validator = JobTasks::validation($input);
 		if ($validator->fails())
@@ -184,6 +184,10 @@ class TaskController extends Controller {
 					$notification['body'] = 'Task #'.$task->id.' sent by '.Auth::user()->profile->name;
 					setNotification($notification);
 					sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
+					if(isEmail($input['clientEmail']))
+					{
+						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+					}
 				}
 				return json_encode($output);
 			}
@@ -329,6 +333,10 @@ class TaskController extends Controller {
 					$notification['body'] = 'Task #'.$task->id.' completion accepted';
 					setNotification($notification);
 					return view('followups.task',['task'=>$task]);
+					if(isEmail($task->clientEmail))
+					{
+						sendEmail($task->clientEmail,$task->clientEmail,'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+					}
 				}
 			}
 			else

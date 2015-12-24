@@ -20,6 +20,7 @@ class CreateDraftTasksTable extends Migration {
 			$table->text('notes')->nullable();
 			$table->string('assignee','64')->nullable();;
 			$table->integer('assigner')->nullable();
+			$table->string('clientEmail','64')->nullable();
 			$table->string('orginator','64')->nullabel();
 			$table->string('dueDate','32')->nullable();
 			$table->integer('created_by')->unsigned();

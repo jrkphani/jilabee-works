@@ -115,7 +115,7 @@ class TaskController extends Controller {
 	}
 	public function draft()
 	{
-		$input = Request::only('title','description','assignee','notes','dueDate');
+		$input = Request::only('title','description','assignee','clientEmail','notes','dueDate');
 		$input = array_filter($input);
 		if($input)
 		{

@@ -39,16 +39,19 @@
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'email','style'=>$display]) !!}
 					<div class="clearboth"></div>
 					<div class="error" id="assignee_err"></div>
+					<label class="pcl_jobs_label">Client Email </label>
+					{!! Form::text('clientEmail',$task->clientEmail,['id'=>'clientEmail','placeholder'=>'email']) !!}
+					<div class="clearboth"></div>
 					<label  class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'nextDateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentLeft">
 				<div class="popupContentText">
-					{!! Form::textarea('description', $task->description,['rows'=>'6','cols'=>'30'])!!}
+					{!! Form::textarea('description', $task->description,['rows'=>'6','cols'=>'30','placeholder'=>'description'])!!}
 					<div class="error" id="description_err"></div>
 				</div>
 				<div class="popupContentText">
-					{!! Form::textarea('notes', $task->notes,['rows'=>'6','cols'=>'30'])!!}
+					{!! Form::textarea('notes', $task->notes,['rows'=>'6','cols'=>'30','placeholder'=>'notes'])!!}
 					<div class="error" id="notes_err"></div>
 				</div>
 				
@@ -71,16 +74,19 @@
 					{!! Form::text('assignee','',['id'=>'selectAssignee','placeholder'=>'email']) !!}
 					<div class="error" id="assignee_err"></div>
 					<div class="clearboth"></div>
+					<label class="pcl_jobs_label">Client Email </label>
+					{!! Form::text('clientEmail','',['id'=>'clientEmail','placeholder'=>'email']) !!}
+					<div class="clearboth"></div>
 					<label class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate','',['class'=>'nextDateInput']) !!}
 					<div class="error" id="dueDate_err"></div>
 			</div>
 			<div class="popupContentLeft">
 				<div class="popupContentText">
-					{!! Form::textarea('description', '',['rows'=>'6','cols'=>'30'])!!}
+					{!! Form::textarea('description', '',['rows'=>'6','cols'=>'30','placeholder'=>'description'])!!}
 					<div class="error" id="description_err"></div>
 				</div>
 				<div class="popupContentText">
-					{!! Form::textarea('notes', '',['rows'=>'6','cols'=>'30'])!!}
+					{!! Form::textarea('notes', '',['rows'=>'6','cols'=>'30','placeholder'=>'notes'])!!}
 					<div class="error" id="notes_err"></div>
 				</div>
 				

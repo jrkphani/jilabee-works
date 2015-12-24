@@ -20,6 +20,7 @@ class CreateJobTasksTable extends Migration {
 			$table->text('notes')->nullable();
 			$table->string('assignee','64');
 			$table->integer('assigner')->nullable();
+			$table->string('clientEmail','64')->nullable();
 			$table->enum('status', array('Draft','Sent','Rejected','Open','Completed' ,'Closed','Cancelled'))->default('Sent');
 			$table->string('reason')->nullable();
 			$table->dateTime('dueDate')->nullable();

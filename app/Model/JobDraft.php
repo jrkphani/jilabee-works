@@ -14,7 +14,7 @@ class JobDraft extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','description','assignee','assigner','notes','dueDate','created_by'];
+	protected $fillable = ['title','description','assignee','assigner','clientEmail','notes','dueDate','created_by'];
 	public function createdby()
     {	
         return $this->hasOne('App\Model\Profile', 'userId', 'created_by');
