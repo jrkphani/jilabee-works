@@ -38,27 +38,7 @@ class TaskController extends Controller {
 		$historytasks = $this->historysortby();
 		return view('jobs.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
 	}
-	public function newticket()
-	{
-		return view('jobs.ticket');
-	}
-	public function newticketpost()
-	{
-		$input = Request::only('email','issue','invoice','llr');
-		$rule = array('email'=>'required',
-            'issue'=>'required|max:1000',
-            'invoice'=>'required|max:20',
-            'llr'=>'required|max:20');
-        $validator = Validator::make($input,$rule);
-		if ($validator->fails())
-		{
-			return redirect('ticket/new')->withErrors($validator)->withInput();
-		}
-		else
-		{
-			return view('jobs.ticket');
-		}
-	}
+	
 	public function viewTask($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
@@ -216,13 +196,13 @@ class TaskController extends Controller {
 	}
 	public function taskForm($id)
 	{
-		return view('jobs.taskform',['task'=>JobTasks::whereId($id)->whereAssigner(Auth::id())->first()]);
+		return view('jobs.taskform',['task'=>JobTasks::whereId($id)->whereAssigner(Auth::id())->orWhere('assigner','=','-1')->first()]);
 	}
 	public function updateTask($id)
 	{
 		$input = Request::only('title','description','assignee','assigner','clientEmail','notes','dueDate');
 		$output['success'] = 'yes';
-		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->orWhere('assigner','=','-1')->first();
 		$validator = JobTasks::validation($input);
 		if ($validator->fails())
 		{

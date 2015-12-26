@@ -36,9 +36,62 @@ class TaskController extends Controller {
 		$historytasks = $this->historysortby();
 		return view('followups.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
 	}
+	public function newticket()
+	{
+		return view('jobs.ticket');
+	}
+	public function newticketpost()
+	{
+		$input = Request::only('email','issue','invoice','lrn','lrd','location','transport');
+		$rule = array('email'=>'required',
+            'issue'=>'required|max:1000',
+            'invoice'=>'required|max:20',
+            'lrn'=>'required|max:20',
+            'lrd'=>'required|date|before:now',
+            'transport'=>'required|max:20',
+            'location'=>'required');
+        $validator = Validator::make($input,$rule);
+		if ($validator->fails())
+		{
+			return redirect('ticket/new')->withErrors($validator)->withInput();
+		}
+		else
+		{
+			$data['clientEmail'] = $input['email'];
+			$data['title'] = $input['invoice'].'/'.$input['lrn'].'--'.$input['lrd'].'--'.$input['location'].'--'.$input['transport'];
+			$data['description'] = nl2br($input['issue']);
+			$data['created_by'] = $data['updated_by'] = 1;
+			$data['assigner'] = -1;
+			if($task = JobTasks::create($data))
+			{
+				//if($notification['userId'])
+				//{
+					// $notification['objectId'] = $task->id;
+					// $notification['objectType'] = 'followups';
+					// $notification['subject'] = 'new';
+					// $notification['tag'] = 'now';
+					// $notification['body'] = 'Task #'.$task->id;
+					// setNotification($notification);
+					// sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
+					// if(isEmail($input['clientEmail']))
+					// {
+					// 	//sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+					// }
+				//}
+				return view('jobs.ticketSuccess',['task'=>$task]);
+			}
+		}
+	}
 	public function viewTask($id)
 	{
-		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		if(Auth::user()->profile->role == '2')
+		{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->orWhere('assigner','=','-1')->first();
+		}
+		else
+		{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		}
 		// $notification['userId'] = $task->assigner;
   //       $notification['objectId'] = $task->id;
   //       $notification['objectType'] = 'followups';
@@ -177,6 +230,7 @@ class TaskController extends Controller {
 			{
 				$task->delete();
 				$output['success'] = 'yes';
+				
 			}
 			else
 			{
@@ -190,7 +244,10 @@ class TaskController extends Controller {
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
 		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
-		
+		if(Auth::user()->profile->role == 2)
+		{
+			$query->orWhere('assigner','=','-1' );
+		}
 		if($searchtxt)
 		{
 			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
@@ -226,7 +283,12 @@ class TaskController extends Controller {
 			$today = new DateTime();
 			foreach($tasks as $task)
 			{
-				if(($task->status == 'Sent') || ($task->type == 'minute' && $task->minute->filed != '1'))
+				if(!$task->assignee)
+				{
+					$nowtasks['unassigned ']['tasks'][] = $task;
+					$nowtasks['unassigned ']['colorClass'] = 'boxNumberBlue';
+				}
+				else if(($task->status == 'Sent') || ($task->type == 'minute' && $task->minute->filed != '1'))
 				{
 					$nowtasks['New']['tasks'][] = $task;
 					$nowtasks['New']['colorClass'] = 'boxNumberGrey';
@@ -280,30 +342,35 @@ class TaskController extends Controller {
 				}
 			}
 		}
-		elseif($sortby == 'meeting')
-		{
-			$tasks = $query->orderBy('tasks.type')->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
-			foreach($tasks as $task)
-			{
-				if($task->type == 'minute')
-				{
-					$nowtasks[$task->meeting->title]['tasks'][] = $task;
-					$nowtasks[$task->meeting->title]['colorClass'] = 'boxNumberBlue';
-				}
-				else
-				{
-					$nowtasks['Individuals']['tasks'][] = $task;
-					$nowtasks['Individuals']['colorClass'] = 'boxNumberBlue';
-				}
+		// elseif($sortby == 'meeting')
+		// {
+		// 	$tasks = $query->orderBy('tasks.type')->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
+		// 	foreach($tasks as $task)
+		// 	{
+		// 		if($task->type == 'minute')
+		// 		{
+		// 			$nowtasks[$task->meeting->title]['tasks'][] = $task;
+		// 			$nowtasks[$task->meeting->title]['colorClass'] = 'boxNumberBlue';
+		// 		}
+		// 		else
+		// 		{
+		// 			$nowtasks['Individuals']['tasks'][] = $task;
+		// 			$nowtasks['Individuals']['colorClass'] = 'boxNumberBlue';
+		// 		}
 
-			}
-		}
+		// 	}
+		// }
 		elseif($sortby == 'assignee')
 		{
 			$tasks = $query->orderBy('tasks.assignee')->orderBy('tasks.status','DESC')->orderBy('tasks.dueDate')->get();
 			foreach($tasks as $task)
 			{
-				if(isEmail($task->assignee))
+				if(!$task->assignee)
+				{
+					$nowtasks['unassigned ']['tasks'][] = $task;
+					$nowtasks['unassigned ']['colorClass'] = 'boxNumberBlue';
+				}
+				else if(isEmail($task->assignee))
 				{
 					$nowtasks[$task->assignee]['tasks'][] = $task;
 					$nowtasks[$task->assignee]['colorClass'] = 'boxNumberBlue';
@@ -387,24 +454,24 @@ class TaskController extends Controller {
 				}
 			}
 		}
-		else if($sortby == 'meeting')
-		{
-			$tasks = $query->orderBy('tasks.type')->orderBy('tasks.updated_at','DESC')->get();
-			foreach($tasks as $task)
-			{
-				if($task->type == 'minute')
-				{
-					$historytasks[$task->meeting->title]['tasks'][] = $task;
-					$historytasks[$task->meeting->title]['colorClass'] = 'boxNumberBlue';
-				}
-				else
-				{
-					$historytasks['Individuals']['tasks'][] = $task;
-					$historytasks['Individuals']['colorClass'] = 'boxNumberBlue';
-				}
+		// else if($sortby == 'meeting')
+		// {
+		// 	$tasks = $query->orderBy('tasks.type')->orderBy('tasks.updated_at','DESC')->get();
+		// 	foreach($tasks as $task)
+		// 	{
+		// 		if($task->type == 'minute')
+		// 		{
+		// 			$historytasks[$task->meeting->title]['tasks'][] = $task;
+		// 			$historytasks[$task->meeting->title]['colorClass'] = 'boxNumberBlue';
+		// 		}
+		// 		else
+		// 		{
+		// 			$historytasks['Individuals']['tasks'][] = $task;
+		// 			$historytasks['Individuals']['colorClass'] = 'boxNumberBlue';
+		// 		}
 
-			}
-		}
+		// 	}
+		// }
 		elseif($sortby == 'assignee')
 		{
 			$tasks = $query->orderBy('tasks.assignee')->orderBy('tasks.dueDate')->get();

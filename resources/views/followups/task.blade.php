@@ -22,7 +22,8 @@
 				<h4>{{$task->title}}</h4>
 				<p>T{{$task->id}} / Created on: 25th jan 2015  / DUE: {{$task->dueDate}}</p>
 				<p> Assignee to: 
-				@if(isEmail($task->assignee))
+				@if(!$task->assignee)
+				@elseif(isEmail($task->assignee))
 					{{$task->assignee}}
 				@else
 					{{$task->assigneeDetail->name}}
@@ -37,7 +38,7 @@
 				@endif
 				</p>
 				<p>Status: {{$task->status}}</p>
-				{{-- <p>Client Email: {{$task->clientEmail}}</p> --}}
+				<p>Client Email: {{$task->clientEmail}}</p>
 				@if($task->reason)
 				<p>Last Rejected Reason: {!! $task->reason!!}</p>
 				@endif

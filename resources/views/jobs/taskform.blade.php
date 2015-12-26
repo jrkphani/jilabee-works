@@ -47,9 +47,9 @@
 					</div>
 					{!! Form::text('assignee',$assignee,['id'=>'selectAssignee','placeholder'=>'email','style'=>$display]) !!}
 					<div class="error" id="assignee_err">{{$errors->first('assignee')}}</div>
-					{{-- <label class="pcl_jobs_label">Client Email </label>
+					<label class="pcl_jobs_label">Client Email </label>
 					{!! Form::text('clientEmail',$task->clientEmail,['id'=>'clientEmail','placeholder'=>'email']) !!}
-					<div class="clearboth"></div> --}}
+					<div class="clearboth"></div>
 					<label class="pcl_jobs_label">Choose deadline</label> {!! Form::text('dueDate',$task->dueDate,['class'=>'dateInput']) !!}
 					<div class="error" id="dueDate_err">{{$errors->first('dueDate')}}</div>
 			</div>

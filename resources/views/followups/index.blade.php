@@ -9,7 +9,7 @@
 	<div class="contentLeft" id="contentLeft">
 			<div class="mainListFilter">
 				<input type="text" placeholder="Search..." id="historySearch" autocomplete="off" value="{{$historysearchtxt}}">
-				{!! Form::select('historysortby',['timeline'=>'Time Line','meeting'=>'Group','assignee'=>'People'],$historysortby,['id'=>'historysortby','autocomplete'=>'off']) !!}
+				{!! Form::select('historysortby',['timeline'=>'Time Line','assignee'=>'People'],$historysortby,['id'=>'historysortby','autocomplete'=>'off']) !!}
 				{!! Form::select('days',['7'=>'Last 7 days','7'=>'Last 7 days','14'=>'Last 14 days','30'=>'Last 30 days','90'=>'Last 90 days','all'=>'Beginning of time'],$days,['id'=>'days','autocomplete'=>'off']) !!}
 				<span id="showHistroyDiv" class="button">Reset</span>
 			</div>
@@ -26,7 +26,7 @@
 	<div id="contentRight" class="contentRight">
 			<div class="mainListFilter">
 				<input type="text" placeholder="Search..." id="nowSearch" autocomplete="off" value="{{$nowsearchtxt}}">
-				{!! Form::select('nowsortby',['timeline'=>'Time Line','meeting'=>'Group','assignee'=>'People'],$nowsortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
+				{!! Form::select('nowsortby',['timeline'=>'Time Line','assignee'=>'People'],$nowsortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
 				<span class="button" id="showNowDiv">Reset</span>
 			</div>
 			<div id="nowDiv" class="mainList">
