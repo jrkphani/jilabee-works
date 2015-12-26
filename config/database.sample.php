@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'jotter',
+	'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
 			'database' => storage_path().'/database.sqlite',
 			'prefix'   => '',
 		],
-		'jotter' => [
+		'mysql' => [
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST'),
 			'database'  => env('DB_DATABASE'),

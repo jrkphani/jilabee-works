@@ -254,7 +254,7 @@ class UserController extends Controller {
 							}
 						}
 					}
-					sendEmail($user->email,$profile->name,'Jotter Account Modified','emails.editUser',['user'=>$user]);
+					sendEmail($user->email,$profile->name,env('APP_NAME').' Account Modified','emails.editUser',['user'=>$user]);
 				}
 			}
 			return json_encode($output);

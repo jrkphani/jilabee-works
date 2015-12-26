@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Anabond Tracking System</title>
+	<title>{{env('APP_NAME')}}</title>
 	<meta name="author" content="Dexel Designs">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<meta name="description" content="">
@@ -15,7 +15,7 @@
 	<!-- 	<h1>Jotter</h1> -->
 	</header>
 	<div class="indexLogin">
-		<h1>Track</h1>
+		<h1>{{env('APP_NAME')}}</h1>
 		<div class="indexLoginForm">
 			<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
