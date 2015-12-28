@@ -294,8 +294,8 @@ class TaskController extends Controller {
 			{
 				if(!$task->assignee)
 				{
-					$nowtasks['unassigned ']['tasks'][] = $task;
-					$nowtasks['unassigned ']['colorClass'] = 'boxNumberBlue';
+					$nowtasks['Unassigned ']['tasks'][] = $task;
+					$nowtasks['Unassigned ']['colorClass'] = 'boxNumberBlue';
 				}
 				else if(($task->status == 'Sent') || ($task->type == 'minute' && $task->minute->filed != '1'))
 				{
@@ -376,8 +376,8 @@ class TaskController extends Controller {
 			{
 				if(!$task->assignee)
 				{
-					$nowtasks['unassigned ']['tasks'][] = $task;
-					$nowtasks['unassigned ']['colorClass'] = 'boxNumberBlue';
+					$nowtasks['Unassigned ']['tasks'][] = $task;
+					$nowtasks['Unassigned ']['colorClass'] = 'boxNumberBlue';
 				}
 				else if(isEmail($task->assignee))
 				{
