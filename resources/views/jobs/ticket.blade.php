@@ -52,6 +52,7 @@
 				{!! app('captcha')->display(); !!}
 				<center><input class="login_loginbtn" type="submit" value="Submit"></center>
 				<div class="clearboth"></div>
+				<a class="login_forgotpassword" href="{{ url('/') }}">Back</a>
 			</form>    	 
 		</div>
 		<br/>

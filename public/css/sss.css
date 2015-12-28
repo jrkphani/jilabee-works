@@ -1129,3 +1129,17 @@ header nav{margin-left: 40px;}
 .admin_extra h4{ color: #fff; font-size: 1.1em; margin-bottom: 8px; }
 .admin_extra a{ margin-bottom: 10px; display: block; color: #fff; cursor: pointer;}
 .admin_extra a:hover{ margin-bottom: 10px; display: block; color: #fff;}
+
+/* blink */
+.blink {
+    animation-duration: 1s;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(2, start);
+    text-shadow: -0.06em 0 0 blue, 0.06em 0 0 cyan;
+}
+@keyframes blink {
+    80% {
+        visibility: hidden;
+    }
+}

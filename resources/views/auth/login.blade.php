@@ -29,6 +29,7 @@
 				<div class="clearboth"></div>
 			</form>
 			<a class="login_forgotpassword" href="{{ url('/password/email') }}">Forgot Your Password?</a>
+			<a class="blink" style="float:right" href="{{ url('/ticket/new') }}">Raise ticket</a>
 			
     	 
 		</div>
