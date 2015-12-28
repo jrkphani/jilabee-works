@@ -196,13 +196,32 @@ class TaskController extends Controller {
 	}
 	public function taskForm($id)
 	{
-		return view('jobs.taskform',['task'=>JobTasks::whereId($id)->whereAssigner(Auth::id())->orWhere('assigner','=','-1')->first()]);
+		if(Auth::user()->profile->role == '2')
+		{
+			$task = JobTasks::whereId($id)->where(function($q){
+				$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			})->first();
+		}
+		else
+		{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		}
+		return view('jobs.taskform',['task'=>$task]);
 	}
 	public function updateTask($id)
 	{
 		$input = Request::only('title','description','assignee','assigner','clientEmail','notes','dueDate');
 		$output['success'] = 'yes';
-		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->orWhere('assigner','=','-1')->first();
+		if(Auth::user()->profile->role == '2')
+		{
+			$task = JobTasks::whereId($id)->where(function($q){
+				$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			})->first();
+		}
+		else
+		{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		}
 		$validator = JobTasks::validation($input);
 		if ($validator->fails())
 		{
@@ -375,7 +394,16 @@ class TaskController extends Controller {
 	}
 	public function cancelTask($id)
 	{
+		if(Auth::user()->profile->role == '2')
+		{
+			$task = JobTasks::whereId($id)->where(function($q){
+				$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			})->first();
+		}
+		else
+		{
 			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		}
 			$output['success'] = 'no';
 			if($task)
 			{
@@ -404,7 +432,16 @@ class TaskController extends Controller {
 	}
 	public function deleteTask($id)
 	{
-			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			if(Auth::user()->profile->role == '2')
+			{
+				$task = JobTasks::whereId($id)->where(function($q){
+					$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+				})->first();
+			}
+			else
+			{
+				$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			}
 			$output['success'] = 'no';
 			if($task)
 			{

@@ -17,7 +17,7 @@
 	<div class="indexLogin">
 		<h1>{{env('APP_NAME')}}</h1>
 		<div class="indexLoginForm">
-			Ticket raised successfully. Please note down the ticket number <strong>#{{$task->id}}</strong> for further enquiry.
+			Ticket raised successfully.<br/> Please note down the ticket number <strong>#{{$task->id}}</strong> for further enquiry. <br/>Thankyou.
 		</div>
 		<br/>
 			<div class="clearboth"></div>

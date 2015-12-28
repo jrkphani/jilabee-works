@@ -86,7 +86,9 @@ class TaskController extends Controller {
 	{
 		if(Auth::user()->profile->role == '2')
 		{
-			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->orWhere('assigner','=','-1')->first();
+			$task = JobTasks::whereId($id)->where(function($q){
+				$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			})->first();
 		}
 		else
 		{
@@ -243,10 +245,17 @@ class TaskController extends Controller {
 		$sortby = Request::get('sortby','timeline');
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
-		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
+		$query = Tasks::select('tasks.*')->where('status','!=','Closed')->where('status','!=','Cancelled');
 		if(Auth::user()->profile->role == 2)
 		{
-			$query->orWhere('assigner','=','-1' );
+
+			$query->where(function($q){
+				$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			});
+		}
+		else
+		{
+			$query->whereAssigner(Auth::id());
 		}
 		if($searchtxt)
 		{
@@ -398,16 +407,26 @@ class TaskController extends Controller {
 		$sortby = Request::get('historysortby','timeline');
 		$historytasks = array();
 		$searchtxt = Request::get('historysearchtxt',NULL);
-		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where(function($qry)
+		$query = Tasks::select('tasks.*')->where(function($qry)
 		{
 			$qry->where('status','=','Closed')->orWhere('status','=','Cancelled');
 		});
+		if(Auth::user()->profile->role == 2)
+		{
+
+			$query->where(function($q){
+				$q->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			});
+		}
+		else
+		{
+			$query->whereAssigner(Auth::id());
+		}
 		if($searchtxt)
 		{
-			$query = $query->leftJoin('meetings','tasks.meetingId','=','meetings.id')
-					->where(function($qry) use ($searchtxt){
-						$qry->where("meetings.title","LIKE","%$searchtxt%")
-						->orWhere("tasks.title","LIKE","%$searchtxt%")
+			$query = $query->where(function($qry) use ($searchtxt){
+						//$qry->where("meetings.title","LIKE","%$searchtxt%");
+						$qry->Where("tasks.title","LIKE","%$searchtxt%")
 						->orWhere("tasks.description","LIKE","%$searchtxt%");
 					});
 		}
