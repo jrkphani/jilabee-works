@@ -50,9 +50,18 @@ class TaskController extends Controller {
             'lrd'=>'required|date|before:now',
             'transport'=>'required|max:20',
             //comment below line when you test on local 'g-recaptcha-response' => 'required|captcha',
-            'g-recaptcha-response' => 'required|captcha',
+          //  'g-recaptcha-response' => 'required|captcha',
             'location'=>'required');
         $validator = Validator::make($input,$rule);
+		$validator->after(function($validator) use ($input)
+		{
+			$searchtxt = $input['invoice'].'/'.$input['lrn'];
+			if(jobTasks::where('title','LIKE',$searchtxt.'%')->where('status','!=','Cancelled')->where('status','!=','Closed')->first())
+			{
+				$validator->errors()->add('invoice', 'Ticket already in open for invoice number');
+				$validator->errors()->add('lrn', 'Ticket already in open for LR number');
+			}
+		});
 		if ($validator->fails())
 		{
 			return redirect('ticket/new')->withErrors($validator)->withInput();
