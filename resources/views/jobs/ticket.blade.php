@@ -50,6 +50,7 @@
 				<textarea type="text" cols="40" rows="10" name="issue" placeholder="describe issue" style="margin-left: 20px;">{{ old('issue') }}</textarea><br/><br/><br/>
 				{!! $errors->first('issue','<div class="error">:message</div><br/>') !!}
 				{!! app('captcha')->display(); !!}
+				{!! $errors->first('g-recaptcha-response','<br/><br/><br/><div class="error">:message</div><br/>') !!}
 				<center><input class="login_loginbtn" type="submit" value="Submit"></center>
 				<div class="clearboth"></div>
 				<a class="login_forgotpassword" href="{{ url('/') }}">Back</a>

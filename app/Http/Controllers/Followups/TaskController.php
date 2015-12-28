@@ -42,7 +42,7 @@ class TaskController extends Controller {
 	}
 	public function newticketpost()
 	{
-		$input = Request::only('email','issue','invoice','lrn','lrd','location','transport');
+		$input = Request::only('email','issue','invoice','lrn','lrd','location','transport','g-recaptcha-response');
 		$rule = array('email'=>'required',
             'issue'=>'required|max:1000',
             'invoice'=>'required|max:20',
