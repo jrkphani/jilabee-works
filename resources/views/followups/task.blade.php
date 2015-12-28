@@ -1,4 +1,4 @@
-
+f
 
 @if($task)
 <?php 
@@ -72,7 +72,7 @@
 				@if($task->status != 'Closed' && $task->status != 'Cancelled')
 				<button id="editTask" tid="{{$task->id}}">Edit Task</button>
 				<button {{$mid}} tid="{{$task->id}}" id="cancelTask">Cancel Task</button>
-				<button {{$mid}} tid="{{$task->id}}" id="deleteTask">Delete Task</button>
+				{{-- <button {{$mid}} tid="{{$task->id}}" id="deleteTask">Delete Task</button> --}}
 			@endif
 		@endif
 		</div>
