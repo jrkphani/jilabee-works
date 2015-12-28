@@ -150,6 +150,8 @@ return [
 		 'DaveJamesMiller\Breadcrumbs\ServiceProvider',
 		 /* pdf*/
 		 'Barryvdh\DomPDF\ServiceProvider',
+		 /* captcha */
+		 'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
 
 	],
 

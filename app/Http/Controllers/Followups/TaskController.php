@@ -49,6 +49,8 @@ class TaskController extends Controller {
             'lrn'=>'required|max:20',
             'lrd'=>'required|date|before:now',
             'transport'=>'required|max:20',
+            //comment below line when you test on local 'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required|captcha',
             'location'=>'required');
         $validator = Validator::make($input,$rule);
 		if ($validator->fails())

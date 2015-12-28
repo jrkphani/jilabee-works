@@ -49,6 +49,7 @@
 				<label for="">Issue</label><br/><br/>
 				<textarea type="text" cols="40" rows="10" name="issue" placeholder="describe issue" style="margin-left: 20px;">{{ old('issue') }}</textarea><br/><br/><br/>
 				{!! $errors->first('issue','<div class="error">:message</div><br/>') !!}
+				{!! app('captcha')->display(); !!}
 				<center><input class="login_loginbtn" type="submit" value="Submit"></center>
 				<div class="clearboth"></div>
 			</form>    	 
