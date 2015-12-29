@@ -57,8 +57,8 @@ Route::group(['middleware' => 'logAllActivity'], function()
 	//ticket form
 	Route::get('ticket/new', ['uses'=>'Followups\TaskController@newticket']);
 	Route::post('ticket/new', ['uses'=>'Followups\TaskController@newticketpost']);
-	Route::get('ticket/view/{id?}', ['uses'=>'Followups\TaskController@viewTicket']);
-
+	Route::get('ticket/view', ['uses'=>'Followups\TaskController@viewTicket']);
+	Route::post('ticket/view', ['uses'=>'Followups\TaskController@viewTicketPost']);
 	Route::group(['middleware' => 'auth'], function()
 	{
 		Route::get('profile/{id?}', ['uses'=>'Auth\ProfileController@index','as'=>'profile'])->where('id', '[0-9]+');

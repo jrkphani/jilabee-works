@@ -80,6 +80,23 @@ class TaskController extends Controller {
 			}
 		}
 	}
+	public function viewTicket()
+	{
+		return view('jobs.viewTicketForm',['error'=>'']);
+	}
+	public function viewTicketPost()
+	{
+		$input = Request::only('email','ticket');
+		$task = JobTasks::whereId($input['ticket'])->where('clientEmail',$input['email'])->first();
+		if($task)
+		{
+			return view('jobs.viewTicket',['task'=>$task]);
+		}
+		else
+		{
+			return view('jobs.viewTicketForm',['error'=>'Invalid email and ticket number']);
+		}
+	}
 	public function viewTask($id)
 	{
 		if(Auth::user()->profile->role == '2')

@@ -1132,7 +1132,7 @@ header nav{margin-left: 40px;}
 
 /* blink */
 .blink {
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-name: blink;
     animation-iteration-count: infinite;
     animation-timing-function: steps(2, start);
