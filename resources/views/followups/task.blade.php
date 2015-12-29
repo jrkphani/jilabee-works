@@ -1,5 +1,3 @@
-f
-
 @if($task)
 <?php 
 	if($task->minuteId)

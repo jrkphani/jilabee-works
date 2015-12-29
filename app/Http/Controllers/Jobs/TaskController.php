@@ -286,7 +286,7 @@ class TaskController extends Controller {
 					$notification['body'] = 'Task #'.$task->id.' is modified by '.Auth::user()->profile->name;
 					setNotification($notification);
 				}
-				if(($oldAssignee) && ($oldAssignee != $notification['userId']))
+				if($oldAssignee != $notification['userId'])
 				{
 					$input1['created_by'] = $input1['updated_by'] = Auth::id();
 					$input1['description'] = 'Task reassigned';
@@ -356,7 +356,7 @@ class TaskController extends Controller {
 					setNotification($notification);
 					if(isEmail($task->clientEmail))
 					{
-						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'closed']);
+						sendEmail($task->clientEmail,$task->clientEmail,'Ticket','emails.toClient',['task'=>$task,'state'=>'closed']);
 					}
 					return view('followups.task',['task'=>$task]);
 				}
@@ -425,7 +425,7 @@ class TaskController extends Controller {
 					setNotification($notification);
 					if(isEmail($task->clientEmail))
 					{
-						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'cancelled']);
+						sendEmail($task->clientEmail,$task->clientEmail,'Ticket','emails.toClient',['task'=>$task,'state'=>'cancelled']);
 					}
 				}
 			}
