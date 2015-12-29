@@ -75,20 +75,7 @@ class TaskController extends Controller {
 			$data['assigner'] = -1;
 			if($task = JobTasks::create($data))
 			{
-				//if($notification['userId'])
-				//{
-					// $notification['objectId'] = $task->id;
-					// $notification['objectType'] = 'followups';
-					// $notification['subject'] = 'new';
-					// $notification['tag'] = 'now';
-					// $notification['body'] = 'Task #'.$task->id;
-					// setNotification($notification);
-					// sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
-					// if(isEmail($input['clientEmail']))
-					// {
-					// 	//sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
-					// }
-				//}
+				sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'new']);
 				return view('jobs.ticketSuccess',['task'=>$task]);
 			}
 		}

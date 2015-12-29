@@ -187,7 +187,7 @@ class TaskController extends Controller {
 					sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
 					if(isEmail($input['clientEmail']))
 					{
-						//sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'new']);
 					}
 				}
 				return json_encode($output);
@@ -300,6 +300,7 @@ class TaskController extends Controller {
 					$notification['tag'] ='now';
 					$notification['body'] = 'Task #'.$task->id.' has been reassigned by '.Auth::user()->profile->name;
 					setNotification($notification);
+					sendEmail($assignee->email,$assignee->profile->name,'New Ticket','emails.newTask',['task'=>$task,'user'=>$assignee]);
 				}
 			}
 			return view('followups.task',['task'=>$task]);
@@ -353,11 +354,11 @@ class TaskController extends Controller {
 					$notification['tag'] = 'history';
 					$notification['body'] = 'Task #'.$task->id.' completion accepted';
 					setNotification($notification);
-					return view('followups.task',['task'=>$task]);
 					if(isEmail($task->clientEmail))
 					{
-						//sendEmail($task->clientEmail,$task->clientEmail,'Ticket','emails.toClient',['task'=>$task,'user'=>$assignee]);
+						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'closed']);
 					}
+					return view('followups.task',['task'=>$task]);
 				}
 			}
 			else
@@ -422,6 +423,10 @@ class TaskController extends Controller {
 					$notification['tag'] = 'history';
 					$notification['body'] = 'Task #'.$task->id.' has been cancelled and sent history';
 					setNotification($notification);
+					if(isEmail($task->clientEmail))
+					{
+						sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'cancelled']);
+					}
 				}
 			}
 			else

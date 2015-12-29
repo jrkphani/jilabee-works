@@ -1,8 +1,8 @@
-Hi {{$user->profile->name}},<br>
-New ticket has beed assigned for you.<br>
-Please login for further action.<br>
-<a href="{{url('/jobs?&tid='.$task->id)}}">{{url('/jobs?&tid='.$task->id)}}</a>
-<br>
-<br>
-Thanks
+Hi {{$user->profile->name}},<br/>
+New ticket has been assigned to you.<br/>
+Please login for further action.<br/>
+<a href="{{url('/jobs?&tid='.$task->id)}}">Ticket#{{$task->id}}</a>
+<br/>
+<br/>
 Regards
+Support Team
