@@ -44,7 +44,7 @@
 				{!! $errors->first('location','<br/><br/><br/><div class="error">:message</div><br/>') !!}
 				<br/>
 				<label for="">Transport</label><br/>
-				<input type="text" name="transport" autocomplete="off" placeholder="Transport" value="{{ old('email') }}"><br/>
+				<input type="text" name="transport" autocomplete="off" placeholder="Transport" value="{{ old('transport') }}"><br/>
 				{!! $errors->first('transport','<div class="error">:message</div><br/>') !!}
 				<label for="">Issue</label><br/><br/>
 				<textarea type="text" cols="40" rows="10" name="issue" placeholder="describe issue" style="margin-left: 20px;">{{ old('issue') }}</textarea><br/><br/><br/>

@@ -50,7 +50,7 @@ class TaskController extends Controller {
             'lrd'=>'required|date|before:now',
             'transport'=>'required|max:20',
             //comment below line when you test on local 'g-recaptcha-response' => 'required|captcha',
-            'g-recaptcha-response' => 'required|captcha',
+            //'g-recaptcha-response' => 'required|captcha',
             'location'=>'required');
         $validator = Validator::make($input,$rule);
 		$validator->after(function($validator) use ($input)
@@ -75,7 +75,7 @@ class TaskController extends Controller {
 			$data['assigner'] = -1;
 			if($task = JobTasks::create($data))
 			{
-				sendEmail($input['clientEmail'],$input['clientEmail'],'Ticket','emails.toClient',['task'=>$task,'state'=>'new']);
+				sendEmail($input['email'],$input['email'],'Ticket','emails.toClient',['task'=>$task,'state'=>'new']);
 				return view('jobs.ticketSuccess',['task'=>$task]);
 			}
 		}
