@@ -17,7 +17,7 @@
 	<div id="logindiv" style="margin-right: 250px; margin-bottom: 10px; font-family:'Grand Hotel'; font-size: 1.4em; cursor: pointer;">Login</div>
 		<form id="loginform" style="display:none; border: 1px solid #4271b6; border-radius: 6px; box-shadow: 0 0 6px #626262; padding: 10px; width:62%; font-size:0.7em;">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="email" name="email" placeholder="email" value="{{ old('email') }}"><br/><br/>
+			<input type="email" name="email" placeholder="email" value="{{ old('email') }}">
 			<div id="email_err" class="error"></div>
 			<input type="password" name="password" placeholder="password"><br/>
 			<div id="password_err" class="error"></div>
