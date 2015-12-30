@@ -111,6 +111,10 @@ class AuthController extends Controller {
         {
         	$errors = $validator->messages();
 			$errors->add('email', 'Invalid credentials');
+			if($request->ajax())
+			{
+				return json_encode($validator->errors());
+			}
         	return redirect('auth/login')->withInput($input)->withErrors($validator);
         }
     }
