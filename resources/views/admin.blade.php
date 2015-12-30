@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Anabond Tracking System</title>
+	<title>{{env('APP_NAME')}}</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
@@ -13,7 +13,7 @@
 <div class="wrapper">
 	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
 	<header>
-		<h1><a href="/">Track</a></h1>
+		<h1><a href="/">{{env('APP_NAME')}}</a></h1>
 			<nav>
 				@if(Request::segment(2) == '')
 					<a class="navHightlight">Notifications</a>
