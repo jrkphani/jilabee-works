@@ -43,7 +43,7 @@
 				</div>
 				<div style="float:left">
 					<label for="">LR Number</label><br/>
-					<input type="text" name="lrn" autocomplete="off" class="date" placeholder="LR Number" value="{{ old('lrd') }}">
+					<input type="text" name="lrn" autocomplete="off" placeholder="LR Number" value="{{ old('lrd') }}">
 					{!! $errors->first('lrn','<div class="error">:message</div>') !!}
 				</div>
 				<div style="float:left">
