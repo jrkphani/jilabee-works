@@ -9,7 +9,7 @@ Thanks for using to register the tickets. If you need more clarification, kindly
 @elseif($state == 'cancelled')
 	We would like to acknowledge that we have received your request and a ticket has been <b>Cancelled</b>.
 <br>
-<b>If you need more clarification, you to contact our personal support representative gokul.s@anabond.com</b>
+<b>If you need more clarification, contact our personal support representative gokul.s@anabond.com</b>
 @endif
 <br/>
 Ticket No: {{$task->id}}
