@@ -80,6 +80,10 @@ class AuthController extends Controller {
         $validator = Validator::make($input,$validatorRule);
 		if ($validator->fails())
 		{
+			if($request->ajax())
+			{
+				return json_encode($validator->errors());
+			}
 			return redirect('auth/login')->withInput($input)->withErrors($validator);
 		}
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password,'active'=>'1']))
@@ -97,6 +101,10 @@ class AuthController extends Controller {
             	//echo substr(Auth::user()->userId, 0, strrpos( Auth::user()->userId, 'u')); die;
             	Session::put('database', substr(Auth::user()->userId, 0, strrpos(Auth::user()->userId, 'u')));
             }
+            if($request->ajax())
+			{
+				return json_encode(['success'=>'yes']);
+			}
             return redirect()->intended('/');
         }
         else
