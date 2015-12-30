@@ -92,6 +92,12 @@
 <script>
 	$(document).ready(function($)
 		{
+			$('#loginform').keypress(function (e) {
+			  if (e.which == 13) {
+			    $('#submitlogin').click();
+			    return false;
+			  }
+			});
 			$('#logindiv').click(function(event) {
 				$('#loginform').toggle();
 			});
