@@ -15,45 +15,61 @@
 	<header>
 	<!-- 	<h1>Jotter</h1> -->
 	</header>
-	<div class="indexLogin">
+	<div class="indexLogin" style="width:765px">
 		<h1>{{env('APP_NAME')}}</h1>
 		<div class="indexLoginForm">
 			<form class="form-horizontal" role="form" method="POST" action="{{ url('/ticket/new') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
-				<label for="">Email</label><br/>
-				<input type="email" name="email" placeholder="email@domain.com" value="{{ old('email') }}" autocomplete="off"><br/>
-				{!! $errors->first('email','<div class="error">:message</div><br/>') !!}
-				<label for="">Invoice No</label><br/>
-				<input type="text" name="invoice" autocomplete="off" placeholder="Invoice number" value="{{ old('invoice') }}"><br/>
-				{!! $errors->first('invoice','<div class="error">:message</div><br/>') !!}
-				<label for="">LR No</label><br/>
-				<input type="text" name="lrn" autocomplete="off" placeholder="LR number" value="{{ old('lrn') }}"><br/>
-				{!! $errors->first('lrn','<div class="error">:message</div><br/>') !!}
-				<label for="">LR Date</label><br/>
-				<input type="text" name="lrd" autocomplete="off" class="date" placeholder="LR Date" value="{{ old('lrd') }}"><br/>
-				{!! $errors->first('lrd','<div class="error">:message</div><br/>') !!}
-				<label for="">Manufacturing Location</label><br/><br/>
-				<p style="margin-left: 20px;"><select autocomplete="off" name="location">
-				<option value="">Select Location</option>
-					<option value="Illalur">Illalur</option>
-					<option value="Meghalaya">Meghalaya</option>
-					<option value="Pondy">Pondy</option>
-					<option value="TVM">TVM</option>
-				</select></p>
-
-				{!! $errors->first('location','<br/><br/><br/><div class="error">:message</div><br/>') !!}
-				<br/>
-				<label for="">Transport</label><br/>
-				<input type="text" name="transport" autocomplete="off" placeholder="Transport" value="{{ old('transport') }}"><br/>
-				{!! $errors->first('transport','<div class="error">:message</div><br/>') !!}
-				<label for="">Issue</label><br/><br/>
-				<textarea type="text" cols="40" rows="10" name="issue" placeholder="describe issue" style="margin-left: 20px;">{{ old('issue') }}</textarea><br/><br/><br/>
-				{!! $errors->first('issue','<div class="error">:message</div><br/>') !!}
-				{!! app('captcha')->display(); !!}
-				{!! $errors->first('g-recaptcha-response','<br/><br/><br/><div class="error">:message</div><br/>') !!}
-				<center><input class="login_loginbtn" type="submit" value="Submit"></center>
+				<div style="float:left">
+					<label for="">Email</label><br/>
+					<input type="email" name="email" placeholder="email@domain.com" value="{{ old('email') }}" autocomplete="off">
+					{!! $errors->first('email','<div class="error">:message</div>') !!}
+				</div>
+				<div style="float:left">
+					<label for="">Invoice No</label><br/>
+					<input type="text" name="invoice" autocomplete="off" placeholder="Invoice number" value="{{ old('invoice') }}">
+					{!! $errors->first('invoice','<div class="error">:message</div>') !!}
+				</div>
+				<div style="float:left">
+					<label for="">LR Number</label><br/>
+					<input type="text" name="lrn" autocomplete="off" class="date" placeholder="LR Number" value="{{ old('lrd') }}">
+					{!! $errors->first('lrn','<div class="error">:message</div>') !!}
+				</div>
+				<div style="float:left">
+					<label for="">LR Date</label><br/>
+					<input type="text" name="lrd" autocomplete="off" class="date" placeholder="LR Date" value="{{ old('lrd') }}">
+					{!! $errors->first('lrd','<div class="error">:message</div>') !!}
+				</div>
+				<div style="float:left">
+					<label for="">Transport</label><br/>
+					<input type="text" name="transport" autocomplete="off" placeholder="Transport" value="{{ old('transport') }}">
+					{!! $errors->first('transport','<div class="error">:message</div>') !!}
+				</div>
+				<div style="float:left">
+					<p><label style="padding:10px">Manufacture</label></p><br/>
+					<select autocomplete="off" name="location" style="width:220px; margin-left:20px;  font-family: Source Sans Pro,sans-serif; font-size: 1.3em;  height: 48px; margin-top: -5px;">
+					<option value="">Select Location</option>
+						<option value="Illalur">Illalur</option>
+						<option value="Meghalaya">Meghalaya</option>
+						<option value="Pondy">Pondy</option>
+						<option value="TVM">TVM</option>
+					</select>
+					{!! $errors->first('location','<br/><br/><br/><div class="error">:message</div><br/>') !!}
+				</div>
+				<div style="float:left">
+				<label>Describe Issue</label><br/><br/>
+				<textarea type="text" rows="10" name="issue" placeholder="Description" style="width:720px;  margin-left: 20px; font-size: 1.3em;">{{ old('issue') }}</textarea><br/><br/><br/>
+				{!! $errors->first('issue','<div class="error">:message</div>') !!}
+				</div>
+				<div style="float:left; margin-left: 20px;">
+					{!! app('captcha')->display(); !!}
+					{!! $errors->first('g-recaptcha-response','<br/><br/><br/><div class="error">:message</div>') !!}
+				</div>
+				<br/><br/><br/>
+				<div style="float:left; width:100%; margin-left:220px"><input class="login_loginbtn" type="submit" value="Submit"></div>
 				<div class="clearboth"></div>
-				<a class="login_forgotpassword" href="{{ url('/') }}">Back</a>
+				<br/>
+				<center><a class="login_forgotpassword" href="{{ url('/ticket/view') }}" style="font-size: 20px;"><b>Have a ticket number ?</b></a></center>
 			</form>    	 
 		</div>
 		<br/>

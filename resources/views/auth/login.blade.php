@@ -30,7 +30,7 @@
 			</form>
 			
 			<a class="login_forgotpassword" href="{{ url('/password/email') }}">Forgot Your Password?</a>
-			<div  style="float:right"><a href="{{ url('/ticket/new') }}"><span class="blink">Raise ticket</span></a> <spna class="blink">|</spna> <a href="{{ url('/ticket/view') }}"><span class="blink">Track ticket</span></a></div>
+			<div  style="float:right"><a href="{{ url('/') }}">Back</a></div>
 			
     	 
 		</div>

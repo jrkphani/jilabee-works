@@ -38,6 +38,10 @@ class TaskController extends Controller {
 	}
 	public function newticket()
 	{
+		if(Auth::check())
+		{
+			return redirect('/jobs');
+		}
 		return view('jobs.ticket');
 	}
 	public function newticketpost()

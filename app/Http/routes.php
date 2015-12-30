@@ -55,6 +55,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		]);
 	
 	//ticket form
+	Route::get('/', ['uses'=>'Followups\TaskController@newticket','as'=>'/']);
 	Route::get('ticket/new', ['uses'=>'Followups\TaskController@newticket']);
 	Route::post('ticket/new', ['uses'=>'Followups\TaskController@newticketpost']);
 	Route::get('ticket/view', ['uses'=>'Followups\TaskController@viewTicket']);
@@ -65,7 +66,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::get('profile/edit', 'Auth\ProfileController@getedit');
 		Route::post('profile/edit', 'Auth\ProfileController@postedit');
 
-		Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'/']);
+		//Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'/']);
 		Route::get('user/search', 'Auth\ProfileController@findUser');
 		Route::get('assigner/search', 'Auth\ProfileController@findAssigner');
 		Route::get('assignee/search', 'Auth\ProfileController@findAssignee');
