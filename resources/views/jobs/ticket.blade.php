@@ -26,7 +26,7 @@
 					{!! $errors->first('email','<div class="error">:message</div>') !!}
 				</div>
 				<div style="float:left">
-					<label for="">Invoice No</label><br/>
+					<label for="">Invoice Number</label><br/>
 					<input type="text" name="invoice" autocomplete="off" placeholder="Invoice number" value="{{ old('invoice') }}">
 					{!! $errors->first('invoice','<div class="error">:message</div>') !!}
 				</div>
