@@ -18,7 +18,7 @@
 	<div class="popupContent">
 		<div class="popupContentTitle">
 				<h4>{{$task->title}}</h4>
-				<p>T{{$task->id}} / Created on: 25th jan 2015  / DUE: {{$task->dueDate}}</p>
+				<p>T{{$task->id}} / Created on: {{$task->created_at}}  / DUE: {{$task->dueDate}}</p>
 				<p> Assignee to: 
 				@if(!$task->assignee)
 				@elseif(isEmail($task->assignee))
