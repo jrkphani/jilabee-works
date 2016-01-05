@@ -257,7 +257,7 @@ class TaskController extends Controller {
 			$input['description'] = nl2br($input['description']);
 			$input['notes'] = nl2br($input['notes']);
 			$input['status'] = 'Sent';
-			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
+			$input['updated_by'] = $input['assigner'] = Auth::id();
 			$toLog = $task->toArray();
 			$toLog['taskId']=$toLog['id'];
 			if(isEmail($task->assignee))
