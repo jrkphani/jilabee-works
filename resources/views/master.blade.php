@@ -29,6 +29,12 @@
 				@else
 					<a href="{{ url('followups') }}">Follow Ups</a>
 				@endif
+				@if(Request::segment(1) == 'report')
+				<?php $addtionalClass = 'meetingsPage'; ?>
+					<a class="navHightlight">Report</a>
+				@else
+					<a href="{{ url('report') }}">Report</a>
+				@endif
 				@if(Request::segment(1) == 'meetings')
 				<?php $addtionalClass = 'meetingsPage'; ?>
 				{{-- 	<a class="navHightlight">Meetings</a> --}}

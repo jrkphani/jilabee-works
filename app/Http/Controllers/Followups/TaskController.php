@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Followups;
 use App\Http\Controllers\Controller;
 use Request;
+use Response;
 use App\Model\JobTasks;
 use App\Model\JobTaskComments;
 use App\Model\Tasks;
@@ -23,6 +24,85 @@ class TaskController extends Controller {
 	/*public function __construct()
 	{
 	}*/
+	public function getReport()
+	{
+		return view('followups.report');
+	}
+	public function postReport()
+	{
+		 $rule = array('startdate' => 'required|date',
+		 	'enddate' => 'required|date|after:startdate');
+		 $input = Request::only('startdate','enddate');
+        $validator = Validator::make($input,$rule);
+        if ($validator->fails())
+		{
+			return redirect('report')->withErrors($validator)->withInput();
+		}
+		$query = JobTasks::select('*');
+		if(Auth::user()->isAdmin)
+		{
+			//show all task
+		}
+		else if(Auth::user()->profile->role == 2)
+		{
+
+			$query->where(function($q1){
+				$q1->where('assigner','=',Auth::id())->orWhere('assigner','=','-1');
+			});
+		}
+		else
+		{
+			$query->whereAssigner(Auth::id());
+		}
+		$startDate = date("Y-m-d 00:00:00",strtotime($input['startdate']));
+		$endDate = date("Y-m-d 00:00:00",strtotime($input['enddate']));
+		$query = $query->where(function($q2) use($startDate,$endDate){
+			$q2->orWhere(function($q3) use($startDate,$endDate){
+				$q3->where(function($qr1){
+					$qr1->where('status','=','Open');
+					$qr1->orWhere('status','=','Sent');
+				});
+				$q3->where(function($qr2) use($startDate,$endDate){
+					$qr2->where('created_at','>=',$startDate);
+					$qr2->where('created_at','<=',$endDate);
+				});
+			});
+			$q2->orWhere(function($q4) use($startDate,$endDate){
+				$q4->where('created_at','>=',$startDate);
+				$q4->where('created_at','<=',$endDate);
+			});
+			$q2->orWhere(function($q4) use($startDate,$endDate){
+				$q4->where('updated_at','>=',$startDate);
+				$q4->where('updated_at','<=',$endDate);
+			});
+		});
+		$tasks = $query->get();
+		$filename = tempnam("/tmp", "report");
+		$handle = fopen($filename, 'w+');
+		fputcsv($handle, array('TASK ID','TITLE','DESCRIPTION','EMAIL','STATUS','ASSIGNEE','ASSIGNER','CREATED_AT','UPDATED_AT'));
+
+		foreach($tasks as $row) {
+			//echo $row->title;
+			$assignee=$assigner='';
+			if($row->assignee && !isEmail($row->assignee))
+			{
+				$assignee = $row->assigneeDetail->name.'('.$row->assigneeDetail->user->email.')';
+			}
+			if($row->assigner && ($row->assigner != '-1') && !isEmail($row->assigner))
+			{
+				$assigner = $row->assignerDetail->name.'('.$row->assignerDetail->user->email.')';
+			}
+		    fputcsv($handle, array($row->id,$row->title,$row->description,$row->clientEmail,$row->status,$assignee,$assigner,$row->created_at,$row->updated_at));
+		}
+
+		fclose($handle);
+
+		$headers = array(
+		    'Content-Type' => 'text/csv',
+		);
+
+		return Response::download($filename, $input['startdate'].'_'.$input['enddate'].'.csv', $headers);
+	}
 	public function index()
 	{
 		$nowsortby = Request::get('nowsortby','timeline');

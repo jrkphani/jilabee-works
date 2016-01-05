@@ -53,7 +53,8 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		'auth' => 'Auth\AuthController',
 		'password' => 'Auth\PasswordController',
 		]);
-	
+	Route::get('report', ['uses'=>'Followups\TaskController@getReport']);
+	Route::post('report', ['uses'=>'Followups\TaskController@postReport']);
 	//ticket form
 	Route::get('/', ['uses'=>'Followups\TaskController@newticket','as'=>'/']);
 	Route::get('ticket/new', ['uses'=>'Followups\TaskController@newticket']);

@@ -23,6 +23,11 @@ Breadcrumbs::register('followups', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Followups', route('followups'));
 });
+Breadcrumbs::register('report', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Report', route('jobs'));
+});
 Breadcrumbs::register('meetings', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
