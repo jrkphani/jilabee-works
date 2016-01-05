@@ -53,8 +53,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		'auth' => 'Auth\AuthController',
 		'password' => 'Auth\PasswordController',
 		]);
-	Route::get('report', ['uses'=>'Followups\TaskController@getReport']);
-	Route::post('report', ['uses'=>'Followups\TaskController@postReport']);
+	
 	//ticket form
 	Route::get('/', ['uses'=>'Followups\TaskController@newticket','as'=>'/']);
 	Route::get('ticket/new', ['uses'=>'Followups\TaskController@newticket']);
@@ -63,6 +62,8 @@ Route::group(['middleware' => 'logAllActivity'], function()
 	Route::post('ticket/view', ['uses'=>'Followups\TaskController@viewTicketPost']);
 	Route::group(['middleware' => 'auth'], function()
 	{
+		Route::get('report', ['uses'=>'Followups\TaskController@getReport']);
+		Route::post('report', ['uses'=>'Followups\TaskController@postReport']);
 		Route::get('profile/{id?}', ['uses'=>'Auth\ProfileController@index','as'=>'profile'])->where('id', '[0-9]+');
 		Route::get('profile/edit', 'Auth\ProfileController@getedit');
 		Route::post('profile/edit', 'Auth\ProfileController@postedit');
