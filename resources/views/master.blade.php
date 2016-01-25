@@ -1,138 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>{{env('DB_HOST')}}</title>
-	<meta name="author" content="Jotter">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<meta name="description" content="">
-	<meta name="keywords" content="Jotter">
-	<link href="{{ asset('/css/base.css') }}" rel="stylesheet">
-	<link href="{{ asset('/css/sss.css') }}" rel="stylesheet">
-	<link href="{{ asset('/css/jotter.css') }}" rel="stylesheet">
-	@yield('css')
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jotter - Jobs</title>
+    <link rel="icon" href="{{asset('/img/favicon.ico')}}" type="image/gif" sizes="16x16">
+    <link type="text/css" rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}" media="all" />
+    <!--link type="text/css" rel="stylesheet" href="css/jquery.mCustomScrollbar.css" media="all" /-->
+    <link type="text/css" rel="stylesheet" href="{{asset('/css/bootstrap-theme.min.css')}}" media="all">
+    <link type="text/css" rel="stylesheet" href="{{asset('/css/jquery.jscrollpane.css')}}" media="all" />
+    <link type="text/css" rel="stylesheet" href="{{asset('/css/jquery-ui.min.css')}}" media="all" />
+    <link type="text/css" rel="stylesheet" href="{{asset('/css/style.css')}}" media="all" />
+    @yield('css')  
 </head>
 <body>
-<div class="wrapper">
-	{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
-	<header>
-		<h1><a href="/">Jotter</a></h1>
-		<button class="showHeaderMenu" id="showHeaderMenu" onclick="$('#headerNav').toggle();" ></button>	
-			<nav id="headerNav" class="headerNav">
-				<?php $colorClass = $addtionalClass =''; ?>
-				@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
-					<a class="navHightlight jobsHeaderColor" id="jobs">Jobs</a>
-					<?php $colorClass = 'jobsColor'; ?>
-				@else
-					<a href="{{ url('jobs') }}" id="jobs">Jobs</a>
-				@endif
-				@if(Request::segment(1) == 'followups')
-					<a class="navHightlight followUpsHeaderColor">Followups</a>
-					<?php $colorClass = 'followUpsColor'; ?>
-				@else
-					<a href="{{ url('followups') }}">Follow Ups</a>
-				@endif
-				@if(Request::segment(1) == 'meetings')
-				<?php $addtionalClass = 'meetingsPage'; ?>
-					<a class="navHightlight">Meetings</a>
-				@else
-					<a href="{{ url('meetings') }}">Meetings</a>
-				@endif
-				<div class="clearboth"></div>
-			</nav>
-		
-			<div class="headerRight">
-				@if (Auth::guest())
-				@else
-				<button class="notificationBtn"  id="notifications" onclick="$('#notifyDiv').toggle();"></button>
-				<div class="notification" id="notifyDiv">No Notifications
-				</div>
-				<button class="usernameBtn"  onclick="$('#nameMenu').toggle();"> {{Auth::user()->profile()->first()->name}}<span></span></button>
-				<div class="nameMenu" id="nameMenu">
-					<a href="{{ url('profile') }}">My Profile</a>
-					@if(Auth::user()->isAdmin)
-						<a href="{{ url('admin') }}">Admin Dashboard</a>
-					@endif
-					<a href="{{ url('auth/logout') }}">Logout</a>
-				</div>
-				@endif
-			</div>
-			<div class="clearboth"></div>
-			
-	</header>
 
-	<div id="centralViewer" class="centralViewer {{$colorClass}} {{$addtionalClass}}">
-		<div class="centralContainer" id="centralContainer">
-			@yield('content')
-		</div>
-	</div>
-	<div class="breadcrumbBar breadcrumbBarFix">
-		{!! Breadcrumbs::render(Request::segment(1)) !!}
-		{{-- <div class="pagination">
-			<button></button>
-			<button></button>
-			<button></button>
-		</div> --}}
-		<div class="clearboth"></div>
-	</div>
-	
-<!-- style="display:none;"  --> 
-	<!--========================================= Notification popup start ===================================================-->
-	<div id="notificationDiv" class="popupnotificationOverlay"style="display:none;" >
-		<div class="popupnotification">
-			<div class="popupHeader">
-				<h2>Your Notifications</h2>
-				<span class="popupClose" onclick="$('#notificationDiv').hide();" ></span>
-			</div>
-			<div id="notification_content" class="popupnotification_content">
-			</div>
-		</div>
-	</div>
-	<!--========================================= Notification popup end ===================================================-->
-	<div class="push"></div>
-	</div>
-	<div class="footer">
-		<div class="footerColumn fcFirst">
-			<a href="{{url('jobs')}}">Jobs</a>
-			<a href="{{url('jobs?&history=yes')}}">History</a>
-			<a href="{{url('jobs')}}">Current</a>
-		</div>
-		<div class="footerColumn">
-			<a href="{{url('followups')}}">Follow Ups</a>
-			<a href="{{url('followups?&history=yes')}}">History</a>
-			<a href="{{url('followups')}}">Current</a>
-		</div>
-		<div class="footerColumn">
-			<a href="{{url('meetings')}}">Meetings</a>
-			<a href="{{url('meetings?&history=yes')}}">History</a>
-			<a href="{{url('meetings')}}">Current</a>
-		</div>
-		<div class="footerColumn">
-			<a href="">Misc</a>
-			<a href="{{url('followups')}}">New Task</a>
-			<a href="{{url('meetings')}}">New Meeting </a>
-			<a href="">FAQ </a>
-		</div>
-		<div class="clearboth"></div>
-	</div>
-	<!--================ Toast message ==================== -->
-			<div class="toast" id="toastDiv" style="display:none;">
-				<div class="toast_inner">	
-					<p id="toastmsg">loading...</p>
-					<span class="btn_close_small" id="toastClose">	</span>
-				</div>
-			</div>
-	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-	<script src="{{ asset('/js/main.js') }}"></script>
-	@yield('javascript')
-	@if($message = Session::pull('message', null))
-	<script>
-	$(document).ready(function($)
-	{
-		toast("{{$message}}");
-	});
-	</script>
-	@endif
+<div id="wrapper">
+{!! Form::hidden('_token', csrf_token(),['id'=>'_token']) !!}
+    <header>
+        <div class="header-row1">
+            <div class="header-left">
+                <div class="logo">
+                    <a href="#"><img src="{{asset('/img/logo-jotter.gif')}}" /></a>
+                </div>
+            </div>
+            <div class="header-right">
+                <nav>
+                    <ul>
+                    <li>
+						@if(Request::segment(1) == 'jobs' || Request::segment(1) == NULL)
+						<a class="active" id="jobs">Jobs</a>
+						@else
+							<a href="{{ url('jobs') }}" id="jobs">Jobs</a>
+						@endif
+					</li>
+					<li>
+						@if(Request::segment(1) == 'followups')
+							<a class="active">Followups</a>
+						@else
+							<a href="{{ url('followups') }}">Follow Ups</a>
+						@endif
+					</li>
+					<li>
+						@if(Request::segment(1) == 'meetings')
+							<a class="active">Meetings</a>
+						@else
+							<a href="{{ url('meetings') }}">Meetings</a>
+						@endif
+					</li>
+                    </ul>
+                </nav>
+                <div class="header-profile">
+                    <div class="profile-pic"><img src="{{asset('/img/profile/img-user.jpg')}}"/> </div>
+                    <div class="profile-name">{{Auth::user()->profile()->first()->name}}</div>
+                    <div class="profile-set"><a href="#"><img src="{{asset('/img/ico-setting.png')}}" /> </a></div>
+                </div>
+                <div class="notify">
+                    <a href="#" id="note_button" class="btn-notify"><strong>12</strong></a>
+                </div>
+                <div class="note-block">
+                    <div class="note-copy">
+                        <h2><span>04</span>Notifications</h2>
+
+                        <div class="note-box unread">
+                            <a>
+                                <div class="note-status online col-lg-1 col-md-1"></div>
+                                <div class="note-icon info col-lg-1 col-md-1"></div>
+                                <div class="note-text  col-lg-10 col-md-10">
+                                    <h4>Task Description Changed</h4>
+                                    <p>Lorem ipsum dolor sit amet conse tetur ipsum dolor sit amet conse the new outstanding jobwork ipsum dolor sit amet conse tetur...</p>
+                                    <div class="note-bot row">
+                                        <div class="col-lg-1 col-md-1"><img src="{{asset('/img/profile/img-user.jpg')}}" /></div>
+                                        <div class="col-lg-7 col-md-7">Optimus Prime</div>
+                                        <div class="col-lg-4 col-md-4 text-right">2.10 pm</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="note-box">
+                            <a>
+                                <div class="note-status online col-lg-1 col-md-1"></div>
+                                <div class="note-icon reject col-lg-1 col-md-1"></div>
+                                <div class="note-text  col-lg-10 col-md-10">
+                                    <h4>Task Rejected</h4>
+                                    <p>Lorem ipsum dolor sit amet conse tetur ipsum dolor sit amet conse the new outstanding jobwork ipsum dolor sit amet conse tetur...</p>
+                                    <div class="note-bot row">
+                                        <div class="col-lg-1 col-md-1"><img src="{{asset('/img/profile/img-user.jpg')}}" /></div>
+                                        <div class="col-lg-7 col-md-7">Optimus Prime</div>
+                                        <div class="col-lg-4 col-md-4 text-right">2.10 pm</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="note-box">
+                            <a>
+                                <div class="note-status col-lg-1 col-md-1"></div>
+                                <div class="note-icon comment col-lg-1 col-md-1"></div>
+                                <div class="note-text  col-lg-10 col-md-10">
+                                    <h4>Comments</h4>
+                                    <p>Lorem ipsum dolor sit amet conse tetur ipsum dolor sit amet conse the new outstanding jobwork ipsum dolor sit amet conse tetur...</p>
+                                    <div class="note-bot row">
+                                        <div class="col-lg-1 col-md-1"><img src="{{asset('/img/profile/img-user.jpg')}}" /></div>
+                                        <div class="col-lg-7 col-md-7">Optimus Prime</div>
+                                        <div class="col-lg-4 col-md-4 text-right">2.10 pm</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="note-box">
+                            <a>
+                                <div class="note-status col-lg-1 col-md-1"></div>
+                                <div class="note-icon accept col-lg-1 col-md-1"></div>
+                                <div class="note-text  col-lg-10 col-md-10">
+                                    <h4>Task Description Changed</h4>
+                                    <p>Lorem ipsum dolor sit amet conse tetur ipsum dolor sit amet conse the new outstanding jobwork ipsum dolor sit amet conse tetur...</p>
+                                    <div class="note-bot row">
+                                        <div class="col-lg-1 col-md-1"><img src="{{asset('/img/profile/img-user.jpg')}}" /></div>
+                                        <div class="col-lg-7 col-md-7">Optimus Prime</div>
+                                        <div class="col-lg-4 col-md-4 text-right">2.10 pm</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="btn-view-all-box">
+                            <a href="#" class="btn-view-all">View All</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    @yield('content')
+    <footer>
+    	@yield('footer')
+    </footer>
+</div>
+
 </body>
-
+<script type="text/javascript" src="{{asset('/js/jquery-1.11.3.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/jquery.mousewheel.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/jquery.jscrollpane.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/jquery-ui.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/app.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/jquery.toaster.js')}}"></script>
+@yield('javascript')
 </html>

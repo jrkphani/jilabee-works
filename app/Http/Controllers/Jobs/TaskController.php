@@ -25,19 +25,19 @@ class TaskController extends Controller {
 	/*public function __construct()
 	{
 	}*/
-	public function index()
-	{
-		$nowsortby = Request::get('nowsortby','timeline');
-		$historysortby = Request::get('historysortby','timeline');
-		$days = Request::get('days','7');
-		$group = Request::get('group',NULL);
-		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
-		$historysearchtxt = Request::get('historysearchtxt',NULL);
-		$historypage = Request::get('history',NULL);
-		$nowtasks = $this->nowsortby();
-		$historytasks = $this->historysortby();
-		return view('jobs.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
-	}
+	// public function index()
+	// {
+	// 	$nowsortby = Request::get('nowsortby','timeline');
+	// 	$historysortby = Request::get('historysortby','timeline');
+	// 	$days = Request::get('days','7');
+	// 	$group = Request::get('group',NULL);
+	// 	$nowsearchtxt = Request::get('nowsearchtxt',NULL);
+	// 	$historysearchtxt = Request::get('historysearchtxt',NULL);
+	// 	$historypage = Request::get('history',NULL);
+	// 	$nowtasks = $this->nowsortby();
+	// 	$historytasks = $this->historysortby();
+	// 	return view('jobs.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
+	// }
 	public function viewTask($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
@@ -553,14 +553,15 @@ class TaskController extends Controller {
 
 			}
 		}
-		if (Request::ajax())
-		{
-		    return view('jobs.now',['nowtasks'=>$nowtasks]);
-		}
-		else
-		{
-			return $nowtasks;
-		}
+		return view('jobs.now',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$nowtasks]);
+		// if (Request::ajax())
+		// {
+		//     return view('jobs.now',['nowtasks'=>$nowtasks]);
+		// }
+		// else
+		// {
+		// 	return $nowtasks;
+		// }
 	}
 	public function historysortby()
 	{
@@ -652,14 +653,15 @@ class TaskController extends Controller {
 
 			}
 		}
-		if (Request::ajax())
-		{
-		    return view('jobs.history',['historytasks'=>$historytasks]);
-		}
-		else
-		{
-			return $historytasks;
-		}
+		return view('jobs.now',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$historytasks]);
+		// if (Request::ajax())
+		// {
+		//     return view('jobs.history',['historytasks'=>$historytasks]);
+		// }
+		// else
+		// {
+		// 	return $historytasks;
+		// }
 	}
 	public function isReadNotification()
 	{

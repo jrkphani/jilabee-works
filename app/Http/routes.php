@@ -61,7 +61,8 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::get('profile/edit', 'Auth\ProfileController@getedit');
 		Route::post('profile/edit', 'Auth\ProfileController@postedit');
 
-		Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'/']);
+		//Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'/']);
+		Route::get('/', ['uses'=>'Jobs\TaskController@nowsortby','as'=>'/']);
 		Route::get('user/search', 'Auth\ProfileController@findUser');
 		Route::get('assigner/search', 'Auth\ProfileController@findAssigner');
 		Route::get('assignee/search', 'Auth\ProfileController@findAssignee');
@@ -71,7 +72,8 @@ Route::group(['middleware' => 'logAllActivity'], function()
 
 		Route::group(['prefix' => 'jobs'], function()
 		{
-			Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'jobs']);
+			//Route::get('/', ['uses'=>'Jobs\TaskController@index','as'=>'jobs']);
+			Route::get('/', ['uses'=>'Jobs\TaskController@nowsortby','as'=>'jobs']);
 			Route::get('/readNotification', ['uses'=>'Jobs\TaskController@isReadNotification']);
 			Route::get('/now', ['uses'=>'Jobs\TaskController@nowsortby']);
 			Route::get('/history', ['uses'=>'Jobs\TaskController@historysortby']);

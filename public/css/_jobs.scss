@@ -1,0 +1,455 @@
+.jobs-container {
+  padding: 33px 33px 70px 33px;
+  width: 1900px;
+  overflow: hidden;
+}
+/*
+.jobs-scroll {
+  width: 1320px;
+  height: 480px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+*/
+.job-col {
+  white-space:normal;
+  width: 285px;
+  float: left;
+  margin: 0 9px;
+  h2{
+    height: 60px;
+    background: $gray-color;
+    color: $white-color;
+    font-family: 'robotomedium';
+    font-size: 1.125em;
+    text-transform: uppercase;
+    position: relative;
+    padding: 20px 10px 0 62px;
+    font-weight: normal;
+    /*
+    -webkit-box-shadow: 1px 1px 3px 0px rgba(179,179,179,1);
+    -moz-box-shadow: 1px 1px 3px 0px rgba(179,179,179,1);
+    box-shadow: 1px 1px 3px 0px rgba(179,179,179,1);
+    */
+    span {
+      background: $white-color;
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      color: $gray-color;
+      text-align: center;
+      padding: 8px 0 0;
+      top: 12px;
+      left: 12px;
+    }
+    em {
+      font-size: 0.75em;
+      opacity: 0.5;
+      font-style: normal;
+    }
+  }
+}
+.job-col.pend h2{
+  background: $reject-color;
+  span {
+    color: $past-color;
+  }
+}
+.jobs-list {
+}
+.job-col.pend .job-card {
+  background: $pend-color;
+}
+.job-card {
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(81,89,116,0.2);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(81,89,116,0.2);
+  box-shadow: 0px 1px 3px 0px rgba(81,89,116,0.2);
+  overflow: hidden;
+  margin: 0 0 8px;
+  p {
+    font-family: 'robotomedium';
+    font-size: 0.875em;
+    padding: 15px;
+    height: 84px;
+    a {
+      color: $gray-color;
+      text-decoration: none;
+      img {
+        opacity: 0;
+      }
+    }
+    &:hover {
+      text-decoration: underline;
+      img {
+        opacity: 1;
+      }
+    }
+  }
+}
+.job-card-bot {
+  border-top: 1px solid $sep-line;
+  overflow: hidden;
+}
+.job-col.pend .job-card-bot{
+  border-top: 1px solid $pend-line;
+}
+.job-col.pend .job-card-left{
+  border-right: 1px solid $pend-line;
+}
+.job-card-left {
+  width: 234px;
+  float: left;
+  padding: 5px 14px;
+  border-right: 1px solid $sep-line;
+}
+.job-card-right {
+  width: 50px;
+  height: 48px;
+  float: right;
+  //background: $gray-color;
+  position: relative;
+  text-align: center;
+  strong {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 9px;
+    left: 26px;
+    background: $blue-color;
+    color: $white-color;
+    font-size: 0.625em;
+    border-radius: 50%;
+    text-align: center;
+  }
+}
+.job-assign-pic {
+  float: left;
+  width: 35px;
+  img {
+    border:1px solid $border-color;
+    border-radius: 50%;
+  }
+}
+.job-card-detail {
+  padding:2px 8px;
+  width: 170px;
+  float: left;
+  h4{
+    color: $blue-color;
+    font-family: 'robotomedium';
+    font-size: 0.8125em;
+  }
+}
+.job-date {
+  width: 50%;
+  float: left;
+  padding: 0 0 0 15px;
+  font-family: 'robotolight';
+  color: $gray-color;
+  opacity: 0.6;
+  font-size:0.6875em ;
+  background: url("../img/ico-calendar.png") 0 4px no-repeat;
+}
+.job-time {
+  @extend .job-date;
+  text-transform: uppercase;
+  background: url("../img/ico-time.png") 0 4px no-repeat;
+}
+.btn-job-reject {
+  width: 50%;
+  float: left;
+  background: $reject-color url("../img/ico-reject.png") no-repeat 94% 5px;
+  font-family: 'robotolight';
+  color: $white-color;
+  font-size: 0.75em;
+  padding: 4px 8px;
+  &:hover{
+    color: $white-color;
+    text-decoration: none;
+    background-color: darken( $reject-color, 10% );
+  }
+  &:focus{
+    color: $white-color;
+    text-decoration: none;
+    background-color: darken( $reject-color, 10% );
+  }
+}
+.btn-job-reject.long, .btn-job-accept.long{
+  width: 100%;
+}
+.btn-job-accept {
+  @extend .btn-job-reject;
+  background: $accept-color url("../img/ico-accept.png") no-repeat 94% 5px;
+  &:hover{
+    background-color: darken( $accept-color, 10% );
+  }
+  &:focus{
+    background-color: darken( $accept-color, 10% );
+  }
+}
+.job-status {
+  clear: both;
+}
+.job-status-desc {
+  background: $gray-color;
+  padding: 10px;
+  overflow: hidden;
+  display: none;
+}
+.job-desc-copy {
+  background: $white-color;
+  color: $gray-color;
+  padding: 8px;
+  font-size: 0.75em;
+  height:80px;
+}
+.textarea-example textarea, .textarea-example .textarea-clone{
+  width: 224px;
+  padding: 0 10px;
+  line-height:1.375em;
+  -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
+}
+.textarea-example textarea{
+  height:64px;
+  resize:none;
+  overflow:hidden;
+  outline:none;
+  margin: 0;
+  border:none;
+  padding: 0;
+}
+.textarea-example .textarea-wrapper{
+  height:70px;
+  overflow:hidden;
+  padding: 0;
+}
+.textarea-example .textarea-clone{
+  position:absolute;
+  top:-9999px;
+  left:-9999px;
+  visibility:hidden;
+  min-height: 64px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+#small-comment, #small-comment1, #small-comment2 {
+  display: none;
+}
+.sm-notify {
+  background: $gray-color;
+  padding: 10px;
+  position: relative;
+}
+.sm-notify-input {
+  background: $white-color;
+  border: none;
+  resize: none;
+  width: 100%;
+  height: 80px;
+  outline: none;
+  font-family: 'robotoregular';
+  font-size: 0.75em;
+  padding: 8px;
+}
+.btn-notify-close {
+  display: none;
+  background: $gray-color;
+  color: #a4a8b4;
+  text-decoration: none;
+  padding: 15px 0;
+  &:hover{
+    text-decoration: none;
+    color: #a4a8b4;
+  }
+}
+.job-col h2 .badge {
+  background: none;
+  float: right;
+  font-weight: normal;
+  font-size: 1.5em;
+  line-height: 10px;
+  cursor: pointer;
+}
+.sm-notify-box {
+  margin: 8px 0;
+  background: url("../img/ico-sm-com-line.gif") repeat-y 10px 0;
+  overflow: hidden;
+}
+.sm-notify-box-icon {
+  width: 10%;
+  float: left;
+}
+.sm-notify-box-copy {
+  width: 90%;
+  float: left;
+  color: $note-text;
+  font-size: 0.75em;
+  line-height: 1.25em;
+}
+.sm-notify-box-bot {
+  overflow: hidden;
+  padding: 3% 0 0 10%;
+  color: $note-small-text;
+  font-size: 0.6875em;
+}
+.sm-notify-img {
+  width: 20px;
+  float: left;
+  img {
+    width: 20px;
+    border-radius: 50%;
+    border: 1px solid $border-color;
+  }
+}
+.sm-notify-name {
+  width: 67%;
+  float: left;
+  padding: 0 0 0 3%;
+}
+.sm-notify-time {
+  width: 20%;
+  float: left;
+}
+.sm-notify .sm-view-all {
+  font-size: 0.875em;
+  a{
+    text-transform: none;
+    margin: 0;
+    padding: 0px 0 5px 30px;
+  }
+}
+.btn-history {
+  float: left;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  color: $sep-line;
+  text-transform: uppercase;
+  font-size: 0.625em;
+  background: $btn-history url('../img/ico-back.png') no-repeat center 15px;
+  padding: 38px 0 0;
+  &:hover{
+    color: $sep-line;
+    text-decoration: none;
+    background-color: darken( $btn-history, 10% );
+  }
+  &:focus{
+    color: $sep-line;
+    text-decoration: none;
+    background-color: darken( $btn-history, 10% );
+  }
+}
+.btn-now {
+  @extend .btn-history;
+  cursor: default;
+  background: $btn-now url('../img/ico-now.png') no-repeat center 15px;
+  float: right;
+  &:hover{
+    color: $sep-line;
+    text-decoration: none;
+    background-color: $btn-now;
+  }
+  &:focus{
+    color: $sep-line;
+    text-decoration: none;
+    background-color: $btn-now;
+  }
+}
+.scroll-cont {
+  margin: 0 auto;
+  width: 650px;
+  background: $blue-color;
+}
+.scroll-pane {
+  width: 100%;
+  height: 500px;
+  overflow: auto;
+}
+.horizontal-only {
+  height: auto;
+  overflow-y: hidden;
+}
+.jspContainer, .scroll-pane {
+  overflow: visible !important;
+}
+#thisweek {
+  display: none;
+  background: $gray-color;
+  color: $white-color;
+  border-top: 1px solid $lightgray-color;
+  overflow: hidden;
+}
+.week {
+  width: 25%;
+  border-left: 1px solid $lightgray-color;
+  box-sizing: border-box;
+  float: left;
+  text-align: center;
+  font-size:1.25em;
+  padding: 0.65em 0;
+  cursor: pointer;
+  span{
+    color: #b0b3bc;
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.55em;
+    line-height: normal;
+  }
+}
+.week:first-child {
+  border-left: 0px solid $lightgray-color;
+}
+.week.active{
+  background: $sep-line;
+  color: $gray-color;
+}
+.week.inactive{
+  color: #7f8495;
+  cursor: default;
+}
+/***Date Picker***/
+#ui-datepicker-div {
+  font-family: 'robotoregular';
+  .ui-widget-header{
+    background: $gray-color;
+    border: none;
+  }
+  .ui-datepicker-prev{
+    display: none;
+  }
+  .ui-datepicker-next{
+    display: none;
+  }
+  .ui-corner-all {
+    border-radius: 0;
+  }
+}
+#ui-datepicker-div.ui-widget-content{
+  background: $note-title;
+}
+#ui-datepicker-div.ui-corner-all {
+  border-radius: 0;
+}
+#ui-datepicker-div .ui-datepicker-calendar thead {
+  color: $gray-color;
+}
+#ui-datepicker-div .ui-state-default {
+  border: 1px solid $nav-color;
+  background: $nav-color;
+  font-weight: bold;
+  color: $gray-color;
+}
+#ui-datepicker-div .ui-state-highlight{
+  color: $note-text;
+  background: $gray-color;
+}
+
+#ui-datepicker-div .ui-state-active{
+  color: $gray-color;
+  background: #c9ced9;
+}
