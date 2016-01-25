@@ -138,6 +138,10 @@
     @yield('content')
     <footer>
     	@yield('footer')
+    	{{-- <div style="color:red;">
+			{!! Breadcrumbs::render(Request::segment(1)) !!}
+			<div class="clearboth"></div>
+		</div> --}}
     </footer>
 </div>
 

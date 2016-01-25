@@ -90,7 +90,7 @@
        	</div>
     </div>
 @endsection
-@section('javascript')
+@section('footer')
 	<a href="{{url('/jobs/history')}}" class="btn-history">History</a>
     <a href="{{url('/jobs/now')}}" class="btn-now">Now</a>
 @endsection
