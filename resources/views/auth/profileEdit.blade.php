@@ -75,6 +75,14 @@
                         </div>
                          <div class="clearboth"></div>
                   </div>
+                   <div class="profile_edit_row">
+                        <label>Picture</label>
+                        <div>
+                           {!!Form::file('picture', '',['autocomplete'=>'off']) !!}
+                           {!! $errors->first('picture','<div class="error">:message</div>') !!}
+                        </div>
+                         <div class="clearboth"></div>
+                  </div>
                   
                   <div class="profile_edit_row">
                         <div >

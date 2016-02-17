@@ -19,30 +19,47 @@ $note-text:#ced5eb;
 $note-small-text:#9ea7c4;
 $btn-history:#008ab1;
 $btn-now:#616881;
+$dark-gray:#c4c7d0;
+$follow:#76a344;
+$dark-brown:#d15f5f;
+$lightgray-border: #ebecef;
+$meet-date:#d15f5f;
 body {
   padding: 0;
   margin: 0;
   color: $gray-color;
   font-size: 1em;
   line-height: 1.125em;
+  background: $note-title;
 }
+
+@import "reset.css";
 @import "fonts";
 @import "jobs";
-@import "reset.css";
+@import "follow";
+@import "admin";
+@import "meeting";
+@import "login";
 
 #wrapper {
   overflow: hidden;
 }
 .header-row1 {
   padding: 0 0 0 40px;
-  overflow: hidden;
+  //overflow: hidden;
+  -webkit-box-shadow: 0px 1px 3px 1px rgba(81,89,116,0.1);
+  -moz-box-shadow: 0px 1px 3px 1px rgba(81,89,116,0.1);
+  box-shadow: 0px 1px 3px 1px rgba(81,89,116,0.1);
+  background:$white-color;
+  float: left;
+  width: 100%;
 }
 .header-left {
   width: 200px;
   float: left;
 }
 .header-right {
-  width: 608px;
+  width: 610px;
   float: right;
 }
 .logo {
@@ -99,12 +116,13 @@ a.btn-notify.close {
 a.btn-notify.close strong {
   display: none;
 }
-a.btn-notify-small {
+.btn-notify-small {
   width: 20px;
   height: 22px;
   display: block;
   background: url("../img/ico-notify-small.png") no-repeat;
   margin: 13px auto 0;
+  /*cursor: pointer;*/
 }
 .note-block {
   background: $gray-color;
@@ -115,7 +133,7 @@ a.btn-notify-small {
   right: 0;
   display: none;
   width: 540px;
-  height: 100%;
+  overflow: auto;
   h2 {
     text-transform: uppercase;
     color: $white-color;
@@ -137,11 +155,20 @@ a.btn-notify-small {
       font-family: 'robotolight';
       font-size: 0.6875em;
       border-radius: 50%;
-      padding:5px 0 0;
+      padding:6px 0 0;
       line-height: normal;
       text-align: center;
     }
   }
+}
+.notebar{
+  height: 400px;
+}
+.notebar .mCSB_inside > .mCSB_container {
+  margin: 0 !important;
+}
+.notebar .mCSB_draggerRail{
+  background-color: transparent !important;
 }
 .note-box {
   cursor: pointer;
@@ -159,12 +186,16 @@ a.btn-notify-small {
 .note-status.online {
   background: url("../img/ico-online.png") no-repeat center 5px;
   height: 15px;
+  width: 40px;
+  float: left;
 }
 .note-icon{
   height: 30px;
 }
 .note-icon.info{
   background: url("../img/ico-note-info.png") no-repeat top center;
+  width: 40px;
+  float: left;
 }
 .note-icon.accept{
   background: url("../img/ico-note-accept.png") no-repeat top center;
@@ -177,6 +208,8 @@ a.btn-notify-small {
 }
 .note-text {
   padding: 0;
+  width: 420px;
+  float: left;
 
   h4{
     font-family: 'robotobold';
@@ -222,39 +255,43 @@ a.btn-view-all{
   float: left;
 }
 .header-right nav {
-  width: 300px;
+  width: 302px;
   float: left;
-    ul {
-      list-style: none;
-    }
-    li{
-      text-transform: uppercase;
-      font-family: 'robotobold';
-      font-size: 1em;
-      a{
-        display: block;
-        float: left;
-        padding: 20px 14px;
-        text-decoration: none;
-        border-top: 2px solid $white-color;
-        color: $gray-color;
-          &:hover {
-            border-top: 2px solid $blue-color;
-            color: $blue-color;
-          }
-        }
-      a.active {
-          border-top: 2px solid $blue-color;
-          color: $blue-color;
-          background: $nav-color;
-        }
+  ul {
+    list-style: none;
+  }
+  li {
+    text-transform: uppercase;
+    font-family: 'robotobold';
+    font-size: 1em;
+    a {
+      display: block;
+      float: left;
+      padding: 20px 14px;
+      text-decoration: none;
+      border-top: 2px solid $white-color;
+      color: $gray-color;
+      &:hover {
+        border-top: 2px solid $blue-color;
+        color: $blue-color;
       }
-
+    }
+    a.active {
+      border-top: 2px solid $blue-color;
+      color: $blue-color;
+      background: $nav-color;
+    }
+  }
+}
+  .header-right nav li.follow a.active{
+      border-top: 2px solid $follow;
+      color: $follow;
+      background: $nav-color;
     }
 
 .header-profile {
   border-left: 1px solid $border-color;
-  overflow: hidden;
+  //overflow: hidden;
   padding: 13px 0 9px 15px;
 
   .profile-pic {
@@ -286,23 +323,28 @@ a.btn-view-all{
   padding: 0 0 0 40px;
   background: $nav-color;
   box-shadow:inset 0px 2px 3px #dbdde2;
+  border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
-  overflow: hidden;
+  float: left;
+  width: 100%;
   h2 {
     margin: 0;
     font-family: 'robotobold';
-    font-size: 1.625em;
+    font-size: 1.5em;
     text-transform: uppercase;
     color: $gray-color;
-    width: 150px;
+    width: 200px;
     float: left;
     border-right: 1px solid $border-color;
-    padding: 12px 0 13px;
+    padding: 16px 0;
+    span{
+      font-size: 0.65em;
+    }
   }
   .header-search {
     float: left;
-    width: 240px;
-    padding: 13px 10px;
+    width: 260px;
+    padding: 16px 10px 0;
     input {
       border: none;
       background: $nav-color;
@@ -315,22 +357,33 @@ a.btn-view-all{
       width: 180px;
       height: 24px;
       font-size: 0.8125em;
+      margin: 2px 0 0;
     }
     .sb_search {
       width: 24px;
       height: 24px;
       background: url("../img/ico-search.png") no-repeat center center;
     }
+    label{
+      font-weight: normal;
+      text-transform: uppercase;
+      font-size: 0.8125em;
+      padding: 0.35em 0.5em 0 0;
+    }
+    input[type="radio"] {
+      margin-top: -2px;
+      vertical-align: middle;
+    }
   }
   .header-sort {
-    width: 170px;
+    width: 240px;
     float: left;
     border-left: 1px solid $border-color;
     border-right: 1px solid $border-color;
-    padding:14px 10px;
+    padding:14px 0 14px;
     font-family: 'robotomedium';
     color: $gray-color;
-    background: $nav-color url("../img/ico-select.png") no-repeat 90% 50%;
+    background: $nav-color url("../img/ico-select.png") no-repeat 90% 49%;
   }
   .header-sort select {
     width: 100%;
@@ -350,23 +403,156 @@ a.btn-view-all{
 
   .header-reset {
     font-family: 'robotomedium';
+    width: 200px;
+    float: left;
     input {
       text-transform: uppercase;
       color: $gray-color;
-      background: url("../img/ico-reset.png") no-repeat 58px 5px;
+      background: url("../img/ico-reset.png") no-repeat 58px 4px;
       font-size: 0.75em;
-      padding: 2px 30px 2px 10px;
+      padding: 1px 30px 2px 10px;
       border: none;
       outline: none;
-      margin: 16px 0 0 10px;
+      margin: 19px 0 0 10px;
     }
   }
 }
 
-footer {
-  width: 100%;
+.jobs-footer {
   background: $gray-color;
-  /*position: fixed;
-  bottom: 0;*/
+  color: $sep-line;
+  width: 100%;
   height: 60px;
+  position: fixed;
+  bottom: 0;
+}
+.inner-container{
+  overflow: hidden;
+  width: 100%;
+}
+.inner-container.history{
+  background: $dark-gray;
+}
+.inner-container.history .job-col{
+  float: right;
+}
+.inner-page{
+  margin: 45px auto 25px;
+  width: 1110px;
+  background: $white-color;
+  box-shadow: 0px 1px 3px 0px rgba(81, 89, 116, 0.2);
+  overflow: hidden;
+}
+.bottom-button{
+  margin: 0 auto 25px;
+  width: 1110px;
+  overflow: hidden;
+}
+.btn-close{
+  font-family: 'robotomedium';
+  font-size: 1.5em;
+  float: right;
+  &:hover{
+    text-decoration: none;
+    color: #666;
+  }
+  &:focus{
+    text-decoration: none;
+  }
+}
+h2.sub-title{
+  font-family: 'robotomedium';
+  font-size: 0.875em;
+  color: $gray-color;
+  text-transform: uppercase;
+  font-weight: normal;
+  padding: 19px 16px 16px 30px;
+  line-height: 0;
+}
+.btn-inter{
+  background: $inter-color;
+  font-family: 'robotobold';
+  color: $white-color;
+  display: block;
+  padding: 10px 16px;
+  border-bottom: 2px solid  darken( $inter-color, 20% );
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.875em;
+  cursor: pointer;
+  &:hover, &:focus{
+    background-color:  $gray-color;
+    color: $white-color;
+    text-decoration: none;
+    border-bottom: 2px solid  darken( $gray-color, 20% );
+  }
+}
+.btn-normal{
+  @extend .btn-inter;
+  background:$gray-color;
+  border-bottom: 2px solid  darken( $gray-color, 20% );
+  &:hover, &:focus{
+    background-color:  lighten( $gray-color, 10% );
+  }
+}
+.marginright10{
+  margin-right: 10px;
+}
+/****Horizontal SCrollbar**/
+.mCS-3d.mCSB_scrollTools_horizontal .mCSB_dragger{
+  width: 85px !important;
+  margin: 4px 0 0;
+  background: transparent url("../img/horizontal_drag.png") no-repeat !important;
+}
+.mCS-3d.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar, .mCS-3d.mCSB_scrollTools_onDrag, .mCSB_scrollTools_horizontal {
+  background: none;
+  &:hover{
+    background: none;
+  }
+  &:focus{
+    background: none;
+  }
+}
+.mCS-3d.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
+.mCS-3d.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar,
+.mCS-3d.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.mCS-3d.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar,
+.mCS-3d-dark.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
+.mCS-3d-dark.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar,
+.mCS-3d-dark.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.mCS-3d-dark.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{ background-color: transparent; }
+
+.mCS-3d.mCSB_scrollTools_horizontal .mCSB_draggerRail{
+  height: 2px;
+  margin: 7px 0;
+  background-color: #70778d;
+  box-shadow: none;
+}
+.mCSB_scrollTools .mCSB_buttonLeft, .mCSB_scrollTools .mCSB_buttonRight{
+  background: url("../img/btn-left.png") no-repeat 0 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+.mCSB_scrollTools .mCSB_buttonRight{
+  background: url("../img/btn-right.png") no-repeat 0 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal a + .mCSB_draggerContainer {
+  margin: 2px 20px 0;
+}
+/***
+.inner-container.history .jobs-container{
+  animation: mymove 1s 1;
+  position: relative;
+}
+
+@keyframes mymove {
+  0%   {left: -100px;}
+  100% {left: 0px;}
+}
+***/
+.profile-set .dropdown-menu{
+  left: -125px;
+  border-radius: 0;
 }

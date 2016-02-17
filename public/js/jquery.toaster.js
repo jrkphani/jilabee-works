@@ -92,7 +92,7 @@
 				'position' : 'fixed',
 				'top'      : '10px',
 				'left'    	: '50%',
-				'width'    : '300px',
+				'width'    : 'auto',
 				'transform': 'translate(-50%, 0)',
 				'zIndex'   : 50000
 			}
@@ -144,7 +144,7 @@
 		},
 
 		'debug'        : false,
-		'timeout'      : 1500,
+		'timeout'      : 2000,
 		'stylesheet'   : null,
 		'donotdismiss' : []
 	};

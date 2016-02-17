@@ -1,17 +1,7 @@
 .jobs-container {
-  padding: 33px 33px 70px 33px;
-  width: 1900px;
+  padding: 33px 33px 90px 33px;
   overflow: hidden;
 }
-/*
-.jobs-scroll {
-  width: 1320px;
-  height: 480px;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-*/
 .job-col {
   white-space:normal;
   width: 285px;
@@ -68,7 +58,8 @@
   -moz-box-shadow: 0px 1px 3px 0px rgba(81,89,116,0.2);
   box-shadow: 0px 1px 3px 0px rgba(81,89,116,0.2);
   overflow: hidden;
-  margin: 0 0 8px;
+  margin: 10px 0 0;
+  background: $white-color;
   p {
     font-family: 'robotomedium';
     font-size: 0.875em;
@@ -123,6 +114,7 @@
     font-size: 0.625em;
     border-radius: 50%;
     text-align: center;
+    cursor: pointer;
   }
 }
 .job-assign-pic {
@@ -166,6 +158,7 @@
   color: $white-color;
   font-size: 0.75em;
   padding: 4px 8px;
+  cursor: pointer;
   &:hover{
     color: $white-color;
     text-decoration: none;
@@ -207,7 +200,7 @@
   height:80px;
 }
 .textarea-example textarea, .textarea-example .textarea-clone{
-  width: 224px;
+  width: 100%;
   padding: 0 10px;
   line-height:1.375em;
   -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
@@ -215,7 +208,6 @@
 .textarea-example textarea{
   height:64px;
   resize:none;
-  overflow:hidden;
   outline:none;
   margin: 0;
   border:none;
@@ -225,15 +217,6 @@
   height:70px;
   overflow:hidden;
   padding: 0;
-}
-.textarea-example .textarea-clone{
-  position:absolute;
-  top:-9999px;
-  left:-9999px;
-  visibility:hidden;
-  min-height: 64px;
-  word-wrap: break-word;
-  white-space: pre-wrap;
 }
 #small-comment, #small-comment1, #small-comment2 {
   display: none;
@@ -344,21 +327,31 @@
     background-color: darken( $btn-history, 10% );
   }
 }
+.btn-history.inactive{
+  background: $btn-now url('../img/ico-now.png') no-repeat center 15px;
+  cursor: default;
+}
+.btn-history.follow{
+  background: $follow url('../img/ico-back.png') no-repeat center 15px;
+}
 .btn-now {
   @extend .btn-history;
-  cursor: default;
-  background: $btn-now url('../img/ico-now.png') no-repeat center 15px;
+  background: $btn-history url('../img/ico-front.png') no-repeat center 15px;
   float: right;
   &:hover{
     color: $sep-line;
     text-decoration: none;
-    background-color: $btn-now;
+    background-color: darken( $btn-history, 10% );
   }
   &:focus{
-    color: $sep-line;
+    color: $btn-history;
     text-decoration: none;
-    background-color: $btn-now;
+    background-color: darken( $btn-history, 10% );
   }
+}
+.btn-now.inactive{
+  background: $btn-now url('../img/ico-now.png') no-repeat center 15px;
+  cursor: default;
 }
 .scroll-cont {
   margin: 0 auto;
@@ -452,4 +445,41 @@
 #ui-datepicker-div .ui-state-active{
   color: $gray-color;
   background: #c9ced9;
+}
+
+.inner-container.history .job-col{
+  float: right;
+}
+.inner-container.history .job-col .job-assign-pic img{
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.inner-container.history .job-col .job-date, .inner-container.history .job-col .job-time{
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.inner-container.history .job-col .job-card-detail h4{
+  color: $gray-color;
+}
+.inner-container.follow .job-col .job-card-detail h4{
+  color: $follow;
+}
+.inner-container.follow .job-card .job-card-right strong{
+  background: $follow;
+}
+.btn-create-task{
+  width: 200px;
+  float: right;
+  margin: 9px 9px 2px 0;
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px){
+
+}
+
+#mCSB_1_scrollbar_horizontal{
+  position:fixed;
+  margin:0 auto;
+  width:520px;
+  bottom:24px;
+  z-index:1000;
 }

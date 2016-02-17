@@ -653,7 +653,7 @@ class TaskController extends Controller {
 
 			}
 		}
-		return view('jobs.now',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$historytasks]);
+		return view('jobs.history',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$historytasks]);
 		// if (Request::ajax())
 		// {
 		//     return view('jobs.history',['historytasks'=>$historytasks]);

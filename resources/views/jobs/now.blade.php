@@ -29,8 +29,13 @@
 					        }
 					    ?>
 					    <div class="{{$tileclass}}">
-					        <h2><span>{{count($tasks['tasks'])}}</span>{{$title}}</h2>
-					       
+					        <h2><span>{{count($tasks['tasks'])}}</span>{{$title}}<strong class="badge this-week">+</strong></h2>
+					       <div id="thisweek">
+				                <div class="week">01<span>Feb</span></div>
+				                <div class="week">02<span>Feb</span></div>
+				                <div class="week">03<span>Feb</span></div>
+				                <div class="week inactive">04<span>Feb</span></div>
+				            </div>
 					        <div class="jobs-list">
 					        	@foreach($tasks['tasks'] as $task)
 									<?php if($task->type == 'minute')
@@ -58,7 +63,7 @@
 						                        </div>
 						                    </div>
 						                    <div class="job-card-right">
-						                        <a href="#" class="btn-notify-small"><strong>12</strong></a>
+						                        <a href="#" class="btn-notify-small"><strong>{{App\Model\Notifications::where('userId','=',Auth::id())->where('objectId','=',$task->id)->where('isRead','=','0')->count()}}</strong></a>
 						                    </div>
 						                    @if($task->status == 'Sent')
 							                    <div class="job-status">
@@ -89,11 +94,12 @@
 			@endif
        	</div>
     </div>
+    <div class="jobs-footer">
+       <a href="{{url('/jobs/history')}}" class="btn-history">History</a>
+    <a href="{{url('/jobs/now')}}" class="btn-now inactive">Now</a>
+    </div>
 @endsection
-@section('footer')
-	<a href="{{url('/jobs/history')}}" class="btn-history">History</a>
-    <a href="{{url('/jobs/now')}}" class="btn-now">Now</a>
-@endsection
+
 @section('javascript')
     <script type="text/javascript" src="{{ asset('/js/jobs.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/search.js') }}"></script>
