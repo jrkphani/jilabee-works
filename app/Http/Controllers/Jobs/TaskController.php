@@ -45,7 +45,7 @@ class TaskController extends Controller {
 		// $notification['objectId'] = $task->id;
 		// $notification['objectType'] = 'jobs';
 		// readNotification($notification);
-		return view('jobs.task',['task'=>$task]);
+		return view('test',['task'=>$task]);
 	}
 	public function viewHistory($id)
 	{
@@ -425,7 +425,7 @@ class TaskController extends Controller {
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->first();
 		if ($validator->fails())
 		{
-			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
+			return redirect('jobs/task/'.$id)->withErrors($validator)->withInput($input);
 		}
 		if($task)
 		{
@@ -441,7 +441,7 @@ class TaskController extends Controller {
 				$notification['tag'] = 'now';
 				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$task->id;
 				setNotification($notification);
-				return view('jobs.task',['task'=>$task]);
+				return redirect('jobs/task/'.$id);
 			}
 		}
 		else

@@ -53,10 +53,10 @@
                 <div class="header-profile">
                     <div class="profile-pic"><img src="{{asset('/img/profile/img-user.jpg')}}"/> </div>
                     <div class="profile-name">{{Auth::user()->profile()->first()->name}}</div>
-                    <div class="profile-set dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><img src="img/ico-setting.png" /> </a>
+                    <div class="profile-set dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><img src="{{asset('img/ico-setting.png')}}" /> </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Profile Setting</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="{{url('auth/logout')}}">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
 <script type="text/javascript" src="{{asset('/js/jquery.mousewheel.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery.jscrollpane.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery-ui.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/app.js')}}"></script>
+{{-- <script type="text/javascript" src="{{asset('/js/app.js')}}"></script> --}}
 <script type="text/javascript" src="{{asset('/js/jquery.toaster.js')}}"></script>
 @yield('javascript')
 </html>

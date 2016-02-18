@@ -42,15 +42,17 @@
 									{
 										$mid = "mid=$task->minuteId";
 										$formId = "Form$task->minuteId$task->id";
+										$url=url('minute/'.$task->minuteId.'/task/'.$task->id);
 									}
 									else
 									{
 										$mid='';
 										$formId = "Form$task->id";
+										$url=url('jobs/task/'.$task->id);
 									}
 									?>
 									<div class="job-card">
-						                <p><a href="#">{{$task->title}}<img src="{{asset('/img/ico-hover.png')}}" /> </a></p>
+						                <p><a href="{{$url}}">{{$task->title}}<img src="{{asset('/img/ico-hover.png')}}" /> </a></p>
 						                <div class="job-card-bot">
 						                    <div class="job-card-left">
 						                        <div class="job-assign-pic"><img src="{{asset('/img/profile/img-user.jpg')}}"/></div>
@@ -78,8 +80,8 @@
 							                                </div>
 							                            </div>
 							                        </div>
-							                        <button {{$mid}} tid="{{$task->id}}" class="reject btn-job-reject">Reject</button>
-							                        <button {{$mid}} tid="{{$task->id}}" class="accept btn-job-accept">Accept</button>
+							                        <button {{$mid}} tid="{{$task->id}}" class="reject btn-job-reject reject">Reject</button>
+							                        <button {{$mid}} tid="{{$task->id}}" class="accept btn-job-accept accept">Accept</button>
 							                    </div>
 						                    @endif
 						                </div>
