@@ -300,7 +300,8 @@ class TaskController extends Controller {
 				setNotification($notification);
 				Session::flash('message', 'Task marked as completed');
 				$output['success'] = 'yes';
-				return json_encode($output);
+				//return json_encode($output);
+				return redirect('jobs/task/'.$id);
 			}
 		}
 		else

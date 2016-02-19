@@ -39,16 +39,16 @@
 	                    {{$task->status}}
 	                </div>
 	                <div class="task-button">
-	                	@if($task->status != 'Completed' && $task->status != 'Sent' && $task->status != 'Closed'  && $task->status != 'Cancelled')
+	                	@if($task->status != 'Completed' && $task->status != 'Complete' && $task->status != 'Sent' && $task->status != 'Closed'  && $task->status != 'Cancelled')
 							@if($mid)
 									@if($task->minute->filed == '1')
-									<a class="btn-normal complete" id="markComplete" tid="{{$task->id}}" {{$mid}}>
+									<a href="{{url('/minute/'.$task->minuteId.'/markComplete/'.$task->id)}}" class="btn-normal complete" id="markComplete" tid="{{$task->id}}" {{$mid}}>
 										<input type="checkbox" id="complete" />
 										<label for="complete">Complete</label>
 									</a>
 									@endif
 							@elseif($task->status != 'Rejected')
-								<a class="btn-normal complete" id="markComplete" tid="{{$task->id}}" {{$mid}}>
+								<a href="{{url('/jobs/markComplete/'.$task->id)}}" class="btn-normal complete" id="markComplete" tid="{{$task->id}}" {{$mid}}>
 										<input type="checkbox" id="complete" />
 										<label for="complete">Complete</label>
 									</a>

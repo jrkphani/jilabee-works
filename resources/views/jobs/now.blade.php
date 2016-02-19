@@ -29,13 +29,13 @@
 					        }
 					    ?>
 					    <div class="{{$tileclass}}">
-					        <h2><span>{{count($tasks['tasks'])}}</span>{{$title}}<strong class="badge this-week">+</strong></h2>
-					       <div id="thisweek">
+					        <h2><span>{{count($tasks['tasks'])}}</span>{{$title}}{{-- <strong class="badge this-week">+</strong>--}}</h2>
+					       {{--<div id="thisweek">
 				                <div class="week">01<span>Feb</span></div>
 				                <div class="week">02<span>Feb</span></div>
 				                <div class="week">03<span>Feb</span></div>
 				                <div class="week inactive">04<span>Feb</span></div>
-				            </div>
+				            </div> --}}
 					        <div class="jobs-list">
 					        	@foreach($tasks['tasks'] as $task)
 									<?php if($task->type == 'minute')
@@ -193,6 +193,15 @@
         {
         	$(this).prev('.job-status-desc').slideToggle("fast");
         }
+	});
+	$('#nowsortby').change(function(event) {
+		params = '&nowsortby='+$('#nowsortby').val();
+	    if($('#nowSearch').val().trim().length > 0)
+	    {
+	        params = params +'&nowsearchtxt='+$('#nowSearch').val();
+	    }
+        url: '/jobs/now?'+params;
+
 	});
     </script>
 @endsection

@@ -323,8 +323,9 @@ class TaskController extends Controller {
 			$notification['tag'] ='now';
 			$notification['body'] = 'Task #'.$task->id.' accepted';
 			setNotification($notification);
-			$output['success'] = 'yes';
-			return json_encode($output);
+			// $output['success'] = 'yes';
+			// return json_encode($output);
+			return redirect('minute/'.$mid.'/task/'.$id);
 		}
 	}
 	public function rejectTask($mid,$id)
@@ -384,8 +385,9 @@ class TaskController extends Controller {
 				$notification['body'] = Auth::user()->profile->name.' completed task #'.$task->id;
 				setNotification($notification);
 				Session::flash('message', 'Task marked as completed');
-				$output['success'] = 'yes';
-				return json_encode($output);
+				//$output['success'] = 'yes';
+				//return json_encode($output);
+				return redirect('minute/'.$mid.'/task/'.$id);
 			}
 		}
 		else
@@ -410,7 +412,8 @@ class TaskController extends Controller {
 					$notification['objectType'] = 'jobs';
 					$notification['subject'] = 'update';
 					$notification['body'] = 'Task #'.$task->id.' completion accepted';
-					return view('followups.task',['task'=>$task]);
+					//return view('followups.task',['task'=>$task]);
+					return redirect('minute/'.$mid.'/task/'.$id);
 				}
 			}
 			else
@@ -437,7 +440,8 @@ class TaskController extends Controller {
 					$notification['tag'] ='now';
 					$notification['body'] = 'Task #'.$task->id.' completion failed';
 					setNotification($notification);
-					return view('followups.task',['task'=>$task]);
+					//return view('followups.task',['task'=>$task]);
+					return redirect('minute/'.$mid.'/task/'.$id);
 				}
 			}
 			else
@@ -452,7 +456,7 @@ class TaskController extends Controller {
 		$task = MinuteTasks::whereIdAndAssignee($id,Auth::id())->where('minuteId',$mid)->first();
 		if ($validator->fails())
 		{
-			return view('jobs.task',['task'=>$task])->withErrors($validator)->withInput($input);
+			return redirect('minute/'.$mid.'/task/'.$id)->withErrors($validator)->withInput($input);
 		}
 		
 		if($task)
@@ -470,7 +474,7 @@ class TaskController extends Controller {
 				$notification['tag'] ='now';
 				$notification['body'] = 'Comment added by '.Auth::user()->profile->name.' for task #'.$task->id;
 				setNotification($notification);
-				return view('jobs.task',['task'=>$task]);
+				return redirect('minute/'.$mid.'/task/'.$id);
 			}
 		}
 		else
