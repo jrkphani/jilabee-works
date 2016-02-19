@@ -1,83 +1,11 @@
 $(document).ready(function($) 
 {
-    $.isnotoicationajax = 'no'
-	var width = $(window).width() * 2;
-    var string = "width:" + width + "px";
-    $('#centralContainer').attr("style",string);
-     historypage='no';
-    var url = document.location.toString();
-        if (url.match('&'))
-        {
-            variables = url.split('&');
-            for (var i = 0; i < variables.length; i++)
-            {
-                var sParameterName = variables[i].split('=');
-                if (sParameterName[0] == 'history')
-                {
-                    historypage='yes';
-                    break;
-                }
-            }
-        }
-    if(historypage == 'no')
-    {   //move to now page
-        $("#centralViewer").scrollLeft($('#contentRight').width());
-    }
-    $('#centralViewer').on('click', '#moveright', function(event) {
-        event.preventDefault();
-        moveright();
-    });
-    $('#centralViewer').on('click', '#moveleft', function(event) {
-        event.preventDefault();
-        moveleft();
-    });
-    $(document).keydown(function(e)
-    {
-        if (e.keyCode == 27) {
-            if($('#popup').length)
-            {
-                if($('#popup').is(":visible"))
-                {
-                    $('#popup').hide();
-                }
-            }
-            if($('#nameMenu').length)
-            {
-                if($('#nameMenu').is(":visible"))
-                {
-                    $('#nameMenu').hide();   
-                }
-            }
-            if($('#notifyDiv').length)
-            {
-                if($('#notifyDiv').is(":visible"))
-                {
-                    $('#notifyDiv').hide();   
-                }
-            }
-            if($('#notificationDiv').length)
-            {
-                if($('#notificationDiv').is(":visible"))
-                {
-                    $('#notificationDiv').hide();   
-                }
-            }
-        }
-    });
-    $(document).on('click', '.backBtn', function(event) {
-        event.preventDefault();
-        url = $(this).attr('url');
-        divId = $(this).attr('divId');
-        $('#'+divId).load(url);
-    });
-    $(document).click(function(event) {
-        // if($('#nameMenu').length)
-        //     {
-        //         if($('#nameMenu').is(":visible"))
-        //         {
-        //             $('#nameMenu').hide();   
-        //         }
-        //     }
+    $("#note_button").click(function () {
+        $('.btn-notify').toggleClass('close');
+        var effect = 'slide';
+        var options = { direction: 'right' };
+        var duration = 700;
+        $('.note-block').toggle(effect, options, duration);
     });
     notifications();
     //every 30 secs
@@ -118,92 +46,7 @@ $(document).ready(function($)
         }
     }
 });
-function moveright()
-{
-    //$("#centralViewer").scrollLeft($('#contentRight').width());
-    $("#centralViewer").animate({scrollLeft:'+='+$('#contentRight').width()}, 1000);
-    ChangeUrl('/');
-}
-function moveleft()
-{
-    //$("#centralViewer").scrollLeft('-'+$('#contentLeft').width());
-    $("#centralViewer").animate({scrollLeft:'-='+$('#contentLeft').width()}, 1000);
-     ChangeUrl('?&history=yes');
-}
 
-function checkStatus(headerStatus) {
-	if(headerStatus == '401')
-	{
-		//alert('not logged in');
-		location.reload();
-	}
-	// else if((headerStatus != '200') || (headerStatus != '300'))
-	// {
-	// 	alert("something went wrong");
-	// }
-}
-function popupContentAjaxGet(path)
-{
-    $.ajax({
-            url: path,
-            type: 'GET',
-            async:false,
-            dataType: 'html',
-        })
-        .done(function(htmlData) {
-            $('#popup').html(htmlData).show();
-
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-}
-function rightContentAjaxGet(path)
-{
-    $.ajax({
-            url: path,
-            type: 'GET',
-            async:false,
-            dataType: 'html',
-        })
-        .done(function(htmlData) {
-            $('#adminUsersRight').html(htmlData).show();
-
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-}
-function popupContentAjaxPost(path,form,msg)
-{
-    msg = msg||'no';
-    $.ajax({
-            url: path,
-            type: 'POST',
-            dataType: 'html',
-            async:false,
-            data: $('#'+form).serialize()
-        })
-        .done(function(htmlData) {
-            $('#popup').html(htmlData);
-            if(msg !='no')
-            {
-                toast(msg);
-            }
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-}
 function dateInput()
 {
     var d = new Date();
@@ -358,26 +201,7 @@ function notifications()
             checkStatus(xhr.status);
         });
 }
-$(document).on('click', '#allNotifications', function(event) {
-    event.preventDefault();
-     $.ajax({
-            url: '/notifications/all',
-            type: 'GET',
-            dataType: 'html',
-            async:false,
-        })
-        .done(function(htmlData) {
-            $('#notification_content').html(htmlData);
-            $('#notificationDiv').show();
-            $('#notifyDiv').hide();
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-});
+
 function toast(msg,flag,time)
 {
     msg = msg || 'Success';
@@ -389,9 +213,3 @@ function toast(msg,flag,time)
         setTimeout(function(){$('#toastDiv').hide(); },time);
     },200);
 }
-$('#notification_content').on('click', '.pagination a', function(event) {
-    event.preventDefault();
-    if ( $(this).attr('href') != '#' ) {
-        $('#notification_content').load($(this).attr('href'));
-    }
-});

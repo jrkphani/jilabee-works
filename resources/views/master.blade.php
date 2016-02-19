@@ -156,7 +156,7 @@
 <script type="text/javascript" src="{{asset('/js/jquery.mousewheel.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery.jscrollpane.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery-ui.min.js')}}"></script>
-{{-- <script type="text/javascript" src="{{asset('/js/app.js')}}"></script> --}}
+<script type="text/javascript" src="{{asset('/js/main.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery.toaster.js')}}"></script>
 @yield('javascript')
 </html>
