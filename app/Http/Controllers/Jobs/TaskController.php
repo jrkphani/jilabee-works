@@ -78,10 +78,10 @@ class TaskController extends Controller {
 			$notification['body'] = 'Task #'.$task->id.' accepted';
 			setNotification($notification);
 		}
-		//return view('jobs.task',['task'=>$task]);
+		return redirect('jobs/task/'.$id);
 		//return redirect('jobs/mytask');
-		$output['success'] = 'yes';
-		return json_encode($output);
+		// $output['success'] = 'yes';
+		// return json_encode($output);
 	}
 	public function rejectTask($id)
 	{
@@ -471,7 +471,7 @@ class TaskController extends Controller {
 			$today = new DateTime();
 			foreach($tasks as $task)
 			{
-				if(($task->status == 'Sent') || ($task->type == 'minute' && $task->minute->filed != '1'))
+				if(($task->status == 'Sent') ||($task->status == 'Rejected') || ($task->type == 'minute' && $task->minute->filed != '1'))
 				{
 					$nowtasks['New']['tasks'][] = $task;
 					$nowtasks['New']['colorClass'] = 'boxNumberGrey';

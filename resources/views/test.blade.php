@@ -6,12 +6,14 @@
 		$formId = "Formm$task->id";
 		$mid = "mid=".$task->minuteId;
 		$action = url('/minute/'.$task->minuteId.'/comment/'.$task->id);
+		$accept = url('/minute/'.$task->minuteId.'/acceptTask/'.$task->id);
 	}
 	else
 	{
 		$formId = "Formt$task->id";
 		$mid=NULL;
 		$action = url('/jobs/comment/'.$task->id);
+		$accept = url('/jobs/acceptTask/'.$task->id);
 	}
 ?>
 	<div class="inner-container">
@@ -99,7 +101,7 @@
 						@endif
 	                    <div class="comment-bottom">
 		                    @if($task->status == 'Sent')
-		                        <div {{$mid}} tid="{{$task->id}}" class="btn-inter btn-small accept">Accept</div>
+		                    <div {{$mid}} tid="{{$task->id}}" class="btn-inter btn-small"><a href="{{$accept}}">Accept</a></div>
 		                        <div  {{$mid}} tid="{{$task->id}}"class="btn-inter btn-small reject">Reject</div>
 		                    @else
 								<span {{$mid}} tid="{{$task->id}}" id="taskComment" class="btn-inter btn-small">Update</span>
@@ -145,56 +147,6 @@
 			                    </div>
 							@endforeach
 						@endif
-	                    <div class="history-box">
-	                        <div class="history-box-row1">
-	                            <div class="col1 unread"></div>
-	                            <div class="col2   note-icon reject"></div>
-	                            <div class="col3">Task Description Changed</div>
-	                        </div>
-	                        <div class="history-box-row2">
-	                            <div class="follow-row copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros.</div>
-	                            <div class="follow-row">
-	                                <div class="comment-user"><img src="img/profile/img-photo.jpg"/> </div>
-	                                <div class="comment-name jobs">Optimus Prime</div>
-	                                <div class="comment-time jobs">10.10 am</div>
-	                            </div>
-	                        </div>
-	                    </div>
-
-
-	                    <div class="history-box">
-	                        <div class="history-box-row1">
-	                            <div class="col1 unread"></div>
-	                            <div class="col2  note-icon comment"></div>
-	                            <div class="col3"></div>
-	                        </div>
-	                        <div class="history-box-row2">
-	                            <div class="follow-row copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros.</div>
-	                            <div class="follow-row">
-	                                <div class="comment-user"><img src="img/profile/img-photo.jpg"/> </div>
-	                                <div class="comment-name jobs">Optimus Prime</div>
-	                                <div class="comment-time jobs">10.10 am</div>
-	                            </div>
-	                        </div>
-	                    </div>
-
-
-	                    <div class="history-box">
-	                        <div class="history-box-row1">
-	                            <div class="col1 unread"></div>
-	                            <div class="col2  note-icon accept"></div>
-	                            <div class="col3">Title</div>
-	                        </div>
-	                        <div class="history-box-row2">
-	                            <div class="follow-row copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros.</div>
-	                            <div class="follow-row">
-	                                <div class="comment-user"><img src="img/profile/img-photo.jpg"/> </div>
-	                                <div class="comment-name jobs">Optimus Prime</div>
-	                                <div class="comment-time jobs">10.10 am</div>
-	                            </div>
-	                        </div>
-	                    </div>
-
 	                </div>
 
 	                <div class="btn-view-all-box follow">
@@ -206,7 +158,7 @@
 	        </div>
 
 	        <div class="bottom-button">
-	        <a href="#" class="btn-inter btn-bottom">&lt; Back to jobs</a>
+	        <a href="{{url('jobs/now')}}" class="btn-inter btn-bottom">&lt; Back to jobs</a>
 	        </div>
     	</div>
 	</div>

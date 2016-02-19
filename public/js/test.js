@@ -1,33 +1,33 @@
 $(document).ready(function($)
 {
-	$('.accept').click(function(event) {
-		event.preventDefault();
-        tid = $(this).attr('tid');
-        form = 'Form'+tid;
-        if($(this).attr('mid'))
-        {
-            path = '/minute/'+$(this).attr('mid')+'/acceptTask/'+tid;
-        }
-        else
-        {
-            path = '/jobs/acceptTask/'+tid;
-        }
-        $.ajax({
-            url: path,
-            async:false,
-            type: 'GET',
-        })
-        .done(function() {
-            getNow();
-            toast('Task accepted!');
-        })
-        .fail(function(xhr) {
-            checkStatus(xhr.status);
-        })
-        .always(function(xhr) {
-            checkStatus(xhr.status);
-        });
-	});
+	// $('.accept').click(function(event) {
+	// 	event.preventDefault();
+ //        tid = $(this).attr('tid');
+ //        form = 'Form'+tid;
+ //        if($(this).attr('mid'))
+ //        {
+ //            path = '/minute/'+$(this).attr('mid')+'/acceptTask/'+tid;
+ //        }
+ //        else
+ //        {
+ //            path = '/jobs/acceptTask/'+tid;
+ //        }
+ //        $.ajax({
+ //            url: path,
+ //            async:false,
+ //            type: 'GET',
+ //        })
+ //        .done(function() {
+ //            getNow();
+ //            toast('Task accepted!');
+ //        })
+ //        .fail(function(xhr) {
+ //            checkStatus(xhr.status);
+ //        })
+ //        .always(function(xhr) {
+ //            checkStatus(xhr.status);
+ //        });
+	// });
 	$('.reject').click(function(event) {
 		event.preventDefault();
         tid = $(this).attr('tid');

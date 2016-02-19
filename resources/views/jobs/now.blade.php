@@ -41,14 +41,16 @@
 									<?php if($task->type == 'minute')
 									{
 										$mid = "mid=$task->minuteId";
-										$formId = "Form$task->minuteId$task->id";
+										$formId = "Formm$task->id";
 										$url=url('minute/'.$task->minuteId.'/task/'.$task->id);
+										$accept = url('/minute/'.$task->minuteId.'/acceptTask/'.$task->id);
 									}
 									else
 									{
 										$mid='';
-										$formId = "Form$task->id";
+										$formId = "Formt$task->id";
 										$url=url('jobs/task/'.$task->id);
+										$accept = url('/jobs/acceptTask/'.$task->id);
 									}
 									?>
 									<div class="job-card">
@@ -73,15 +75,19 @@
 							                            <div class="job-desc-copy textarea-example">
 							                                <div class="textarea-wrapper">
 								                                {!! Form::open(['id'=>$formId]) !!}
-																{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3,'autocomplete'=>'off']) !!}
+																{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3,'autocomplete'=>'off','placeholder'=>'Reson for reject']) !!}
 																<div class="error" id="err_{{$task->id}}"></div>
 																{!! Form::close() !!}
 								                                <div class="textarea-clone"></div>
 							                                </div>
 							                            </div>
 							                        </div>
-							                        <button {{$mid}} tid="{{$task->id}}" class="reject btn-job-reject reject">Reject</button>
-							                        <button {{$mid}} tid="{{$task->id}}" class="accept btn-job-accept accept">Accept</button>
+							                        <button {{$mid}} tid="{{$task->id}}" class="btn-job-reject reject">Reject</button>
+							                        <a href="{{$accept}}" {{$mid}} tid="{{$task->id}}" class="accept btn-job-accept accept">Accept</a>
+							                    </div>
+							                @elseif($task->status == 'Rejected')
+							                	<div class="job-status">
+							                        <button class="btn-job-reject long" >Rejected</button>
 							                    </div>
 						                    @endif
 						                </div>
@@ -103,6 +109,90 @@
 @endsection
 
 @section('javascript')
-    <script type="text/javascript" src="{{ asset('/js/jobs.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/search.js') }}"></script>
+    <script type="text/javascript">
+ //    	$('.accept').click(function(event) {
+	// 	event.preventDefault();
+ //        tid = $(this).attr('tid');
+ //        form = 'Form'+tid;
+ //        if($(this).attr('mid'))
+ //        {
+ //            path = '/minute/'+$(this).attr('mid')+'/acceptTask/'+tid;
+ //        }
+ //        else
+ //        {
+ //            path = '/jobs/acceptTask/'+tid;
+ //        }
+ //        $.ajax({
+ //            url: path,
+ //            async:false,
+ //            type: 'GET',
+ //        })
+ //        .done(function() {
+ //          alert("Dfvdf");
+ //        })
+ //        .fail(function(xhr) {
+ //            checkStatus(xhr.status);
+ //        })
+ //        .always(function(xhr) {
+ //            checkStatus(xhr.status);
+ //        });
+	// });
+	$('.reject').click(function(event) {
+		event.preventDefault();
+        tid = $(this).attr('tid');
+        clicked = $(this);
+        if(clicked.attr('mid'))
+        {
+            path = '/minute/'+clicked.attr('mid')+'/rejectTask/'+tid;
+             form = 'Formm'+tid;
+        }
+        else
+        {            
+            path = '/jobs/rejectTask/'+tid;
+             form = 'Formt'+tid;
+        }
+        if($('#'+form).is(':visible'))
+        {
+        	$.ajax({
+	            url: path,
+	            type: 'POST',
+	            dataType: 'json',
+	            async:false,
+	            data: $('#'+form).serialize()
+	        })
+	        .done(function(jsonData) {
+	            if(jsonData.success == 'yes')
+	            {
+	                clicked.text('Rejected');
+				    //clicked.css('background-image','none');
+				    clicked.addClass('long');
+				    clicked.next('.btn-job-accept').remove();
+				   	clicked.prev('.job-status-desc').remove();
+	                toast('Task rejected!');
+	            }
+	            else if(jsonData.success == 'no')
+	            {
+	                $('.error').html('');
+	                $('#err_'+tid).html(jsonData.msg);
+	                $('#'+form).find('textarea').focus();
+	            }
+	            else
+	            {
+	                toast("Oops! Something Went Wrong!");
+	            }
+	        })
+	        .fail(function(xhr) {
+	            checkStatus(xhr.status);
+	        })
+	        .always(function(xhr) {
+	            checkStatus(xhr.status);
+	        });
+        }
+        else
+        {
+        	$(this).prev('.job-status-desc').slideToggle("fast");
+        }
+	});
+    </script>
 @endsection
