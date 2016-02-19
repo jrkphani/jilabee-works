@@ -10,7 +10,7 @@
     	{!! Form::select('nowsortby',['timeline'=>'Time Line','meeting'=>'Group','assigner'=>'People'],$nowsortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
     </div>
     <div class="header-reset">
-        <input class="sb_reset" type="submit" id="showNowDiv" value="Reset">
+    <a href="{{url('jobs/now')}}" class="sb_reset">Reset</a>
     </div>
 </div>
     <div class="jobs-scroll">
@@ -104,40 +104,13 @@
     </div>
     <div class="jobs-footer">
        <a href="{{url('/jobs/history')}}" class="btn-history">History</a>
-    <a href="{{url('/jobs/now')}}" class="btn-now inactive">Now</a>
+    	<a href="{{url('/jobs/now')}}" class="btn-now inactive">Now</a>
     </div>
 @endsection
 
 @section('javascript')
     <script type="text/javascript" src="{{ asset('/js/search.js') }}"></script>
     <script type="text/javascript">
- //    	$('.accept').click(function(event) {
-	// 	event.preventDefault();
- //        tid = $(this).attr('tid');
- //        form = 'Form'+tid;
- //        if($(this).attr('mid'))
- //        {
- //            path = '/minute/'+$(this).attr('mid')+'/acceptTask/'+tid;
- //        }
- //        else
- //        {
- //            path = '/jobs/acceptTask/'+tid;
- //        }
- //        $.ajax({
- //            url: path,
- //            async:false,
- //            type: 'GET',
- //        })
- //        .done(function() {
- //          alert("Dfvdf");
- //        })
- //        .fail(function(xhr) {
- //            checkStatus(xhr.status);
- //        })
- //        .always(function(xhr) {
- //            checkStatus(xhr.status);
- //        });
-	// });
 	$('.reject').click(function(event) {
 		event.preventDefault();
         tid = $(this).attr('tid');
@@ -195,13 +168,22 @@
         }
 	});
 	$('#nowsortby').change(function(event) {
+		reloadfilter();
+	});
+	$('#nowSearch').keypress(function(event) {
+		if(event.which == 13)
+	    {
+	    	reloadfilter();	        
+	    }
+	});
+	function reloadfilter()
+	{
 		params = '&nowsortby='+$('#nowsortby').val();
 	    if($('#nowSearch').val().trim().length > 0)
 	    {
 	        params = params +'&nowsearchtxt='+$('#nowSearch').val();
 	    }
-        url: '/jobs/now?'+params;
-
-	});
+	    window.location.href = "/jobs/now?"+params;
+	}
     </script>
 @endsection

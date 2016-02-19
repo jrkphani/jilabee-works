@@ -5,13 +5,15 @@
 	{
 		$formId = "Formm$task->id";
 		$mid = "mid=".$task->minuteId;
-		$action = url('/followups/'.$task->minuteId.'/comment/'.$task->id);
+		$action = url('/minute/'.$task->minuteId.'/comment/'.$task->id);
+		$accept = url('/minute/'.$task->minuteId.'/acceptTask/'.$task->id);
 	}
 	else
 	{
 		$formId = "Formt$task->id";
 		$mid=NULL;
-		$action = url('/followups/comment/'.$task->id);
+		$action = url('/jobs/comment/'.$task->id);
+		$accept = url('/jobs/acceptTask/'.$task->id);
 	}
 ?>
 	<div class="inner-container">
@@ -21,8 +23,8 @@
 	            <div class="follow-header jobs">
 	                <div class="user-img"><img src="img/profile/img-photo.jpg"></div>
 	                <div class="title-col1">
-	                    <p>Assigned to</p>
-	                    {{$task->assigneeDetail->name}}
+	                    <p>Assigned by</p>
+	                    {{$task->assignerDetail->name}}
 	                </div>
 	                <div class="title-col2 date">
 	                    <p>Due Date</p>
@@ -82,12 +84,21 @@
 	            <div class="follow-bottom">
 	                <div class="task-comment">
 	                    <div class="task-comment-left"><img src="img/profile/img-photo.jpg"></div>
+	                    @if($task->status == 'Sent')
+							{!! Form::open(['id'=>$formId]) !!}
+							<div class="task-comment-right talkbubble">
+								{!! Form::textarea('reason', '',['cols'=>'25','rows'=>3,'autocomplete'=>'off','placeholder'=>'Reason for reject']) !!}
+								<div class="error" id="err_{{$task->id}}"></div>
+							</div>
+							{!! Form::close() !!}
+						@else
 							<div class="task-comment-right talkbubble">
 								{!! Form::open(['id'=>"CommentForm".$task->id,'method'=>'POST','url'=>$action]) !!}
 								{!! Form::textarea('description', Request::input('description',''),['rows'=>3,'placeholder'=>'Comment description','id'=>'taskCommentText','autocomplete'=>'off']) !!}
 								{!! $errors->first('description','<div class="error">:message</div>') !!}
 								{!! Form::close() !!}
 							</div>
+						@endif
 	                    <div class="comment-bottom">
 		                    @if($task->status == 'Sent')
 		                    <div {{$mid}} tid="{{$task->id}}" class="btn-inter btn-small"><a href="{{$accept}}">Accept</a></div>

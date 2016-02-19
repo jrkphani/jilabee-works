@@ -23,19 +23,19 @@ class TaskController extends Controller {
 	/*public function __construct()
 	{
 	}*/
-	public function index()
-	{
-		$nowsortby = Request::get('nowsortby','timeline');
-		$historysortby = Request::get('historysortby','timeline');
-		$days = Request::get('days','7');
-		$group = Request::get('group',NULL);
-		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
-		$historysearchtxt = Request::get('historysearchtxt',NULL);
-		$historypage = Request::get('history',NULL);
-		$nowtasks = $this->nowsortby();
-		$historytasks = $this->historysortby();
-		return view('followups.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
-	}
+	// public function index()
+	// {
+	// 	$nowsortby = Request::get('nowsortby','timeline');
+	// 	$historysortby = Request::get('historysortby','timeline');
+	// 	$days = Request::get('days','7');
+	// 	$group = Request::get('group',NULL);
+	// 	$nowsearchtxt = Request::get('nowsearchtxt',NULL);
+	// 	$historysearchtxt = Request::get('historysearchtxt',NULL);
+	// 	$historypage = Request::get('history',NULL);
+	// 	$nowtasks = $this->nowsortby();
+	// 	$historytasks = $this->historysortby();
+	// 	return view('followups.index',['nowsortby'=>$nowsortby,'historysortby'=>$historysortby,'nowtasks'=>$nowtasks,'historytasks'=>$historytasks,'days'=>$days,'nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt]);
+	// }
 	public function viewTask($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
@@ -43,7 +43,7 @@ class TaskController extends Controller {
   //       $notification['objectId'] = $task->id;
   //       $notification['objectType'] = 'followups';
   //       readNotification($notification);
-		return view('followups.task',['task'=>$task]);
+		return view('test',['task'=>$task]);
 	}
 	public function viewMinute($mid,$id)
 	{
@@ -186,7 +186,7 @@ class TaskController extends Controller {
 	}
 	public function nowsortby()
 	{
-		$sortby = Request::get('sortby','timeline');
+		$sortby = Request::get('nowsortby','timeline');
 		$searchtxt = Request::get('nowsearchtxt',NULL);
 		$nowtasks = array();
 		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
@@ -316,14 +316,15 @@ class TaskController extends Controller {
 
 			}
 		}
-		if (Request::ajax())
-		{
-		    return view('followups.now',['nowtasks'=>$nowtasks]);
-		}
-		else
-		{
-			return $nowtasks;
-		}
+		// if (Request::ajax())
+		// {
+		//     return view('followups.now',['nowtasks'=>$nowtasks]);
+		// }
+		// else
+		// {
+		// 	return $nowtasks;
+		// }
+		return view('followups.now',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$nowtasks]);
 	}
 	public function historysortby()
 	{

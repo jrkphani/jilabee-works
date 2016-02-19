@@ -45,7 +45,7 @@ class TaskController extends Controller {
 		// $notification['objectId'] = $task->id;
 		// $notification['objectType'] = 'jobs';
 		// readNotification($notification);
-		return view('test',['task'=>$task]);
+		return view('jobs.test',['task'=>$task]);
 	}
 	public function viewHistory($id)
 	{

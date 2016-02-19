@@ -93,7 +93,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		});
 		Route::group(['prefix' => 'followups'], function()
 		{
-			Route::get('/', ['uses'=>'Followups\TaskController@index','as'=>'followups']);
+			Route::get('/', ['uses'=>'Followups\TaskController@nowsortby','as'=>'followups']);
 			Route::get('/readNotification', ['uses'=>'Followups\TaskController@isReadNotification']);
 			Route::get('/now', ['uses'=>'Followups\TaskController@nowsortby']);
 			Route::get('/history', ['uses'=>'Followups\TaskController@historysortby']);
