@@ -43,12 +43,12 @@ class TaskController extends Controller {
   //       $notification['objectId'] = $task->id;
   //       $notification['objectType'] = 'followups';
   //       readNotification($notification);
-		return view('test',['task'=>$task]);
+		return view('followups.test',['task'=>$task]);
 	}
 	public function viewMinute($mid,$id)
 	{
 		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
-		return view('followups.task',['task'=>$task]);
+		return view('test',['task'=>$task]);
 	}
 	public function taskComment($id)
 	{
@@ -116,7 +116,6 @@ class TaskController extends Controller {
 	public function draft()
 	{
 		$input = Request::only('title','description','assignee','notes','dueDate');
-		$input = array_filter($input);
 		if($input)
 		{
 			$input['created_by'] = $input['assigner'] = Auth::id();
@@ -138,6 +137,7 @@ class TaskController extends Controller {
 						$input['assignee'] = NULL;	
 					}
 				}
+			$input = array_filter($input);
 			if(Request::input('id'))
 			{
 				$task = JobDraft::whereId(Request::input('id'))->first();
@@ -146,7 +146,8 @@ class TaskController extends Controller {
 			}
 			else if($task = JobDraft::create($input))
 			{
-				return view('jobs.draftform',['task'=>$task]);
+				//return view('jobs.draftform',['task'=>$task]);
+				return redirect('/followups/create/'.$task->id);
 			}
 			else
 			{
@@ -155,18 +156,18 @@ class TaskController extends Controller {
 		}
 		else
 		{
-			return view('jobs.draftform',['task'=>null]);
+			return redirect('/followups/create/');
 		}
 	}
 	public function draftform($id=null)
 	{
 		if($id)
 		{
-			return view('jobs.draftform',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
+			return view('test',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
 		}
 		else
 		{
-			return view('jobs.draftform',['task'=>null]);
+			return view('test',['task'=>null]);
 		}
 	}
 	public function deleteDraft($id)

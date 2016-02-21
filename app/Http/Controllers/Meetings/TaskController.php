@@ -283,7 +283,7 @@ class TaskController extends Controller {
 		// $notification['objectId'] = $task->id;
 		// $notification['objectType'] = 'jobs';
 		// readNotification($notification);
-		return view('test',['task'=>$task]);
+		return view('followups.test',['task'=>$task]);
 	}
 	public function taskForm($mid,$id)
 	{

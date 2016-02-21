@@ -12,6 +12,9 @@
     <div class="header-reset">
     <a href="{{url('followups/now')}}" class="sb_reset">Reset</a>
     </div>
+    @if(getOrgId())
+    	<a class="btn-inter btn-create-task" href="{{url('followups/create')}}">+ create  new task</a>
+    @endif
 </div>
     <div class="jobs-scroll">
         <div class="scroll-pane horizontal-only jspScrollable"> 	

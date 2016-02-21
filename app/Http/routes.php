@@ -99,7 +99,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 			Route::get('/history', ['uses'=>'Followups\TaskController@historysortby']);
 			Route::post('draft', 'Followups\TaskController@draft');
 			Route::get('deleteDraft/{taskid}', 'Followups\TaskController@deleteDraft')->where('taskid', '[0-9]+');
-			Route::get('draftform/{taskid?}', 'Followups\TaskController@draftform')->where('taskid', '[0-9]+');
+			Route::get('create/{taskid?}', 'Followups\TaskController@draftform')->where('taskid', '[0-9]+');
 			Route::get('task/{taskid}', 'Followups\TaskController@viewTask')->where('taskid', '[0-9]+');
 			Route::get('{minuteId}/task/{taskid}', 'Followups\TaskController@viewMinute')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 			Route::post('comment/{taskid}', 'Followups\TaskController@taskComment')->where('taskid', '[0-9]+');
