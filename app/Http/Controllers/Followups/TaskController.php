@@ -43,7 +43,7 @@ class TaskController extends Controller {
   //       $notification['objectId'] = $task->id;
   //       $notification['objectType'] = 'followups';
   //       readNotification($notification);
-		return view('followups.test',['task'=>$task]);
+		return view('followups.task',['task'=>$task]);
 	}
 	public function viewMinute($mid,$id)
 	{
@@ -142,7 +142,7 @@ class TaskController extends Controller {
 			{
 				$task = JobDraft::whereId(Request::input('id'))->first();
 				$task->update($input);
-				return view('jobs.draftform',['task'=>$task]);
+				return redirect('/followups/create/'.$task->id);
 			}
 			else if($task = JobDraft::create($input))
 			{
@@ -163,11 +163,11 @@ class TaskController extends Controller {
 	{
 		if($id)
 		{
-			return view('test',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
+			return view('followups.draft',['task'=>JobDraft::whereId($id)->whereAssigner(Auth::id())->first()]);
 		}
 		else
 		{
-			return view('test',['task'=>null]);
+			return view('followups.create');
 		}
 	}
 	public function deleteDraft($id)
@@ -183,7 +183,277 @@ class TaskController extends Controller {
 			{
 				abort('403');
 			}
-			return json_encode($output);
+			return redirect('followups');
+	}
+	public function createTask()
+	{
+		//disable add task for general user on followup
+		if(!getOrgId())
+		{
+			abort('404');
+		}
+		$id = Request::input('id');
+		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
+		$output['success'] = 'yes';
+		$validator = JobTasks::validation($input);
+		if ($validator->fails())
+		{
+			// $output['success'] = 'no';
+			// $output['validator'] = $validator->messages()->toArray();
+			// return json_encode($output);
+			return redirect('followups/create/'.$id)->withErrors($validator)->withInput();
+		}
+		else
+		{
+			
+			$input['status'] = 'Sent';
+			$notification['userId']=0;
+			//disable adding email in add task on followup
+			// if(isEmail($input['assignee']))
+			// {
+			// 	if($assignee = getUser(['email'=>$input['assignee']]))
+			// 	{
+			// 		$input['assignee'] = $notification['userId'] = $assignee->id;
+			// 	}
+			// 	else
+			// 	{
+			// 		//mark the task as accepted for who do have an account
+			// 		$input['status'] = 'Open';
+			// 		$notification['userId']=0;
+			// 	}
+			// }
+			// else
+			// {
+			$input['assignee'] = 'ORG305u5';
+				if($assignee = getUser(['userId'=>$input['assignee']]))
+				{
+					$input['assignee'] = $notification['userId'] = $assignee->id;
+				}
+				else
+				{
+					$validator->errors()->add('assignee', 'Invalid assignee!');
+					//$output['success'] = 'no';
+					//$output['validator'] = $validator->messages()->toArray();
+					//return json_encode($output);
+					return redirect('followups/create/'.$id)->withErrors($validator)->withInput();
+				}
+			//}
+			$input['description'] = nl2br($input['description']);
+			$input['notes'] = nl2br($input['notes']);
+			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
+			if($task = JobTasks::create($input))
+			{
+				if($notification['userId'])
+				{
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'new';
+					$notification['tag'] = 'now';
+					$notification['body'] = 'Task #'.$task->id.' sent by '.Auth::user()->profile->name;
+					setNotification($notification);
+				}
+				if($id)
+				{
+					JobDraft::destroy(Request::input('id'));
+				}
+				return redirect('followups/task/'.$task->id);
+			}
+		}
+	}
+	public function taskForm($id)
+	{
+		return view('followups.edit',['task'=>JobTasks::whereId($id)->whereAssigner(Auth::id())->first()]);
+	}
+	public function updateTask($id)
+	{
+		$input = Request::only('title','description','assignee','assigner','notes','dueDate');
+		$output['success'] = 'yes';
+		$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+		$validator = JobTasks::validation($input);
+		if ($validator->fails())
+		{
+			return redirect('followups/task/edit/'.$task->id)->withErrors($validator);
+		}
+		else
+		{
+			// if(isEmail($input['assignee']))
+			// {
+			// 	if($assignee = getUser(['email'=>$input['assignee']]))
+			// 	{
+			// 		$input['assignee'] = $notification['userId'] = $assignee->id;
+			// 	}
+			// 	else
+			// 	{
+			// 		$notification['userId'] = 0;
+			// 	}
+			// }
+			// else
+			// {
+				if($assignee = getUser(['userId'=>$input['assignee']]))
+				{
+					$input['assignee'] = $notification['userId'] = $assignee->id;
+				}
+				else
+				{
+					$validator->errors()->add('assignee', 'Invalid assignee!');
+					return redirect('followups/task/edit/'.$task->id)->withErrors($validator);
+				}
+			//}
+			$input['description'] = nl2br($input['description']);
+			$input['notes'] = nl2br($input['notes']);
+			$input['status'] = 'Sent';
+			$input['created_by'] = $input['updated_by'] = $input['assigner'] = Auth::id();
+			$toLog = $task->toArray();
+			$toLog['taskId']=$toLog['id'];
+			if(isEmail($task->assignee))
+			{
+				$oldAssignee = 0;
+			}
+			else
+			{
+				$oldAssignee = $task->assignee;
+			}
+			unset($toLog['id']);
+			unset($toLog['notes']);
+			unset($toLog['deleted_at']);
+			unset($toLog['assigner']);
+			unset($toLog['reason']);
+			JobTasksLog::insert($toLog);
+			if($task->update($input))
+			{
+				if($notification['userId'])
+				{
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'new';
+					$notification['tag'] = 'update';
+					$notification['body'] = 'Task #'.$task->id.' is modified by '.Auth::user()->profile->name;
+					setNotification($notification);
+				}
+				if(($oldAssignee) && ($oldAssignee != $notification['userId']))
+				{
+					$input1['created_by'] = $input1['updated_by'] = Auth::id();
+					$input1['description'] = 'Task reassigned';
+					$comment = new JobTaskComments($input1);
+					$task->comments()->save($comment);
+					$notification['userId'] = $oldAssignee;
+					$notification['isRead'] = '2';
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'reassigned';
+					$notification['tag'] ='now';
+					$notification['body'] = 'Task #'.$task->id.' has been reassigned by '.Auth::user()->profile->name;
+					setNotification($notification);
+				}
+			}
+			return redirect('followups/task/'.$task->id)->withErrors($validator);
+		}
+	}
+	public function cancelTask($id)
+	{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			if($task)
+			{
+				$task->status = 'Cancelled';
+				if($task->save())
+				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task cancelled';
+					$comment = new JobTaskComments($input);
+					$task->comments()->save($comment);
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'update';
+					$notification['tag'] = 'history';
+					$notification['body'] = 'Task #'.$task->id.' has been cancelled and sent history';
+					setNotification($notification);
+				}
+			}
+			else
+			{
+				abort('403');
+			}
+			return redirect('followups');
+	}
+	public function deleteTask($id)
+	{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			if($task)
+			{
+				$input['created_by'] = $input['updated_by'] = Auth::id();
+				$input['description'] = 'Task deleted';
+				$comment = new JobTaskComments($input);
+				$task->comments()->save($comment);
+				$task->delete();
+				$notification['userId'] = $task->assignee;
+				$notification['objectId'] = $task->id;
+				$notification['objectType'] = 'jobs';
+				$notification['subject'] = 'removed';
+				$notification['tag'] ='';
+				$notification['isRead'] = '2';
+				$notification['body'] = 'Task #'.$task->id.' has been removed by '.Auth::user()->profile->name;
+				setNotification($notification);
+			}
+			else
+			{
+				abort('403');
+			}
+			return redirect('followups');
+	}
+	public function acceptCompletion($id)
+	{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			if($task)
+			{
+				$task->status = 'Closed';
+				if($task->save())
+				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task completion accepted and closed';
+					$comment = new JobTaskComments($input);
+					$task->comments()->save($comment);
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'update';
+					$notification['tag'] = 'history';
+					$notification['body'] = 'Task #'.$task->id.' completion accepted';
+					setNotification($notification);
+					return redirect('followups/task/'.$task->id);
+				}
+			}
+			else
+			{
+				abort('403');
+			}
+	}
+	public function rejectCompletion($id)
+	{
+			$task = JobTasks::whereId($id)->whereAssigner(Auth::id())->first();
+			if($task)
+			{
+				$task->status = 'Open';
+				if($task->save())
+				{
+					$input['created_by'] = $input['updated_by'] = Auth::id();
+					$input['description'] = 'Task completion rejected';
+					$comment = new JobTaskComments($input);
+					$task->comments()->save($comment);
+					$notification['userId'] = $task->assignee;
+					$notification['objectId'] = $task->id;
+					$notification['objectType'] = 'jobs';
+					$notification['subject'] = 'update';
+					$notification['tag'] = 'now';
+					$notification['body'] = 'Task #'.$task->id.' completion failed';
+					setNotification($notification);
+					return redirect('followups/task/'.$task->id);
+				}
+			}
+			else
+			{
+				abort('403');
+			}
 	}
 	public function nowsortby()
 	{
@@ -417,14 +687,15 @@ class TaskController extends Controller {
 
 			}
 		}
-		if (Request::ajax())
-		{
-		    return view('jobs.history',['historytasks'=>$historytasks]);
-		}
-		else
-		{
-			return $historytasks;
-		}
+		// if (Request::ajax())
+		// {
+		//     return view('jobs.history',['historytasks'=>$historytasks]);
+		// }
+		// else
+		// {
+		// 	return $historytasks;
+		// }
+		return view('followups.history',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$nowtasks]);
 	}
 	public function isReadNotification()
 	{

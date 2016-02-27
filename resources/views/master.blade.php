@@ -152,10 +152,10 @@
 
 </body>
 <script type="text/javascript" src="{{asset('/js/jquery-1.11.3.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/jquery-ui.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery.mousewheel.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery.jscrollpane.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/jquery-ui.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/main.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/jquery.toaster.js')}}"></script>
 @yield('javascript')

@@ -2,7 +2,7 @@
 @section('content')
 <div class="inner-container follow">
     <div class="inner-page">
-        <h2 class="sub-title">Create new task <a href="#" class="btn-close">X</a> </h2>
+        <h2 class="sub-title">Create new task <a href="{{url('followups')}}" class="btn-close">X</a> </h2>
         {!! Form::open(['id'=>'createTaskForm']) !!}
         <div class="follow-header">
             <div class="user-img"><img src="img/profile/img-photo.jpg"></div>
@@ -41,11 +41,11 @@
                 {!! $errors->first('title','<span>:message</span>')!!}
             </div>
             <div class="follow-row">
-                <textarea name="description" value="{{old('description')}}" class="textarea-long" placeholder="Task description"></textarea>
+                <textarea name="description" class="textarea-long" placeholder="Task description">{{old('description')}}</textarea>
                 {!! $errors->first('description','<span>:message</span>')!!}
             </div>
             <div class="follow-row">
-                <textarea name="notes" value="{{old('notes')}}" class="textarea-long" placeholder="Notes"></textarea>
+                <textarea name="notes" class="textarea-long" placeholder="Notes">{{old('notes')}}</textarea>
                 {!! $errors->first('notes','<span>:message</span>')!!}
             </div>
         </div>
@@ -67,7 +67,7 @@
         });
         $('#createTaskSubmit').click(function(event) {
             event.preventDefault();
-            $('#createTaskForm').attr('action',"{{url('/jobs/createTask')}}");            
+            $('#createTaskForm').attr('action',"{{url('/followups/createTask')}}");            
             $('#createTaskForm').submit();
         });
         // nextDateInput();

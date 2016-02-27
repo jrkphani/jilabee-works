@@ -79,17 +79,11 @@ Route::group(['middleware' => 'logAllActivity'], function()
 			Route::get('/history', ['uses'=>'Jobs\TaskController@historysortby']);
 			Route::get('acceptTask/{taskid}', 'Jobs\TaskController@acceptTask')->where('taskid', '[0-9]+');
 			Route::post('rejectTask/{taskid}', 'Jobs\TaskController@rejectTask')->where('taskid', '[0-9]+');
-			Route::get('cancelTask/{taskid}', 'Jobs\TaskController@cancelTask')->where('taskid', '[0-9]+');
-			Route::get('deleteTask/{taskid}', 'Jobs\TaskController@deleteTask')->where('taskid', '[0-9]+');
 			Route::post('comment/{taskid}', 'Jobs\TaskController@taskComment')->where('taskid', '[0-9]+');
-			Route::post('task/update/{taskid}', 'Jobs\TaskController@updateTask')->where('taskid', '[0-9]+');
-			Route::get('task/edit/{taskid}', 'Jobs\TaskController@taskForm')->where('taskid', '[0-9]+');
+			
 			Route::get('task/{taskid}', 'Jobs\TaskController@viewTask')->where('taskid', '[0-9]+');
 			Route::get('markComplete/{taskid}', 'Jobs\TaskController@markComplete')->where('taskid', '[0-9]+');
-			Route::get('acceptCompletion/{taskid}', 'Jobs\TaskController@acceptCompletion')->where('taskid', '[0-9]+');
-			Route::get('rejectCompletion/{taskid}', 'Jobs\TaskController@rejectCompletion')->where('taskid', '[0-9]+');
 			Route::get('history/{taskid}', 'Jobs\TaskController@viewHistory')->where('taskid', '[0-9]+');
-			Route::post('createTask','Jobs\TaskController@createTask');
 		});
 		Route::group(['prefix' => 'followups'], function()
 		{
@@ -104,6 +98,13 @@ Route::group(['middleware' => 'logAllActivity'], function()
 			Route::get('{minuteId}/task/{taskid}', 'Followups\TaskController@viewMinute')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
 			Route::post('comment/{taskid}', 'Followups\TaskController@taskComment')->where('taskid', '[0-9]+');
 			Route::post('{minuteId}/comment/{taskid}', 'Followups\TaskController@minuteComment')->where('minuteId', '[0-9]+')->where('taskid', '[0-9]+');
+			Route::post('createTask','Followups\TaskController@createTask');
+			Route::get('task/edit/{taskid}', 'Followups\TaskController@taskForm')->where('taskid', '[0-9]+');
+			Route::post('task/update/{taskid}', 'Followups\TaskController@updateTask')->where('taskid', '[0-9]+');
+			Route::get('cancelTask/{taskid}', 'Followups\TaskController@cancelTask')->where('taskid', '[0-9]+');
+			Route::get('deleteTask/{taskid}', 'Followups\TaskController@deleteTask')->where('taskid', '[0-9]+');
+			Route::get('acceptCompletion/{taskid}', 'Followups\TaskController@acceptCompletion')->where('taskid', '[0-9]+');
+			Route::get('rejectCompletion/{taskid}', 'Followups\TaskController@rejectCompletion')->where('taskid', '[0-9]+');
 		});
 		Route::group(['prefix' => 'meetings'], function()
 		{

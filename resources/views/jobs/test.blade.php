@@ -76,12 +76,13 @@
 	                </div>
 	                <div class="follow-row">
 	                    <div class="task-copy">
-	                    	{!!$task->description!!}
+	                    	{!!str_ireplace(["<br />","<br>","<br/>"], "\r\n", $task->description)!!}
 	                    </div>
 	                </div>
 	            </div>
 
 	            <div class="follow-bottom">
+	            @if($task->status != 'Closed' && $task->status != 'Cancelled')
 	                <div class="task-comment">
 	                    <div class="task-comment-left"><img src="img/profile/img-photo.jpg"></div>
 	                    @if($task->status == 'Sent')
@@ -109,7 +110,7 @@
 		                   	@endif
 	                    </div>
 	                </div>
-
+	                @endif
 	                <div class="task-history">
 	                    <div class="task-history-title jobs">
 	                        Activity <span>/ 15 Updates</span>

@@ -51,7 +51,14 @@
 									{
 										$mid='';
 										$formId = "Formt$task->id";
-										$url=url('followups/task/'.$task->id);
+										if($title == 'Draft')
+										{
+											$url=url('followups/create/'.$task->id);
+										}
+										else
+										{
+											$url=url('followups/task/'.$task->id);
+										}
 									}
 									?>
 									<div class="job-card">
@@ -60,7 +67,7 @@
 						                    <div class="job-card-left">
 						                        <div class="job-assign-pic"><img src="{{asset('/img/profile/img-user.jpg')}}"/></div>
 						                        <div class="job-card-detail">
-						                           <h4>{{$task->assigneeDetail->name}}</h4>
+						                           <h4>@if($task->assignee) {{$task->assigneeDetail->name}} @endif</h4>
 						                            <div class="job-date">
 						                            	{{date("d, M 'y",strtotime($task->dueDate))}}
 						                            </div>

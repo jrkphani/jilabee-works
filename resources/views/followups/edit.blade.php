@@ -2,8 +2,9 @@
 @section('content')
 <div class="inner-container follow">
     <div class="inner-page">
-        <h2 class="sub-title">Create new task <a href="#" class="btn-close">X</a> </h2>
-        {!! Form::open(['id'=>'createTaskForm']) !!}
+        <h2 class="sub-title">Create new task <a href="{{url('followups')}}" class="btn-close">X</a> </h2>
+        {!! Form::open(['id'=>'createTaskForm','url'=>"followups/task/update/".$task->id]) !!}
+        {!! Form::hidden('id', $task->id) !!}
         <div class="follow-header">
             <div class="user-img"><img src="img/profile/img-photo.jpg"></div>
             <div class="title-col1">
@@ -14,7 +15,7 @@
             </div>
             <div class="title-col2 date">
                 <p>Due Date Time</p>
-                <input name="dueDate" value="{{old('dueDate')}}" type="text" class="input-date nextDateInput" />
+                <input name="dueDate" value="{{$task->dueDate}}" type="text" class="input-date nextDateInput" />
                 {!! $errors->first('dueDate','<span>:message</span>')!!}
             </div>
             {{-- <div class="title-col3 time">
@@ -37,24 +38,22 @@
                 </div>
             </div>
             <div class="follow-row">
-                <input name="title" type="text" value="{{old('title')}}" class="input-txt-long" placeholder="Title">
+                <input name="title" type="text" value="{{$task->title}}" class="input-txt-long" placeholder="Title">
                 {!! $errors->first('title','<span>:message</span>')!!}
             </div>
             <div class="follow-row">
-                <textarea name="description" value="{{old('description')}}" class="textarea-long" placeholder="Task description"></textarea>
+                <textarea name="description" class="textarea-long" placeholder="Task description">{{$task->description}}</textarea>
                 {!! $errors->first('description','<span>:message</span>')!!}
             </div>
             <div class="follow-row">
-                <textarea name="notes" value="{{old('notes')}}" class="textarea-long" placeholder="Notes"></textarea>
+                <textarea name="notes" class="textarea-long" placeholder="Notes">{{$task->notes}}</textarea>
                 {!! $errors->first('notes','<span>:message</span>')!!}
             </div>
         </div>
-        {!! Form::close()!!}
-
         <div class="follow-bottom">
-            <a href="#" id="createTaskSubmit" class="btn-inter btn-small">Create Task</a>
-            <a href="#" id="createTaskSave" class="btn-normal marginright10 btn-small">Save Draft</a>
+            <input type="submit" class="btn-inter btn-small" value="Update Task" >
         </div>
+        {!! Form::close()!!}
     </div>
 </div>
 @endsection
@@ -67,7 +66,7 @@
         });
         $('#createTaskSubmit').click(function(event) {
             event.preventDefault();
-            $('#createTaskForm').attr('action',"{{url('/jobs/createTask')}}");            
+            $('#createTaskForm').attr('action',"{{url('/followups/createTask')}}");            
             $('#createTaskForm').submit();
         });
         // nextDateInput();
