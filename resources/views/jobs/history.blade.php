@@ -95,7 +95,7 @@
 	    {
 	        params = params +'&searchtxt='+$('#nowSearch').val();
 	    }
-	    window.location.href = "/jobs/now?"+params;
+	    window.location.href = "/jobs/history?"+params;
 	}
     </script>
 @endsection
