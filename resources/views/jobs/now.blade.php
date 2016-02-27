@@ -83,7 +83,7 @@
 							                            </div>
 							                        </div>
 							                        <button {{$mid}} tid="{{$task->id}}" class="btn-job-reject reject">Reject</button>
-							                        <button href="{{$accept}}" {{$mid}} tid="{{$task->id}}" class="accept btn-job-accept accept">Accept</button>
+							                        <a href="{{$accept}}" {{$mid}} tid="{{$task->id}}" class="accept btn-job-accept accept">Accept</a>
 							                    </div>
 							                @elseif($task->status == 'Rejected')
 							                	<div class="job-status">
