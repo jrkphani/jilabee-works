@@ -224,7 +224,7 @@ class TaskController extends Controller {
 			// }
 			// else
 			// {
-			$input['assignee'] = 'ORG305u5';
+			
 				if($assignee = getUser(['userId'=>$input['assignee']]))
 				{
 					$input['assignee'] = $notification['userId'] = $assignee->id;
