@@ -10,7 +10,7 @@
     	{!! Form::select('nowsortby',['timeline'=>'Time Line','meeting'=>'Group','assigner'=>'People'],$nowsortby,['id'=>'nowsortby','autocomplete'=>'off']) !!}
     </div>
     <div class="header-reset">
-    <a href="{{url('jobs/now')}}" class="sb_reset">Reset</a>
+    <a href="{{url('jobs/history')}}" class="sb_reset">Reset</a>
     </div>
 </div>
     <div class="jobs-scroll">
