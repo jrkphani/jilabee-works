@@ -1,44 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>{{env('APP_NAME')}}</title>
-	<meta name="author" content="Dexel Designs">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<meta name="description" content="">
-	<meta name="keywords" content="Anabond, Jotter, ">
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/sss.css') }}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jotter - Login</title>
+    <link rel="icon" href="favicon.ico" type="image/gif" sizes="16x16">
+
+    <link type="text/css" rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}" media="all" />
+    <!-- <link type="text/css" rel="stylesheet" href="{{asset('css/jquery.mCustomScrollbar.css')}}" media="all" />
+    <link type="text/css" rel="stylesheet" href="{{asset('css/bootstrap-theme.min.css')}}" media="all">
+    <link type="text/css" rel="stylesheet" href="{{asset('css/jquery.jscrollpane.css')}}" media="all" />
+    <link type="text/css" rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}" media="all" /> -->
+    <link type="text/css" rel="stylesheet" href="{{asset('css/style.css')}}" media="all" />
+
+    <!-- <script src="{{asset('js/prettify.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery-ui.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.validate.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.toaster.js')}}"></script> -->
+
 </head>
-<body class="login_body">
-	<header>
-	<!-- 	<h1>Jotter</h1> -->
-	</header>
-	<div class="indexLogin">
-		<h1>{{env('APP_NAME')}}</h1>
-		<div class="indexLoginForm">
-			<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-				<input type="hidden" name="_token" value="{{ csrf_token() }}">
-				<label for="">Username</label><br/>
-				<input type="email" name="email" placeholder="email@domain.com" value="{{ old('email') }}"><br/>
-				{!! $errors->first('email','<div class="error">:message</div><br/>') !!}
-				<label for="">Password</label><br/>
-				<input type="password" name="password"><br/>
-				{!! $errors->first('password','<div class="error">:message</div><br/>') !!}
-				<input class="login_loginbtn" type="submit" value="Login">
-				<div class="clearboth"></div>
-			</form>
-			<a class="login_forgotpassword" href="{{ url('/password/email') }}">Forgot Your Password?</a>
-			
-    	 
-		</div>
-		<br/>
-			<h4 class="login_signuptext">Don't have a login?</h4>
-			<div>
-				{{-- <a href="{{ url('/auth/register') }}" class="login_signup">Single Signup</a> --}}
-    			 <a href="{{ url('admin/auth/register') }}" class="login_signup">Signup</a>
-			</div>
-			<div class="clearboth"></div>
-	</div>
+<body>
+<div id="wrapper">
+    <div class="login-wrapper">
+        <div class="login-warp">
+            <form action="" method="post" id="sign-form" novalidate="novalidate">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="login-cont">
+                <div class="login-header">
+                    <p class="login-logo"><img src="{{asset('img/login/login_logo.png')}}"></p>
+                    <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, </p>
+                </div>
+                <div class="textEdit-wrap">
+                    <img src="{{asset('img/login/ico_login.png')}}">
+                    <div class="textBox-wrap">
+                        <p><input type="text" name="email" placeholder="Username" class="txt-input" required></p>
+                        {!! $errors->first('email','<div class="error">:message</div><br/>') !!}
+                        <p><input type="password" name="password" placeholder="Password" class="txt-input" required></p>
+                        {!! $errors->first('password','<div class="error">:message</div><br/>') !!}
+                        <div class="text-extra">
+                            <p>
+                                <input id="checkbox" class="checkbox-custom" name="checkbox" type="checkbox">
+                                <label for="checkbox">Remember me</label>
+                            </p>
+                            <p class="btn-forget"><a href="{{ url('/password/email') }}">forgot password</a></p>
+                        </div>
+                    </div>
+                </div>
+                <p class="btn-login"><input class="class="text-center text-uppercase"" type="submit" value="Login"></p>
+            </div>
+                </form>
+        </div>
+    </div>
+</div>
 </body>
+</html>
 </html>
