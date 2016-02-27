@@ -457,8 +457,8 @@ class TaskController extends Controller {
 	}
 	public function nowsortby()
 	{
-		$sortby = Request::get('nowsortby','timeline');
-		$searchtxt = Request::get('nowsearchtxt',NULL);
+		$sortby = Request::get('sortby','timeline');
+		$searchtxt = Request::get('searchtxt',NULL);
 		$nowtasks = array();
 		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
 		
@@ -600,9 +600,9 @@ class TaskController extends Controller {
 	public function historysortby()
 	{
 		$days = Request::get('days','7');
-		$sortby = Request::get('historysortby','timeline');
+		$sortby = Request::get('sortby','timeline');
 		$historytasks = array();
-		$searchtxt = Request::get('historysearchtxt',NULL);
+		$searchtxt = Request::get('searchtxt',NULL);
 		$query = Tasks::select('tasks.*')->whereAssigner(Auth::id())->where(function($qry)
 		{
 			$qry->where('status','=','Closed')->orWhere('status','=','Cancelled');
@@ -695,7 +695,7 @@ class TaskController extends Controller {
 		// {
 		// 	return $historytasks;
 		// }
-		return view('followups.history',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$nowtasks]);
+		return view('followups.history',['nowsearchtxt'=>$searchtxt,'nowsortby'=>$sortby,'nowtasks'=>$historytasks]);
 	}
 	public function isReadNotification()
 	{

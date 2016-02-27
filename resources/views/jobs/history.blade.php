@@ -101,6 +101,24 @@
 @endsection
 
 @section('javascript')
-    <script type="text/javascript" src="{{ asset('/js/jobs.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/search.js') }}"></script>
+    <script type="text/javascript">
+    	$('#nowsortby').change(function(event) {
+		reloadfilter();
+	});
+	$('#nowSearch').keypress(function(event) {
+		if(event.which == 13)
+	    {
+	    	reloadfilter();	        
+	    }
+	});
+	function reloadfilter()
+	{
+		params = '&sortby='+$('#nowsortby').val();
+	    if($('#nowSearch').val().trim().length > 0)
+	    {
+	        params = params +'&searchtxt='+$('#nowSearch').val();
+	    }
+	    window.location.href = "/jobs/history?"+params;
+	}
+    </script>
 @endsection

@@ -21,7 +21,7 @@
         <div class="header-row1">
             <div class="header-left">
                 <div class="logo">
-                    <a href="#"><img src="{{asset('/img/logo-jotter.gif')}}" /></a>
+                    <a href="{{url('/')}}"><img src="{{asset('/img/logo-jotter.gif')}}" /></a>
                 </div>
             </div>
             <div class="header-right">

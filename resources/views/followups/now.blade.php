@@ -114,10 +114,10 @@
 	});
 	function reloadfilter()
 	{
-		params = '&nowsortby='+$('#nowsortby').val();
+		params = '&sortby='+$('#nowsortby').val();
 	    if($('#nowSearch').val().trim().length > 0)
 	    {
-	        params = params +'&nowsearchtxt='+$('#nowSearch').val();
+	        params = params +'&searchtxt='+$('#nowSearch').val();
 	    }
 	    window.location.href = "/followups/now?"+params;
 	}

@@ -185,8 +185,8 @@ class TaskController extends Controller {
 	public function nowsortby()
 	{
 		//ref : http://www.wescutshall.com/2013/03/php-date-diff-days-negative-zero-issue/
-		$sortby = Request::get('nowsortby','timeline');
-		$searchtxt = Request::get('nowsearchtxt',NULL);
+		$sortby = Request::get('sortby','timeline');
+		$searchtxt = Request::get('searchtxt',NULL);
 		$nowtasks = array();
 		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where('status','!=','Closed')->where('status','!=','Cancelled');
 		if($searchtxt)
@@ -299,9 +299,9 @@ class TaskController extends Controller {
 	public function historysortby()
 	{
 		$days = Request::get('days','7');
-		$sortby = Request::get('historysortby','timeline');
+		$sortby = Request::get('sortby','timeline');
 		$historytasks = array();
-		$searchtxt = Request::get('historysearchtxt',NULL);
+		$searchtxt = Request::get('searchtxt',NULL);
 		$query = Tasks::select('tasks.*')->whereAssignee(Auth::id())->where(function($qry)
 		{
 			$qry->where('status','=','Closed')->orWhere('status','=','Cancelled');
