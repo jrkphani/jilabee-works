@@ -45,16 +45,16 @@ class TaskController extends Controller {
 		// $notification['objectId'] = $task->id;
 		// $notification['objectType'] = 'jobs';
 		// readNotification($notification);
-		return view('jobs.test',['task'=>$task]);
+		return view('jobs.task',['task'=>$task]);
 	}
-	public function viewHistory($id)
+	/*public function viewHistory($id)
 	{
 		$task = JobTasks::whereId($id)->where(function($query)
 			{
 				$query->whereAssignerOrAssignee(Auth::id(),Auth::id());
 			})->first();
 		return view('jobs.historyTask',['task'=>$task]);
-	}
+	}*/
 	public function acceptTask($id)
 	{
 		$task = JobTasks::whereId($id)->whereAssignee(Auth::id())->where(function($query)

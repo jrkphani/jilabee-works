@@ -6,18 +6,20 @@
 		$formId = "Formm$task->id";
 		$mid = "mid=".$task->minuteId;
 		$action = url('/followups/'.$task->minuteId.'/comment/'.$task->id);
+		$jid = "#M$task->id";
 	}
 	else
 	{
 		$formId = "Formt$task->id";
 		$mid=NULL;
 		$action = url('/followups/comment/'.$task->id);
+		$jid = "#T$task->id";
 	}
 ?>
 	<div class="inner-container">
         <div id="horz-scroll">
 	        <div class="inner-page">
-	            <h2 class="sub-title">JOB ID #T{{$task->id}} <a href="{{url('followups/now')}}" class="btn-close">X</a> </h2>
+	            <h2 class="sub-title">JOB ID {{$jid}} <a href="{{url('followups/now')}}" class="btn-close">X</a> </h2>
 	            <div class="follow-header jobs">
 	                <div class="user-img"><img src="img/profile/img-photo.jpg"></div>
 	                <div class="title-col1">

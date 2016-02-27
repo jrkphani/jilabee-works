@@ -48,7 +48,7 @@ class TaskController extends Controller {
 	public function viewMinute($mid,$id)
 	{
 		$task = MinuteTasks::whereIdAndAssigner($id,Auth::id())->where('minuteId',$mid)->first();
-		return view('test',['task'=>$task]);
+		return view('followups.task',['task'=>$task]);
 	}
 	public function taskComment($id)
 	{
