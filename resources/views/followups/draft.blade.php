@@ -24,7 +24,7 @@
             </div> --}}
             <div class="title-col4">
                 <p>Status</p>
-                Open
+                Draft
             </div>
         </div>
 
