@@ -25,11 +25,35 @@ class MeetingsController extends Controller {
 	}*/
 	public function index()
 	{	
-		$nowsearchtxt = Request::get('nowsearchtxt',NULL);
-		$historysearchtxt = Request::get('historysearchtxt',NULL);
-		$minutes= $this->nowsortby();
-		$meetings= $this->historysortby();
-		return view('meetings.index',['nowsearchtxt'=>$nowsearchtxt,'historysearchtxt'=>$historysearchtxt,'minutes'=>$minutes,'meetings'=>$meetings]);
+		$query = Meetings::select('meetings.*')
+						->join('organizations','meetings.oid','=','organizations.id')
+						//->join('minutes','meetings.id','=','minutes.meetingId')
+						->where('meetings.active','=','1')
+						->whereNull('meetings.deleted_at')
+						->where('organizations.customerId','=',getOrgId())
+						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)');
+						$meetings =  $query->get();
+		return view('meetings.index',['meetings'=>$meetings]);
+	}
+	public function view($meetingId)
+	{	
+		if(Meetings::where('id',$meetingId)->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')->count())
+		{
+			$query = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					->join('meetings','minutes.meetingId','=','meetings.id')
+					->where('meetings.active','=','1')
+					->where('meetings.id','=',$meetingId)
+					->whereNull('meetings.deleted_at')
+					//->where('minutes.filed','=','1')
+					->groupBy('minutes.meetingId')
+					->orderBy('minutes.startDate','desc');
+			$minutes = $query->get();
+			return view('meetings.minuteHistory',['minutes'=>$minutes]);
+		}
+		else
+		{
+			return abort('403');
+		}
 	}
 	public function meetingForm($mid=NULL)
 	{
