@@ -35,9 +35,9 @@ class MeetingsController extends Controller {
 						$meetings =  $query->get();
 		return view('meetings.index',['meetings'=>$meetings]);
 	}
-	public function view($meetingId)
+	public function view($meetingId,$minuteId=NULL)
 	{	
-		if(Meetings::where('id',$meetingId)->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')->count())
+		if($meeting = Meetings::where('id',$meetingId)->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')->first())
 		{
 			$query = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
@@ -47,8 +47,17 @@ class MeetingsController extends Controller {
 					//->where('minutes.filed','=','1')
 					->groupBy('minutes.meetingId')
 					->orderBy('minutes.startDate','desc');
+			
+			if(!$minuteId)
+			{
+				$minute = $query->first();
+			}
+			else
+			{
+				$minute = $query->where('id',$minuteId)->first();
+			}
 			$minutes = $query->get();
-			return view('meetings.minuteHistory',['minutes'=>$minutes]);
+			return view('meetings.minuteHistory',['minutes'=>$minutes,'meeting'=>$meeting,'minute'=>$minute]);
 		}
 		else
 		{

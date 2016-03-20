@@ -33,13 +33,13 @@
     <div class="inner-container follow">
 
         <div class="inner-page">
-            <h2 class="sub-title">Meeting ID #211215 <a href="#" class="btn-close">X</a> </h2>
+            <h2 class="sub-title">Meeting ID #{{$meeting->id}} <a href="#" class="btn-close">X</a> </h2>
             <div class="meeting-header no-print">
                 <div class="meeting-head-left">
                     <a href="#" class="btn-history-gray">History</a>
                     <ul>
-                    @foreach($minutes as $minute)
-                    	<li><a href="#" class="active"><span>{{date('d',strtotime($minute->startDate))}}</span>{{ date('M Y',strtotime($minute->startDate)) }}</a></li>
+                    @foreach($minutes as $minut)
+                    	<li><a href="#" class="active"><span>{{date('d',strtotime($minut->startDate))}}</span>{{ date('M Y',strtotime($minut->startDate)) }}</a></li>
                     @endforeach
                         <li><a href="#"><span>+</span>Add New</a></li>
                     </ul>
@@ -65,15 +65,15 @@
                                 <span>|</span>
                                 <span>Minutes of Meeting</span>
                             </p>
-                            <h1>Sales and Marketing Meeting</h1>
+                            <h1>{{$meeting->title}}</h1>
                             <ul class="meeting-details-wrap">
-                                <li class="meeting-details-date">25 Dec ‘15</li>
-                                <li class="meeting-details-time">10:34 am</li>
-                                <li class="meeting-details-venue">Kurunji Hall, Chennai</li>
+                                <li class="meeting-details-date">{{date('d M Y',strtotime($minute->startDate))}}</li>
+                                <li class="meeting-details-time">{{date('H:i A',strtotime($minute->startDate))}}</li>
+                                <li class="meeting-details-venue">{{$minute->venue}}</li>
                             </ul>
 
                                <article>
-                                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros. Curabitur dictum lobortis enim nec vehicula.
+                                   {!!$meeting->description!!}
                                </article>
 
                         </div>
@@ -81,19 +81,48 @@
                     <div class="admin-create-list">
                         <div class="admin-create-left">Minute Taker</div>
                         <div class="admin-create-right">
-                            <p>Lorem ipsum dolor sit amet, </p>
+                            <p>
+								@foreach(App\Model\Profile::whereIn('userId',explode(',',$meeting->minuters))->lists('name','userId') as $minuter)
+								{{$minuter}} ,
+								@endforeach
+                            </p>
                         </div>
                     </div>
                     <div class="admin-create-list">
                         <div class="admin-create-left">Participants</div>
                         <div class="admin-create-right">
-                            <p>Swift, Auti, Mini cooper, Swift, Auti, Mini cooper</p>
+                            <p>
+                            @foreach(explode(',',$minute->attendees) as $attendee)
+								@if(isEmail($attendee))
+									{{$attendee}} ,
+								@else
+								<?php $attendees[]=$attendee; ?>
+								@endif
+							@endforeach
+							@if(isset($attendees))
+								@foreach(App\Model\Profile::whereIn('userId',$attendees)->lists('name','userId') as $attendee)
+								{{$attendee}} ,
+								@endforeach
+							@endif
+                            </p>
                         </div>
                     </div>
                     <div class="admin-create-list">
                         <div class="admin-create-left">Absentees</div>
                         <div class="admin-create-right">
-                            <p>Optiamus Prime</p>
+                            <p>@foreach(explode(',',$minute->absentees) as $absentee)
+									@if(isEmail($absentee))
+										{{$absentee}} ,
+									@else
+									<?php $absentees[]=$absentee; ?>
+									@endif
+								@endforeach
+								@if(isset($absentees))
+									@foreach(App\Model\Profile::whereIn('userId',$absentees)->lists('name','userId') as $absentees)
+										{{$absentees}} ,
+									@endforeach
+								@endif
+								</p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +136,7 @@
                     <div class="meeting-owner"><strong>Owner</strong></div>
                     <div class="meeting-ddate"><strong>Due Date</strong></div>
                     <div class="meeting-status"><strong>Status</strong></div>
-                </div>
+                </div><!-- 
 
                 <div class="meeting-new-box">
                     <div class="meeting-sl">1</div>
@@ -121,60 +150,34 @@
                         <textarea class="meet-textarea" placeholder="Meeting Description"></textarea>
                     </div>
                 </div>
-                <a href="#" class="btn-inter btn-add-meet">+ Add New</a>
+                <a href="#" class="btn-inter btn-add-meet">+ Add New</a> -->
 
             </div>
-
-
+            @foreach($minute->tasks as $task)
             <div class="meeting-box">
-                <div class="meeting-top">
+                <!-- <div class="meeting-top">
                     <ul class="meeting-details-wrap">
-                        <li class="meeting-details-date">25 Dec ‘15</li>
-                        <li class="meeting-details-time">10:34 am</li>
+                        <li class="meeting-details-date">{{date('d M Y',strtotime($task->dueDate))}}</li>
+                        <li class="meeting-details-time">{{date('H:i A',strtotime($task->dueDate))}}</li>
                         <li class="meeting-details-venue">Kurunji Hall, Chennai</li>
                     </ul>
-                </div>
+                </div> -->
 
                 <div class="meeting-content">
-                    <div class="meeting-sl"><strong>1</strong></div>
-                    <div class="meeting-topic"><strong>Curabitur dictum lobortis enim nec vehicula</strong></div>
-                    <div class="meeting-owner"><strong>Optimus Prime</strong></div>
-                    <div class="meeting-ddate"><strong>21/03/2016</strong></div>
+                    <div class="meeting-sl"><strong>{{ $task->id }}</strong></div>
+                    <div class="meeting-topic"><strong>{{ $task->title }}</strong></div>
+                    <div class="meeting-owner"><strong>{{ $task->assigneeDetail->name }}</strong></div>
+                    <div class="meeting-ddate"><strong>{{date('d M Y H:i',strtotime($task->dueDate))}}</strong></div>
                     <div class="meeting-status">
                         <select><option>Open</option><option>Close</option></select>
                     </div>
                     <div class="meeting-desc">
-                        Lorem ipsum indolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros. Curabitur dictum lobortis enim nec vehicula. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim viullamcorper,
+                        {!! $task->description !!}
                     </div>
                 </div>
             </div>
-
-
-                <div class="meeting-box">
-                    <div class="meeting-top">
-                        <ul class="meeting-details-wrap">
-                            <li class="meeting-details-date">25 Dec ‘15</li>
-                            <li class="meeting-details-time">10:34 am</li>
-                            <li class="meeting-details-venue">Kurunji Hall, Chennai</li>
-                        </ul>
-                    </div>
-
-                    <div class="meeting-content">
-                        <div class="meeting-sl"><strong>1</strong></div>
-                        <div class="meeting-topic"><strong>Curabitur dictum lobortis enim nec vehicula</strong></div>
-                        <div class="meeting-owner"><strong>Optimus Prime</strong></div>
-                        <div class="meeting-ddate"><strong>21/03/2016</strong></div>
-                        <div class="meeting-status">
-                            <select><option>Open</option><option>Close</option></select>
-                        </div>
-                        <div class="meeting-desc">
-                            Lorem ipsum indolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros. Curabitur dictum lobortis enim nec vehicula. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim vitae, tempor eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sollicitudin orci a rutrum dapibus. In at quam ante. Fusce sit amet lacus ullamcorper, ullamcorper enim viullamcorper,
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="meeting-pagination">
+            @endforeach
+                <!-- <div class="meeting-pagination">
 
                     <ul>
                         <li><a href="#" class="btn-prev disable"> << </a> </li>
@@ -183,7 +186,7 @@
                     </ul>
 
                 </div>
-
+ -->
 
         </div>
 
