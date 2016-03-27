@@ -24,14 +24,18 @@ class MeetingsController extends Controller {
 	{
 	}*/
 	public function index()
-	{	
+	{
 		$query = Meetings::select('meetings.*')
 						->join('organizations','meetings.oid','=','organizations.id')
 						//->join('minutes','meetings.id','=','minutes.meetingId')
 						->where('meetings.active','=','1')
 						->whereNull('meetings.deleted_at')
 						->where('organizations.customerId','=',getOrgId())
-						->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)');
+						->where(function($query)
+						{
+							$query->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')
+							->orWhereRaw('FIND_IN_SET("'.Auth::id().'",meetings.attendees)');
+						});
 						$meetings =  $query->get();
 		return view('meetings.index',['meetings'=>$meetings]);
 	}

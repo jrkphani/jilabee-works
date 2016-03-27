@@ -33,7 +33,7 @@
     <div class="inner-container follow">
 
         <div class="inner-page">
-            <h2 class="sub-title">Meeting ID #{{$meeting->id}} <a href="#" class="btn-close">X</a> </h2>
+            <h2 class="sub-title">Meeting ID #{{$meeting->id}} <a href="{{url('meetings')}}" class="btn-close">X</a> </h2>
             <div class="meeting-header no-print">
                 <div class="meeting-head-left">
                     <a href="#" class="btn-history-gray">History</a>
@@ -51,7 +51,7 @@
                     </ul>
                 </div>
             </div>
-
+@if($minute)
 
             <div class="admin-meeting-wrap margin0">
                 <form>
@@ -189,12 +189,11 @@
  -->
 
         </div>
-
-
+        @endif
         </div>
 
         <div class="bottom-button no-print">
-            <a href="#" class="btn-inter btn-bottom">&lt; Back to Meetings</a>
+            <a href="{{url('meetings')}}" class="btn-inter btn-bottom">&lt; Back to Meetings</a>
         </div>
 
     </div>
