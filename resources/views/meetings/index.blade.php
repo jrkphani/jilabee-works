@@ -14,9 +14,9 @@
     <div class="header-sort">
         <select name="meeting_id" id="meeting_id" tabindex="1">
             <option>SELECT MEETING</option>
-            <option>Meeting name 01 </option>
-            <option>Meeting name 02</option>
-            <option>Meeting name 03</option>
+            @foreach($meetings as $meeting)
+            <option href="{{url('meetings/view/'.$meeting->id)}}" >{{$meeting->title}}</option>
+            @endforeach
         </select>
     </div>
     <div class="header-reset">
@@ -28,13 +28,15 @@
 </div>
 <div class="inner-container follow">
     <div id="horz-scroll" class="content jobs-scroll"></div>
-    @foreach($meetings as $meeting)
-    <a href="{{url('meetings/view/'.$meeting->id)}}" >{{$meeting->title}}</a>
-    @endforeach
     <div class="meeting-landing" style="height: 500px"></div>
 </div>
 @endsection
 @section('javascript')
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('/js/jquery.datetimepicker.full.js') }}"></script>
+<script type="text/javascript" charset="utf-8">
+    $('#meeting_id').change(function(event) {
+        window.location = $('option:selected', this).attr('href');
+    });
+</script>
 @endsection

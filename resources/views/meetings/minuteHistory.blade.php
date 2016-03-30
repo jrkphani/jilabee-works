@@ -41,7 +41,9 @@
                     @foreach($minutes as $minut)
                     	<li><a href="#" class="active"><span>{{date('d',strtotime($minut->startDate))}}</span>{{ date('M Y',strtotime($minut->startDate)) }}</a></li>
                     @endforeach
-                        <li><a href="#"><span>+</span>Add New</a></li>
+                        @if($meeting->isMinuter())
+                            <li><a href="#"><span>+</span>Add New</a></li>
+                        @endif
                     </ul>
                 </div>
 
