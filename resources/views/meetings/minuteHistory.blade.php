@@ -173,9 +173,7 @@
                     <div class="meeting-status">
                         <select><option>Open</option><option>Close</option></select>
                     </div>
-                    <div class="meeting-desc">
-                        {!! $task->description !!}
-                    </div>
+                    <div class="meeting-desc">{!!$task->description!!}</div>
                 </div>
             </div>
             @endforeach

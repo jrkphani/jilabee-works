@@ -109,7 +109,7 @@ Route::group(['middleware' => 'logAllActivity'], function()
 		Route::group(['prefix' => 'meetings'], function()
 		{
 			Route::get('/', ['uses'=>'Meetings\MeetingsController@index','as'=>'meetings']);
-			Route::get('/view/{meetingId}', ['uses'=>'Meetings\MeetingsController@view'])->where('meetingId', '[0-9]+');
+			Route::get('/view/{meetingId}/{minuteId}', ['uses'=>'Meetings\MeetingsController@view'])->where('meetingId', '[0-9]+');
 			Route::get('/readNotification', ['uses'=>'Meetings\MeetingsController@isReadNotification']);
 			Route::get('now', ['uses'=>'Meetings\MeetingsController@nowsortby']);
 			Route::get('history', ['uses'=>'Meetings\MeetingsController@historysortby']);

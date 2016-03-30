@@ -58,7 +58,7 @@ class MeetingsController extends Controller {
 			}
 			else
 			{
-				$minute = $query->where('id',$minuteId)->first();
+				$minute = $query->where('minutes.id',$minuteId)->first();
 			}
 			$minutes = $query->get();
 			return view('meetings.minuteHistory',['minutes'=>$minutes,'meeting'=>$meeting,'minute'=>$minute]);
