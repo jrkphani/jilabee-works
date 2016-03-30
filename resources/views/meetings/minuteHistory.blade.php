@@ -39,7 +39,7 @@
                     <a href="#" class="btn-history-gray">History</a>
                     <ul>
                     @foreach($minutes as $minut)
-                    	<li><a href="#" class="active"><span>{{date('d',strtotime($minut->startDate))}}</span>{{ date('M Y',strtotime($minut->startDate)) }}</a></li>
+                    	<li><a href="{{ url('meetings/view/'.$meeting->id.'/'.$minut->id) }}" class="active"><span>{{date('d',strtotime($minut->startDate))}}</span>{{ date('M Y',strtotime($minut->startDate)) }}</a></li>
                     @endforeach
                         @if($meeting->isMinuter())
                             <li><a href="#"><span>+</span>Add New</a></li>
