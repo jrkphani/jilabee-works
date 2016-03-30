@@ -12,7 +12,7 @@
         <label for="RadioGroup1_2"><input type="radio" name="RadioGroup1" value="radio" id="RadioGroup1_2" /> All</label>
     </div>
     <div class="header-sort">
-        <select name="meeting_id" id="meeting_id" tabindex="1">
+        <select name="meeting_id" id="meeting_id" tabindex="1" autocomplete="off">
             <option>SELECT MEETING</option>
             @foreach($meetings as $meeting)
             <option href="{{url('meetings/view/'.$meeting->id)}}" >{{$meeting->title}}</option>
