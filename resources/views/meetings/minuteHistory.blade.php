@@ -1,8 +1,4 @@
 @extends('master')
-@section('css')		
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<link href="{{ asset('/css/jquery.datetimepicker.css') }}" rel="stylesheet">
-@stop
 @section('content')
 <div class="header-row2">
         <h2>Meetings</h2>
@@ -42,7 +38,7 @@
                     	<li><a href="{{ url('meetings/view/'.$meeting->id.'/'.$minut->id) }}" class="active"><span>{{date('d',strtotime($minut->startDate))}}</span>{{ date('M Y',strtotime($minut->startDate)) }}</a></li>
                     @endforeach
                         @if($meeting->isMinuter())
-                            <li><a href="#"><span>+</span>Add New</a></li>
+                            <li><a href="{{url('minute/'.$meeting->id.'/next')}}"><span>+</span>Add New</a></li>
                         @endif
                     </ul>
                 </div>
@@ -171,7 +167,7 @@
                     <div class="meeting-owner"><strong>{{ $task->assigneeDetail->name }}</strong></div>
                     <div class="meeting-ddate"><strong>{{date('d M Y H:i',strtotime($task->dueDate))}}</strong></div>
                     <div class="meeting-status">
-                        <select><option>Open</option><option>Close</option></select>
+                        {{ $task->status }}
                     </div>
                     <div class="meeting-desc">{!!$task->description!!}</div>
                 </div>
@@ -199,6 +195,5 @@
     </div>
 @endsection
 @section('javascript')
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="{{ asset('/js/jquery.datetimepicker.full.js') }}"></script>
+<!-- <script src="{{ asset('/js/jquery.datetimepicker.full.js') }}"></script> -->
 @endsection

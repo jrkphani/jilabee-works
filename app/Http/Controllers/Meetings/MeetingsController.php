@@ -43,7 +43,13 @@ class MeetingsController extends Controller {
 	{	
 		if($meeting = Meetings::where('id',$meetingId)->whereRaw('FIND_IN_SET("'.Auth::id().'",meetings.minuters)')->first())
 		{
-			$query = Minutes::select('minutes.*')->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+			$query = Minutes::select('minutes.*')
+					// ->where(function($q)
+					// 	{
+					// 		$q->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
+					// 		->orWhere('minutes.created_by','=',Auth::id());
+					// 	})
+					//->whereRaw('FIND_IN_SET("'.Auth::id().'",minutes.attendees)')
 					->join('meetings','minutes.meetingId','=','meetings.id')
 					->where('meetings.active','=','1')
 					->where('meetings.id','=',$meetingId)

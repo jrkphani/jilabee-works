@@ -46,7 +46,9 @@ class MinuteController extends Controller {
 	{
 		if($meeting = Meetings::find($meetingId)->isMinuter())
 		{
-			$minute = $meeting->minutes()->whereFiled('0')->first();
+			$minutes = $meeting->minutes();
+			//print_r(count($minutes)); die;
+			$minute = $minutes->whereFiled('0')->first();
 			$participants =array();
 			if($minute)
 			{
@@ -56,52 +58,24 @@ class MinuteController extends Controller {
 					echo "Another user is taking minutes.";
 					return;
 				}
-				$attendeesEmail=array();
-				if($minute->attendees)
-				{
-					foreach(explode(',',$minute->attendees) as $value)
-					{
-						if(isEmail($value))
-						{
-							$attendeesEmail[$value] = $value;
-						}
-						else
-						{
-							$participants[]=$value;
-						}
-					}
-				}
-				//echo "here"; die;
+				//return view('meetings.createMinute',['minutes'=>$minutes,'meeting'=>$meeting,'minute'=>$minute]);
 			}
 			else
 			{
-				$minute = NULL;
-				$attendees = $attendeesEmail=array();
-				if($meeting->attendees)
-				{
-					foreach(explode(',',$meeting->attendees) as $value)
-					{
-						if(isEmail($value))
-						{
-							$attendeesEmail[$value] = $value;
-						}
-						else
-						{
-							$attendees[]=$value;
-						}
-					}
-					$participants = array_merge(explode(',',$meeting->minuters),$attendees);
-				}
-				else
-				{
-					$participants = explode(',',$meeting->minuters);
-				}
+				$lastFiledMinute = Minutes::where('meetingId',$meetingId)->where('filed','=','1')->orderBy('startDate', 'DESC')->limit(1)->first();
+				$oldtasks = MinuteTasks::select('minuteTasks.*')->WhereIn('minuteTasks.id',function($query) use ($lastFiledMinute){
+								$query->select('taskId')
+		                    		->from('filedMinutes')
+		                       		->where('filedMinutes.status','!=','Closed')
+		                       		->where('filedMinutes.status','!=','Cancelled')
+		                       		->where('filedMinutes.minuteId','=',$lastFiledMinute->id);
+							})->get();
+				return view('meetings.createMinute',['minutes'=>$minutes,'meeting'=>$meeting,'minute'=>$lastFiledMinute,'oldtasks'=>$oldtasks]);
 			}
-			//print_r($attendeesEmail); die;
-			$users = Profile::select('profiles.name','users.userId')->whereIn('profiles.userId',$participants)
-						->join('users','profiles.userId','=','users.id')
-			->lists('profiles.name','users.userId');
-			return view('meetings.createMinute',['meeting'=>$meeting,'attendees'=>$users,'attendeesEmail'=>$attendeesEmail,'minute'=>$minute]);
+		}
+		else
+		{
+			abort(403);
 		}
 	}
 	public function create($mid)
